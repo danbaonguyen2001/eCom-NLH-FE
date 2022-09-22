@@ -1,0 +1,1569 @@
+@import "../variables.scss";
+
+.smartWatch-container{
+    width: 1200px;
+    margin: 0 auto;
+    .item-product{
+        height: 440px;
+        width: 230px;
+        background-color: white;
+        // z-index: 1;
+        cursor: pointer;
+        &:hover{
+          .title{color: #288ad6;}
+    
+          .img{
+            img{
+              transform: translateY(-13px);
+            }
+          }
+        }
+        .img {
+            align-items: center;
+            text-align: center;
+            height: auto;   
+            margin: 30px 15px 40px 15px;
+            img {
+              transition: all 0.4s;
+              width: 100%;
+              height: 100%;
+              
+            }
+        }
+
+        .special-event{
+            top: 0;
+            margin-bottom: 10px;
+            left: 15px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 140px;
+            height: 20px;
+            background: linear-gradient(to right, #e91f63, #db2663);
+            border-radius: 20px;
+            overflow: hidden;
+            img{
+                width: 15%;
+            }
+            span{
+                padding-left: 5px;
+                color: white;
+                font-size: 10px;
+            }
+    
+        }
+    
+        
+    
+        .title{
+            // padding-top: 190px;
+            // padding-top: 100px;
+            padding-left: 15px;
+            font-weight: 400;
+            transition: all 0.4s;
+        }
+    
+        .item-compare{
+            padding-left: 15px;
+            padding-top: 10px;
+            span{
+                border: solid 1px #e0e0e0;
+                padding: 3px 5px;
+                font-size: 10px;
+            }
+        }
+    
+        .text-online{
+            padding-left: 15px;
+            padding-top: 5px;
+        }
+    
+        .priceOld{
+            padding-left: 15px;
+            padding-top: 5px;
+            .initialPrice{
+                position: relative;
+                text-decoration: line-through;
+                .currency{
+                    position: absolute;
+                    font-size: 10px;
+                    top: 1px;
+                    right: -3px;
+                    text-decoration-line: underline;
+                }
+                
+            }
+            .discount{
+                padding-left: 5px;
+            }
+            
+        }
+        .priceDeal{
+            position: relative;
+            // text-decoration: line-through;
+            padding-top: 10px;
+            padding-left: 15px;
+            font-weight: 700;
+            font-size: 17px;
+            .currency{
+                position: absolute;
+                font-size: 10px;
+                // right: -3px;
+                text-decoration-line: underline;
+            }
+        }
+    
+        .star-outer{
+            position: relative;
+            padding-left: 15px;
+            padding-top: 10px;
+            display: inline-block;
+            &::before{
+                content: "\f005 \f005 \f005 \f005 \f005";
+                font-family: "Font Awesome 5 Free";
+                font-weight: 900;
+                color: #ccc;
+            }
+            .star-inner{
+                position: absolute;
+                top: 0;
+                left: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                width: 0;
+                padding-left: 15px;
+                padding-top: 10px;
+                &::before{
+                    content: "\f005 \f005 \f005 \f005 \f005";
+                    font-family: "Font Awesome 5 Free";
+                    font-weight: 900;
+                    color: #f8ce0b;
+                }
+                
+            }
+        }
+        .rateTotal{
+            padding-left: 10px;
+        }
+        }
+    .list-product{
+        display: flex;
+        // justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        }
+    
+    
+    
+    .breadcrumb{
+            padding: 20px 0px;
+            ul{
+                display: flex;
+                li{
+                    padding: 0px 10px;
+                    a{
+                        color: #288ad6;
+                    }
+                    .parentCate{
+                        position: relative;
+                        
+                        &::before{
+                            content: '';
+                            position: absolute;
+                            width: 5px;
+                            height: 5px;
+                            border: 1px solid black;
+                            right: -10px;
+                            // margin: 0px 10px;
+                            border-color: black black transparent transparent;
+                            transform: translateY(50%) rotate(45deg);
+                            bottom: 50%;
+        
+                        }
+                    }
+        
+                    .childCate{
+                        position: relative;
+                        &::before{
+                            content: '';
+                            position: absolute;
+                            width: 5px;
+                            height: 5px;
+                            border: 1px solid black;
+                            right: -10px;
+                            // margin: 0px 10px;
+                            border-color: black black transparent transparent;
+                            transform: translateY(50%) rotate(45deg);
+                            bottom: 50%;
+        
+                        }
+                    }
+                    .quantity{
+                    }
+                }
+            }
+        }
+    
+    .slider-banner {
+            display: flex;
+            .slider {
+              width: 800px;
+              position: relative;
+              .slick-slider {
+                position: relative;
+                .slick-next {
+                  position: absolute;
+                  right: 10px;
+                //   background: rgba(216,216,216,.7) url(//cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/smartwatch/icon_next.svg) center center no-repeat !important;
+                //   background-color: red;
+                }
+                .slick-prev {
+                  position: absolute;
+                  left: 10px;
+                  z-index: 1;
+                //   background-color: red;
+                }
+                .slick-dots {
+                  position: absolute;
+                  bottom: 10px;
+                }
+              }
+            }
+            .banner {
+              margin-left: 10px;
+            }
+        }
+    .box-filter-smart-watch{
+            display: flex;
+            label{
+                // margin-top: 20px ;
+                // margin-left: 5px;
+                padding: 0 10px;
+                display: flex;
+                align-items: center;
+                input{
+                    margin-right: 5px;
+                    color: #ff8f00;
+                }
+            }
+        }
+    
+    .box-filter{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        
+            .box-sort{
+    
+            display: flex;
+            align-items: center;
+                .title-quantity{
+                    display: flex;
+                    align-items: center; 
+                    font-weight: bold;
+                    }
+                .flash{
+                    background: #e1f2e8;
+                    margin-right: 25px;
+                    padding: 4px 8px 5px 5px;
+                    border-radius: 4px;
+                    margin-left: 20px;
+                a{
+                    display: flex;
+                }
+                img{
+                    display: inline-block;
+                    width: 10px;
+                    height: auto;
+                    margin: 0 3px;
+                }
+                p{
+                    font-style: italic;
+                    color: #219653;
+                }
+        }
+    
+        input{
+            display: inline-block;
+            border: 1px solid #a6a6a6;
+            border-radius: 3px;
+            margin-right: 3px;
+            height: 16px;
+            width: 16px;
+           
+        }
+    
+        .discount-accessories{
+            display: flex;
+            vertical-align: middle;
+          
+        }
+            }
+    
+            .select{
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 3px;
+            }
+        }
+    
+}
+
+
+
+.page-smartWatch{
+    .main-content-smartWatch
+    {
+       
+
+        .main-header-smartWatch{
+            .banner-smartWatch{
+                height: 200px;
+            }
+            .menu-top-smartWatch{
+                height: 160px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #000;
+                .list-top-smartWatch{
+
+                .menu-brand{    
+                    padding-bottom: 10px;
+                    ul{
+                        display: flex;
+                        justify-content: center;
+                        // align-items: center;
+                        li{
+                            margin: 0 10px;
+                            a{
+                                height: 40px;
+                                padding: 0px 10px;
+                                border-radius: 40px;
+                                background: white;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                
+                                img{
+                                    width: 90px;
+                                      
+                                        
+                            }
+                        }
+                    }
+                }
+            }
+                .menu-cate{
+                    // padding-top: 10px;
+                
+                ul{
+                    display: flex;
+                    justify-content: center;
+                    // align-items: center;
+                    li{
+                        margin: 5px  30px 0px 30px;
+                        .cate-link{
+                            .box-icon{
+                                text-align: center;
+                                background: white;
+                                width: 40px;
+                                height: 40px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                border-radius: 50%;  
+                                margin-bottom: 10px;
+                                transform: translateX(10px);
+                                &:hover{
+                                    background-color: $btn-main-color;
+                                }
+                                &.i-fashion{
+                                    transform: translateX(15px);
+                                }
+                                &.i-utility{
+                                    transform: translateX(7px);
+                                }
+                                &.i-children{
+                                    transform: translateX(3px);
+                                }
+                                &.i-sport{
+                                    transform: translateX(11px);
+                                }
+                                &.i-accessory{
+                                    transform: translateX(9px);
+                                }
+                                .icon{
+                                    background-image: url('https://cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/smartwatch/icon_donghothongminh@2x.png');
+                                    background-repeat: no-repeat;
+                                    background-size: 200px 100px;
+                                }
+                                .icon-deal{
+                                    background-position: 0px 0px;
+                                    height: 30px;
+                                    width: 24px;
+                                    margin-top: -1px;
+                                }
+                                .icon-fashion{
+                                    background-position: -35px 0;
+                                    height: 30px;
+                                    width: 18px;
+                                }
+                                .icon-utility{
+                                    background-position: -60px 0;
+                                    height: 25px;
+                                    margin-top: 3px;
+                                    width: 28px;
+                                }
+                                .icon-sport{
+                                    background-position: -95px 0;
+                                    height: 26px;
+                                    width: 27px;
+                                }
+                                .icon-children{
+                                    background-position: -130px 0;
+                                    height: 24px;
+                                    width: 24px;
+                                }
+                                .icon-accessory{
+                                    background-position: -160px 0;
+                                    height: 25px;
+                                    width: 25px;
+                                }
+                            }
+                            .title{
+                                // position: absolute;
+                                color: white;
+                                text-align: center;
+                                font-size: 16px;
+                                // transform: translateX(-5px);
+                                
+                            }
+                        }
+                    }
+                }
+            }
+                }
+            }
+
+            .smartWatch-container{
+                
+                .deal-product{
+                position: relative;
+                margin-top: 30px;
+                height: 560px;
+                background: #fb6e2e;
+
+                &::after{
+                    content: '';
+                    position: absolute;
+                    background-image: url('https://cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/smartwatch/bg_deal01.png');
+                    width: 400px;
+                    height: 300px;
+                    top: 0;
+                    right: 0;
+                    z-index: 2;
+                }
+                &::before{
+                    content: '';
+                    position: absolute;
+                    background-image: url('https://cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/smartwatch/bg_deal02.png');
+                    width: 400px;
+                    height: 300px;
+                    bottom: 0;
+                    left: 0;
+                }
+                h2{
+                    text-align: center;
+                    padding-top: 20px;
+                    font-size: 43px;
+                    color: white;
+                    span{
+                        color: $btn-main-color;
+                    }
+
+                }
+                .item {
+                    height: 330px;
+                    border: 1px solid rgba(#e0e0e0, 0.7);
+                    padding: 20px 0;
+                    background: white;
+                }
+                img {
+                    width: 80%;
+                    display: block;
+                    margin: 10px auto;
+
+                }
+
+                .slick-next {
+                    position: absolute;
+                    right: 5px;
+                    transform: translateY(-50px) scale(0.4, 1);
+
+                    &::before {
+                        content: '>';
+                        color: gray;
+                        font-size: 80px;
+
+
+
+                    }
+
+
+                }
+
+
+                .slick-prev {
+                    position: absolute;
+                    z-index: 2;
+                    left: -5px;
+                    transform: translateY(-50px) scale(0.4, 1);
+
+                    &::before {
+                        content: '<';
+                        color: gray;
+                        font-size: 80px;
+
+
+                    }
+
+
+                }
+
+                .slick-track{
+                    padding-top: 50px;
+                    
+                }
+
+                .slick-slider{
+                    z-index: 10;
+                }
+
+
+
+                .detail-product {
+                    text-align: center;
+                    margin-top: 30px;
+
+                    #nameproduct {
+                        margin: 5px auto;
+                        transition: all .3s;
+
+                        &:hover {
+                            color: #288ad6;
+                        }
+                    }
+
+                    .price-old {
+                        margin: 3px auto;
+
+                        span {
+                            margin-left: 5px;
+                        }
+                    }
+
+                    .price-new {
+                        font-weight: bold;
+                        font-size: 18px;
+                    }
+
+                }
+
+                }
+
+                .sliders-smart-watch{
+                    margin-top: 50px;
+
+                    .slick-slider {
+                    position: relative;
+                    .slick-next {
+                      position: absolute;
+                      right: 10px;
+                    //   background: rgba(216,216,216,.7) url(//cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/smartwatch/icon_next.svg) center center no-repeat !important;
+                    //   background-color: red;
+                    }
+                    .slick-prev {
+                      position: absolute;
+                      left: 10px;
+                      z-index: 1;
+                    //   background-color: red;
+                    }
+                    .slick-dots {
+                      position: absolute;
+                      bottom: 10px;
+                    }
+                  }
+                  div{
+
+                      img{
+                          width: 590px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .content-block-smartWatch{
+            background-color: #eaeaea;
+            margin-bottom: 30px;
+            height: auto;
+            padding-bottom: 50px;
+            .smartWatch-container{
+                
+                .section-block-children{
+                    section{
+                        .block{
+                            .menuTop{
+                                display: none;
+                            }
+                            .list-product{
+                                margin-top: 0px;
+                            }
+                        }
+                    }
+                }
+    
+                section{
+                    .block{
+                        margin-top: 50px;
+                        margin-bottom: 50px;
+                        .list-product{
+                            justify-content: space-between;
+                            .item-product{
+                                margin-top: 10px;
+                            }
+                        }
+                        .block-banner{
+                            cursor: pointer;
+                        }
+                        .menuTop{
+                            display: flex;
+                            justify-content: center;
+                            margin-top: 20px;
+                            .item-menu{
+                                padding: 0 10px;
+                                .title{
+                                    padding: 10px 20px;
+                                    border: 1px solid #e0e0e0;
+                                    border-radius: 20px;
+                                    line-height: 18px;
+                                    height: 40px;
+                                    background-color: white;
+                                    transition: all 0.4s;
+                                }
+                            }
+                        }
+                        .btnViewMore{
+                            border: none;
+                            margin-top: 30px;
+                            position: relative;
+                            transform: translateX(-50%);
+                            left: 50%;    
+                            &:hover{
+                                
+                                .link{
+                                    border: 1px solid $btn-blue-color;
+                                    color: $btn-blue-color;
+                                }
+                                &::after{
+                                    border-color: transparent  transparent transparent $btn-blue-color;
+                                }
+                            }              
+                            .link{
+                                padding: 10px 50px;
+                                background-color: white;
+                                text-decoration: none;
+                                color: #000000;
+                                cursor: pointer;
+                                transition: all 0.2s;
+                            }
+                            &::after{
+                                content:"";
+                                border-style: solid;
+                                border-width: 5px 0px 5px 7px;
+                                border-color: transparent  transparent transparent black;
+                                position: absolute;
+                                transform: translate(-40px,50%);
+                                bottom: 60%;
+                                transition: all 0.2s;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .menu-top-fixed-smart-watch{
+            z-index: 20;
+            width: 100%;
+            position: fixed;
+            display: flex;
+            align-items: center;
+            background-color: black;
+            height: 120px;
+            top: 0;
+            .menu-cate{
+                // padding-top: 10px;
+                position: absolute;
+                transform: translateX(-50%);
+                left: 50%;
+
+                ul{
+                    display: flex;
+                    justify-content: center;
+                    // align-items: center;
+                li{
+                    margin: 5px  30px 0px 30px;
+                    .cate-link{
+                        .box-icon{
+                            text-align: center;
+                            background: white;
+                            width: 40px;
+                            height: 40px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 50%;  
+                            margin-bottom: 10px;
+                            transform: translateX(10px);
+                            &:hover{
+                                background-color: $btn-main-color;
+                            }
+                            &.i-fashion{
+                                transform: translateX(15px);
+                            }
+                            &.i-utility{
+                                transform: translateX(7px);
+                            }
+                            &.i-children{
+                                transform: translateX(3px);
+                            }
+                            &.i-sport{
+                                transform: translateX(11px);
+                            }
+                            &.i-accessory{
+                                transform: translateX(9px);
+                            }
+                            .icon{
+                                background-image: url('https://cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/smartwatch/icon_donghothongminh@2x.png');
+                                background-repeat: no-repeat;
+                                background-size: 200px 100px;
+                            }
+                            .icon-deal{
+                                background-position: 0px 0px;
+                                height: 30px;
+                                width: 24px;
+                                margin-top: -1px;
+                            }
+                            .icon-fashion{
+                                background-position: -35px 0;
+                                height: 30px;
+                                width: 18px;
+                            }
+                            .icon-utility{
+                                background-position: -60px 0;
+                                height: 25px;
+                                margin-top: 3px;
+                                width: 28px;
+                            }
+                            .icon-sport{
+                                background-position: -95px 0;
+                                height: 26px;
+                                width: 27px;
+                            }
+                            .icon-children{
+                                background-position: -130px 0;
+                                height: 24px;
+                                width: 24px;
+                            }
+                            .icon-accessory{
+                                background-position: -160px 0;
+                                height: 25px;
+                                width: 25px;
+                            }
+                        }
+                        .title{
+                            // position: absolute;
+                            color: white;
+                            text-align: center;
+                            font-size: 16px;
+                            // transform: translateX(-5px);
+                            
+                        }
+                    }
+                }
+            }
+        }
+        }
+
+
+    }
+}
+
+.page-deal-smart-watch{
+    .main-content-deal-smart-watch{
+
+        .move-to-card-fixed{
+            z-index: 5;
+            position: fixed;
+            right: 230px;
+            height: 165px;
+            width: 100px;
+            background: white;
+            border-radius: 10px;
+            .box{
+                width: 90px;
+                height: 75px;
+                border: 1px solid #ff8f00;
+                border-radius: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 5px;
+                cursor: pointer;
+                transition: all 0.4s;
+            }
+            .flash-sale{
+               text-align: center;
+               
+            }
+            .sale-smart-watch{
+                span{
+                    // width: 100%;
+                    // flex-wrap: wrap;
+                   text-align: center;
+                }
+            }
+        }
+        
+        .banner{
+            height: 600px;
+            background-image: url('https://cdn.tgdd.vn/2022/07/campaign/main-desk-1920x600.png');
+        
+            .content-banner{
+                width: 215px;
+                display: flex;
+                justify-content: center;
+                position: absolute;
+                font-size: 15px;
+                transform: translate(1150px,32px);
+                .time-line{
+                    color: #f74d01;
+                    font-weight: bold;
+                    padding-right: 5px;
+                    &::before{
+                        content: '';
+                        height: 13px;
+                        border: 1px solid #f74d01;
+                        position: absolute;
+                        transform: translate(123px,0);
+                    }
+                }
+                .see-info{
+                    padding-left: 10px;
+                    color: #f74d01;
+                    font-weight: bold;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .sub-banner{
+            background-image: url('https://www.thegioididong.com/dong-ho-thong-minh-gia-soc/Content/images/chinhsach.png');
+            height: 215px;
+        }
+        
+        .bg-content{
+            background: #e0e0e0;
+            height: auto;
+            .smartWatch-container{
+                .flash-sale{
+                    padding-top: 30px;
+                    .banner{
+                        height: 150px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                    }
+
+                    .flash-product{
+                        background-color: #ff8f00;
+                        height: 470px;
+                        // display: flex;
+                        // align-items: center;
+                        // justify-content: center;
+                        .list-product{
+                            margin-top: 0px;
+                            padding: 5px 10px;
+                            .item-product{
+                                margin-top: 10px;
+                            }
+
+                        }
+                    }    
+                }
+                .festival-sale{
+                    margin-top: 50px;
+                    padding-bottom: 50px;
+                    height: auto;
+                    .banner{
+                        height: 120px;
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;
+                    }
+
+                    .block-content{
+                        height: auto;
+                        background-color: white;
+                        padding-bottom: 30px;
+                        .menu-top-festival{
+                        margin-top: 5px;
+                        height: 80px;
+                        background: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border: 1px solid ;
+                        border-color: transparent transparent rgba($color: #000000, $alpha: 0.2 ) transparent;
+                        .menuTop{
+                            display: flex;
+                            justify-content: center;
+                            margin-top: 0px;
+                            .item-menu{
+                                padding: 0 10px;
+                                .title{
+                                    padding: 10px 20px;
+                                    border: 1px solid #e0e0e0;
+                                    border-radius: 20px;
+                                    line-height: 18px;
+                                    height: 40px;
+                                    background-color: white;
+                                    transition: all 0.4s;
+                                }
+                            }
+                        }
+                        }
+
+                        .box-filter-smart-watch{
+                            padding-top: 20px;
+                            padding-left: 10px;
+                        }
+
+                        .group-block-product{
+                            display: flex;
+                            justify-content: center;
+                            .block-product{
+                                padding: 20px 10px;
+                                width: 600px;
+                                height: 350px;
+                                .bg-block{
+                                    width: 100%;
+                                    
+                                }
+                                .content-block{
+                                    position: absolute;
+                                    display: flex;
+                                    
+                                    transform: translate(40px,-300px);                                    
+                                    .img{
+                                        width: 220px;
+                                        img{
+                                            width: 100%;
+                                        }
+                                    }
+                                    .info-product{
+
+                                        .title{
+                                            width: 300px;
+                                            flex-wrap: wrap;
+                                            font-size: 23px;
+                                            padding-left: 20px;
+                                        }
+                                        .text-online{
+                                            padding-left: 20px;
+                                            padding-top: 5px;
+                                            font-size: 15px;
+                                        }
+                                
+                                        .priceOld{
+                                            padding-left: 20px;
+                                            padding-top: 10px;
+                                            font-size: 20px;
+                                            .initialPrice{
+                                            position: relative;
+                                            text-decoration: line-through;
+                                            .currency{
+                                                position: absolute;
+                                                font-size: 10px;
+                                                top: 1px;
+                                                right: -3px;
+                                                text-decoration-line: underline;
+                                            }
+                                            
+                                        }
+                                        .discount{
+                                            padding-left: 15px;
+                                        }
+                                        
+                                        }
+                                        .priceDeal{
+                                        padding-top: 10px;
+                                        padding-left: 20px;
+                                        font-weight: 700;
+                                        font-size: 27px;
+                                        color: #f00;
+                                        .currency{
+                                            position: absolute;
+                                            font-size: 17px;
+                                            // right: -3px;
+                                            text-decoration-line: underline;
+                                        }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .list-product{
+                            margin-top: 30px;
+                            .item-product{
+                                width: 240px;
+                                border: 1px solid;
+                                border-color: transparent rgba($color: grey, $alpha: 0.2 ) rgba($color: #000000, $alpha: 0.2 ) transparent;
+                                padding-left: 0px;
+                                margin-top: 0px;
+                                &:hover{
+                                    box-shadow: 0px 2px 10px rgba($color: #333, $alpha: 0.4);
+                                }
+                            }
+                        }
+                       
+                        .btnViewMore{
+                            border: none;
+                            margin-top: 30px;
+                            position: relative;
+                            transform: translateX(-50%);
+                            left: 50%;    
+                            &:hover{
+                                
+                                .link{
+                                    background: $btn-blue-color;
+                                    color: white;
+                                }
+                                &::after{
+                                    border-color: transparent  transparent transparent white;
+                                }
+                            }              
+                            .link{
+                                padding: 10px 50px;
+                                border: 1px solid $btn-blue-color;
+                                background-color: white;
+                                text-decoration: none;
+                                color: $btn-blue-color;
+                                cursor: pointer;
+                                transition: all 0.2s;
+                            }
+                            &::after{
+                                content:"";
+                                border-style: solid;
+                                border-width: 5px 0px 5px 7px;
+                                border-color: transparent  transparent transparent $btn-blue-color;
+                                position: absolute;
+                                transform: translate(-40px,50%);
+                                bottom: 60%;
+                                transition: all 0.2s;
+                            }
+                        }
+
+                    }
+
+                }
+            }
+
+           
+
+        }
+
+    }
+}
+
+
+.btnViewMore-sub{
+    border: none;
+    
+    margin-top: 30px;
+    position: relative;
+    transform: translateX(-50%);
+    left: 50%;            
+    a{
+        padding: 10px 50px;
+        background-color: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        transition: all 0.4s;
+        font-size: 15px;
+        &:hover{
+            background: #288ad6;
+            color: white;
+            &::before{
+                border-top: 5px solid white;
+            }
+        }
+        &::before{
+            content: '';
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #333;
+            position: absolute;
+            right: 30px;
+            top: 4px;
+        }      
+    }
+    
+}
+.page-sub-watch{
+
+    .sub-menu-top-fixed{
+        top: 0;
+        z-index: 7;
+        width: 100%;
+        height: 70px;
+        background-color: white;
+        position: fixed;    
+        box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.4);
+        .smartWatch-container{
+            height: 100%;
+            display: flex;
+            align-items: center;
+            .block-box-filter{
+
+                display: flex;
+                flex-wrap: wrap;
+                .filter-total{
+                    width: 80px;
+                    .filter-item{
+                        padding: 10px;
+                        
+                        span{
+                            padding-left: 5px;
+                        }
+                    }
+                }
+            
+                .m-t{
+                    margin-right: 10px;
+                    margin-bottom: 10px;
+                    position: relative;
+                    .sub-drop-down{
+                        display: none;
+                    }
+                }
+                
+                .filter-item{
+                
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: all 0.4s;
+                    &:hover{
+                        border-color: $btn-blue-color;
+            
+                    }
+                        .drop-down{
+                            position: relative;
+                            padding: 10px 20px 10px 10px;
+                            
+                        &::before{
+                            content: '';
+                            border-left: 5px solid transparent;
+                            border-right: 5px solid transparent;
+                            border-top: 5px solid #333;
+                            position: absolute;
+                            // transform: translate(100px,0px);
+                            right: 5px;
+                            top: 15px;
+                            
+                        }
+                    }
+                
+                }
+            
+            }
+        }
+    }
+
+    .main-header-sub-watch{
+        height: auto;
+        background-color: white;
+    }
+
+    .main-content-sub-watch{
+        padding-top: 20px;
+        // padding-bottom: 20px;
+        margin-bottom: 150px;
+        height: auto;
+        .smartWatch-container{
+            .list-product{
+                
+                .item-product {
+                    height: 440px;
+                    width: 240px;
+                    background: rgb(248, 248, 248);
+                    // margin-bottom: 10px;
+                    cursor: pointer;
+                    border: 1px solid rgba($color: #e0e0e0, $alpha:0.5);
+                    &:hover {
+                      box-shadow: 0px 2px 10px rgba($color: #333, $alpha: 0.4);
+                      z-index: 3;
+                      .title {
+                        color: #288ad6;
+                      }
+                      .img{
+                        .img-product{
+                          transform: translateY(-13px);
+                        }
+                      }
+                      
+                    }
+                    .img {
+                      align-items: center;
+                      text-align: center;
+                      height: auto;   
+                      margin: 30px 15px 20px 15px;
+                      img {
+                        transition: all 0.4s;
+                        width: 100%;
+                        height: 100%;
+                        
+                      }
+                    
+                    }
+              
+                    .special-event {
+                      top: 0;
+                      margin-bottom: 10px;
+                      position: relative;
+                      display: flex;
+                      align-items: center;
+                      width: 140px;
+                      height: 20px;
+                      background: linear-gradient(to right, #e91f63, #db2663);
+                      border-radius: 20px;
+                      overflow: hidden;
+                      
+                      img {
+                        width: 15%;
+                      }
+                      span {
+                        padding-left: 5px;
+                        color: white;
+                        font-size: 10px;
+                      }
+                    }
+              
+                    .title {
+                      // padding-top: 190px;
+                      padding-left: 15px;
+                      font-weight: 400;
+                      transition: all 0.4s;
+                    }
+              
+                    .item-compare {
+                      padding-left: 15px;
+                      padding-top: 10px;
+                      span {
+                        border: solid 1px #e0e0e0;
+                        padding: 3px 5px;
+                        font-size: 10px;
+                      }
+                    }
+              
+                    .text-online {
+                      padding-left: 15px;
+                      padding-top: 5px;
+                    }
+              
+                    .priceOld {
+                      padding-left: 15px;
+                      padding-top: 5px;
+                        .initialPrice {
+                        position: relative;
+                        text-decoration: line-through;
+                        .currency {
+                          position: absolute;
+                          font-size: 10px;
+                          top: 1px;
+                          right: -3px;
+                          text-decoration-line: underline;
+                        }
+                      }
+                      .discount {
+                        padding-left: 5px;
+                      }
+                    }
+                    .priceDeal {
+                      position: relative;
+                      // text-decoration: line-through;
+                      padding-top: 10px;
+                      padding-left: 15px;
+                      font-weight: 700;
+                      font-size: 17px;
+                      .currency {
+                        position: absolute;
+                        font-size: 10px;
+                        // right: -3px;
+                        text-decoration-line: underline;
+                      }
+                    }
+              
+                    .star-outer {
+                      position: relative;
+                      padding-left: 15px;
+                      padding-top: 10px;
+                      display: inline-block;
+                      &::before {
+                        content: "\f005 \f005 \f005 \f005 \f005";
+                        font-family: "Font Awesome 5 Free";
+                        font-weight: 900;
+                        color: #ccc;
+                      }
+                      .star-inner {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        width: 0;
+                        padding-left: 15px;
+                        padding-top: 10px;
+                        &::before {
+                          content: "\f005 \f005 \f005 \f005 \f005";
+                          font-family: "Font Awesome 5 Free";
+                          font-weight: 900;
+                          color: #f8ce0b;
+                        }
+                      }
+                    }
+                    .rateTotal {
+                      padding-left: 10px;
+                    }
+                  }
+            }
+            .block-box-filter{  
+                margin-top: 10px;
+                display: flex;
+                flex-wrap: wrap;
+                .filter-total{
+                    width: 80px;
+                    .filter-item{
+                        padding: 10px;
+                        
+                        span{
+                            padding-left: 5px;
+                        }
+                    }
+                }
+            
+                .m-t{
+                    margin-right: 10px;
+                    margin-bottom: 10px;
+                    position: relative;
+                    &.battery, &.avoid-water, &.healthy, &.utility,&.color{
+                        .sub-drop-down-box-filter{
+                            right: 0;
+                            &::before{
+                                left: 500px;
+                            }
+                        }
+                    }
+                }
+                
+                .filter-item{
+                
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: all 0.4s;
+                    &:hover{
+                        border-color: $btn-blue-color;
+            
+                    }
+                        .drop-down{
+                            position: relative;
+                            padding: 10px 20px 10px 10px;
+                            
+                        &::before{
+                            content: '';
+                            border-left: 5px solid transparent;
+                            border-right: 5px solid transparent;
+                            border-top: 5px solid #333;
+                            position: absolute;
+                            // transform: translate(100px,0px);
+                            right: 5px;
+                            top: 15px;
+                            
+                        }
+                    }
+                
+                }
+            
+            }
+            
+            .sub-drop-down-box-filter{ 
+                z-index: 10;
+                // left: 0;
+                top: 50px;
+                background-color: white;
+                width: 560px;
+                height: auto;
+                position: absolute;
+                box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
+                &::before{
+                    position: absolute;
+                    z-index: 5;
+                    content: '';
+                    width: 10px;
+                    height: 10px;
+                    background: white;
+                    border: 1px solid white;
+                    border-color: white white transparent transparent;
+                    transform: rotate(-45deg);
+                    top: -5px;
+                    left: 35px;
+                }
+            
+                .list-content{
+                    display: flex;
+                    flex-wrap: wrap;
+                    // padding: 10px;
+                    margin-top: 10px;
+                    .item-content{
+                        border: 1px solid #e0e0e0;
+                        border-radius: 5px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-left: 10px;
+                        margin-top: 10px;
+                        cursor: pointer;
+                        &:hover{
+                            color: $btn-blue-color;
+                            border-color: $btn-blue-color;
+                        }
+                    &.i-img{
+                        width: 100px;
+                        height: 40px;
+                        img{
+                            width: 100%;
+                            
+                        }
+                    }
+                        .content{
+                            padding: 10px;
+                            text-align: center;
+                        }
+                    }
+                }
+            
+            
+                .list-btn-active{
+                    box-shadow: 0 -4px 8px rgb(0 0 0 / 5%);
+                    height: 60px;
+                    position: relative;
+                    margin-top: 10px;
+                    .pos-center{
+                       position: absolute;
+                       transform: translate(50%,50%);
+                       bottom: 50%;
+                       right: 50%;
+                       display: flex;
+                    }
+                    button{
+                        border: none;
+                    }
+            
+                    .btn-active{
+                        display: inline-block;
+                        width: 150px;
+                    
+                        border: 1px solid black;
+                        padding: 10px 0px;
+                        border-radius: 5px;
+                        text-align: center;
+                        margin: 0px 10px;
+                        span{
+                            font-size: 15px;
+                        }
+            
+                    }
+                    .btn-canncel{
+                        border-color: #EB1D36;
+                        span{
+                            color: #EB1D36;
+                            
+                        }
+            
+                    }
+                    .btn-view-result{
+                        background-color: $btn-blue-color;
+                        border-color: $btn-blue-color;
+                        span{
+                            color: white;
+                        }
+                    }
+                }
+            
+            }
+            
+        }
+    }
+
+}
+
+
+.page-befit-smart-watch{
+    .main-content-befit-smart-watch{
+        .banner-top{
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            background-image: url('https://cdn.tgdd.vn/2022/07/campaign/MHD---BG---Desk-1920x620.png');
+            overflow: hidden;
+            padding-top: 20px;
+
+            .banner-right{
+                text-align: center;
+                .banner-center-right{
+                    padding-top: 10px;
+                }
+                .banner-btn-buy{
+                    padding-top: 10px;
+                }
+
+                .content-banner{
+                    font-size: 15px;
+                    a{
+                        text-decoration: underline;
+                        color: $btn-blue-color;
+                        padding-left: 10px;
+                        &::before{
+                            content: '';
+                            height: 15px;
+                            position: absolute;
+                            border: 1px solid rgba($color: #000000, $alpha: 0.7 );
+                            transform: translate(-6px,0px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

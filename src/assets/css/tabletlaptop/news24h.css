@@ -1,0 +1,267 @@
+.menu24h {
+  padding-top: 10px;
+  width: 1200px;
+  margin: auto;
+}
+.menu24h ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.menu24h ul li {
+  font-family: "Lexend", sans-serif;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 13px 12px;
+  text-decoration: none;
+  float: left;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 14px;
+  border-radius: 10px;
+}
+.menu24h ul li:hover {
+  background-color: yellow;
+}
+.menu24h ul li.dkdn {
+  float: right;
+  text-transform: none;
+}
+.menu24h ul li.dkdn:hover {
+  background-color: white;
+  color: blue;
+  border: none;
+}
+.themain24h {
+  width: 1200px;
+  margin: auto;
+  display: flex;
+  column-gap: 20px;
+}
+.main24htrai {
+  width: 800px;
+}
+.main24htrai_1 {
+  padding: 10px;
+  display: flex;
+  column-gap: 10px;
+}
+.left_trai img {
+  width: 500px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.right_trai img {
+  width: 270px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.title24h {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.title24h:hover {
+  color: #288ad6;
+}
+.title24hx:hover {
+  color: #288ad6;
+}
+.title24hx {
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 600;
+  padding-bottom: 5px;
+  cursor: pointer;
+  line-height: 24px;
+}
+.noidung24h {
+  display: block;
+  overflow: hidden;
+  font-size: 14px;
+  color: #333;
+  line-height: 22px;
+  padding: 10px 0;
+}
+.noidung24hx {
+  display: block;
+  overflow: hidden;
+  font-size: 14px;
+  color: #333;
+  line-height: 22px;
+  padding: 10px 0;
+  cursor: pointer;
+  border-top: 1px solid #eee;
+}
+.noidung24hx:hover {
+  color: #288ad6;
+}
+.main24hphai {
+  width: 380px;
+  height: 225px;
+  display: grid;
+}
+.main24htrai_2 {
+  padding: 10px;
+}
+.item24h_item {
+  display: flex;
+  column-gap: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.item24h_right_title {
+  display: block;
+  overflow: hidden;
+  line-height: 28px;
+  font-size: 22px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.item24h_right_title:hover {
+  color: #288ad6;
+}
+.item24h_right_time {
+  padding-top: 10px;
+  color: #333;
+}
+.item24h_item img {
+  border-radius: 8px;
+  width: 250px;
+  cursor: pointer;
+}
+.main24hphai img {
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.chudehot {
+  display: block;
+  line-height: 26px;
+  font-size: 16px;
+  color: #888;
+  text-transform: uppercase;
+  padding: 10px 0 6px;
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 600;
+}
+.chudegachduoi {
+  display: block;
+  border-bottom: 1px solid #eee;
+  line-height: 26px;
+  font-size: 16px;
+  color: #888;
+  text-transform: uppercase;
+  padding: 10px 0 6px;
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 600;
+}
+.taghot button {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 4px 7px;
+  border-radius: 9px;
+  background: #0078d7;
+  color: #fff;
+  font-size: 11px;
+  border: none;
+  cursor: pointer;
+}
+.taghot button i {
+  font-size: 10px;
+}
+.thethaoluannhieu {
+  padding-top: 5px;
+  display: flex;
+}
+.so {
+  float: left;
+  margin: 10px;
+  padding: 4px 9px;
+  background: #f4f4f4;
+  font-size: 20px;
+  height: 30px;
+  width: 35px;
+  color: #cbcbcb;
+  font-weight: 600;
+  cursor: pointer;
+}
+.noidungso {
+  padding-top: 5px;
+  display: block;
+  overflow: hidden;
+  line-height: 1.3em;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+.thesanphammoi {
+  display: flex;
+  column-gap: 10px;
+}
+.thesanphammoi img {
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+}
+.tensanphammoix {
+  padding-top: 10px;
+  display: block;
+  overflow: hidden;
+  font-size: 16px;
+  color: #333;
+}
+.giasanphammoix {
+  display: block;
+  overflow: hidden;
+  color: #666;
+  font-size: 14px;
+  line-height: 32px;
+}
+.sobaivietmoi {
+  display: block;
+  overflow: hidden;
+  color: #288ad6;
+  margin-bottom: 10px;
+}
+.chudexanh {
+  display: block;
+  line-height: 26px;
+  font-size: 16px;
+  color: #288ad6;
+  text-transform: uppercase;
+  padding: 10px 0 6px;
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 600;
+}
+.fixanh img {
+  width: 380px;
+  border-radius: 8px;
+}
+.thegioithieu24h {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.item_thegioithieu img {
+  width: 185px;
+  margin: auto;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+.item_thegioithieu div {
+  display: block;
+  overflow: hidden;
+  line-height: 1.3em;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+.item_thegioithieu div:hover {
+  color: #288ad6;
+}

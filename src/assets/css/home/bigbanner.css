@@ -1,0 +1,39 @@
+body {
+    overflow-x: hidden;
+}
+
+.bigBannerWrap {
+    position: relative;
+}
+
+.bigBanner__img {
+    height: 400px;
+    width: 100%;
+    position: absolute;
+    top: -1px;
+}
+
+.bigBanner__img>img {
+    width: 100%;
+    object-position: 0px 2px;
+}
+
+
+/* slider */
+
+.bigBanner__slider .sliderList {
+    width: 1200px;
+    margin: 0 auto;
+    /* position: relative; */
+    padding-top: 19%;
+}
+
+.bigBanner__slider .sliderList__item {
+    margin-right: 8px;
+}
+
+.bigBanner__slider .sliderList__item>img {
+    width: 595px;
+    height: auto;
+    border-radius: 12px;
+}

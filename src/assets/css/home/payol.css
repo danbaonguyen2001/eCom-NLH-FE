@@ -1,0 +1,50 @@
+.poWrap {
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    top: 200px;
+}
+
+
+/* Title */
+
+.po__title {}
+
+.po__title>h1 {
+    color: black;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 32px;
+    text-transform: uppercase;
+    padding-left: 22px;
+}
+
+
+/* Content */
+
+.po__content {}
+
+
+/* Slider */
+
+.po__content .sliderList {
+    width: 1170px;
+    margin: 0 auto;
+}
+
+.po__content .sliderList__item:not(.po__content .sliderList__item:nth-child(3)) {
+    margin-right: 10px;
+}
+
+.po__content .sliderList__item>img {
+    width: 380px;
+    height: auto;
+    border-radius: 12px;
+}
+
+
+/* slick -> increase gap */
+
+.po__content .slick-slide {}
+
+.po__content .slick-list {}

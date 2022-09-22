@@ -1,0 +1,346 @@
+.wrapper-banner{
+    background-image: url('https://cdn.tgdd.vn/2022/08/campaign/mhd-desk-1920x630.png');
+    height: 630px;
+ //   width: 100%;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+.wrapper-main{
+    background-image: url('https://cdn.tgdd.vn/2022/06/campaign/element-bg-1914x8213.png');
+
+   background-size: cover;
+
+}
+
+.banner-sticky{
+    .move-to-card-fixed{
+        z-index: 5;
+        position: fixed;
+        top: 50px;
+        right: 7%;
+        height: 165px;
+        width: 100px;
+        background: white;
+        border-radius: 10px;
+        .box{
+            width: 90px;
+            height: 75px;
+            border: 1px solid #ff8f00;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5px;
+            cursor: pointer;
+            transition: all 0.4s;
+        }
+        .flash-sale{
+           text-align: center;
+           
+        }
+        .sale-smart-watch{
+            span{
+                // width: 100%;
+                // flex-wrap: wrap;
+               text-align: center;
+            }
+        }
+    }
+}
+.containerWatch{
+    width: 1200px;
+    margin: 0 auto;
+    // .ShockWatches{
+    //    .wrapper-main{
+
+    //    }
+    // }
+
+    .flash-sale-watch{
+        padding-top: 40px;
+        
+        .ListProductFlashSale{
+            position: relative;
+            overflow: hidden;
+            padding:  20px;
+            background: orange;
+         //   width: 1200px;
+            flex-wrap: wrap;
+            
+            .list-item{
+              //  width: 1200px;
+                height: 360px;
+                flex-wrap: wrap;
+               
+                .slick-list {
+                   // height: 360px;
+                    overflow: hidden;
+                   // margin:  -5px;
+                   
+                 
+                }
+                .slick-slide{
+                    outline: none;
+                    margin:0 5px;
+                }
+
+                
+
+               
+                .item-flash-sale{
+                    width: 220px;
+                    background: #fff;
+                    border: 1px solid rgba(#e0e0e0, 0.7);
+                    padding: 30px 10px;
+                    border-radius: 7px;
+                    
+                   
+                 //   overflow: hidden;
+                    
+                    img{
+                        width: 100%;
+                    }
+                    
+                    
+                    //  margin-right: 5px;
+                        &:focus {
+                            outline: none;
+                            outline: none;
+                        }
+                       
+        
+                    
+                   
+                }
+
+
+                .slick-prev{
+                    left: 5px;
+                    transform: translateY(-180px) rotate(-135deg);
+                    z-index: 9;
+                }
+    
+                .slick-next{
+                    transform:translateY(-225px) rotate(45deg);
+                    right:     5px;
+                }
+    
+                  .slick-arrow {
+             
+                    &::before {
+                        z-index: 4;
+                        border-top: 3px solid rgba(#000, 0.7);
+                        border-right: 3px solid rgba(#000, 0.7);
+                        content: '';
+                        height: 22px;
+                        position: absolute;
+                        top: 18px;
+                        width: 22px;
+                        
+                        
+    
+    
+                        
+                    }
+    
+    
+                }
+        
+                
+        
+              
+                  
+                 
+        
+                .detail-product{
+                    text-align: center;
+                    margin: 10px auto;
+                    #nameproduct{
+                        margin: 5px auto;
+                        transition: all .3s;
+                        &:hover{
+                            color: #288ad6;
+                        }
+                    }
+        
+                    .price-old{
+                        margin: 3px auto;
+                        span{
+                            margin-left: 5px;
+                        }
+                    }
+        
+                    .price-new{
+                        font-weight: bold;
+                        font-size: 18px;
+                    }
+        
+                }
+            }
+           
+            
+            
+      
+    
+    
+               
+                
+                    
+                
+            
+        }
+
+
+    }
+
+    .MenuTopWatches{
+        
+        .list-option{
+            margin: 30px auto;
+            .radio-btn{
+                margin-right: 15px;            
+                label{
+                    margin-left: 3px;
+                }
+
+                input{
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+
+    .group-block-product{
+        display: flex;
+        justify-content: center;
+        .block-product{
+            padding: 20px 10px;
+            width: 600px;
+            height: 350px;
+            .bg-block{
+                width: 100%;
+                
+            }
+            .content-block{
+                position: absolute;
+                display: flex;
+                
+                transform: translate(40px,-300px);                                    
+                .img{
+                    width: 220px;
+                    img{
+                        width: 100%;
+                    }
+                }
+                .info-product{
+
+                    .title{
+                        width: 300px;
+                        flex-wrap: wrap;
+                        font-size: 23px;
+                        padding-left: 20px;
+                    }
+                    .text-online{
+                        padding-left: 20px;
+                        padding-top: 5px;
+                        font-size: 15px;
+                    }
+            
+                    .priceOld{
+                        padding-left: 20px;
+                        padding-top: 10px;
+                        font-size: 20px;
+                        .initialPrice{
+                        position: relative;
+                        text-decoration: line-through;
+                        .currency{
+                            position: absolute;
+                            font-size: 10px;
+                            top: 1px;
+                            right: -3px;
+                            text-decoration-line: underline;
+                        }
+                        
+                    }
+                    .discount{
+                        padding-left: 15px;
+                    }
+                    
+                    }
+                    .priceDeal{
+                    padding-top: 10px;
+                    padding-left: 20px;
+                    font-weight: 700;
+                    font-size: 27px;
+                    color: #f00;
+                    .currency{
+                        position: absolute;
+                        font-size: 17px;
+                        // right: -3px;
+                        text-decoration-line: underline;
+                    }
+                    }
+                }
+            }
+        }
+    }
+
+    .margin-banner{
+        //width: 1200px ;
+        margin: 30px auto;
+        
+    }
+
+    .list-product{
+        justify-content: space-between;
+        .item-product{
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+    }
+
+    .btnViewMore{
+        border: none;
+        margin-top: 30px;
+        position: relative;
+        transform: translateX(-50%);
+        left: 50%;    
+        &:hover{
+            
+            .link{
+                background: #288ad6;
+                color: white;
+            }
+            &::after{
+                border-color: transparent  transparent transparent white;
+            }
+        }              
+        .link{
+            padding: 10px 50px;
+            border: 1px solid #288ad6;
+            background-color: white;
+            text-decoration: none;
+            color: #288ad6;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        &::after{
+            content:"";
+            border-style: solid;
+            border-width: 5px 0px 5px 7px;
+            border-color: transparent  transparent transparent #288ad6;
+            position: absolute;
+            transform: translate(-40px,50%);
+            bottom: 60%;
+            transition: all 0.2s;
+        }
+        
+    }
+
+    .wt-sr-watch{
+        padding-bottom: 40px;
+    }
+
+    
+    
+}

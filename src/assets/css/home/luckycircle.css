@@ -1,0 +1,61 @@
+.lcWrap {
+    position: relative;
+    padding-bottom: 2.6rem;
+    top: 30px;
+    border-radius: 4px;
+}
+
+.lcWrap:not(.lcWrap:first-child) {
+    margin-top: 2rem;
+}
+
+
+/* Banner */
+
+.lcBanner {
+    border-radius: 4px;
+}
+
+.lcBanner>img {
+    border-radius: 4px;
+    width: 100%;
+    height: auto;
+}
+
+
+/* Timer */
+
+.lcTimerOuter {
+    margin: 0.4rem 0;
+    display: flex;
+    line-height: 32px;
+    font-size: 1.2rem;
+    width: 100%;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+    font-size: 2rem;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-top: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+}
+
+.lcTimerInner {
+    padding: 0.2rem 0.8rem;
+}
+
+.lcTimer__num {
+    display: none;
+}
+
+
+/* Slider */
+
+
+/* Button */
+
+.lcBt {
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}

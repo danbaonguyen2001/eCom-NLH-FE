@@ -1,0 +1,103 @@
+.trendWrap {
+    height: 332px;
+    position: relative;
+    top: 140px;
+    border-radius: 12px;
+    /* background: linear-gradient(300.39deg, #FCB69F 50.44%, rgba(255, 236, 210, 0.58) 90.33%); */
+    background: linear-gradient(90deg, #ffecd2 0%, #fcb69f 100%);
+}
+
+
+/* Title */
+
+.ts__title {
+    position: relative;
+    left: 22px;
+}
+
+.ts__title>h1 {
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 28px;
+    text-transform: uppercase;
+}
+
+
+/* Content */
+
+.ts__content {
+    margin: 0 22px;
+}
+
+.ts__content .col {
+    padding: 0;
+    margin: 0;
+}
+
+.content__card {
+    position: relative;
+    width: 280px;
+    height: 236px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: left;
+}
+
+.content__card:not(.content__card--4) {
+    /* margin-right: 12px; */
+}
+
+
+/* Item */
+
+.content__card--1 {
+    background-image: url("../../images/home/item-TS/ts1.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: center;
+}
+
+.content__card--2 {
+    background-image: url("../../images/home/item-TS/ts2.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: center;
+}
+
+.content__card--3 {
+    background-image: url("../../images/home/item-TS/ts3.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: center;
+}
+
+.content__card--4 {
+    background-image: url("../../images/home/item-TS/ts4.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: center;
+}
+
+
+/* Des */
+
+.card__cate {
+    font-size: 16px;
+    width: 215px;
+    font-weight: 300;
+    line-height: 19px;
+}
+
+.card__name {
+    font-weight: 300;
+    width: 215px;
+    padding-bottom: 23px;
+    font-size: 21px;
+    line-height: 25px;
+    color: #2F80ED;
+}

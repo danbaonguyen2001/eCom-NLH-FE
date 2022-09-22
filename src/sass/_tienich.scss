@@ -1,0 +1,91 @@
+.conSerPageWrap {
+    // Slider
+    .csp__slider {
+        padding-bottom: 28px;
+    }
+    // Pay oline
+    .csp__payol {
+        .payol__title {
+            h1 {
+                display: block;
+                overflow: hidden;
+                text-transform: uppercase;
+                line-height: 22px;
+                // padding: px;
+                font-weight: 600;
+                font-size: 18px;
+            }
+        }
+        .payol__list {
+            // width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            // margin: 0 auto;
+            margin-right: 1px;
+            .payol__item {
+                overflow: hidden;
+                transition: all 0.3s ease;
+                position: relative;
+                position: relative;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                background-color: white;
+                box-shadow: 0 0 4px 0 rgb(0 0 0 / 15%);
+                font-size: 13px;
+                height: 52px;
+                margin: 0 auto;
+                border-radius: 4px;
+                text-transform: uppercase;
+                position: relative;
+                margin: 0 0 1% 1%;
+                &.l-24 {
+                    flex: 0 0 19%;
+                }
+                // Icon
+                .item__icon {
+                    margin-right: 8px;
+                    z-index: 4;
+                    img {
+                        width: 26px;
+                    }
+                }
+                .item__title {
+                    z-index: 4;
+                }
+            }
+            // Active 
+            .payol__item--nonactive {
+                position: absolute;
+                overflow: hidden;
+                display: block;
+                width: 100%;
+                padding-top: 50%;
+                padding-left: 100%;
+                border-radius: 50%;
+                content: '';
+                background: linear-gradient( to top right, rgb(255, 255, 255) 10%, rgb(27, 126, 224) 120%);
+                transition: all 0.8s ease;
+                transform: scale(0);
+                z-index: 1;
+            }
+            .payol__item--active {
+                overflow: hidden;
+                transition: all 0.8s ease;
+                overflow: hidden;
+                transform: scale(1.5);
+            }
+        }
+    }
+    // Content
+    .csp__content {
+        width: 100%;
+        overflow: hidden;
+        background: #fff;
+        padding: 15px;
+        border-radius: 2px;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 15%);
+        border: 1px solid #e9e9e9;
+        margin: 0 auto;
+    }
+}

@@ -1,0 +1,8 @@
+.lpWrap {
+    justify-content: space-between;
+    width: 1170px;
+    margin: 0 auto;
+    &>div {
+        margin-top: 10px;
+    }
+}

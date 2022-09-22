@@ -1,0 +1,151 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+.the1_quicklink {
+  padding-top: 10px;
+}
+
+.scr .the1_quicklink {
+  background-color: #f1f1f1;
+}
+.boxq {
+  padding: 10px 30px;
+  display: flexbox;
+  border-radius: 12px;
+  width: 1200px;
+  margin: auto;
+  background-color: #e0e0e0;
+}
+.quickitem {
+  width: 12.5%;
+  border-radius: 52px;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  color: #333;
+  background-color: white;
+  font-size: 18px;
+  line-height: 13px;
+  margin: 8px 10px;
+  min-height: 36px;
+  max-height: 36px;
+  vertical-align: top;
+  cursor: pointer;
+  font-weight: 600;
+  font-style: italic;
+}
+.quickitem:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  color: blue;
+  border: 1px solid blue;
+}
+.menu-top {
+  background-color: #f1f1f1;
+  position: sticky;
+  top: 0;
+  padding: 15px 0;
+  margin: auto;
+}
+
+.menu-top > div {
+  display: grid;
+  grid-auto-rows: minmax(min-content, max-content);
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+/* 
+.menu-top.fixed {
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9;
+  right: 0;
+  background-color: #222;
+} */
+
+.menu-top .nav-item:hover .box-icon {
+  background-color: #ffe500;
+}
+
+.menu-top .nav-item {
+  color: #000;
+  font-size: 16px;
+  line-height: 17px;
+}
+/* 
+.menu-top.fixed .nav-item {
+  color: #fff;
+} */
+
+.menu-top .nav-item.active .box-icon {
+  background-color: #ffe500;
+}
+
+.menu-top .nav-item .box-icon {
+  align-items: center;
+  border-radius: 50%;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  height: 56px;
+  margin: 0 auto 6px;
+  width: 56px;
+  background-color: #fff;
+}
+
+.menu-top .nav-item p {
+  font-size: 14px;
+  line-height: 120%;
+  white-space: nowrap;
+}
+
+/* thedeal */
+.the3_deal {
+  background-color: #f1f1f1;
+}
+.thecondealx {
+  width: 1200px;
+  margin: auto;
+  background-color: #ffe500;
+}
+
+.deal_title {
+  width: 1200px;
+  position: absolute;
+  padding: 20px 0;
+  display: block;
+  font-size: 42px;
+  line-height: 50px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.txtDs {
+  color: #ff0020;
+  font-weight: 600;
+}
+.txtGd {
+  color: #fff;
+  font-weight: 600;
+}
+.the4_gamming {
+  background-color: #25304b;
+}
+.thecongamingx {
+  width: 1200px;
+  margin: auto;
+}
+.the_laptop {
+  background-color: #f1f1f1;
+}
+.thecon {
+  width: 1200px;
+  margin: auto;
+}
+.paddingtoppx {
+  height: 10px;
+}

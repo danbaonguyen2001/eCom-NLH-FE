@@ -1,0 +1,83 @@
+@import "../variables";
+.add_cart_modal {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  padding-top: 5rem;
+  margin: auto;
+  z-index: 101;
+  left: 0;
+  top: 0;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 18px;
+
+  &_content {
+    margin: auto;
+    width: 450px;
+    height: max-content;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #fff;
+    position: relative;
+    border-radius: 4px;
+
+    &_detail_pd {
+      &_price {
+        padding-top: 5px;
+        color: $main-color;
+        font-weight: 800;
+      }
+    }
+
+    &_color_pd {
+      &_list {
+        flex-wrap: wrap;
+        &_item {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          padding-top: 10px;
+          &_img {
+            height: 60px;
+            width: 105px;
+          }
+        }
+      }
+    }
+
+    &_qt_pd {
+      margin-top: 1.6rem;
+      &_border {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin-left: 24px;
+        width: 25%;
+      }
+    }
+  }
+}
+
+.add_cart_modal_btn {
+  width: 80%;
+  padding: 8px;
+  margin-bottom: 1.6rem;
+  margin-top: 0.8rem;
+}
+
+.close_modal {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.add_cart_modal_qt_btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}

@@ -1,0 +1,640 @@
+@import "../variables.scss";
+
+.simCard-container{
+    width: 1200px;
+    margin: 0 auto;
+}
+
+ .page-sim-card{
+    .main-sim-card{
+        .simCard-container{
+            .slider-banner{
+                padding-top: 10px;
+            }
+
+            .title-sim{
+                p{
+                    position: relative;
+                   
+                    font-size: 17px;
+                    
+                    &::before
+                    {
+                        content: '';
+                        width: 100%;
+                        position: absolute;
+                        border: 1px solid rgba($color: #000000, $alpha: 0.05);
+                        bottom: -10px;
+                    }
+                }
+            }
+            
+            .block-sim{
+                height: auto;
+                //width: 70%;
+                padding-bottom: 20px;
+                margin-top: 70px;
+                &.border_sim{
+                    border: 3px solid #1d6ab8;
+                }     
+                &.border_data    
+                {
+                    border: 3px solid #f68e33;
+                }       
+                &.border_basic_sim{
+                    border: 3px solid #3d8e8c;
+                }
+                .title{
+                  position: absolute;
+                  transform: translate(27%,-49px);
+                  text-align: center;
+
+                  h2{
+                    // position: absolute;
+                    transform: translate(0px,-38px);
+                    color:white;
+                  }
+                }
+
+                .block-content-sim{
+                   
+                    .list-card{
+                        width: 100%;
+                        flex-wrap: wrap;
+                        padding: 10px 0px;
+                        display: flex;
+                        // flex-wrap: wrap;
+                            .data-card{
+                                position: relative;
+                                height: 200px;
+                                border: 1px solid rgba(165, 163, 163, 0.5);
+                                display: flex;
+                                width: 47.5%;
+                                margin: 8px 10px;
+                                border-radius: 5px;
+                                &:hover{
+                                    box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
+                                }
+                                .banner{
+                                    width: 35%;
+                                    text-align: center;
+                                    &.vina{
+                                        background-color: #288ad6;
+                                        opacity: 0.9;
+                                    }
+                                    &.mobi{
+                                        background-color: #17518b;
+                                    }
+                                    &.itel{
+                                        background-color: #f33;
+                                    }
+                                    &.viettel{
+                                        background-color: #3d8d8c;
+                                    }
+                                    .img{
+                                        
+                                    }
+                                    span{
+                                        color: white;
+                                        text-decoration: underline;
+                                        display: inline-block;
+                                        // padding-bottom: 20px;
+                                        transform: translateY(-20px);
+                                    }
+                                }
+
+                                .data-content{
+                                    // padding: 10px;
+                                    ul{
+                                        padding-bottom: 10px;   
+                                        display: flex;
+                                        padding-top: 10px;
+                                        // justify-content: space-between;
+                                        li{
+                                            width: 40%;
+                                            position: relative;
+                                            // padding: 0px 5px;
+                                            // border: 1px solid black;
+                                            text-align: center;
+                                           &.straight{
+                                            &:first-child{
+                                                padding-left: 7px;
+                                                // padding-right: 7px;
+                                                // transform: translateX(-15px);
+                                                &::before{
+                                                    display: none;
+                                                }
+                                            }
+                                            &:last-child{
+                                                // padding-left: 5px;
+                                                padding-right: 5px;
+                                                // left: 0px;
+                                            }
+                                            &::before{
+                                                position: absolute;
+                                                content: '';
+                                                height: 100%;
+                                                border: 0.5px solid rgba($color: black, $alpha: 0.2);
+                                                // transform: translateX(-40px);
+                                                left: 0;
+                                            }
+                                           }
+                                            .icon{
+                                                
+                                                background-repeat: no-repeat;
+                                                width: 19px;
+                                                height: 20px;
+                                                display: inline-block;
+                                                background-size: 340px 2400px;
+                                                // padding-bottom: 10px;
+                                                background-image: url('https://cdn.tgdd.vn/sim-so-dep/Content/desktop/images/2020/sp-sim-desk-20200805@2x.png');
+                                                    
+                                            }
+                                            .icon-data{
+                         
+                                                background-position: -235px -345px;
+                                            }
+                                            .icon-mess{
+                                                width: 25px;
+                                                background-position: -290px -345px;
+                                            }
+                                            .icon-call{
+                                               height: 22px;
+                                                background-position: -260px -345px;
+                                            }
+                                        }
+                                    }  
+                                    .info-data{
+                                        padding: 0px 10px;
+                                        .content{
+                                            padding-bottom: 5px;
+                                            line-height: 20px;
+                                            display: flex;
+                                            // align-items: center;
+                                            vertical-align: middle;
+                                            .icon-sim{
+                                                margin-top: 1px;
+                                                margin-right: 2px;
+                                                background-image: url(https://cdn.tgdd.vn/sim-so-dep/Content/desktop/images/2020/sp-sim-desk-20200805@2x.png);
+                                                background-size: 340px 2400px;
+                                                background-position: -20px 0;
+                                                background-repeat: no-repeat;
+                                                display: inline-block;
+                                                height: 16px;
+                                                width: 16px;
+                                               
+                                                
+                                            }
+                                        }
+                                        
+                                    }
+                                    .info-act{
+                                        padding: 0px 10px;
+                                        display: flex;
+                                        position: absolute;
+                                        bottom: 5px;
+                                        .price{
+                                            padding-left: 10px;
+                                            font-size: 14px;
+                                            font-weight: bold;
+                                            p{
+                                                font-size: 18px;
+                                                color: #d0021b;
+                                                position: relative;
+                                                span {
+                                                  position: absolute;
+                                                  font-size: 13px;
+                                                  top: 1px;
+                                                  right: -9px;
+
+                                                  text-decoration-line: underline;
+                                                }
+                                            }
+                                        }
+                                        .btn-act{
+                                            border: none;
+                                            cursor: pointer;
+                                            margin-left: 43px;
+                                            span{
+                                                font-size: 15px;
+                                                border-radius: 3px;
+                                                color: $btn-blue-color;
+                                                border: 1px solid $btn-blue-color;
+                                                font-weight: bold;
+                                                padding: 7px 20px;
+                                            }
+
+                                        }   
+                                    }
+                                }
+                            }
+                        }
+
+                    
+                    .list-basic-sim{
+                        display: flex;
+                        justify-content: space-between;
+                        text-align: center;
+                        padding: 10px;
+                        .basic-sim{
+                            height: 120px;
+                            width: 32%;
+                            border: 1px solid rgba($color: black, $alpha: 0.3);
+                            border-radius: 5px;
+                            &:hover{
+                                box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
+                            }
+                            .banner-title{
+                                height: 40%;
+                                width: 100%;
+                                img{
+                                    transform: translateY(7px);
+                                }
+                                &.vina{
+                                    background-color: #288ad6;
+                                    opacity: 0.9;
+                                }
+                                &.mobi{
+                                    background-color: #17518b;
+                                }
+                                &.itel{
+                                    background-color: #f33;
+                                }
+                            }
+                            .a-center{
+                                height: 60%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            }
+                            .info-act{
+                                display: flex;
+                                .price{
+                                    font-weight: bold;
+                                    padding: 0 0px;
+                                    p{
+                                        display: inline;
+                                       font-size: 15px;
+                                       color: #d0021b;
+                                        position: relative;
+                                        span {
+                                          position: absolute;
+                                          font-size: 13px;
+                                          top: 1px;
+                                          right: -9px;
+                                          text-decoration-line: underline;
+                                          
+                                        }
+                                    }
+                                }
+                                .btn-act{
+                                    border: none;
+                                    cursor: pointer;
+                                    margin-left: 43px;
+                                    span{
+                                        font-size: 15px;
+                                        border-radius: 3px;
+                                        color: $btn-blue-color;
+                                        border: 1px solid $btn-blue-color;
+                                        font-weight: bold;
+                                        padding: 7px 20px;
+                                    }
+
+                                }   
+                            }
+                        }
+                    }
+                        
+                }
+                
+            }
+            .col-card{
+                display: flex;
+                justify-content: space-between;
+                //flex-wrap: wrap;
+        
+                .block-sim-card-data{
+                    width: 70%;
+                    .title-sim{
+                        padding-top: 20px;
+                        p{
+                            font-size: 17px;
+                            b{
+                                font-size: 21px;
+                            }
+                            .link{
+                                color: $btn-blue-color;
+                                font-size: 15px;
+                            }
+                        }
+                    }
+        
+                    .search-sim{
+                        display: flex;
+                        justify-content: space-between;
+                        //width: 70%;
+                        padding-top: 20px;
+                        input{
+                                width: 75%;
+                                padding: 10px 0;
+                                border: 1px solid rgba($color: #000000, $alpha: 0.2);
+                                border-radius: 5px;
+                                &::placeholder{
+                                    padding-left: 10px;
+                                }
+                            }
+        
+                        button{
+                            width: 20%;
+                            padding: 10px 0px;
+                            border-radius: 5px;
+                            border: none;
+                            color: white;
+                            background-color: $btn-blue-color;
+                            cursor: pointer;
+                        }
+                    }
+                    
+                    .box-filter-classify{
+                        width: 70%;
+                        height: 50px;
+                        background: white;
+                        padding-top: 20px;
+                        font-size: 14px;
+                        margin-top: 20px;
+                        position: relative;
+        
+                        span{
+                            padding-left: 10px;
+                            padding-bottom: 10px;  
+                        }
+                        .sim-type{
+                            cursor: pointer;
+                            color: $btn-blue-color;
+                            position: relative;
+                            &.caret-rotate{
+                              &::before{
+                                  transform: rotate(180deg);
+                                }
+                            }
+                           
+                            &::before{
+                                content: '';
+                                border-left: 7px solid transparent;
+                                border-right: 7px solid transparent;
+                                border-top: 7px solid $btn-blue-color;
+                                position: absolute;
+                                right: -17px;
+                                top: 7px;
+                                transition: all 0.4s;
+                            }
+                
+                        }
+        
+                        .drop-down-classify{
+                            position: absolute;
+                            height: 0;
+                            overflow: hidden;
+                            width: 400px;
+                            background-color: white;
+                            z-index: 1;
+                            top: 50px;
+                            border-radius: 5px;
+                            transition: height ease 0.3s;
+                            &.show-drop{
+                                height: 265px;
+                                box-shadow: 0 4px 6px 0 rgb(156 156 156 / 50%);
+                                border: 1px solid #e4e4e4;
+                            }
+                            .title-drop{
+                                padding-bottom: 30px;
+                                padding: 20px 20px 30px 20px;
+                                
+                                // display: flex;
+                                // justify-content: space-between;
+                                .all{
+                                    padding-right: 300px;
+                                }
+                                &::before{
+                                    content: '';
+                                    position: absolute;
+                                    width: 89%;
+                                    top: 50px;
+                                    border: 1px solid rgba($color: #000000, $alpha: 0.2);
+                                }
+        
+                                .icon-quit{
+                                    cursor: pointer;
+                                }
+                            
+                            }
+                            ul{
+                                padding: 10px 20px;
+                                display: flex;
+                                flex-wrap: wrap;
+        
+                                li{
+                                    padding-bottom: 20px;
+                                    padding-left: 10px;
+                                    width: 50%;
+                                    cursor: pointer;
+                                    &:hover{
+                                        color: $btn-blue-color;
+                                    }
+                                }
+                            }
+                        }
+        
+                    }
+        
+        
+                    .list-number-sim{
+                        padding-top: 20px;
+                        width: 70%;
+                        .col-1,.col-2,.col-3{
+                            width: 25%;
+                            // padding-right: 20px;
+        
+                        }
+                        .col-1{
+                            padding-left: 10px;
+                        }
+                        .sim-bar{
+                            display: flex;
+                            justify-content: space-between;
+                            width: 100%;
+                            height: 40px;
+                            background-color: #ededed;
+                            align-items: center;
+                            font-weight: bold;
+                            font-size: 15px;
+                            .col-4{
+                                width: 4%;
+                            }
+                        }
+                        ul{
+                            padding-top: 20px;
+                            li{
+                                display: flex;
+                                justify-content: space-between;
+                                font-size: 14px;
+                                padding-bottom: 20px;
+                                .col-1{
+                                    color: $btn-blue-color;
+                                    font-weight: bold;
+                                }
+                                .col-2{
+                                    color: #d0021b;
+                                    font-weight: bold;
+                                    span{
+                                        position: absolute;
+                                        font-size: 11px;
+                                        text-decoration: underline;
+                                    }
+                                }
+                                .col-4{
+                                    transform: translateX(-80px);
+                                    font-weight: bold;
+                                    color: $btn-blue-color;                            
+                                }
+                            }
+                        }
+                    }
+        
+                    .sub-pagination{
+                        .pagination{
+                            ul{
+                                display: flex;
+                                li{
+                                    padding: 5px 10px;
+                                    border: 1px solid #e4e4e4;
+                                    margin: 10px;
+                                    cursor: pointer;
+                                    &:hover{
+                                        background-color: $btn-main-color;
+                                    }
+                                } 
+        
+                }
+        
+                
+            }
+                        }
+        
+                }
+                .block-game-card-data{
+                    font-size: 16px;
+                    width: 28%;
+        
+                    .border-card{
+                        display: flex;
+                        align-items: center;
+                        width: 32%;
+                    //    max-height: 40px;
+                        overflow: hidden;
+                        border: 1px solid #e4e4e4;
+                        border-radius: 5px;
+                        padding: 6px 4px;
+                        margin-bottom: 5px;
+                    }
+                    .frame{
+                        border: 1px solid #e4e4e4;
+                        border-radius: 3px;
+                        padding: 10px 7px;
+                    }
+                    #color-discount{
+                        color: red;
+                    }
+                    .buy-game-card{
+                        
+                        
+                        margin-top: 15px;
+                        p{
+                            margin: 10px auto;
+                        }
+        
+                        
+                    }
+        
+                    .list-suppliers{
+                        display: flex;
+                        flex-wrap: wrap;
+                        .suppliers{
+                       // width: 33%;
+                        margin-right: 3px;
+                           
+                            img{
+                                width: 61px;
+                                height: auto;
+                                vertical-align: middle;
+                                margin-left: 7px;
+        
+                            }
+                        }
+                    }
+        
+                    .list-card-price {
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+        
+                        span{
+                            margin-left: 7px;
+                        }
+                    }
+                    p{
+                        margin: 10px auto;
+                    }
+        
+                    .buy-scratch-card{
+                        input{
+                            display: inline-block;
+                            width: 100%;
+                            padding: 7px;
+                            text-decoration: none;
+                            border: 1px solid #e4e4e4;
+                            border-radius: 4px;
+                            &:focus{
+                                outline: none;
+                            }
+                        }
+                    }
+        
+                    .register{
+                        line-height: 1.7;
+                        margin: 10px auto;
+                    }
+                    .service{
+                        span{
+                            font-weight: bold;
+                            font-size: 22px;
+                            
+                        }
+                        p{
+                            font-size: 16px;
+                        }
+                    }
+        
+                    .net-work{
+                        img{
+                            width: 80px;
+                            height: auto;
+                            margin-top: 10px;
+                        }
+                        p{
+                            line-height: 1.5;
+                        }
+        
+                        .border-padding{
+                            border-bottom: 1px solid #e4e4e4;
+                            padding-bottom: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    
+}
+

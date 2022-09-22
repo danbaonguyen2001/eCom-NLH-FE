@@ -1,0 +1,30 @@
+@import "../variables";
+.rsWrap {
+    position: relative;
+    top: 270px;
+    .rs__title {
+        padding-left: 22px;
+        h1 {
+            text-transform: uppercase;
+            font-size: 24px;
+            font-weight: 600px;
+        }
+    }
+    .rs__card {
+        img {
+            width: 285px;
+            height: auto;
+            transition: all 0.2s linear;
+        }
+        img:hover {
+            opacity: 0.7;
+            transition: all 0.2s linear;
+            box-shadow: rebeccapurple 100px 100px 1px 1px rgb(226, 213, 33);
+        }
+    }
+    .rs__bt {
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
+}

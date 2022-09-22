@@ -1,0 +1,55 @@
+.containerWatch{
+    width: 1200px;
+    margin: 0 auto;
+    .ListProductWatches{
+        margin: 15px auto;
+        display: flex;
+        flex-wrap: wrap;
+        .product-watches{
+            cursor: pointer;
+            width: 20%;
+            border: 1px solid rgba(#e4e4e4, 0.4);
+          //  flex-wrap: wrap;
+            transition: all .3s;
+            .avatar{
+                img{
+                    width: 100%;
+                }
+            }
+            padding: 20px 15px;
+            &:hover .name-product{
+                color: #288ad6;
+            }
+            .detail{
+                .name-product{
+                    transition: all .3s;
+                    
+                    margin: 10px auto;
+                }
+                .note{
+                    font-size: 13px;
+                }
+
+                .price-old{
+                    margin: 5px auto;
+                }
+                .price-new{
+                    margin: 5px auto;
+                    font-size: 17px;
+                }
+                li{
+                    list-style-type: disc;
+                    list-style-position: inside;
+                    font-size: 13px;
+                    line-height: 1.7;
+                    
+                }
+            }
+
+            &:hover{
+                box-shadow: 2px 2px 3px 0px rgb(210, 203, 203);
+            }
+            
+        }
+    }
+}

@@ -1,0 +1,26 @@
+.tmWrap {
+    position: relative;
+    top: 340px;
+    .tm__title {
+        padding: 0 22px;
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    }
+    .tm__content {
+        .content__item {
+            img {
+                cursor: pointer;
+                width: 380px;
+                height: auto;
+                transition: all 0.2s linear;
+                &:hover {
+                    transition: all 0.2s linear;
+                    transform: scale(1.025);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,40 @@
+.containerPC {
+    width: 1200px;
+    margin: 0 auto;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+
+    .slider-banner {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        .slider {
+            width: 67%;
+            position: relative;
+
+            .slick-slider {
+                position: relative;
+
+                .slick-next {
+                    position: absolute;
+                    right: 10px;
+                    //  background-color: transparent;
+                }
+
+                .slick-prev {
+                    z-index: 2;
+                    position: absolute;
+                    left: 10px;
+                    //background-color: red;
+                }
+
+                .slick-dots {
+                    position: absolute;
+                    bottom: 10px;
+                }
+            }
+        }
+    }
+}

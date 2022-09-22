@@ -1,0 +1,34 @@
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Lexend', sans-serif;
+}
+
+a {
+    color: unset;
+    text-decoration: unset;
+}
+
+.header {
+    height: 174px;
+    width: 100vw;
+    background-color: #FFD400;
+}
+
+.mainContent {
+    background-color: #F3F3F3;
+}
+
+
+/* animation */
+
+.scale-hover {
+    transition: all 0.2s linear;
+    cursor: pointer;
+}
+
+.scale-hover:hover {
+    transition: all 0.2s linear;
+    transform: scale(1.025);
+}

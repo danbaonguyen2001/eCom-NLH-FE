@@ -1,0 +1,109 @@
+.user-infor {
+  padding: 10px;
+}
+
+.user-infor-header {
+  &__heading {
+  }
+  &__input {
+    margin-top: 1rem;
+  }
+  &__input + &__input {
+    margin-left: 16px;
+  }
+  &__label {
+    margin: 0 1.6rem 0 0.6rem;
+  }
+  &__input.user__name {
+    width: 46%;
+    display: none !important;
+  }
+  &__input.user__phone {
+    width: 46%;
+  }
+}
+
+.user-infor-address {
+  margin-top: 1.6rem;
+}
+
+.user-infor-address-list {
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  &__item span {
+    margin-right: auto;
+    margin-left: 1rem;
+  }
+}
+
+.user-infor-address-item {
+  &__default {
+    font-size: 1.4rem;
+    color: var(--red--color);
+    font-weight: 500;
+  }
+  &__btn {
+    padding: 0.4rem 1rem;
+    margin-left: 1.6rem;
+  }
+  &__btn + &__btn {
+    margin-left: 1rem;
+  }
+}
+
+.update-address {
+  background-color: #f1f1f1;
+  padding: 1.6rem;
+  margin-top: 1rem;
+  &__input {
+    width: 48%;
+  }
+  &__input:nth-child(2),
+  &__input:nth-child(4) {
+    margin-left: 1.6rem;
+    float: right;
+  }
+  &__input:nth-child(3),
+  &__input:nth-child(4) {
+    margin-top: 1rem;
+  }
+  &__default {
+    margin-top: 1rem;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.user-infor-btn {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  &__update {
+    padding: 0.6rem 3.2rem;
+  }
+}
+
+// Using for Component UserInFor
+.user-infor-main {
+  margin: 0 auto;
+}
+
+.user-infor-img {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  align-items: center;
+  &__img {
+    object-fit: fill;
+    object-position: center;
+    width: 20rem;
+    height: 15rem;
+    border-radius: 10%;
+    border: solid 1px var(--border--color);
+  }
+}

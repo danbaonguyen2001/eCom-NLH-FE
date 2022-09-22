@@ -1,0 +1,75 @@
+.tnWrap {
+    position: relative;
+    top: 320px;
+    height: 350px;
+    margin: 0 auto;
+    .tn__inner {
+        width: 100%;
+        justify-content: space-between;
+        margin: 0 auto;
+        // News
+        .tn__news {
+            background-color: #ffffff;
+            border-radius: 12px;
+            height: 350px;
+            padding-left: 15px;
+            // Title
+            .news__title {
+                padding: 0 15px;
+                display: flex;
+                justify-content: space-between;
+                h1 {
+                    font-size: 24px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    display: block;
+                }
+            }
+            .news__more {
+                transition: all 0.2s linear;
+                padding-top: 15px;
+                cursor: pointer;
+                span {
+                    text-transform: uppercase;
+                }
+                img {}
+                &:hover {
+                    transition: all 0.2s linear;
+                    opacity: 0.6;
+                }
+            }
+            // Content
+            .news__content {
+                padding-top: 10px;
+                .news__contentCard {
+                    transition: all 0.2s linear;
+                    img {
+                        width: 278px;
+                        height: auto;
+                        cursor: pointer;
+                        &:hover {
+                            transform: scale(1.025);
+                            transition: all 0.2s linear;
+                        }
+                    }
+                    span {
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+        // Sponsor
+        .tn__sponsor {
+            border-radius: 12px;
+            transition: all 0.2s linear;
+            img {
+                &:hover {
+                    transform: scale(1.025);
+                    transition: all 0.2s linear;
+                }
+                width: 285px;
+                height: auto;
+            }
+        }
+    }
+}

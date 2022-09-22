@@ -1,0 +1,150 @@
+$bhx-color:#038949;
+.bhxWrap {
+    position: relative;
+    top: 390px;
+    border-radius: 12px;
+    height: 380px;
+    background-color: #038949;
+    .bhx__top {
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 8px;
+        padding-right: 8px;
+        .col {
+            display: flex;
+            // animate
+            .top__circle {
+                margin: 4px 6px 0 20px;
+                padding: 0;
+                width: 8px;
+                height: 8px;
+                background-color: yellow;
+                border-radius: 100%;
+                position: relative;
+                &::after {
+                    background-color: rgba(255, 230, 107, .2);
+                    position: absolute;
+                    content: "";
+                    display: block;
+                    top: -10%;
+                    left: -10%;
+                    // top: 0;
+                    opacity: 0;
+                    border-radius: 100%;
+                    width: 100%;
+                    height: 100%;
+                    // margin: 0 auto;
+                    border: 1px yellow solid;
+                    animation: expand 1s linear infinite forwards;
+                }
+                @keyframes expand {
+                    from {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                    to {
+                        transform: scale(2);
+                        border: 1px yellow solid;
+                        opacity: 0;
+                    }
+                }
+            }
+            // others
+            .top__icon {
+                img {
+                    width: 150px;
+                    height: 25px;
+                }
+            }
+            .top__freeship {
+                font-weight: 100;
+                line-height: 20px;
+                .yellow {
+                    color: #FFFF00;
+                    font-size: 14px;
+                }
+                & p:nth-child(2) {
+                    font-style: italic;
+                    font-size: 10px;
+                    text-indent: 4px;
+                    letter-spacing: 0.05px;
+                    color: white;
+                }
+            }
+        }
+        .top__discount {
+            img {
+                width: 155px;
+                height: auto;
+                transition: all linear 0.1s;
+                &:hover {
+                    opacity: 0.8;
+                    transition: all linear 0.1s;
+                    // transform: scale(1.005);
+                }
+            }
+        }
+    }
+    .bhx__content {
+        width: 1170px;
+        margin: 4px auto 0;
+        .content__card {
+            max-width: 185px;
+            height: 306px;
+            border-radius: 12px;
+            img {
+                width: 185px;
+                height: auto;
+            }
+            &:not(&:nth-child(1)) {
+                cursor: pointer;
+                transition: all 0.1s linear;
+                &:hover {
+                    transition: all 0.1s linear;
+                    transform: translate(0, -4px);
+                }
+            }
+        }
+        .content__card1 {
+            background-color: #FDFDEB;
+            align-items: center;
+            justify-content: flex-start;
+            .card1__des {
+                color: $bhx-color;
+                font-size: 14px;
+                margin-bottom: 8px;
+                margin-top: 15px;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                input {
+                    padding: 6px 0 7px 10px;
+                    border-radius: 4px;
+                    font-family: 'Lexend';
+                    width: 172px;
+                    height: 32px;
+                    border: 2px solid rgba(204, 204, 204, 0.5);
+                    background: #FFFFFF;
+                    margin-top: 4px;
+                    &::placeholder {
+                        color: #ccc;
+                    }
+                }
+                button {
+                    font-family: 'Lexend';
+                    line-height: 20px;
+                    border-radius: 4px;
+                    width: 172px;
+                    height: 32px;
+                    background: #9B9B9B;
+                    outline: none;
+                    border: none;
+                    text-transform: uppercase;
+                    color: white;
+                    margin-top: 6px;
+                }
+            }
+        }
+    }
+}

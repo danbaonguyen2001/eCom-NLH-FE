@@ -1,0 +1,58 @@
+.gwWrap {
+    background-color: #5430FE;
+    border-radius: 12px;
+    position: relative;
+    top: 72px;
+    padding-bottom: 2rem;
+}
+
+
+/* Title */
+
+.gw__title {
+    height: 86px;
+    width: 100%;
+    text-align: center;
+}
+
+.gw__title>h1 {
+    text-transform: uppercase;
+    font-size: 45px;
+    line-height: 30px;
+    color: #fff;
+}
+
+
+/* Slider Mid */
+
+.gw__midSlider {
+    margin-top: 4px;
+    border-radius: 12px;
+    margin-left: 12px;
+    margin-bottom: 55px;
+}
+
+.gw__midSlider .sliderWrapper {
+    width: 1170px;
+    margin: 0 auto;
+    background-color: #5430FE;
+}
+
+.gw__midSlider .sliderList__item {
+    margin-right: 10px;
+}
+
+.gw__midSlider .sliderList__item>img {
+    width: 380px;
+    height: auto;
+    border-radius: 12px;
+}
+
+
+/* Button */
+
+.gw__bt {
+    justify-content: center;
+    align-items: center;
+    margin-top: 18px;
+}

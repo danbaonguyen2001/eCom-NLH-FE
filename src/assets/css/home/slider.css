@@ -1,0 +1,101 @@
+/* Slider */
+
+.sliderWrapper {
+    background-color: #F3F3F3;
+}
+
+.sliderList__wrap {}
+
+
+/* Slider - sliderList */
+
+
+/* Format for edit slider */
+
+.sliderList {
+    /* width: 1200px;
+    margin: 0 auto;
+    position: relative; 
+    padding-top: 25%; */
+}
+
+
+/* Slider - sliderList - sliderItem*/
+
+.sliderList__item {
+    /* margin-right: 10px; */
+}
+
+.sliderList__item>img {
+    /* width: 380px;
+    height: auto;
+    border-radius: 12px; */
+}
+
+.pSliderWrap {
+    position: relative;
+    left: 5px;
+    width: 1180px;
+    margin: 0 auto;
+}
+
+.nav__bt {
+    cursor: pointer;
+    position: absolute;
+    top: 40%;
+    z-index: 10;
+    transition: all 0.2s linear;
+}
+
+.nav__bt:hover {
+    opacity: 0.6;
+    transition: all 0.2s linear;
+}
+
+.nav__bt:hover div {
+    width: 70px;
+}
+
+.nav__bt div {
+    width: 40px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, .9) !important;
+    position: relative;
+}
+
+.nav__bt div::after {
+    border-top: 3px solid #666;
+    border-right: 3px solid #666;
+    content: '';
+    height: 22px;
+    position: absolute;
+    top: 18px;
+    width: 22px;
+    transform: rotate(45deg);
+    border-radius: 2px;
+}
+
+.nav__bt>div {
+    transition: all 0.2s linear;
+}
+
+.prev {
+    left: -35px;
+}
+
+.next {
+    right: -10px;
+}
+
+.rotate {
+    transform: rotate(180deg);
+    transition: all 0.2s linear;
+}
+
+.moveLeft {
+    left: -55px;
+}
+
+.moveRight {
+    right: -47px!important;
+}

@@ -1,0 +1,135 @@
+.listProductOld {
+  width: 1200px;
+  margin: auto;
+  padding: 10px 20px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+.item_ProductOld {
+  width: 224px;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 15px;
+  border: 2px solid #f3f3f3;
+}
+/* hover styles*/
+.item_ProductOld:hover {
+  box-shadow: 0px 2px 10px rgb(51 51 51 / 40%);
+}
+.item_ProductOld:hover .img_item img {
+  transform: translateY(-3%);
+  transition: all 0.4s;
+}
+.item_ProductOld:hover .title_ProductOld {
+  color: #2f80ed;
+}
+/* end hover styles*/
+
+.label_tragop {
+  background-color: #f1f1f1;
+  color: #333;
+  font-size: 11px;
+  width: 70px;
+  padding: 3px;
+  border-radius: 3px;
+}
+.item_ProductOld .img_item img {
+  margin-top: 15px;
+  width: 190px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+}
+.deal_Productold {
+  background: linear-gradient(to right, #faab08, #d42611);
+  display: flex;
+  width: 108px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+.deal_Productold img {
+  float: left;
+  width: 18px;
+}
+.deal_Productold div {
+  color: #fff;
+  display: -webkit-box;
+  font-size: 9px;
+  line-height: 13px;
+  overflow: hidden;
+  padding: 4px 0 0 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-line-clamp: 2;
+  text-transform: uppercase;
+}
+.title_ProductOld {
+  display: block;
+  font-size: 14px;
+  margin-top: 15px;
+}
+.priceold_discount_ProductOld {
+  display: flex;
+  column-gap: 10px;
+  font-size: 14px;
+  margin-top: 5px;
+  font-weight: 400;
+  font-style: italic;
+}
+.discount_ProductOld {
+  font-size: 13px;
+}
+.price_old_ProductOld {
+  color: #222;
+  display: flex;
+  text-decoration-line: line-through;
+}
+.price_new_ProductOld {
+  font-size: 16px;
+  margin-top: 5px;
+  display: flex;
+  font-weight: bold;
+}
+.donvi {
+  font-size: 12px;
+}
+.list_start {
+  display: flex;
+  column-gap: 5px;
+  margin-top: 5px;
+}
+.list_start i {
+  color: orange;
+}
+.sosanhproduct {
+  color: #2f80ed;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+.button_xemthem {
+  width: 1200px;
+  margin: auto;
+  padding-bottom: 10px;
+}
+.button_xemthem button {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  line-height: 40px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+  border-radius: 4px;
+  margin: auto;
+  width: 340px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+}
+.button_xemthem button:hover {
+  color: black;
+  background: #288ad6;
+}

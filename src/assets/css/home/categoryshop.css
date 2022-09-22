@@ -1,0 +1,61 @@
+.csWrap {
+    position: relative;
+    top: 180px;
+    background-color: #fff;
+    border-radius: 12px;
+    width: 1120px;
+    padding: 0 40px 30px;
+    height: 320px;
+}
+
+
+/* Title */
+
+.cs__title {}
+
+.cs__title>h1 {
+    text-transform: uppercase;
+    color: #333;
+    font-size: 22px;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 36px;
+}
+
+
+/* Content */
+
+.cs__content {}
+
+.cate__item {
+    text-align: center;
+    padding: 10px 0;
+    height: 86px;
+    width: 108px;
+    font-size: 15px;
+    font-weight: 200;
+    margin: 0 4px;
+}
+
+.cate__item img {
+    height: 56px;
+    width: auto;
+    margin: auto;
+}
+
+
+/* Row 1 */
+
+.content__row1 {
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* Row 2 */
+
+.content__row2 {
+    margin-top: 18px;
+    justify-content: space-between;
+    align-items: center;
+}

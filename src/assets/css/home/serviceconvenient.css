@@ -1,0 +1,126 @@
+.red {
+    color: red;
+    font-weight: 600;
+}
+
+.scWrap {
+    position: relative;
+    top: 230px;
+    background-color: #ffffff;
+    height: 232px;
+    border-radius: 12px;
+}
+
+
+/* Top */
+
+.sc__top {
+    justify-content: space-between;
+}
+
+
+/* Top - Text */
+
+.top__title {}
+
+.top__title>h1 {
+    text-transform: uppercase;
+    font-size: 26px;
+    padding-left: 22px;
+}
+
+
+/* Top - Button */
+
+.top__bt {
+    padding-right: 40px;
+    align-items: center;
+    display: flex;
+}
+
+.top__bt a {}
+
+
+/* Content */
+
+.sc__content {
+    width: 1185px;
+    margin: 0 auto;
+    justify-content: space-evenly;
+}
+
+.sc__card:hover {
+    transform: translateY(-4px);
+}
+
+.sc__card {
+    image-rendering: -webkit-optimize-contrast;
+    position: relative;
+    width: 280px;
+    height: 147px;
+}
+
+.sc__card p {
+    width: 211px;
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    font-size: 13px;
+}
+
+
+/* Card Expire */
+
+.card__exp {
+    position: absolute;
+    top: 84px;
+    left: 80px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.card__exp .card__exp--month {}
+
+.card__exp .card__exp--day {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+}
+
+.card__exp .card__exp--yr {}
+
+.card__exp--time {
+    font-weight: bold;
+    text-transform: uppercase;
+    display: block;
+    margin-top: -2px;
+    margin-left: 4px;
+    font-size: 12px;
+}
+
+
+/* Pic */
+
+.sc__card--1 {
+    background-image: url("../../images/home/item-SC/Box1.png");
+    background-repeat: no-repeat;
+}
+
+.sc__card--2 {
+    background-image: url("../../images/home/item-SC/Box2.png");
+    background-repeat: no-repeat;
+}
+
+.sc__card--3 {
+    background-image: url("../../images/home/item-SC/Box3.png");
+    background-repeat: no-repeat;
+}
+
+.sc__card--3 p span {
+    font-size: 12px;
+}
+
+.sc__card--4 {
+    background-image: url("../../images/home/item-SC/Box4.png");
+    background-repeat: no-repeat;
+}

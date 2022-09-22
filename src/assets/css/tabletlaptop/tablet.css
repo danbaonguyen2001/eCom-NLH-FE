@@ -1,0 +1,220 @@
+/* Dư css */
+/* * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+} */
+.box_filter {
+  padding-top: 10px;
+  width: 1200px;
+  margin: auto;
+}
+
+.scroll_main_item {
+  display: flex;
+}
+
+.item_btn {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.box_quicklink {
+  padding-top: 10px;
+  display: flex;
+}
+.quicklink {
+  width: 120px;
+  border-radius: 52px;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  color: #333;
+  font-size: 14px;
+  line-height: 13px;
+  margin-right: 8px;
+  min-height: 36px;
+  max-height: 36px;
+  vertical-align: top;
+  cursor: pointer;
+}
+.quicklink:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  color: blue;
+  border: 1px solid blue;
+}
+.cangiua {
+  padding-top: 10px;
+}
+.checkboxtablet {
+  padding-top: 10px;
+  display: grid;
+  grid-template-columns: 12% 9% 8% 7% 7% 7%;
+  column-gap: 10px;
+}
+.labelbox {
+  padding: 5px;
+}
+.cangiua2 {
+  padding-top: 5px;
+}
+#mauxanh {
+  color: green;
+  background: #e1f2e8;
+  border-radius: 4px;
+}
+.theconcuahang {
+  margin-top: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
+  border-radius: 4px;
+  width: 650px;
+  padding: 8px;
+  display: block;
+}
+.hangx:hover .thechuakhoangtrong {
+  display: block;
+}
+.giax:hover .thechuakhoangtrong {
+  display: block;
+}
+.kichthuocmanhinhx:hover .thechuakhoangtrong {
+  display: block;
+}
+.ramx:hover .thechuakhoangtrong {
+  display: block;
+}
+.bonhotrongx:hover .thechuakhoangtrong {
+  display: block;
+}
+.hieunangx:hover .thechuakhoangtrong {
+  display: block;
+}
+.tinhnangx:hover .thechuakhoangtrongtinhnang {
+  display: block;
+}
+
+.box_quicklinkhang {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  row-gap: 6px;
+}
+
+.thecongia {
+  margin-top: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
+  border-radius: 4px;
+  width: auto;
+  padding: 8px;
+  display: block;
+}
+.theconkich {
+  margin-top: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
+  border-radius: 4px;
+  width: auto;
+  padding: 8px;
+  display: block;
+}
+.theconram {
+  margin-top: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
+  border-radius: 4px;
+  width: auto;
+  left: auto;
+  padding: 8px;
+  display: block;
+}
+
+.thecontinh {
+  margin-top: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
+  border-radius: 4px;
+  width: auto;
+  left: auto;
+  padding: 8px;
+  display: block;
+}
+
+.box_quicklinkgia {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 7px;
+}
+.box_quicklinkkick {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 7px;
+}
+.box_quicklinkram {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  column-gap: 7px;
+}
+
+.btnconmenu {
+  border-radius: 5px;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  color: #333;
+  font-size: 14px;
+  line-height: 13px;
+  min-height: 36px;
+  max-height: 36px;
+  vertical-align: top;
+  cursor: pointer;
+}
+.btnconmenu:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  color: blue;
+  border: 1px solid blue;
+}
+
+.thechuakhoangtrong {
+  position: absolute;
+  display: none;
+}
+.thechuakhoangtrongtinhnang {
+  position: absolute;
+  right: 23%;
+  display: none;
+}
+.sliderPages {
+  padding-top: 10px;
+}
+.thebaongoai {
+  width: 1200px;
+  margin: auto;
+  display: flex;
+  column-gap: 8px;
+}
+.thebentrai {
+  width: 66.67%;
+
+  overflow: hidden;
+}
+.thebenphai {
+  width: 33.33%;
+  display: grid;
+  overflow: hidden;
+}
+.paddingtoppx {
+  height: 10px;
+}
+
+.Sapxep {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 0px 5px;
+  width: 90px;
+}

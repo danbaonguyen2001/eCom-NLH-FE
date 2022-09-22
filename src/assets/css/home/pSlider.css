@@ -1,0 +1,45 @@
+.pSliderWrap {
+    position: relative;
+    left: 5px;
+    width: 1180px;
+    margin: 0 auto;
+}
+
+.nav__bt {
+    cursor: pointer;
+    position: absolute;
+    top: 40%;
+    z-index: 10;
+    transition: all 0.2s linear;
+}
+
+.nav__bt:hover {
+    opacity: 0.6;
+    transition: all 0.2s linear;
+}
+
+.nav__bt>img {
+    transition: all 0.2s linear;
+}
+
+.prev {
+    left: -35px;
+}
+
+.next {
+    right: -27px;
+    transform: rotate(180deg);
+}
+
+.rotate {
+    transform: rotate(180deg);
+    transition: all 0.2s linear;
+}
+
+.moveLeft {
+    left: -55px;
+}
+
+.moveRight {
+    right: -47px!important;
+}

@@ -1,0 +1,105 @@
+.nenxam {
+  background-color: #f1f1f1;
+}
+.the1menu {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.thebaotrumngoai {
+  width: 1200px;
+  margin: auto;
+  display: flex;
+}
+.themenubentrai {
+  width: auto;
+}
+.themenubenphai {
+  font-size: 13px;
+  text-align: center;
+  padding: 12px 10px;
+  width: 420px;
+  display: grid;
+  grid-template-columns: 24% 22% 20% 30%;
+}
+.themenubentrai ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #f4f4f4;
+  text-transform: uppercase;
+}
+.themenubentrai li {
+  float: left;
+  display: block;
+  text-align: center;
+  padding: 12px 7px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+}
+.themenubentrai li:hover {
+  background-color: white;
+}
+.mauchu {
+  color: #288ad6;
+}
+
+.chinhsachdoitra {
+  padding-top: 3px;
+  color: blue;
+  cursor: pointer;
+}
+.chinhsachdoitra:hover {
+  text-decoration: underline blue solid;
+}
+.the2fillter {
+  padding-bottom: 30px;
+}
+.thecondeal {
+  width: 1200px;
+  margin: auto;
+  background-color: red;
+}
+.paddingtoppx {
+  height: 10px;
+}
+.thesanpham {
+  width: 1200px;
+  margin: auto;
+}
+.thetitle {
+  display: flex;
+}
+.titlesanpham {
+  float: left;
+  clear: both;
+  padding: 15px 0 5px 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 16px;
+}
+.tinhthanh {
+  padding-top: 1px;
+}
+.listprovince {
+  border: none;
+  background: none;
+  font-weight: bold;
+}
+.xemtatca {
+  padding-left: 10px;
+  padding-top: 16px;
+  color: #4a90e2;
+  text-transform: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+.xemtatca:hover {
+  text-decoration: underline blue solid;
+}
+.thebackground {
+  background-color: #f1f1f1;
+}

@@ -1,0 +1,195 @@
+.opWrapper {
+    padding-top: 30px;
+}
+
+
+/* List */
+
+.op__list {
+    list-style: none;
+}
+
+
+/* Title */
+
+.op__title {
+    text-transform: uppercase;
+    font-weight: 400;
+    padding-left: 15px;
+}
+
+.op__title h1 {
+    font-size: 26px;
+    padding: 0;
+}
+
+
+/* Item */
+
+.op__item {
+    width: 285px;
+    height: 100px;
+    padding: 0;
+    position: relative;
+}
+
+
+/* Item - 1 */
+
+.op__item1 {
+    background: url('../../images/home/item-OP/op1.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+/* Item - 2 */
+
+.op__item2 {
+    background: url('../../images/home/item-OP/op2.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+/* Item - 3 */
+
+.op__item3 {
+    background: url('../../images/home/item-OP/op3.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+/* Item - 4 */
+
+.op__item4 {
+    background: url('../../images/home/item-OP/op4.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+/* Button */
+
+.op__bt {
+    position: absolute;
+    top: 56px;
+    left: 105px;
+    color: black;
+    border: 1px black solid;
+    border-radius: 8px;
+    width: 75px;
+    height: 26px;
+    text-align: center;
+    line-height: 26px;
+    font-size: 15px;
+    /* display: none; */
+    z-index: 3;
+    transition: all 0.4s linear;
+}
+
+
+/* hover - Shake */
+
+.op__bt:first-child:hover {
+    animation: shake 0.5s linear infinite forwards;
+}
+
+.op__bt1 {
+    background-color: rgba(152, 105, 166, 0.5);
+}
+
+.op__bt2 {
+    background-color: rgba(241, 148, 136, 1);
+}
+
+.op__bt3 {
+    background-color: rgba(41, 98, 255, 0.3);
+}
+
+.op__bt4 {
+    background-color: rgba(171, 180, 130, 0.7);
+}
+
+
+/* Show voucher */
+
+
+/* cover */
+
+.op__show {
+    /* display: block; */
+    margin-left: 100px;
+    transition: all 0.4s linear;
+    opacity: 0;
+}
+
+
+/* voucher */
+
+.op__bt.op__code--show {
+    opacity: 1;
+    transition: all 0.3s linear;
+    cursor: default;
+}
+
+.op__bt.op__code--show:hover {
+    transform: scale(1.05);
+    transition: all 0.1s linear;
+}
+
+.op__bt--code {
+    background-color: #fff;
+    border: none;
+    color: red;
+    z-index: 1;
+    opacity: 0.4;
+    transition: all 0.2s linear;
+}
+
+
+/* Animation */
+
+
+/* Shake */
+
+@keyframes shake {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+    30% {
+        transform: translate(3px, 2px) rotate(0deg);
+    }
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+    70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+    }
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+    90% {
+        transform: translate(1px, 2px) rotate(0deg);
+    }
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}

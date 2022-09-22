@@ -1,0 +1,38 @@
+.order_detail {
+    font-size: 1.8rem;
+    &_header {
+        display: flex;
+    }
+    &_header div:last-child {
+        margin-left: auto;
+    }
+    &_list {
+        &_item {
+            &_img {
+                width: 22%;
+            }
+            &.infor {}
+            &_price {}
+        }
+        &_item div:last-child {
+            margin-left: auto;
+        }
+    }
+    &_total_price {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &_infor {
+        &_header {
+            margin-bottom: 10px;
+        }
+        h6 {
+            font-weight: 400;
+        }
+    }
+}
+
+.order_detail_img {
+    height: 80px;
+}
