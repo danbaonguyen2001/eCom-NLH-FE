@@ -379,6 +379,7 @@
   border-radius: 6px;
   font-weight: 500;
   border-color: transparent;
+  color: var(--white--color);
 }
 
 .product_information_btn_80:hover {
@@ -386,9 +387,7 @@
 }
 
 /* product_review_ask */
-.product_review_ask_right {
-  background-color: #F2F2F2;
-}
+
 
 .product_ask_header {
   margin: 10px;
@@ -416,7 +415,7 @@
   border-radius: 6px;
   margin: 0 4px;
   padding: 2px;
-  background: #FFD400;
+  background: var(--primary--color);
   max-height: 32px;
   color: var(--white--color);
   font-size: 12px;
@@ -481,7 +480,7 @@
 }
 
 .product_ask_list_btn {
-  background: #FFD400;
+  background: var(--primary--color);
   margin: 10px 0;
   padding: 5px;
   border-radius: 6px;

@@ -18,6 +18,7 @@ import {
 
 // api
 import { country } from "../../apis/countryApi";
+
 const Introduce = ({ product }) => {
   // img arr
   const [imgArr, setImgArr] = useState([]);
@@ -326,7 +327,7 @@ const Introduce = ({ product }) => {
           onClick={clickAddCart}
         >
           MUA NGAY
-        </button>
+        </button>        
         <div class="product_introduce_payment_expand">
           <button class="product_introduce_btn_payment_blue">
             Mua trả góp 0% <br /> duyệt hồ sơ trong 5 phút
