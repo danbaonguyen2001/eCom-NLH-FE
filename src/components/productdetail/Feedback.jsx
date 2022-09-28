@@ -266,7 +266,7 @@ const Feedback = ({ product }) => {
                       </span>
                       <i class="fa-solid fa-thumbs-up icon"></i>
                       <span className="product_review_header_text icon">
-                        Đã mua tại Thế giới di động.
+                        Đã đánh giá lúc
                       </span>
                       <span
                         style={{
@@ -274,7 +274,7 @@ const Feedback = ({ product }) => {
                         }}
                       >
                         {" "}
-                        : {item.createTime}
+                         : {item.createTime}
                       </span>
                     </div>
 

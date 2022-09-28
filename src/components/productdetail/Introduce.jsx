@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ModalVideo from "react-modal-video";
 import "../../../node_modules/react-modal-video/scss/modal-video.scss";
+import "../../sass/productdetail/_introduce.scss"
 import NumberFormat from "react-number-format";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";

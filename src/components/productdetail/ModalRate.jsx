@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
-
+import "../../sass/productdetail/_modal_rate.scss"
 import { addCommentRateProductId } from "../../features/rate/rateSlice";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,9 +51,11 @@ export default function ModalRate(props) {
   return (
     <div>
       <div className="modal-area">
-        <span id="close-modal" className="_hide-visual">
+        {/* <span id="close-modal" className="_hide-visual">
           Close
-        </span>
+        </span> */}
+        
+        <div className="modal-body">
         <button
           onClick={props.onClose ? props.onClose : null}
           className="_modal-close-icon"
@@ -61,7 +63,6 @@ export default function ModalRate(props) {
         >
           <path d="M 10,10 L 30,30 M 30,10 L 10,30" />X
         </button>
-        <div className="modal-body">
           <form onSubmit={handleSubmit}>
             <div className="info-pro">
               <div className="img-cmt">
@@ -71,8 +72,8 @@ export default function ModalRate(props) {
                       ? props.product.images[0].items[0].urlImage
                       : ""
                   }
-                  height="65px"
-                  width="65px"
+                  height="80px"
+                  width="auto"
                   alt=""
                 />
               </div>
@@ -80,14 +81,16 @@ export default function ModalRate(props) {
                 {props.product ? props.product.name : ""}
               </div>
             </div>
-            <Box
-              style={{ margin: "20px" }}
-              sx={{
-                "& > legend": { mt: 0 },
-              }}
-            >
-              <Rating name="rate" value={data.rate} onChange={onChange} />
-            </Box>
+            <div className="flex_center">
+              <Box
+                style={{ margin: "20px" }}
+                sx={{
+                  "& > legend": { mt: 0 },
+                }}
+              >
+                <Rating name="rate" value={data.rate} onChange={onChange} />
+              </Box>
+            </div>
             {toggle ? (
               <>
                 <div className="inputGroup">
@@ -115,37 +118,7 @@ export default function ModalRate(props) {
           </form>
         </div>
       </div>
-      <Box
-        style={{ margin: "20px" }}
-        sx={{
-          "& > legend": { mt: 0 },
-        }}
-      >
-        <div className="flex_center">
-          <Rating name="rate" value={data.rate} onChange={onChange} />
-        </div>
-      </Box>
-      {toggle ? (
-        <>
-          <div className="inputGroup">
-            <label htmlFor="name">Cảm nhận</label>
-            <input
-              type="name"
-              name="content"
-              className="form-control"
-              value={data.content}
-              id="name"
-              onChange={onChange}
-              placeholder="Mời bạn chia sẻ cảm nhận về sản phẩm"
-            />
-          </div>
-          <div className="form-group">
-            <button className="form-control btn btn-primary" type="submit">
-              Submit
-            </button>
-          </div>
-        </>
-      ) : null}
+      
     </div>
   );
 }

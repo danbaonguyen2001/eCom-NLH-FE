@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import img from "../../assets/images/phone/iphone-12-mini-2-org.jpg";
-
+import "../../sass/productdetail/_information.scss";
 import SpecificationsModal from "./SpecificationsModal";
 
 const Information = ({ product }) => {
