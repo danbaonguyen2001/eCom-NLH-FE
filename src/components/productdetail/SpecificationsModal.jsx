@@ -26,15 +26,16 @@ const SpecificationsModal = ({ closeModal, specifications }) => {
               </div>
             ))}
           </div>
-        </div>
-        <div className="specifications_modal_content_close">
+          <div className="specifications_modal_content_close">
           <button
             className="specifications_modal_content_close_btn"
             onClick={() => closeModal(false)}
           >
-            Đóng
+            X
           </button>
         </div>
+        </div>
+        
       </div>
     </div>
   );

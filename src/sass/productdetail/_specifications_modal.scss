@@ -10,12 +10,13 @@
 
   &_content {
     margin: auto;
+    margin-top: 5rem;
     width: 50%;
     height: max-content;
     padding-top: 10px;
     background: #fff;
     position: relative;
-
+    border-radius: 4px;
     &_header {
       padding-left: 5px;
     }
@@ -32,6 +33,11 @@
         background: #fff;
         padding: 5px;
         border-radius: 6px;
+        padding: 4px;
+        &:hover {
+          background-color: #f2f2f2;
+          opacity: 0.7;
+        }
       }
     }
   }
