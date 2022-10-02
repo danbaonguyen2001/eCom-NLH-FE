@@ -39,19 +39,19 @@ const Banner = () => {
                 {/* Item 1 */}
                     <div className="bannerSlider__Item">
                         <div className="bannerSlider__Item--1">
-                            <LazyLoadImage src={"https://cdn.tgdd.vn/2022/07/banner/1200-44-1200x44-4.png"}/>
+                            <LazyLoadImage src={"https://cdn.tgdd.vn/2022/03/banner/1200-44-1200x44-9.png"}/>
                         </div>
                     </div>
                 {/* Banner Slider  - Nav -  Item - 2 */}
                     <div className="bannerSlider__Item">
                         <div className="bannerSlider__Item--2">
-                        <LazyLoadImage src={"https://cdn.tgdd.vn/2022/05/banner/1200-44-1200x44-9.png"}/>
+                        <LazyLoadImage src={"https://cdn.tgdd.vn/2022/09/banner/1200-44-1200x40-2.png"}/>
                         </div>
                     </div>
                 {/* Banner Slider  - Nav -  Item - 3 */}
                 <div className="bannerSlider__Item">
                         <div className="bannerSlider__Item--3">
-                        <LazyLoadImage src={"//cdn.tgdd.vn/2022/08/banner/1200-44-1200x44-12.png"}/>
+                        <LazyLoadImage src={"https://cdn.tgdd.vn/2022/08/banner/1200-44-1200x44-1.png"}/>
                         </div>
                     </div>
         </Slider>
