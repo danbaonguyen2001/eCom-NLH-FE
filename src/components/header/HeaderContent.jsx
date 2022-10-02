@@ -104,9 +104,9 @@ const HeaderContent = () => {
         console.log(e);
       }
     }
-    console.log(searchWord)
+    console.log(searchWord);
   };
-  
+
   const clearInput = () => {
     setListProducts([]);
     setWordEntered("");
@@ -235,10 +235,13 @@ const HeaderContent = () => {
           {/* Location */}
           <div className={`top__location`}>
             <div className="location__item" onClick={locationShow}>
-              <LazyLoadImage src={location} />
+              {/* <LazyLoadImage src={location} /> */}
               <span className="location__text">
                 {locationI || "Hồ Chí Minh"}
               </span>
+              <div>
+                <i class="fa-solid fa-location-pin"></i>
+              </div>
             </div>
 
             <ul className={`top__menu ${lShow ? "show" : ""}`}>
