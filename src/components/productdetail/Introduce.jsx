@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ModalVideo from "react-modal-video";
 import "../../../node_modules/react-modal-video/scss/modal-video.scss";
-import "../../sass/productdetail/_introduce.scss"
+import "../../sass/productdetail/_introduce.scss";
 import NumberFormat from "react-number-format";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -112,8 +112,8 @@ const Introduce = ({ product }) => {
     setIDVideo("");
   };
   return (
-    <div className="flex">
-      <div class="product_introduce_left box_left">
+    <div className=" row">
+      <div class="col l-8 c-6 m-12 ">
         <ClickSlider imgArr={imgArr} />
         {/* Video */}
         <ModalVideo
@@ -177,24 +177,7 @@ const Introduce = ({ product }) => {
           </div>
         </div>
       </div>
-      <div class="product_introduce_right box_right">
-        {/* {options.map((option, i) => (
-          <div class="product_introduce_option margin_bottom_10" key={i}>
-            {option.option.map((item, index) => {
-              return (
-                <div
-                  onClick={() => setChooseOption(index)}
-                  key={index}
-                  className={`product_introduce_option_item border ${
-                    chooseOption === index ? "active" : ""
-                  }`}
-                >
-                  {item.option}
-                </div>
-              );
-            })}
-          </div>
-        ))} */}
+      <div class="col l-4 c-6 m-12">
         <div class="product_introduce_option margin_bottom_10">
           {product?.productOptions.map((v, i) => {
             {
@@ -328,7 +311,7 @@ const Introduce = ({ product }) => {
           onClick={clickAddCart}
         >
           MUA NGAY
-        </button>        
+        </button>
         <div class="product_introduce_payment_expand">
           <button class="product_introduce_btn_payment_blue">
             Mua trả góp 0% <br /> duyệt hồ sơ trong 5 phút

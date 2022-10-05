@@ -246,6 +246,26 @@ body {
   font-weight: 900;
 }
 
+//Responsive
+// Mobile & Tablet Devices
+@media (max-width: 1023px) {
+  .hide-on-mobile-tablet {
+    display: none;
+  }
+}
+//Tablet Devices
+@media (min-width: 740px) and (max-width: 1023px) {
+  .hide-on-tablet {
+    display: none;
+  }
+}
+// Mobile Devices
+@media (max-width: 139px) {
+  .hide-on-mobile {
+    display: none;
+  }
+}
+
 // Grid system
 
 .grid {
