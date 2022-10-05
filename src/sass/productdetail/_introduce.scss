@@ -1,8 +1,11 @@
-.product_introduce {}
+.product_introduce {
+}
 
-.product_introduce_left {}
+.product_introduce_left {
+}
 
-.product_introduce_right {}
+.product_introduce_right {
+}
 
 .product_img {
   flex-shrink: 0;
@@ -47,7 +50,6 @@
 
 .product_introduce_option {
   display: flex;
-
 }
 
 .product_introduce_option_item {
@@ -57,13 +59,11 @@
   padding: 8px;
   font-size: 12px;
   margin-right: 10px;
-  width: 15%;
+  // width: 15%;
   height: 5%;
   user-select: none;
   background-color: transparent;
 }
-
-
 
 .product_introduce_price_original {
   font-size: 1.4rem;
@@ -89,28 +89,6 @@
   font-size: 14px;
 }
 
-// .top__menu {
-//   position: absolute;
-//   top: 42px;
-//   height: 0;
-//   overflow: scroll;
-//   overflow-x: hidden;
-//   background-color: #FFD400;
-//   opacity: 0;
-//   left: 0;
-//   text-decoration: none;
-//   list-style: none;
-//   width: 180px;
-//   z-index: 10;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   transition: all 0.1s linear;
-//   border: 1px solid rgba(232, 229, 229, 0.646);
-//   border-top: 0;
-//   border-radius: 8px;
-// }
-
 .product_introduce_location {
   color: var(--blue--color);
   margin-left: 5px;
@@ -128,10 +106,11 @@
   padding-top: 5px;
 }
 
-.product_introduce_promotion {}
+.product_introduce_promotion {
+}
 
 .product_introduce_promotion_title {
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   font-size: 14px;
   padding: 0 5px;
 }
@@ -152,7 +131,6 @@
   background-color: var(--blue--color);
   margin: 0 5px;
 }
-
 
 .product_introduce_payment_title {
   font-size: 16px;
@@ -192,7 +170,7 @@
   background-color: var(--primary--color);
 }
 
-.checkbox-round:checked+.product_introduce_payment_eximbank {
+.checkbox-round:checked + .product_introduce_payment_eximbank {
   border-color: var(--primary--color);
 }
 
@@ -214,8 +192,6 @@
 }
 
 .product_introduce_btn_payment_blue {
-
-
   cursor: pointer;
 
   width: 47%;
@@ -227,11 +203,9 @@
   border-color: transparent;
 }
 
-
 .product_introduce_btn_payment_blue:hover {
   opacity: 0.7;
 }
-
 
 .hotline {
   margin: 0 5px;

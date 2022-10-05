@@ -3,7 +3,7 @@ import img from "../../assets/images/phone/iphone-12-mini-1-1-org.jpg";
 import ModalRate from "./ModalRate";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import "../../sass/productdetail/_feedback.scss"
+import "../../sass/productdetail/_feedback.scss";
 import { getCommentRateProductId } from "../../features/rate/rateSlice";
 import {
   getCommentProduct,
@@ -18,7 +18,6 @@ import {
 import { addCommentRateProductId } from "../../features/rate/rateSlice";
 import { toast } from "react-toastify";
 import Rating from "@mui/material/Rating";
-
 
 // import { comment } from 'postcss'
 // import { set } from 'immer/dist/internal'
@@ -132,14 +131,13 @@ const Feedback = ({ product }) => {
           class="product_ask_input flex_80_width"
           placeholder="Xin mời đặt câu hỏi! "
         />
-        <div class="product_ask_btn flex_20_width flex_center">         
+        <div class="product_ask_btn btn flex_10_width flex_center ">
           <button
             onClick={handleSubmitReplyComment}
-            className="product_ask_btn_send btn"
+            className="product_ask_btn_send "
           >
-             <i class="fa-solid fa-paper-plane"></i>
-          &nbsp;
-            Gửi
+            <i class="fa-solid fa-paper-plane"></i>
+            &nbsp; Gửi
           </button>
         </div>
       </div>
@@ -156,8 +154,15 @@ const Feedback = ({ product }) => {
             <div className="product_review_statistic_left flex_40_width">
               <div className="product_review_statistic_header flex">
                 <span>{product ? product.rate : null}</span>
-                <Rating name="rate" value={product ? product.rate:0 } readOnly />
-                <span> Tổng :{product ? product.countRate : null} đánh giá</span>
+                <Rating
+                  name="rate"
+                  value={product ? product.rate : 0}
+                  readOnly
+                />
+                <span>
+                  {" "}
+                  Tổng :{product ? product.countRate : null} đánh giá
+                </span>
               </div>
               <div className="product_review_statistic_star_list">
                 <div className="product_review_statistic_star_item flex">
@@ -274,7 +279,7 @@ const Feedback = ({ product }) => {
                         }}
                       >
                         {" "}
-                         : {item.createTime}
+                        : {item.createTime}
                       </span>
                     </div>
 
@@ -329,11 +334,11 @@ const Feedback = ({ product }) => {
                 class="product_ask_input flex_80_width"
                 placeholder="Xin mời đặt câu hỏi! "
               />
-              <div class="product_ask_btn flex_20_width flex_center">
+              <div class="product_ask_btn btn flex_10_width flex_center">
                 <i class="fa-solid fa-paper-plane"></i>
                 <button
                   onClick={handleSubmitComment}
-                  className="product_ask_btn_send btn"
+                  className="product_ask_btn_send "
                 >
                   Gửi
                 </button>

@@ -1,0 +1,116 @@
+.registercode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.registercode_form {
+  background-color: white;
+  margin: 3.2rem 0;
+}
+.img_registercode {
+  width: 100px;
+}
+.registercode_form_group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+//input
+.registercode_form_input {
+  font: inherit;
+  height: 10%;
+  width: 90%;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.6rem;
+}
+
+.registercode_form_input:hover {
+  border-color: var(--primary--color);
+}
+
+.registercode_form_input input {
+  border: 2px solid #f0f0f0;
+}
+
+.registercode_form_input span {
+  position: absolute;
+  left: 3rem;
+}
+
+.registercode_form_input i {
+  position: absolute;
+  top: 15px;
+  right: 4rem;
+  visibility: hidden;
+}
+
+.registercode_form_input_mess {
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  padding: 5rem 0 0 0;
+  margin-bottom: 0.5rem;
+  visibility: hidden;
+}
+
+.registercode_form_input.success input {
+  border-color: #2ecc71;
+}
+
+.registercode_form_input.error input {
+  border-color: #e74c3c;
+}
+
+.registercode_form_input.success i.fa-circle-check {
+  color: #2ecc71;
+  visibility: visible;
+}
+
+.registercode_form_input.error i.fa-circle-exclamation {
+  color: #e74c3c;
+  visibility: visible;
+}
+
+.registercode_form_input.success span {
+  color: #2ecc71;
+  visibility: visible;
+}
+
+.registercode_form_input.error span {
+  color: #e74c3c;
+  visibility: visible;
+}
+
+//btn
+.registercode_form_btn_control {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  /* margin-top: 2rem; */
+}
+
+.registercode_form_btn_control .btn_next {
+  width: 100%;
+  font-size: 1.4rem;
+  background-color: var(--primary--color);
+  text-transform: uppercase;
+  font-weight: bold;
+  border: none;
+  color: var(--white--color);
+  border-radius: 6px;
+  margin-bottom: 5px;
+  padding: 6px 12px;
+}
+
+.registercode_form_btn_control .btn_next:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}

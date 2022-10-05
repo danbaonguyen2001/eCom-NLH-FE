@@ -1,9 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .wide {
   width: 1200px !important;
   margin: 0 auto;
