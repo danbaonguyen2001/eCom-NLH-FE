@@ -236,6 +236,9 @@ const Register = () => {
             Đăng nhập
           </Link>
         </div>
+        <center>
+          <img src={login} alt="" className="img_registercode"></img>
+        </center>
         <div className="register_form_form">
           <form className="register_form_group" onSubmit={handleSubmit}>
             <div className="register_form_group_inputs">

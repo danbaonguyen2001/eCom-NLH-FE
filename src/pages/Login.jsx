@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { selectLoginStatus } from "../features/auth/authSlice";
 import login from "../assets/images/register/login.png";
 import FormInput from "../components/login/FormInput";
-
+import background from "../assets/images/register/login.png";
 import "../sass/auth/_login.scss";
 //
 
@@ -156,6 +156,9 @@ const Login = () => {
               Đăng ký
             </Link>
           </div>
+          <center>
+            <img src={background} alt="" className="img_registercode"></img>
+          </center>
           <div className="login__form">
             <form
               id="login_form_id"
