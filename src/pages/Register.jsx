@@ -1,16 +1,17 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 // import "../assets/css/register/testmain.css";
 import { useHistory, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import login from "../assets/images/register/login.png";
 import FormInput from "../components/register/FormInput.jsx";
+import "../sass/auth/_register.scss";
 // Function
 import authController from "../features/auth/functions";
 const Register = () => {
   const [values, setValues] = useState({
     email: "",
     password: "",
-    gender: "",
+    gender: "man",
     confirmPassword: "",
     phone: "",
     address: "",
@@ -92,22 +93,21 @@ const Register = () => {
     });
     if (result) {
       let emailCode = values.email;
-      toast.info(`Thông tin hợp lệ, bạn kiểm tra mail nhé`,{
+      toast.info(`Thông tin hợp lệ, bạn kiểm tra mail nhé`, {
         position: "top-right",
-        autoClose:5000,
-        closeOnClick:true
-      })
+        autoClose: 5000,
+        closeOnClick: true,
+      });
       history.push({
         pathname: "/registerCode",
         state: { passEmail: emailCode },
       });
     } else {
-      toast.error(`Thử lại sau`,{
+      toast.error(`Thử lại sau`, {
         position: "top-right",
-        autoClose:5000,
-        closeOnClick:true
-      })
-
+        autoClose: 5000,
+        closeOnClick: true,
+      });
     }
   };
 
@@ -122,9 +122,14 @@ const Register = () => {
   // console.log(values);
   // console.log(values.gender.toString());
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div className="register_container">
-      <div className="register_container_background">
+    <div className="row register">
+      {/* Old */}
+      <div className="register_container_background display_none">
         <div className="register_form">
           <div className="register_form_header">
             <img src={login} alt="" className="img_login"></img>
@@ -216,6 +221,95 @@ const Register = () => {
                 Đăng nhập
               </Link>
             </div>
+          </div>
+        </div>
+      </div>
+      {/* New */}
+      <div className="l-8 m-10 c-12 border">
+        <div class="login__header">
+          <h3 class="login__headidng"> Đăng ký</h3>
+          <Link
+            to="/login"
+            id="click-register"
+            class="login__switch-btn js-btn-switch-to-register"
+          >
+            Đăng nhập
+          </Link>
+        </div>
+        <center>
+          <img src={login} alt="" className="img_registercode"></img>
+        </center>
+        <div className="register_form_form">
+          <form className="register_form_group" onSubmit={handleSubmit}>
+            <div className="register_form_group_inputs">
+              {inputs.map((input) => (
+                <FormInput
+                  key={input.id}
+                  {...input}
+                  value={values[input.name]}
+                  onChange={onChange}
+                />
+              ))}
+            </div>
+
+            <div className="register_form_gender">
+              {/* <p>Chọn giới tính:</p> */}
+
+              <div className="register_form_radio_buttons_input_man">
+                <input
+                  type="radio"
+                  id="man"
+                  name="gender"
+                  value="man"
+                  onChange={onChange}
+                  checked={values.gender === "man"}
+                ></input>
+                <label htmlFor="man">Nam</label>
+              </div>
+              <div className="register_form_radio_buttons_input_woman">
+                <input
+                  type="radio"
+                  id="woman"
+                  name="gender"
+                  value="woman"
+                  checked={values.gender === "woman"}
+                  onChange={onChange}
+                ></input>
+                <label htmlFor="woman">Nữ</label>
+              </div>
+            </div>
+
+            <center>
+              <div className="l-8 m-10 c-12 register_form_btn_control">
+                <button type="submit" className="btn_next">
+                  Đăng ký
+                </button>
+              </div>
+            </center>
+          </form>
+
+          <div className="text_or">
+            <div className="line"></div>
+            <span className="or">Hoặc</span>
+            <div className="line"></div>
+          </div>
+
+          <div className="register_form_btn_socials">
+            <a
+              href="https://tgddgroup04.herokuapp.com/oauth2/authorize/google"
+              className="btn btn_icon flex_center"
+            >
+              <i className="fa-brands fa-google "></i>
+              Google
+            </a>
+
+            <a
+              href="https://tgddgroup04.herokuapp.com/oauth2/authorize/facebook"
+              className="btn btn_icon flex_center"
+            >
+              <i className="fa-brands fa-facebook "></i>
+              Facebook
+            </a>
           </div>
         </div>
       </div>

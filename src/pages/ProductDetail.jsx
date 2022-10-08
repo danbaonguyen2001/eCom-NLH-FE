@@ -11,14 +11,15 @@ import SeeMore from "../components/SeeMore";
 import productHandler from "../features/product/function";
 import StarRating from "../components/accessories/StarRating";
 import "../sass/phone/rating.scss";
+import "../sass/productdetail/_product_detail.scss";
 const ProductDetail = () => {
   const location = useLocation();
 
   const productId = location.state.productId;
 
-  console.log(location)
+  console.log(location);
 
-  const [product, setProduct] = useState()
+  const [product, setProduct] = useState();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -26,7 +27,6 @@ const ProductDetail = () => {
       console.log(res);
       try {
         setProduct(res.data);
-  
       } catch (e) {
         console.log(e);
       }
@@ -64,7 +64,9 @@ const ProductDetail = () => {
           <i className="fa-solid fa-star"></i>
           <i className="fa-solid fa-star-half-stroke"></i>
         </div> */}
-        <span className="product_title_review flex_center">{product?.countRate} đánh giá</span>
+        <span className="product_title_review flex_center">
+          {product?.countRate} đánh giá
+        </span>
       </div>
       <div className="line"></div>
       <Introduce product={product} />
@@ -75,8 +77,6 @@ const ProductDetail = () => {
       <div className="line"></div>
       <SeeMore />
     </div>
-
-    // <div>test</div>
   );
 };
 

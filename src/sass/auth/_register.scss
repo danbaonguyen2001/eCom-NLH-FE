@@ -1,0 +1,201 @@
+.register {
+  margin: 3.2rem auto 3.2rem auto;
+  justify-content: center;
+}
+.register_form_input {
+  font: inherit;
+  box-sizing: border-box;
+  /* height: 10%; */
+  width: 45%;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  border-radius: 4px;
+  position: relative;
+  margin-right: 18px;
+  margin-left: 0px;
+  margin-bottom: 0.6rem;
+  margin-top: 3px;
+  outline: none;
+}
+.register_form_group_inputs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  margin-left: 10px;
+}
+.register_form_input:hover {
+  border-color: var(--primary--color);
+}
+
+.register_form_input input {
+  border: 2px solid #f0f0f0;
+  width: 100%;
+}
+
+.register_form_input span {
+  position: absolute;
+  left: 2rem;
+}
+
+.register_form_input i {
+  position: absolute;
+  top: 16px;
+  right: 2rem;
+  visibility: hidden;
+}
+
+.register_form_gender {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  padding: 10px;
+}
+
+.register_form_radio_buttons_input_man input[type="radio"]:checked + label,
+.register_form_radio_buttons_input_woman input[type="radio"]:checked + label {
+  background-color: var(--primary--color);
+  color: white;
+}
+
+.register_form_radio_buttons_input_man {
+  margin-right: 10px;
+}
+
+.register_form_radio_buttons_input_man input[type="radio"],
+.register_form_radio_buttons_input_woman input[type="radio"] {
+  display: none;
+}
+
+.register_form_radio_buttons_input_man label {
+  font-size: 15px;
+  border: 2px solid var(--primary--color);
+  border-radius: 5px;
+  padding: 8px 15px;
+  width: 10rem;
+  text-align: center;
+  width: 100px;
+}
+
+.register_form_radio_buttons_input_woman label {
+  font-size: 15px;
+  border: 2px solid var(--primary--color);
+  border-radius: 5px;
+  padding: 8px 21px;
+  width: 10rem;
+  text-align: center;
+  width: 100px;
+}
+
+//btn
+.register_form_btn_control {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register_form_btn_control .btn_next {
+  outline: none;
+  width: 100%;
+  font-size: 1.4rem;
+  background-color: var(--primary--color);
+  font-weight: bold;
+  border: none;
+  color: var(--white--color);
+  border-radius: 6px;
+  margin-bottom: 5px;
+  padding: 6px 12px;
+}
+
+.register_form_btn_control .btn_next:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.register_form_btn_socials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  padding: auto;
+  margin-bottom: 0.6rem;
+}
+
+.register_form_btn_socials a i {
+  text-decoration: none;
+  /* background-color: var(white); */
+}
+
+.register_form_btn_socials i {
+  padding: 0px;
+  padding-right: 0.8rem;
+  font-size: 2rem;
+  color: var(--primary--color);
+}
+
+.register_form_btn_socials .btn.btn_icon.flex_center {
+  color: #000;
+  margin: 5px;
+  background: transparent;
+}
+
+.register_form_input_mess {
+  /* margin-top: 4rem;
+    font-size: 1.2rem;
+    color: #ff424f;
+    min-height: 1rem;
+    position: absolute;
+    visibility: hidden; */
+
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  /* padding: 5.5rem 0 0.5rem 0; */
+  margin-top: -3px;
+  /* margin-bottom: 0.5rem; */
+  color: #ff424f;
+  display: none;
+}
+
+.register_form_input:invalid[focused="true"] {
+  border: 2px solid #ff424f;
+}
+
+.register_form_input:invalid[focused="true"] ~ .register_form_input_mess {
+  display: block;
+}
+.register_form_radio_buttons {
+  display: flex;
+  justify-content: center;
+  /* flex-direction: column; */
+}
+/* .register_form_input.success input {
+    border-color: #2ecc71;
+}
+
+.register_form_input.error input {
+    border-color: #e74c3c;
+} */
+
+/* .register_form_input:invalid[focused="false"] ~ .fa-circle-check {
+    color: #2ecc71;
+    visibility: visible;
+} */
+
+.register_form_input:invalid[focused="true"] ~ .fa-circle-exclamation {
+  color: #e74c3c;
+  visibility: visible;
+}
+
+/* .register_form_input.success span {
+    color: #2ecc71;
+    visibility: visible;
+}
+
+.register_form_input.error span {
+    color: #e74c3c;
+    visibility: visible;
+} */
