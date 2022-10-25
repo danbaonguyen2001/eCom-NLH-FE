@@ -1,0 +1,55 @@
+.cps {
+  margin: auto;
+  background: var(--white--color);
+  padding: 3.2rem 0;
+  font-size: 14px;
+
+  &_seperate {
+    background-color: #e8e8e8;
+    padding: 0.8rem;
+  }
+}
+
+.cps-main {
+  position: relative;
+}
+
+.cps-delete1 {
+  position: absolute;
+  top: 10%;
+  right: 70%;
+
+  &__button {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    color: var(--primary--color);
+    background: transparent;
+  }
+}
+
+.cps-delete2 {
+  position: absolute;
+  top: 10%;
+  right: 20%;
+
+  &__button {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    color: var(--primary--color);
+    background: transparent;
+  }
+}
+
+.cps-add {
+  font-size: 2.6rem;
+  margin-top: 10%;
+  &__button {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    color: var(--primary--color);
+    background: transparent;
+  }
+}

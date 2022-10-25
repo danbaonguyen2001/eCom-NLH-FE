@@ -96,7 +96,6 @@ import ShockWatches from "../components/Watches/ChildPage/ShockWatches";
 import WatchForChildren from "../components/Watches/ChildPage/WatchForChildren";
 import LineStrapProduct from "../components/Watches/ChildPage/LineStrapProduct";
 
-
 // sim card
 import LayoutSimCard from "../components/simCard/LayoutSimCard";
 import LayoutVinaphoneSimCard from "../components/simCard/SubSimCard/LayoutVinaphoneSimCard";
@@ -105,6 +104,7 @@ import RedirectRoutes from "./redirect/RedirectRoutes";
 import UnAuthOrderHistory from "../components/purchasehistory/UnAuthOrderHistory";
 import WatchForWomen from "../components/Watches/ChildPage/WatchForWomen";
 import WatchForCouple from "../components/Watches/ChildPage/WatchForCouple";
+import CompareProducts from "../components/CompareProducts";
 
 const Routes = () => {
   return (
@@ -126,7 +126,7 @@ const Routes = () => {
       </Route>
       <Route path="/purchasehistory*" exact component={PurchaseHistory} />
       {/* Lịch sử các đơn hàng  chưa xác thực*/}
-      <Route path="/lich-su-don-hang"exact component={UnAuthOrderHistory}/>
+      <Route path="/lich-su-don-hang" exact component={UnAuthOrderHistory} />
 
       {/* Tien ich */}
       <Route path="/tien-ich" exact>
@@ -148,7 +148,7 @@ const Routes = () => {
       <Route path="/dong-ho-cap-doi" exact component={WatchForCouple} />
       <Route path="/dong-ho-tre-em" exact component={WatchForChildren} />
       <Route path="/dong-ho-gia-soc" exact component={ShockWatches} />
-      <Route path="/day-dong-ho" exact component={LineStrapProduct}/>
+      <Route path="/day-dong-ho" exact component={LineStrapProduct} />
 
       {/* Tablet-Laptop-ProductOld-News24h-GameApp */}
       <Route path="/tablet" exact component={Tablet} />
@@ -248,27 +248,16 @@ const Routes = () => {
         component={LayoutXiaomiSmartWatch}
       />
 
-
-
-
-      
-
-      
-   
-
-
-
-
       {/* User Info components */}
       <Route path="/userinfor" exact component={UserInFor} />
       {/* Mock Order */}
       <Route path="/mockOrder*" exact component={Order} />
 
       {/* Authorization  */}
-      <Route path="/oauth2*" exact component={OauthComponent}/>
-    {/* Redirect */}
+      <Route path="/oauth2*" exact component={OauthComponent} />
+      {/* Redirect */}
       <Route path="/redirect*" exact>
-          <RedirectRoutes />
+        <RedirectRoutes />
       </Route>
       {/* Sim card */}
       <Route path="/sim-so-dep" exact component={LayoutSimCard} />
@@ -278,6 +267,8 @@ const Routes = () => {
         component={LayoutVinaphoneSimCard}
       />
 
+      {/* So sánh sản phẩm */}
+      <Route path="/sosanh" exact component={CompareProducts} />
     </Switch>
   );
 };
