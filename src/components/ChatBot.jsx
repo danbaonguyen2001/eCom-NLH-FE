@@ -19,7 +19,7 @@ const ChatBot = () => {
     })(document, window.kommunicate || {});
   }, []);
 
-  return <div>ChatBot</div>;
+  return <div></div>;
 };
 
 export default ChatBot;
