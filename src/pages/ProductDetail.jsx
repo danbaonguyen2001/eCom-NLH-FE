@@ -35,7 +35,7 @@ const ProductDetail = () => {
   }, [productId]);
 
   return (
-    <div className="produt_detail">
+    <div className="produt_detail wide">
       {/* <!-- category --> */}
       <div className="product_category">
         <span className="product_category-title ">

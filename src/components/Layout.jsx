@@ -13,6 +13,7 @@ import { Audio } from "react-loader-spinner";
 //
 import { store } from "../redux/stores";
 import { Provider } from "react-redux";
+import ChatBot from "./ChatBot";
 //
 let persistor = persistStore(store);
 const Layout = () => {
@@ -31,6 +32,7 @@ const Layout = () => {
                       <Routes />
                     </div>
                   </div>
+                  <ChatBot />
                   <Footer />
                 </div>
               )}
