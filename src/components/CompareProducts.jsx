@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../sass/_compare_products.scss";
 import Rating from "@mui/material/Rating";
@@ -70,6 +69,10 @@ const product2 = {
 const CompareProducts = () => {
   //   const [product1, setProduct1] = useState(product1);
   //   const [product2, setProduct2] = useState(product2);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="cps grid wide">
