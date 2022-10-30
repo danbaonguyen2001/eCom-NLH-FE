@@ -58,7 +58,7 @@ const Login = () => {
 
       } else {
         history.push("/login");
-        toast.success(`Sai tài khoản hoặc mật khẩu, thử lại!`,{
+        toast.error(`Sai tài khoản hoặc mật khẩu, thử lại!`,{
           position: "top-right",
           autoClose: 5000,
           closeOnClick: true,
