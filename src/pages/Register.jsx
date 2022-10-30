@@ -75,34 +75,41 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
     let email = values.email;
     let password = values.password;
     let gender = values.gender;
     let phone = values.phone;
     let address = values.address;
     let name = values.name;
-    // Xua ly
-    let result = await authController.register({
-      email,
-      password,
-      gender,
-      phone,
-      address,
-      name,
-    });
-    if (result) {
-      let emailCode = values.email;
-      toast.info(`Thông tin hợp lệ, bạn kiểm tra mail nhé`, {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: true,
+    // Xu ly
+    try {
+      let result = await authController.register({
+        email,
+        password,
+        gender,
+        phone,
+        address,
+        name,
       });
-      history.push({
-        pathname: "/registerCode",
-        state: { passEmail: emailCode },
-      });
-    } else {
+      if (result) {
+        let emailCode = values.email;
+        toast.success(`Tài khoản của bạn đã được tạo, kiểm tra mail để xác thực tài khoản`, {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+        history.push({
+          pathname: "/registerCode",
+          state: { passEmail: emailCode },
+        });
+      } else {
+        toast.error(`Thử lại sau`, {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+      }
+    } catch (e) {
       toast.error(`Thử lại sau`, {
         position: "top-right",
         autoClose: 5000,

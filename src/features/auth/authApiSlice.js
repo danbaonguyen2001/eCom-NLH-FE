@@ -4,20 +4,14 @@ export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (inputData) => ({
-                url: "/login",
+                url: "tlcn-2022-be.herokuapp.com/api/auth/login",
                 method: "POST",
                 body: {...inputData },
             }),
-            transformResponse: (res, meta) => {
-                return {
-                    status: meta.response.status === 200 ? true : false,
-                    data: res,
-                };
-            },
         }),
         register: builder.mutation({
             query: (inputData) => ({
-                url: "/register-email",
+                url: `tlcn-2022-be.herokuapp.com/api/auth/register`,
                 method: "POST",
                 body: {...inputData },
             }),
@@ -31,12 +25,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
 
         // }),
         verify: builder.mutation({
-            query: (inputData) => {
-                const { email, token } = inputData;
+            query: ({ token }) => {
                 return {
-                    url: "/verifyRegistration",
-                    method: "GET",
-                    params: { email, token },
+                    url: `tlcn-2022-be.herokuapp.com/api/auth/verify-email/${token}`,
+                    method: "POST",
                 };
             },
             transformResponse: (res, meta) => ({ res, meta }),
