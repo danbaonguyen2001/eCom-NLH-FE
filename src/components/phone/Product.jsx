@@ -32,13 +32,13 @@ const Product = ({ list, qt }) => {
   };
 
   //Compare Product
-  const dispatch = useDispatch();
-  const productList = useSelector((state) => state.product);
-  console.log(productList);
-  const handleAddProductCompare = (item) => {
-    const action = addProduct(item.id);
-    dispatch(action);
-  };
+  // const dispatch = useDispatch();
+  // const productList = useSelector((state) => state.product);
+  // console.log(productList);
+  // const handleAddProductCompare = (item) => {
+  //   const action = addProduct(item.id);
+  //   dispatch(action);
+  // };
 
   return (
     <div>
@@ -95,10 +95,7 @@ const Product = ({ list, qt }) => {
               <StarRating rating={item?.rate} />
               {/* <StarRating rating={3.7} /> */}
             </div>
-            <div
-              className="sosanhproduct"
-              onClick={handleAddProductCompare(item)}
-            >
+            <div className="sosanhproduct">
               <i className="fa-solid fa-circle-plus"></i> So sánh
             </div>
           </Link>

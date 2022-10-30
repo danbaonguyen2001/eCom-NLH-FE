@@ -4,7 +4,7 @@ import {
   removeProduct,
   removeAllProduct,
 } from "../features/product/productSlice";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "../sass/_add_compare_product.scss";
 import productHandler from "../features/product/function";
 
@@ -91,75 +91,115 @@ const AddCompareProduct = () => {
     setDisPlayLarge(false);
     setDisPlaySmall(true);
   };
-  const handleDeleteProduct = () => {};
+  const handleDeleteProduct1 = () => {
+    dispatch(removeProduct(products[0].id));
+  };
+  const handleDeleteProduct2 = () => {
+    dispatch(removeProduct(products[1].id));
+  };
+
+  const handleDeleteAll = () => {
+    dispatch(removeAllProduct());
+  };
 
   //handle
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.product);
+  const productList = useSelector((state) => state.product.productList);
   console.log(productList);
   useEffect(() => {
-    for (let i = 0; i < productList.length; i++) {
-      const fetchProduct = async () => {
-        const res = await productHandler.getProductById(productList[i]);
-        console.log(res);
-        try {
-          setProducts(products.push(res.data));
-        } catch (e) {
-          console.log(e);
-        }
-      };
-      fetchProduct();
-    }
-  }, [products]);
+    const fetchProduct = async () => {
+      const compareList = await Promise.all(
+        productList?.map(async (product, i) => {
+          const res = await productHandler.getProductById(productList[i]);
+          return res.data;
+        })
+      );
+      setProducts([...compareList]);
+    };
+    fetchProduct();
+  }, [productList]);
   console.log(products);
+  console.log(products[0]?.id);
+  // console.log(products[0]);
+  // console.log(products[0].images[0].items[0].urlImage);
+  // console.log(products[1]);
   return (
     <div className="acp row">
       {/* Small */}
-      {displaySmall && (
+      {displaySmall && products.length > 0 && (
         <div className="acp-small l-1" onClick={handleClickSmall}>
           <center>
             <i class="fa-solid fa-down-left-and-up-right-to-center"></i>
-            <button className="acp-small__btn">So sánh (0)</button>
+            <button className="acp-small__btn">
+              So sánh ({productList.length})
+            </button>
           </center>
         </div>
       )}
 
       {/* Large UI */}
-      {displayLarge && (
+      {displayLarge && products.length > 0 && (
         <div className="acp-large l-8">
           <div className="row">
             <div className="acp-large__product1 col l-4">
-              <center>
-                <img
-                  src={product1.image}
-                  alt={product1.name}
-                  className="acp-large__product1--img l-3"
-                />
-                <br />
-                <h4>{product1.name}</h4>
-              </center>
-
-              <i class="fa-solid fa-xmark" onClick={handleDeleteProduct}></i>
+              {products[0] && (
+                <div>
+                  <center>
+                    <img
+                      // src={product1?.image}
+                      src={products[0]?.images[0]?.items[0]?.urlImage}
+                      alt={products[0]?.name}
+                      className="acp-large__product1--img l-3"
+                    />
+                    <br />
+                    <h4>{products[0]?.name}</h4>
+                  </center>
+                  <i
+                    class="fa-solid fa-xmark"
+                    onClick={handleDeleteProduct1}
+                  ></i>
+                </div>
+              )}
             </div>
-            <div className="acp-large__product2 col l-4">
-              <center>
-                <img
-                  src={product2.image}
-                  alt={product2.name}
-                  className="acp-large__product2--img l-3"
-                />
-                <br />
-                <h4>{product2.name}</h4>
-              </center>
 
-              <i class="fa-solid fa-xmark" onClick={handleDeleteProduct}></i>
+            <div className="acp-large__product2 col l-4">
+              {products[1] ? (
+                <div>
+                  <center>
+                    <img
+                      src={products[1]?.images[1]?.items[1]?.urlImage}
+                      alt={products[1]?.name}
+                      className="acp-large__product2--img l-3"
+                    />
+                    <br />
+                    <h4>{products[1]?.name}</h4>
+                  </center>
+
+                  <i
+                    class="fa-solid fa-xmark"
+                    onClick={handleDeleteProduct2}
+                  ></i>
+                </div>
+              ) : (
+                <Link
+                  to="/phone"
+                  onClick={() => {
+                    setDisPlayLarge(false);
+                    setDisPlaySmall(true);
+                  }}
+                >
+                  <i class="fa-regular fa-square-plus"></i>
+                </Link>
+              )}
             </div>
             <div className="acp-large__btn col l-4">
               <button className="btn" onClick={handleClickCompare}>
                 So sánh
               </button>
               &nbsp;
-              <button className="btn">Xóa tất cả sản phẩm</button>
+              <button className="btn" onClick={handleDeleteAll}>
+                Xóa tất cả sản phẩm
+              </button>
             </div>
           </div>
           <div className="acp-large__btnclose">

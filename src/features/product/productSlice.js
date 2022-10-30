@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 const initialState = {
-  productsList: [20],
+  productList: [20, 24],
 };
 
 const productSlice = createSlice({
@@ -10,8 +10,8 @@ const productSlice = createSlice({
   reducers: {
     //Thêm sản phẩm vào danh sách so sánh
     addProduct(state, action) {
-      if (state.productsList.length < 2) {
-        state.productsList.push(action.payload);
+      if (state.productList.length < 2) {
+        state.productList.push(action.payload);
       }
       // else {
       //   toast.warn("Danh sách sản phẩm so sánh đã đầy. Xóa bớt và thử lại !", {
@@ -23,14 +23,14 @@ const productSlice = createSlice({
     },
     //Xóa 1 sản phẩm khỏi danh sách so sánh
     removeProduct(state, action) {
-      const nextProductList = state.productsList.filter(
-        (product) => product.id !== action.payload.id
+      const nextProductList = state.productList.filter(
+        (product) => product !== action.payload
       );
-      state.productsList = nextProductList;
+      state.productList = nextProductList;
     },
     //Xóa tất cả sản phẩm khỏi danh sách so sánh
     removeAllProduct(state, action) {
-      state.productsList = [];
+      state.productList = [];
     },
   },
 });
@@ -39,4 +39,4 @@ export default productSlice.reducer;
 export const { addProduct, removeProduct, removeAllProduct } =
   productSlice.actions;
 
-// export const selectCurentProductsList = (state) => state.products.productsList;
+// export const selectCurentproductList = (state) => state.products.productList;

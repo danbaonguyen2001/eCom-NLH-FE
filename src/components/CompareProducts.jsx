@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { removeProduct } from "../features/product/productSlice";
+import productHandler from "../features/product/function";
 import { Link } from "react-router-dom";
 import "../sass/_compare_products.scss";
 import Rating from "@mui/material/Rating";
@@ -70,6 +73,36 @@ const CompareProducts = () => {
   //   const [product1, setProduct1] = useState(product1);
   //   const [product2, setProduct2] = useState(product2);
 
+  const [products, setProducts] = useState([]);
+
+  //handle
+  const dispatch = useDispatch();
+  const productList = useSelector((state) => state.product.productList);
+  console.log(productList);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const compareList = await Promise.all(
+        productList?.map(async (product, i) => {
+          const res = await productHandler.getProductById(productList[i]);
+          return res.data;
+        })
+      );
+      setProducts([...compareList]);
+    };
+    fetchProduct();
+  }, [productList]);
+
+  const handleDeleteProduct1 = () => {
+    dispatch(removeProduct(products[0].id));
+  };
+  const handleDeleteProduct2 = () => {
+    dispatch(removeProduct(products[1].id));
+  };
+
+  console.log(products);
+  console.log(products[0]?.productOptions[0].price);
+  console.log(products[0]?.productOptions[0]?.productColors[0]?.color?.name);
+  console.log(products[0]?.detailSpecs);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -90,34 +123,43 @@ const CompareProducts = () => {
         <div className="l-12 cps_seperate">
           <h3>Tổng quan</h3>
         </div>
-        {product1.name ? (
+        {products[0] ? (
           <div className="cps-l col l-6">
             &nbsp;
             <div className="cps-img l-12 mg_b_10">
               <img
-                src={product1.image}
-                alt="product1"
+                src={products[0]?.images[0]?.items[0]?.urlImage}
+                alt={products[0]?.name}
                 style={{ width: "50%" }}
               />
             </div>
             <div className="cps-name mg_b_10">
-              <h4>{product1.name}</h4>
+              <h4>
+                {products[0]?.name}
+                &nbsp;
+                {products[0]?.productOptions[0]?.optionName}
+                &nbsp;
+                {products[0]?.productOptions[0]?.productColors[0]?.color?.name}
+              </h4>
             </div>
             <div className="cps-price mg_b_10">
-              <s>{toVND(product1.price)}</s>
+              <s>{toVND(products[0]?.productOptions[0]?.price)}</s>
             </div>
             <div className="cps-marketprice mg_b_10">
-              {toVND(product1.marketPrice)}
+              {toVND(products[0]?.productOptions[0]?.marketPrice)}
             </div>
             <div className="cps-rating">
-              <Rating name="rate" value={product1.rating} readOnly />
+              <Rating name="rate" value={products[0]?.rate} readOnly />
               &nbsp;
-              <span>{product1.numberRate} đánh giá</span>
+              <span>{products[0]?.countRate} đánh giá</span>
               &nbsp;
               <span className="cps-rating-number"></span>
             </div>
             <div className="cps-delete1 l-2">
-              <button className="cps-delete1__button">
+              <button
+                className="cps-delete1__button"
+                onClick={handleDeleteProduct1}
+              >
                 <i class="fa-solid fa-delete-left"></i>
               </button>
             </div>
@@ -134,34 +176,43 @@ const CompareProducts = () => {
             </center>
           </div>
         )}
-        {product2.name ? (
+        {products[1] ? (
           <div className="cps-l col l-6">
             &nbsp;
             <div className="cps-img l-12 mg_b_10">
               <img
-                src={product2.image}
-                alt="product1"
+                src={products[1]?.images[0]?.items[0]?.urlImage}
+                alt={products[1]?.name}
                 style={{ width: "50%" }}
               />
             </div>
             <div className="cps-name mg_b_10">
-              <h4>{product2.name}</h4>
+              <h4>
+                {products[1]?.name}
+                &nbsp;
+                {products[1]?.productOptions[0]?.optionName}
+                &nbsp;
+                {products[1]?.productOptions[0]?.productColors[0]?.color?.name}
+              </h4>
             </div>
             <div className="cps-price mg_b_10">
-              <s>{toVND(product2.price)}</s>
+              <s>{toVND(products[1]?.productOptions[0]?.price)}</s>
             </div>
             <div className="cps-marketprice mg_b_10">
-              {toVND(product2.marketPrice)}
+              {toVND(products[1]?.productOptions[0]?.marketPrice)}
             </div>
             <div className="cps-rating">
-              <Rating name="rate" value={product2.rating} readOnly />
+              <Rating name="rate" value={products[1]?.rate} readOnly />
               &nbsp;
-              <span>{product2.numberRate} đánh giá</span>
+              <span>{products[1]?.countRate} đánh giá</span>
               &nbsp;
               <span className="cps-rating-number"></span>
             </div>
             <div className="cps-delete2 l-2">
-              <button className="cps-delete2__button">
+              <button
+                className="cps-delete2__button"
+                onClick={handleDeleteProduct2}
+              >
                 <i class="fa-solid fa-delete-left"></i>
               </button>
             </div>
@@ -184,10 +235,10 @@ const CompareProducts = () => {
         <div className="l-12 cps_seperate">
           <h3>Thông số kỹ thuật</h3>
         </div>
-        {product1 ? (
+        {products[0] ? (
           <div className="cps-l col l-6">
             <div class="cps_list">
-              {product1?.specifications1?.map((v, i) => (
+              {products[0]?.detailSpecs?.map((v, i) => (
                 <div
                   // class={`product_information_detail_item   ${
                   //   i % 2 === 0 ? "infor_1" : "infor_2"
@@ -197,7 +248,9 @@ const CompareProducts = () => {
                   key={i}
                 >
                   <li>
-                    <span class="product_information_item_title">{v.name}</span>
+                    <span class="product_information_item_title">
+                      {v.name} :
+                    </span>
                     &nbsp;
                     <span class="product_information_item_content ">
                       {v.value}
@@ -210,19 +263,22 @@ const CompareProducts = () => {
         ) : (
           ""
         )}
-        {product2 ? (
-          <div className="cps-r col l-6">
+        {products[1] ? (
+          <div className="cps-l col l-6">
             <div class="cps_list">
-              {product2?.specifications2?.map((v, i) => (
+              {products[1]?.detailSpecs?.map((v, i) => (
                 <div
-                  // class={`product_information_detail_item  ${
+                  // class={`product_information_detail_item   ${
                   //   i % 2 === 0 ? "infor_1" : "infor_2"
                   // }`}
+
                   class={"product_information_detail_item "}
                   key={i}
                 >
                   <li>
-                    <span class="product_information_item_title">{v.name}</span>
+                    <span class="product_information_item_title">
+                      {v.name} :
+                    </span>
                     &nbsp;
                     <span class="product_information_item_content ">
                       {v.value}
