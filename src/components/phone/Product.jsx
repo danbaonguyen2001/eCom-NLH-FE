@@ -1,10 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addProduct,
-  removeProduct,
-  removeAllProduct,
-} from "../../features/product/productSlice";
+import { addProduct } from "../../features/product/productSlice";
 import { Link, useLocation } from "react-router-dom";
 import StarRating from "../accessories/StarRating";
 // import "../../sass/accessories/accessories.scss";
@@ -31,14 +27,14 @@ const Product = ({ list, qt }) => {
     setTotalQuantity((prev) => prev - 5);
   };
 
-  //Compare Product
-  // const dispatch = useDispatch();
-  // const productList = useSelector((state) => state.product);
-  // console.log(productList);
-  // const handleAddProductCompare = (item) => {
-  //   const action = addProduct(item.id);
-  //   dispatch(action);
-  // };
+  //Add Compare Product
+  const dispatch = useDispatch();
+  const productList = useSelector((state) => state.product);
+  console.log(productList);
+  const handleAddProductCompare = (item) => {
+    const action = addProduct(item.id);
+    dispatch(action);
+  };
 
   return (
     <div>
@@ -95,7 +91,13 @@ const Product = ({ list, qt }) => {
               <StarRating rating={item?.rate} />
               {/* <StarRating rating={3.7} /> */}
             </div>
-            <div className="sosanhproduct">
+            <div
+              className="sosanhproduct"
+              onClick={(e) => {
+                e.preventDefault();
+                handleAddProductCompare(item);
+              }}
+            >
               <i className="fa-solid fa-circle-plus"></i> So sánh
             </div>
           </Link>

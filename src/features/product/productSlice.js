@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 const initialState = {
-  productList: [20, 24],
+  productList: [],
 };
 
 const productSlice = createSlice({
@@ -12,14 +12,13 @@ const productSlice = createSlice({
     addProduct(state, action) {
       if (state.productList.length < 2) {
         state.productList.push(action.payload);
+      } else {
+        toast.warn("Danh sách sản phẩm so sánh đã đầy. Xóa bớt và thử lại !", {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+        });
       }
-      // else {
-      //   toast.warn("Danh sách sản phẩm so sánh đã đầy. Xóa bớt và thử lại !", {
-      //     position: "top-right",
-      //     autoClose: 5000,
-      //     closeOnClick: true,
-      //   });
-      // }
     },
     //Xóa 1 sản phẩm khỏi danh sách so sánh
     removeProduct(state, action) {

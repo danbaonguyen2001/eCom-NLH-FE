@@ -72,8 +72,8 @@ const product2 = {
 };
 
 const AddCompareProduct = () => {
-  const [displaySmall, setDisPlaySmall] = useState(true);
-  const [displayLarge, setDisPlayLarge] = useState(false);
+  const [displaySmall, setDisPlaySmall] = useState(false);
+  const [displayLarge, setDisPlayLarge] = useState(true);
   const [products, setProducts] = useState([]);
 
   const handleClickSmall = () => {
@@ -123,6 +123,8 @@ const AddCompareProduct = () => {
   // console.log(products[0]);
   // console.log(products[0].images[0].items[0].urlImage);
   // console.log(products[1]);
+
+  useEffect(() => {}, []);
   return (
     <div className="acp row">
       {/* Small */}
