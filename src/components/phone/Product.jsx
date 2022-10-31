@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct } from "../../features/product/productSlice";
 import { Link, useLocation } from "react-router-dom";
 import StarRating from "../accessories/StarRating";
 // import "../../sass/accessories/accessories.scss";
@@ -24,19 +26,27 @@ const Product = ({ list, qt }) => {
     setQuantityShow((prev) => prev + 5);
     setTotalQuantity((prev) => prev - 5);
   };
-  //Product
+
+  //Add Compare Product
+  const dispatch = useDispatch();
+  const productList = useSelector((state) => state.product);
+  console.log(productList);
+  const handleAddProductCompare = (item) => {
+    const action = addProduct(item.id);
+    dispatch(action);
+  };
 
   return (
     <div>
       <div className="listProductPhone">
         {listProduct?.slice(0, quantityShow).map((item) => (
           <Link
-          to={{
-            pathname: `/productdetail/${item.name.replaceAll(" ","-")}`,
-            state: { productId: item.id },
-          }}
-          key={item?.id}
-          className="item_productPhone"
+            to={{
+              pathname: `/productdetail/${item.name.replaceAll(" ", "-")}`,
+              state: { productId: item.id },
+            }}
+            key={item?.id}
+            className="item_productPhone"
           >
             <div className="label_tragop">Trả góp 0.5%</div>
             <div className="img_item">
@@ -81,7 +91,13 @@ const Product = ({ list, qt }) => {
               <StarRating rating={item?.rate} />
               {/* <StarRating rating={3.7} /> */}
             </div>
-            <div className="sosanhproduct">
+            <div
+              className="sosanhproduct"
+              onClick={(e) => {
+                e.preventDefault();
+                handleAddProductCompare(item);
+              }}
+            >
               <i className="fa-solid fa-circle-plus"></i> So sánh
             </div>
           </Link>
