@@ -49,7 +49,7 @@ const productHandler = {
       status: false,
       data: [],
     };
-            // {manufacturerId,categoryId,subCategoryId,page,size}
+    // {manufacturerId,categoryId,subCategoryId,page,size}
 
     let response = await dispatch(
       productApiSlice.endpoints.getProductsList.initiate({ ...inputData })

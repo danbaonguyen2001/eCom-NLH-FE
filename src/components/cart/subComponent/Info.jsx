@@ -167,6 +167,7 @@ const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
               id="athome"
               name="fav_language"
               value="athome"
+              checked
             />
             &nbsp;
             <label htmlFor="athome">Giao tận nơi</label>

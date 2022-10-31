@@ -14,6 +14,7 @@ import { Audio } from "react-loader-spinner";
 import { store } from "../redux/stores";
 import { Provider } from "react-redux";
 import ChatBot from "./ChatBot";
+import AddCompareProduct from "./AddCompareProduct";
 //
 let persistor = persistStore(store);
 const Layout = () => {
@@ -33,6 +34,7 @@ const Layout = () => {
                     </div>
                   </div>
                   <ChatBot />
+                  <AddCompareProduct />
                   <Footer />
                 </div>
               )}

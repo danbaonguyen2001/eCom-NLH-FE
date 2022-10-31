@@ -197,9 +197,31 @@
   padding: 1rem 1rem 0 1rem;
 }
 
+/* .dataResult::-webkit-scrollbar-thumb {
+  color: var(--primary--color);
+  border-radius: 2px;
+} */
+/* width */
 .dataResult::-webkit-scrollbar {
-  display: none;
+  width: 16px;
 }
+
+/* Track */
+.dataResult::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 8px;
+}
+
+/* Handle */
+.dataResult::-webkit-scrollbar-thumb {
+  background: var(--primary--color);
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+/* .dataResult::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
+} */
 
 .dataResult__item {
   display: flex;

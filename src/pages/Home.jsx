@@ -42,7 +42,6 @@ const Home = () => {
   //
   const status = useSelector(selectLoginStatus) || false;
   useEffect(() => {
-    
     // check auth
     if (status) {
       toast.success(
@@ -52,7 +51,7 @@ const Home = () => {
           .join(" ")}, chúc bạn ngày mới vui vẻ`,
         {
           position: "top-right",
-        toastId:2,
+          toastId: 2,
 
           autoClose: 5000,
           closeOnClick: true,
@@ -61,12 +60,16 @@ const Home = () => {
     } else {
       toast.info(`Chào bạn, xác thực tài khoản ngay thôi`, {
         position: "top-right",
-        toastId:1,
+        toastId: 1,
         autoClose: 5000,
         closeOnClick: true,
       });
     }
   }, [status]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="bigBanner">
       <BigBanner />
