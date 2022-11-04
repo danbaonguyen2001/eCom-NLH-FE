@@ -11,7 +11,7 @@ const Information = ({ product }) => {
   const specifications = product ? product?.detailSpecs : [];
 
   return (
-    <div class="product_information row">
+    <div class="product_information border row">
       {/* Thông tin sản phẩm */}
       <div
         class={`product_information_left col l-6 m-12 c-12 ${
@@ -41,7 +41,7 @@ const Information = ({ product }) => {
       <div class={`product_information_right col  l-6 m-12 c-12`}>
         <h1 class="product_information_detail_header">Thông số kỹ thuật</h1>
 
-        <div class="product_information_detail_list border">
+        <div class="product_information_detail_list ">
           {specifications.slice(0, 12).map((v, i) => (
             <div
               class={`product_information_detail_item  flex_center ${

@@ -58,6 +58,7 @@ const DropZone = ({ userDataAvatar }) => {
     backgroundColor: "#fafafa",
     color: "#bdbdbd",
     transition: "all .24s ease-in-out",
+    cursor: "crosshair",
   };
 
   const focusedStyle = {
@@ -104,9 +105,8 @@ const DropZone = ({ userDataAvatar }) => {
     <div className="user-infor-img">
       {/* Avt res */}
       <LazyLoadImage
-        className="user-infor-img__img" 
-        style={{borderRadius:"50%",
-      height:"20rem"}}
+        className="user-infor-img__img"
+        style={{ borderRadius: "50%", height: "20rem" }}
         src={avatar || userDataAvatar}
         alt="Đang tải"
       />

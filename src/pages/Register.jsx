@@ -225,7 +225,7 @@ const Register = () => {
         </div>
       </div>
       {/* New */}
-      <div className="l-8 m-10 c-12 border">
+      <div className="l-8 m-10 c-12  register__container">
         <div class="login__header">
           <h3 class="login__headidng"> Đăng ký</h3>
           <Link
@@ -280,7 +280,7 @@ const Register = () => {
             </div>
 
             <center>
-              <div className="l-8 m-10 c-12 register_form_btn_control">
+              <div className="l-4 m-6 c-4 register_form_btn_control">
                 <button type="submit" className="btn_next">
                   Đăng ký
                 </button>
