@@ -15,7 +15,9 @@ import "../sass/productdetail/_product_detail.scss";
 const ProductDetail = () => {
   const location = useLocation();
 
-  const productId = location.state.productId;
+  // const productId = location.state.productId;
+
+  const productId = 20;
 
   console.log(location);
 
@@ -35,7 +37,7 @@ const ProductDetail = () => {
   }, [productId]);
 
   return (
-    <div className="produt_detail wide">
+    <div className="produt_detail grid  wide">
       {/* <!-- category --> */}
       <div className="product_category">
         <span className="product_category-title ">
@@ -74,8 +76,8 @@ const ProductDetail = () => {
       <Information product={product} />
       <div className="line"></div>
       <Feedback product={product} />
-      <div className="line"></div>
-      <SeeMore />
+      {/* <div className="line"></div>
+      <SeeMore /> */}
     </div>
   );
 };

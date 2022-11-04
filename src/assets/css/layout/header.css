@@ -11,6 +11,7 @@
   height: 121px;
   background-color: var(--primary--color);
   font-family: "Roboto", sans-serif;
+  font-size: 1.4rem;
 }
 
 .headerInner {
@@ -492,10 +493,10 @@
 
 .main__left {
   display: flex;
-  width: 70%;
+  width: 100%;
   align-items: center;
-  justify-content: space-between;
-  margin-left: 19px;
+  justify-content: space-around;
+  /* margin-left: 19px; */
 }
 
 .main__left > a img:hover {
@@ -504,19 +505,27 @@
 }
 
 .main__right {
-  width: 26%;
-  display: flex;
+  display: none;
+  width: 30%;
+  /* display: flex; */
   align-items: center;
   justify-content: space-between;
   margin-right: 6px;
   z-index: 10;
+  font-size: 1.4rem;
 }
 
 .main__right > .main__button:hover {
   transform: scale(1.025);
 }
-
+/* .main__left > .main__button:hover {
+  transform: scale(1.025);
+} */
 /* button */
+
+/* .main__button:hover {
+  transform: scale(1.025);
+} */
 
 .main__button {
   cursor: pointer;
@@ -530,11 +539,15 @@
 }
 
 .main__icon {
-  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .main__box {
-  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .main__button > img {
@@ -556,7 +569,7 @@
 
 .main__access {
   position: relative;
-  font-size: 12px;
+  /* font-size: 12px; */
   transition: all 0.2s linear;
 }
 
@@ -587,7 +600,7 @@
 .main__pc:hover .access__menu {
   transition: all 0.2s linear;
   opacity: 1;
-  top: 45px;
+  top: 40px;
   pointer-events: all;
   width: 150px;
   z-index: 10;
@@ -600,7 +613,7 @@
 
 .main__another {
   position: relative;
-  font-size: 12px;
+  /* font-size: 12px; */
   transition: all 0.2s linear;
 }
 

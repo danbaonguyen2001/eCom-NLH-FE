@@ -434,25 +434,42 @@ const HeaderContent = () => {
             {/* Main - Phone */}
             <Link to="/phone">
               <div className="main__phone main__button main__icon">
-                <LazyLoadImage src={phone} />
+                {/* <LazyLoadImage src={phone} /> */}
+                <div style={{ fontSize: "24px" }}>
+                  <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+                &nbsp; Điện thoại
               </div>
             </Link>
             {/* Main - Tablet */}
             <Link to="/tablet">
               <div className="main__tablet main__button main__icon">
-                <LazyLoadImage src={tablet} />
+                {/* <LazyLoadImage src={tablet} /> */}
+                <div style={{ fontSize: "24px" }}>
+                  <i class="fa-solid fa-tablet-screen-button"></i>
+                </div>
+                &nbsp; Tablet
               </div>
             </Link>
             {/* Main - Laptop */}
             <Link to="/laptop">
               <div className="main__laptop main__button main__icon">
-                <LazyLoadImage src={laptop} />
+                {/* <LazyLoadImage src={laptop} /> */}
+                <div style={{ fontSize: "24px" }}>
+                  <i class="fa-solid fa-laptop"></i>
+                </div>
+                &nbsp; Laptop
               </div>
             </Link>
             {/* Main - Access */}
             <div className="main__access main__button main__icon">
-              <Link to="/accessories">
-                <LazyLoadImage src={access} />
+              <Link to="/accessories" className="flex_center">
+                {/* <LazyLoadImage src={access} /> */}
+                <div style={{ fontSize: "24px" }}>
+                  <i class="fa-regular fa-keyboard"></i>
+                </div>
+                &nbsp;
+                <div>Phụ kiện</div>
               </Link>
               <div className="access__menu">
                 <div className="item-child ">
@@ -587,20 +604,20 @@ const HeaderContent = () => {
               </div>
             </div>
             {/* Main - Smart */}
-            <div className="main__smart main__button main__icon">
+            {/* <div className="main__smart main__button main__icon">
               <Link to="/smart-watch">
                 <LazyLoadImage src={smart} />
               </Link>
-            </div>
+            </div> */}
             {/* Main - Watch */}
-            <Link to="/Watches">
+            {/* <Link to="/Watches">
               <div className="main__watch main__button main__icon">
                 <LazyLoadImage src={watch} />
               </div>
-            </Link>
+            </Link> */}
 
             {/* Main - Pc */}
-            <div className="main__pc  main__button main__icon">
+            {/* <div className="main__pc  main__button main__icon">
               <Link to="/PCPrint">
                 <LazyLoadImage src={pc} />
               </Link>
@@ -622,25 +639,82 @@ const HeaderContent = () => {
                   </Link>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="main__right">
+            </div> */}
+
             {/* Main - Old */}
             <Link to="/mainproductold">
-              <div className="main__old main__button main__box">
-                <LazyLoadImage src={old} />
+              <div className="main__old main__button main__box ">
+                {/* <LazyLoadImage src={old} /> */}
+                <div style={{ fontSize: "24px" }}>
+                  <i class="fa-solid fa-laptop-code"></i>
+                </div>
+                &nbsp; Máy cũ
               </div>
             </Link>
             {/* Main - Sim */}
             <Link to="/sim-so-dep">
               <div className="main__sim main__button main__box">
-                <LazyLoadImage src={sim} />
+                {/* <LazyLoadImage src={sim} /> */}
+                <div style={{ fontSize: "24px" }}>
+                  <i class="fa-solid fa-ticket-simple"></i>
+                </div>
+                &nbsp; Sim,thẻ cào
+              </div>
+            </Link>
+            {/* Main - Another */}
+            <div className="main__another .main__pc main__button main__box">
+              <Link to="/" className="flex_center">
+                {/* <LazyLoadImage src={another} /> */}
+                <div style={{ fontSize: "24px" }}>
+                  <i class="fa-brands fa-usps"></i>
+                </div>
+                &nbsp; Tiện ích
+              </Link>
+              <div className="access__menu">
+                <div className="item-child">
+                  <strong>Tiện ích khác</strong>
+                  {payOnlineData.map((v, i) => {
+                    return (
+                      <Link key={i} to={v.link}>
+                        <h3>{v.content}</h3>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="main__right display_none">
+            {/* Main - Old */}
+            <Link to="/mainproductold">
+              <div className="main__old main__button main__box ">
+                {/* <LazyLoadImage src={old} /> */}
+                <div style={{ fontSize: "24px" }}>
+                  <i class="fa-solid fa-laptop-code"></i>
+                </div>
+                &nbsp; Máy cũ
+              </div>
+            </Link>
+            {/* Main - Sim */}
+            <Link to="/sim-so-dep">
+              <div className="main__sim main__button main__box">
+                {/* <LazyLoadImage src={sim} /> */}
+                <div style={{ fontSize: "24px" }}>
+                  <i class="fa-solid fa-ticket-simple"></i>
+                </div>
+                &nbsp; Sim,thẻ cào
               </div>
             </Link>
             {/* Main - Another */}
             <div className="main__another .main__pc main__button main__box">
               <Link to="/">
-                <LazyLoadImage src={another} />
+                {/* <LazyLoadImage src={another} /> */}
+                <div style={{ fontSize: "24px" }} className="flex_center">
+                  <i class="fa-brands fa-usps"></i>
+                  <div>Tiện ích</div>
+                </div>
+                &nbsp;
               </Link>
               <div className="access__menu">
                 <div className="item-child">
