@@ -5,8 +5,8 @@ import NoOrder from "../components/purchasehistory/NoOrder";
 import ListOrder from "../components/purchasehistory/ListOrders";
 import OrderDetail from "../components/purchasehistory/OrderDetail";
 import UserInFor from "../components/UserInFor";
-import { useParams,useLocation,useHistory } from "react-router-dom";
-import {  useSelector } from "react-redux";
+import { useParams, useLocation, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../features/auth/authSlice";
 import { getParamsValue } from "../utils/format";
 
@@ -22,8 +22,8 @@ const PurchaseHistory = (props) => {
   //
   // check page
   const params = useParams()[0].slice(1);
-  const location = useLocation()
-  const orderId = getParamsValue(location.search,"orderId")
+  const location = useLocation();
+  const orderId = getParamsValue(location.search, "orderId");
   const history = useHistory();
   // fake data
   const product = [""];
@@ -50,9 +50,9 @@ const PurchaseHistory = (props) => {
         setOpenNoOrder(true);
         setOpenListOrder(false);
       }
-    }else if(params === "order"){
+    } else if (params === "order") {
       setClickInfo(false);
-      setClickList(false);
+      setClickList(true);
       setOpenNoOrder(false);
       setOpenListOrder(false);
       setOpenOrderDetail(true);
@@ -69,7 +69,7 @@ const PurchaseHistory = (props) => {
             clickList ? "active_btn_history" : " "
           }`}
           onClick={() => {
-            history.push("/purchasehistory/product")
+            history.push("/purchasehistory/product");
           }}
         >
           <i class="fa-solid fa-square-poll-horizontal icon_history mg_r_5"></i>
@@ -80,7 +80,7 @@ const PurchaseHistory = (props) => {
             clickInfor ? "active_btn_history" : " "
           }`}
           onClick={() => {
-            history.push("/purchasehistory/userinfo")
+            history.push("/purchasehistory/userinfo");
           }}
         >
           <i class="fa-solid fa-circle-user icon_history mg_r_5"></i>
@@ -108,7 +108,7 @@ const PurchaseHistory = (props) => {
           {openListOrder && <ListOrder />}
 
           {/* Chi tiết đơn hàng */}
-          {openOrderDetail && <OrderDetail orderId={orderId}/>}
+          {openOrderDetail && <OrderDetail orderId={orderId} />}
 
           {/* Chỉnh sửa thông tin cá nhân */}
           {clickInfor && <UserInFor />}

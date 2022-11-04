@@ -239,13 +239,15 @@ const Introduce = ({ product }) => {
               style={{
                 fontSize: "16px",
                 fontWeight: "600",
-                padding: "10px 0px",
+                padding: "10px 0 0 0 ",
               }}
             >
               Khuyến mãi
             </p>
-            <p style={{ padding: "0 0 5px 0" }}>
-              Giá và khuyến mãi áp dụng đến hết 23:59 17/07
+            <div className="line"></div>
+            <p style={{ padding: "0 0 5px 0", color: "#0056e0" }}>
+              Giá và khuyến mãi áp dụng đến hết 23:59 &nbsp;
+              <b>17/12/2022</b>
             </p>
           </div>
           <div class="product_introduce_promotion_list">

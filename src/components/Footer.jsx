@@ -17,7 +17,7 @@ const Footer = () => {
       {/* Top */}
       <div className={`ft__top wide row ${expandFC ? "expand__FC" : ""}`}>
         {/* Col 1 */}
-        <div className="top__col col top__col--1">
+        <div className="top__col col l l-3 m-6 c-12">
           <ul className="f-listmenu">
             <li>
               <Link
@@ -47,21 +47,25 @@ const Footer = () => {
                 Chính sách bảo hành
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/"
                 onClick={moreClickHandler}
                 className="arrow showtaga"
-                style={{display:"flex",alignItems:"center",marginTop:"-4px"}}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "-4px",
+                }}
               >
-                <p className="p">
-
-                Xem thêm
-                </p>
-                <LazyLoadImage style={{ width:"24px",height:"24px" }} src={moreI} />
+                <p className="p">Xem thêm</p>
+                <LazyLoadImage
+                  style={{ width: "24px", height: "24px" }}
+                  src={moreI}
+                />
               </Link>
-            </li>
-            <li className={`${hiddenFC ? "hidden__FC" : "show__FC"}`}>
+            </li> */}
+            {/* <li className={`${hiddenFC ? "hidden__FC" : "show__FC"}`}>
               <Link target="_blank" to="/chinh-sach-bao-hanh-san-pham">
                 Chính sách đổi trả
               </Link>
@@ -118,11 +122,11 @@ const Footer = () => {
               <Link target="_blank" to="/chinh-sach-khui-hop-apple">
                 Chính sách khui hộp sản phẩm Apple
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
         {/* Col 2 */}
-        <div className="top__col col top__col--2">
+        <div className="top__col col l-3 m-6 c-12">
           <ul className="f-listmenu">
             <li>
               <Link target="_blank" to="https://mwg.vn">
@@ -156,7 +160,7 @@ const Footer = () => {
           </ul>
         </div>
         {/* Col 3 */}
-        <div className="top__col col top__col--3">
+        <div className="top__col col l-3 m-6 c-12">
           <div className="f-listtel">
             <p className="f-listtel__title">
               <strong>Tổng đài hỗ trợ</strong>
@@ -193,7 +197,7 @@ const Footer = () => {
           </div>
         </div>
         {/* Col 4 */}
-        <div className="top__col col top__col--4">
+        <div className="top__col col l-3 m-6 c-12">
           <div className="f-social">
             <Link
               to="https://www.facebook.com/thegioididongcom"

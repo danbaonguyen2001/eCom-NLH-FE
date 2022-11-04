@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { Audio } from "react-loader-spinner";
+import "../sass/layout/_layout.scss";
 
 //
 import { store } from "../redux/stores";
