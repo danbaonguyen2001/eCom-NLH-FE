@@ -123,6 +123,7 @@ const CompareProducts = () => {
         <div className="l-12 cps_seperate">
           <h3>Tổng quan</h3>
         </div>
+        <div className="line"></div>
         {products[0] ? (
           <div className="cps-l col l-6">
             &nbsp;
@@ -235,6 +236,7 @@ const CompareProducts = () => {
         <div className="l-12 cps_seperate">
           <h3>Thông số kỹ thuật</h3>
         </div>
+        <div className="line"></div>
         {products[0] ? (
           <div className="cps-l col l-6">
             <div class="cps_list">

@@ -128,7 +128,7 @@ const Feedback = ({ product }) => {
           onChange={onChangeReplyComment}
           name="content"
           value={reply.content}
-          class="product_ask_input flex_80_width"
+          class="product_ask_input border flex_80_width"
           placeholder="Xin mời đặt câu hỏi! "
         />
         <div class="product_ask_btn btn flex_10_width flex_center ">
@@ -144,9 +144,9 @@ const Feedback = ({ product }) => {
     );
   };
   return (
-    <div class="product_review_ask row">
+    <div class="product_review_ask border  row">
       <div class="product_review_ask_left col l-6 m-12 c-12">
-        <div class="product_review border">
+        <div class="product_review ">
           <div class="product_review_header">
             <header>Đánh giá {product ? product.name : null}</header>
           </div>
@@ -322,16 +322,16 @@ const Feedback = ({ product }) => {
         </div>
       </div>
       <div class="product_review_ask_right  col l-6 m-12 c-12">
-        <div class="product_ask border">
+        <div class="product_ask ">
           <div class="product_ask_container">
             <header class="product_ask_header">Hỏi và đáp</header>
-            <div class="product_ask_header_input flex_center">
+            <div class="product_ask_header_input  flex_center">
               <input
                 type="text"
                 onChange={onChangeComment}
                 name="content"
                 value={comment.content}
-                class="product_ask_input flex_80_width"
+                class="product_ask_input border flex_80_width"
                 placeholder="Xin mời đặt câu hỏi! "
               />
               <div class="product_ask_btn btn flex_10_width flex_center">
@@ -349,7 +349,7 @@ const Feedback = ({ product }) => {
           <div class="product_ask_list">
             {comments?.map((item, index) => (
               <div className="product_ask_item" key={index}>
-                <div class="product_ask_item_ask">
+                <div class="product_ask_item_ask border">
                   <div className="product_ask_item_answer_header flex">
                     {item.users.avatar !== null ? (
                       <div className="product_user">
@@ -386,7 +386,10 @@ const Feedback = ({ product }) => {
                 </div>
                 {openRep === item.id ? renderReply() : null}
                 {item.subComments?.map((item, index) => (
-                  <div key={index} className="product_ask_item_answer flex">
+                  <div
+                    key={index}
+                    className="product_ask_item_answer border flex"
+                  >
                     <div className="product_ask_item_answer_header flex">
                       {item.users.avatar !== null ? (
                         <div className="product_user">
