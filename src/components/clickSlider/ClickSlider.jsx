@@ -28,7 +28,7 @@ const ClickSlider = ({ imgArr }) => {
   };
 
   return (
-    <div className="container-slider">
+    <div className="container-slider l-12 m-12 c-12">
       {imgArr.map((obj, index) => {
         return (
           <div

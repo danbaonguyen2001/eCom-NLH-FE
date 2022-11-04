@@ -1,5 +1,6 @@
 .product_ask {
   background-color: #f2f2f2;
+  margin-bottom: 1.6rem;
 }
 
 .product_ask_btn_send {
@@ -202,4 +203,14 @@
 
 .product_user__image > img {
   width: 100%;
+}
+
+@media (max-width: 1113px) {
+  .product_review_ask_left {
+    margin-bottom: 1.6rem;
+    padding: 0 1.6rem;
+  }
+  .product_review_ask_right {
+    padding: 0 1.6rem;
+  }
 }
