@@ -25,7 +25,8 @@
 }
 
 .product_introduce_expand_item {
-  width: 54px;
+  max-width: 54px;
+  // width: 100%;
   flex-direction: column;
 }
 
@@ -107,6 +108,7 @@
 }
 
 .product_introduce_promotion {
+  width: 100%;
 }
 
 .product_introduce_promotion_title {
@@ -209,4 +211,10 @@
 
 .hotline {
   margin: 0 5px;
+}
+
+@media (max-width: 739px) {
+  .pd-right {
+    margin: 0 1.6rem;
+  }
 }

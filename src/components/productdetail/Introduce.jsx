@@ -113,8 +113,10 @@ const Introduce = ({ product }) => {
   };
   return (
     <div className=" row">
-      <div class="col l-8 c-6 m-12 ">
+      {/* Left */}
+      <div class="pd-left col l-8 m-12 c-12 ">
         <ClickSlider imgArr={imgArr} />
+        &nbsp;
         {/* Video */}
         <ModalVideo
           channel="youtube"
@@ -123,15 +125,15 @@ const Introduce = ({ product }) => {
           videoId={idVideo}
           onClose={handleCloseVideo}
         />
-        <div class="product_introduce_expand flex">
-          <div class="product_introduce_expand_item flex ">
+        <div class="product_introduce_expand row flex">
+          <div class="product_introduce_expand_item l-2 m-2 c-2 flex ">
             <div class="expand_item_logo flex">
               <i class="fa-solid fa-medal text-3xl"></i>
             </div>
             <span class="product_introduce_expand_item_text">Điểm nổi bật</span>
           </div>
           <div
-            class="product_introduce_expand_item flex"
+            class="product_introduce_expand_item l-2 m-2 c-2 flex"
             onClick={() => setOpenVideo(true)}
           >
             <div class="expand_item_logo flex">
@@ -139,13 +141,13 @@ const Introduce = ({ product }) => {
             </div>
             <span class="product_introduce_expand_item_text">Video</span>
           </div>
-          <div class="product_introduce_expand_item flex">
+          <div class="product_introduce_expand_item l-2 m-2 c-2 flex">
             <div class="expand_item_logo flex">
               <i class="fa-solid fa-box-open text-3xl"></i>
             </div>
             <span class="product_introduce_expand_item_text">Mở hộp</span>
           </div>
-          <div class="product_introduce_expand_item flex">
+          <div class="product_introduce_expand_item l-2 m-2 c-2 flex">
             <div class="expand_item_logo flex">
               <i class="fa-solid fa-camera text-3xl"></i>
             </div>
@@ -153,13 +155,13 @@ const Introduce = ({ product }) => {
               Chụp từ camera
             </span>
           </div>
-          <div class="product_introduce_expand_item flex">
+          <div class="product_introduce_expand_item l-2 m-2 c-2 flex">
             <div class="expand_item_logo flex">
               <i class="fa-solid fa-arrows-spin text-3xl"></i>
             </div>
             <span class="product_introduce_expand_item_text">Hình 360 độ</span>
           </div>
-          <div class="product_introduce_expand_item flex">
+          <div class="product_introduce_expand_item l-2 m-2 c-2 flex">
             <div class="expand_item_logo flex">
               <i class="fa-solid fa-file-signature text-3xl"></i>
             </div>
@@ -167,17 +169,19 @@ const Introduce = ({ product }) => {
               Thông số kỹ thuật
             </span>
           </div>
-          <div class="product_introduce_expand_item flex">
+          {/* <div class="product_introduce_expand_item flex">
             <div class="expand_item_logo flex">
               <i class="fa-solid fa-circle-info text-3xl"></i>
             </div>
             <span class="product_introduce_expand_item_text">
               Thông tin sản phẩm
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
-      <div class="col l-4 c-6 m-12">
+
+      {/* Right */}
+      <div class="pd-right col l-4 m-12 c-12 ">
         <div class="product_introduce_option margin_bottom_10">
           {product?.productOptions.map((v, i) => {
             {

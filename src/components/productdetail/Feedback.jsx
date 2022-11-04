@@ -144,8 +144,8 @@ const Feedback = ({ product }) => {
     );
   };
   return (
-    <div class="product_review_ask flex">
-      <div class="product_review_ask_left box_left">
+    <div class="product_review_ask row">
+      <div class="product_review_ask_left col l-6 m-12 c-12">
         <div class="product_review border">
           <div class="product_review_header">
             <header>Đánh giá {product ? product.name : null}</header>
@@ -271,7 +271,7 @@ const Feedback = ({ product }) => {
                       </span>
                       <i class="fa-solid fa-thumbs-up icon"></i>
                       <span className="product_review_header_text icon">
-                        Đã đánh giá lúc
+                        Đánh giá lúc
                       </span>
                       <span
                         style={{
@@ -295,7 +295,7 @@ const Feedback = ({ product }) => {
           <div class="product_review_btns flex">
             <button
               onClick={onClickRate}
-              class="product_review_btn flex_30_width btn"
+              class="product_review_btn l-4 m-4 c-5 btn"
             >
               {" "}
               <i
@@ -314,14 +314,14 @@ const Feedback = ({ product }) => {
 
             <button
               onClick={() => setSize(size + 5)}
-              class="product_review_btn flex_30_width btn"
+              class="product_review_btn l-4 m-4 c-5  btn"
             >
               Xem Thêm đánh giá
             </button>
           </div>
         </div>
       </div>
-      <div class="product_review_ask_right  box_right">
+      <div class="product_review_ask_right  col l-6 m-12 c-12">
         <div class="product_ask border">
           <div class="product_ask_container">
             <header class="product_ask_header">Hỏi và đáp</header>

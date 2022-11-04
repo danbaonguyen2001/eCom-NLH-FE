@@ -11,10 +11,10 @@ const Information = ({ product }) => {
   const specifications = product ? product?.detailSpecs : [];
 
   return (
-    <div class="product_information flex">
+    <div class="product_information row">
       {/* Thông tin sản phẩm */}
       <div
-        class={`product_information_left box_left ${
+        class={`product_information_left col l-6 m-12 c-12 ${
           featureExpand ? "expand" : ""
         }`}
       >
@@ -27,18 +27,18 @@ const Information = ({ product }) => {
           </div>
         ))} */}
         <h2 class="product_infor_feature_header">{infor}</h2>
-        <div class={`product_infor_toggle flex_100_width flex_center`}>
+        {/* <div class={`product_infor_toggle flex_100_width flex_center`}>
           <button
             class={`product_information_btn_80 `}
             onClick={() => setfeatureExpand(!featureExpand)}
           >
             {featureExpand ? "Thu gọn" : "Xem thêm"}
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Thông số kỹ thuật */}
-      <div class={`product_information_right  box_right`}>
+      <div class={`product_information_right col  l-6 m-12 c-12`}>
         <h1 class="product_information_detail_header">Thông số kỹ thuật</h1>
 
         <div class="product_information_detail_list border">
