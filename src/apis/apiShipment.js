@@ -13,6 +13,19 @@ let config = {
   },
 };
 
+// MOCK
+// sample input
+
+const input = {
+  w: 50,
+  from_district: 1452,
+  ward: 21012,
+  district: 1454,
+  service_id: 53320,
+};
+
+// close before product
+
 export const getShipFee = async (input) => {
   const data = {
     from_district_id: input.from_district,
@@ -25,5 +38,10 @@ export const getShipFee = async (input) => {
     weight: input.wt,
     width: input.wh,
   };
-  axios.get(``, data, config);
+  axios
+    .get(``, data, config)
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((e) => console.log(e));
 };
