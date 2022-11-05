@@ -222,8 +222,9 @@ const HeaderContent = () => {
       });
   }, []);
   return (
-    <div className="headerContainer">
+    <div className="headerContainer row">
       <div className="headerInner wide">
+        {/* New  */}
         {/* Top */}
         <div className="headerInner__top">
           {/* Logo */}
@@ -429,7 +430,7 @@ const HeaderContent = () => {
           </div>
         </div>
         {/* Main */}
-        <div className="headerInner__main">
+        <div className="headerInner__main l-12 display_none ">
           <div className="main__left">
             {/* Main - Phone */}
             <Link to="/phone">
@@ -731,6 +732,7 @@ const HeaderContent = () => {
             </div>
           </div>
         </div>
+        {/* Main Tablet-Phone */}
       </div>
     </div>
   );
