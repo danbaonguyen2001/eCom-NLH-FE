@@ -4,14 +4,14 @@ export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (inputData) => ({
-                url: "https://tlcn-2022-be.herokuapp.com/api/auth/login",
+                url: "https://tlcn-2022-be.onrender.com/api/auth/login",
                 method: "POST",
                 body: {...inputData },
             }),
         }),
         register: builder.mutation({
             query: (inputData) => ({
-                url: `https://tlcn-2022-be.herokuapp.com/api/auth/register`,
+                url: `https://tlcn-2022-be.onrender.com/api/auth/register`,
                 method: "POST",
                 body: {...inputData },
             }),
@@ -27,7 +27,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         verify: builder.mutation({
             query: ({ token }) => {
                 return {
-                    url: `https://tlcn-2022-be.herokuapp.com/api/auth/verify-email/${token}`,
+                    url: `https://tlcn-2022-be.onrender.com/api/auth/verify-email/${token}`,
                     method: "POST",
                 };
             },

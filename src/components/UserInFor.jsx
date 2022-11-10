@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../sass/purchasehistory/_user_infor.scss";
 import DeleteAddressModal from "./purchasehistory/subcomponents/DeleteAddressModal";
@@ -41,13 +41,12 @@ const UserInFor = () => {
       setIsIdDefault(false);
     }
     setAddressBtStatus("Edit");
-    console.log(v);
-    let add = userData.addresses`x`
-      .find((address) => v.id == address.id)
+    let add = userData.addresses
+      .find((address) => v.detailAddress == address.detailAddress)
       .address.split(",");
     setUserData({
       ...userData,
-      addressId: v.id,
+      addressId: v.detailAddress,
     });
     setDetailAddress(add[0] || "Chưa có địa chỉ cụ thể");
     setCommuneName(add[1]);
@@ -167,15 +166,16 @@ const UserInFor = () => {
     phone: "Đang tải dữ liệu...",
     addresses: ["Đang tải dữ liệu..."],
     avatar: null,
+    isNew: false,
     addressId: -1,
   });
-  useMemo(() => {
+  useEffect(() => {
     // userController
-    const fetchUser = async () => {
-      const res = await userController.getUser();
-      try {
-        let { gender, name, addresses, phone, avatar } = res.data.data;
-
+    userController
+      .getUser()
+      .then((res) => {
+        const data = res.data.user;
+        let { gender, name, addresses, phone, avatar } = data;
         setUserData({
           ...userData,
           gender,
@@ -184,29 +184,49 @@ const UserInFor = () => {
           phone,
           avatar,
         });
-      } catch (e) {
+      })
+      .catch((e) => {
         toast.info(`Lỗi không thể tải thông tin người dùng: ${e?.message}`, {
           toastId: 99,
           autoClose: 5000,
           closeOnClick: true,
         });
-      }
-    };
-    fetchUser();
+      });
   }, []);
   // address button click handler
   const handleConfirmUpdateUserData = async () => {
-    const addressStr = `${detailAddress},${communeName},${districtName},${provinceName}`;
+    alert("click")
+    // var
+    const addressStr = `${
+      detailAddress || "Chưa nhập số nhà"
+    },${communeName},${districtName},${provinceName}`;
+    const addressValue = {
+      province: {
+        provinceID: provinceID,
+        provinceName: provinceName,
+      },
+      ward: {
+        wardCode: communeID,
+        wardName: communeName,
+      },
+      district: {
+        districtID: districtID,
+        districtName: districtName,
+      },
+    };
+    const addresses = userData.addresses.filter(
+      (v) => v.detailAddress !== userData.addressId
+    );
+    addresses.push({
+      editAddress:userData.addressId,
+      idDefault: isIdDefault,
+      detailAddress: addressValue,
+      address: addressStr,
+    });
     let inputData = editDisabled
       ? {
           ...userData,
-          addresses: [
-            {
-              id: userData.addressId,
-              address: addressStr,
-              idDefault: isIdDefault,
-            },
-          ],
+          addresses:addresses,
         }
       : {
           ...userData,
@@ -218,7 +238,7 @@ const UserInFor = () => {
 
       if (status) {
         const newAddresses = userData.addresses.map((v) => {
-          if (v.id == addresses[0].id) {
+          if (v.detailAddress == addresses[0].detailAddress) {
             return addresses[0];
           } else {
             const tempAdd = { ...v };
@@ -239,6 +259,7 @@ const UserInFor = () => {
           avatar,
           addresses: newAddresses,
         });
+
       } else {
         toast.error(`Lỗi không thể thêm địa chỉ mới`, {
           toastId: 99,
@@ -254,12 +275,15 @@ const UserInFor = () => {
       });
     } finally {
       setEditDisabled(!editDisabled);
+      setAddressBtStatus("Add")
     }
   };
   // Add
   const handleAddUserAddress = async () => {
     // var
-    const addressStr = `${detailAddress},${communeName},${districtName},${provinceName}`;
+    const addressStr = `${
+      detailAddress || "Chưa nhập số nhà"
+    },${communeName},${districtName},${provinceName}`;
     const addressValue = {
       province: {
         provinceID: provinceID,
@@ -277,8 +301,10 @@ const UserInFor = () => {
     // call
     const res = await userController.updateUser({
       ...userData,
+      isNew: true,
       addresses: [
         {
+          isNew: true,
           idDefault: isIdDefault,
           detailAddress: addressValue,
           address: addressStr,
@@ -288,7 +314,6 @@ const UserInFor = () => {
     try {
       const { status, data } = res;
       const { gender, name, phone, avatar, addresses } = data;
-      console.log(addresses)
       if (status) {
         const newAddresses = [
           ...userData.addresses,
@@ -432,11 +457,15 @@ const UserInFor = () => {
           <h4 className="user-infor-address__heading">Địa chỉ nhận hàng</h4>
           <div className="line"></div>
           <div className="user-infor-address-list">
-            {userData.addresses.map((v, i) => {
+            {userData?.addresses.map((v, i) => {
               return (
                 <>
                   <div key={i} className="user-infor-address-list__item">
-                    <input type="hidden" name="addressId" value={v.id} />
+                    <input
+                      type="hidden"
+                      name="addressId"
+                      value={v.detailAddress}
+                    />
 
                     <span className="user-infor-address-item__detail">
                       {v.address}
@@ -456,7 +485,7 @@ const UserInFor = () => {
                       onClick={() => {
                         setOpenModalDelete(true);
                         handlerEditAddress(v);
-                        setDeleteAddressId(v.id);
+                        setDeleteAddressId(v.detailAddress);
                       }}
                     >
                       Xoá

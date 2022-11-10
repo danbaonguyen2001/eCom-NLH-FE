@@ -12,35 +12,7 @@ const {
     dispatch
 } = store;
 const userController = {
-    getUser: async() => {
-        let result = {
-            status: false,
-            message: "",
-            data: {},
-        };
-        const res = await dispatch(userApiSlice.endpoints.getUser.initiate());
-        try {
-            let {
-                status,
-                message,
-                data
-            } = res;
-            if (status) {
-                result.status = status;
-                result.data = data;
-                result.message = message;
-            } else {
-                console.log("Cant get user info");
-                result.message("Authorization failed!!");
-
-                throw Error();
-            }
-        } catch (e) {
-            console.log(result.message);
-            console.log(e);
-        }
-        return result;
-    },
+    getUser: async() => await dispatch(userApiSlice.endpoints.getUser.initiate()),
     updateUser: async(inputData) => {
         let result = {
             status: false,
@@ -54,11 +26,11 @@ const userController = {
         );
         try {
             const {
-                status,
-                data
+                success,
+                user: data
             } = res.data;
             console.log(data)
-            if (status) {
+            if (success) {
                 dispatch(setUserInfos({
                     name: data.name,
                     avatar: data.avatar,
@@ -67,7 +39,7 @@ const userController = {
                     phone: data.phone,
                 }))
                 result.data = data;
-                result.status = status;
+                result.status = success;
             } else {
                 throw Error("Cant update user info");
             }
@@ -111,32 +83,14 @@ const userController = {
         }
         return result;
     },
-    deleteAddressById: async(inputData) => {
-        const {
+    deleteAddressById: async({
+        addressId
+    }) => await dispatch(
+        userApiSlice.endpoints.deleteAddressById.initiate({
             addressId
-        } = inputData;
-        let result = {
-            status: false,
-        };
-        const res = await dispatch(
-            userApiSlice.endpoints.deleteAddressById.initiate({
-                addressId
-            })
-        );
-        try {
-            const {
-                status
-            } = res.data;
-            if (status) {
-                result.status = true;
-            } else {
-                console.log("Cant delete address");
-                throw Error();
-            }
-        } catch (err) {
-            console.log(err);
-        }
-        return result;
-    },
+        })
+    ),
+
+
 };
 export default userController;
