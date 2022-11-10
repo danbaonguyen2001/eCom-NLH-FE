@@ -18,7 +18,6 @@ const UserInfoSubMenu = ({ user }) => {
       <Title>Tài khoản của tôi</Title>
       <BoxInfo>
         {/* Info */}
-        {console.log(user)}
         <h6>{`${user?.name||"Đang tải"} - ${user?.email||"Đang tải"} - ${user?.role.split("_")?.[1]||"Đang tải"}`}</h6>
       </BoxInfo>
     </div>

@@ -1,8 +1,16 @@
-import { userApiSlice } from "./userApiSlice";
-import { store } from "../../redux/stores";
-import { setUserInfos } from "../auth/authSlice";
+import {
+    userApiSlice
+} from "./userApiSlice";
+import {
+    store
+} from "../../redux/stores";
+import {
+    setUserInfos
+} from "../auth/authSlice";
 
-const { dispatch } = store;
+const {
+    dispatch
+} = store;
 const userController = {
     getUser: async() => {
         let result = {
@@ -12,7 +20,11 @@ const userController = {
         };
         const res = await dispatch(userApiSlice.endpoints.getUser.initiate());
         try {
-            let { status, message, data } = res;
+            let {
+                status,
+                message,
+                data
+            } = res;
             if (status) {
                 result.status = status;
                 result.data = data;
@@ -34,11 +46,17 @@ const userController = {
             status: false,
             data: [],
         };
+        console.log(inputData)
         const res = await dispatch(
-            userApiSlice.endpoints.updateUser.initiate({...inputData })
+            userApiSlice.endpoints.updateUser.initiate({
+                ...inputData
+            })
         );
         try {
-            const { status, data } = res.data;
+            const {
+                status,
+                data
+            } = res.data;
             console.log(data)
             if (status) {
                 dispatch(setUserInfos({
@@ -51,8 +69,7 @@ const userController = {
                 result.data = data;
                 result.status = status;
             } else {
-                console.log("Cant update user info");
-                throw Error();
+                throw Error("Cant update user info");
             }
         } catch (e) {
             console.log(e);
@@ -60,19 +77,29 @@ const userController = {
         return result;
     },
     updateAvatar: async(inputData) => {
-        let { formData, urlImg } = inputData;
+        let {
+            formData,
+            urlImg
+        } = inputData;
         let result = {
             status: false,
             data: "",
         };
         const res = await dispatch(
-            userApiSlice.endpoints.updateAvatar.initiate({ formData })
+            userApiSlice.endpoints.updateAvatar.initiate({
+                formData
+            })
         );
         try {
-            let { status, data } = res.data;
+            let {
+                status,
+                data
+            } = res.data;
 
             if (status) {
-                dispatch(setUserInfos({ avatar: data }))
+                dispatch(setUserInfos({
+                    avatar: data
+                }))
                 result.data = data;
                 result.status = status;
             } else {
@@ -85,15 +112,21 @@ const userController = {
         return result;
     },
     deleteAddressById: async(inputData) => {
-        const { addressId } = inputData;
+        const {
+            addressId
+        } = inputData;
         let result = {
             status: false,
         };
         const res = await dispatch(
-            userApiSlice.endpoints.deleteAddressById.initiate({ addressId })
+            userApiSlice.endpoints.deleteAddressById.initiate({
+                addressId
+            })
         );
         try {
-            const { status } = res.data;
+            const {
+                status
+            } = res.data;
             if (status) {
                 result.status = true;
             } else {
