@@ -268,7 +268,8 @@ const UserInFor = () => {
         closeOnClick: true,
       });
     } finally {
-      setAddressBtStatus("Add");
+      if (!editDisabled) setEditDisabled(true);
+      if (addressBtStatus == "Edit") setAddressBtStatus("Add");
     }
   };
   // Add
@@ -589,7 +590,7 @@ const UserInFor = () => {
         {openModalDelete && (
           <DeleteAddressModal
             deleteAddressId={deleteAddressId}
-            setUserData= {setUserData}
+            setUserData={setUserData}
             openModalDelete={setOpenModalDelete}
             addressEdit={addressEdit}
           />
