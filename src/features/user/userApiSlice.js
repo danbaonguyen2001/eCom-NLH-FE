@@ -5,13 +5,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
         endpoints: (builder) => ({
             getUser: builder.query({
                 query: () => ({
-                    url: "https://tlcn-2022-be.onrender.com/api/users/profile",
+                    url: "http://localhost:5000/api/users/profile",
                     method: "GET",
                 })
             }),
             updateUser: builder.mutation({
                 query: (inputData) => ({
-                    url: "https://tlcn-2022-be.onrender.com/api/users/profile",
+                    url: "http://localhost:5000/api/users/profile",
                     method: "PUT",
                     body: {...inputData }
                 })
@@ -25,7 +25,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
             }),
             deleteAddressById: builder.mutation({
                 query: ({ addressId }) => ({
-                    url: `https://tlcn-2022-be.onrender.com/api/users/address/${addressId}`,
+                    url: `http://localhost:5000/api/users/address/${addressId}`,
                     method: "DELETE",
                 })
             }),

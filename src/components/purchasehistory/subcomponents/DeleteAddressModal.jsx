@@ -2,15 +2,13 @@ import React from "react";
 import "../../../sass/purchasehistory/_delete_address_modal.scss";
 import userController from "../../../features/user/function";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
 
 const DeleteAddressModal = ({
   openModalDelete,
   deleteAddressId,
   addressEdit,
+  setUserData,
 }) => {
-  const history = useHistory();
-
   const handleConfirmDeleteAddress = async () => {
     const addressId = deleteAddressId;
     userController
@@ -21,8 +19,17 @@ const DeleteAddressModal = ({
           autoClose: 5000,
           closeOnClick: true,
         });
+        setUserData((prev) => {
+          const newAddresses = prev.addresses.filter(
+            (v) => v.detailAddress != deleteAddressId
+          );
+          console.log(newAddresses);
+          return {
+            ...prev,
+            addresses: newAddresses,
+          };
+        });
         openModalDelete(false);
-        history.go(0);
       })
       .catch((err) => {
         toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {

@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 const UserInFor = () => {
   //
   const [province, setProvince] = useState([]);
-  const [provinceID, setProvinceID] = useState("269");
+  const [provinceID, setProvinceID] = useState(269);
   const [district, setDistrict] = useState([]);
   const [districtID, setDistrictID] = useState("");
   const [commune, setCommune] = useState([]);
@@ -20,6 +20,7 @@ const UserInFor = () => {
   const [openModalDelete, setOpenModalDelete] = useState(false);
 
   //
+  const [editDisabled, setEditDisabled] = useState(true);
 
   //
   const [deleteAddressId, setDeleteAddressId] = useState(null);
@@ -195,7 +196,6 @@ const UserInFor = () => {
   }, []);
   // address button click handler
   const handleConfirmUpdateUserData = async () => {
-    alert("click")
     // var
     const addressStr = `${
       detailAddress || "Chưa nhập số nhà"
@@ -218,7 +218,6 @@ const UserInFor = () => {
       (v) => v.detailAddress !== userData.addressId
     );
     addresses.push({
-      editAddress:userData.addressId,
       idDefault: isIdDefault,
       detailAddress: addressValue,
       address: addressStr,
@@ -226,26 +225,22 @@ const UserInFor = () => {
     let inputData = editDisabled
       ? {
           ...userData,
-          addresses:addresses,
+          editAddress: userData.addressId,
+          newAddress: {
+            idDefault: isIdDefault,
+            detailAddress: addressValue,
+            address: addressStr,
+          },
         }
       : {
           ...userData,
         };
     const res = await userController.updateUser(inputData);
     try {
-      const { status, data } = res;
-      const { gender, name, phone, avatar, addresses } = data;
+      const { status } = res;
+      const { gender, name, phone, avatar, addresses } = res.data;
 
       if (status) {
-        const newAddresses = userData.addresses.map((v) => {
-          if (v.detailAddress == addresses[0].detailAddress) {
-            return addresses[0];
-          } else {
-            const tempAdd = { ...v };
-            tempAdd.idDefault = false;
-            return tempAdd;
-          }
-        });
         toast.success(`Cập nhật địa chỉ thành công`, {
           toastId: 200,
           autoClose: 5000,
@@ -257,9 +252,8 @@ const UserInFor = () => {
           name,
           phone,
           avatar,
-          addresses: newAddresses,
+          addresses,
         });
-
       } else {
         toast.error(`Lỗi không thể thêm địa chỉ mới`, {
           toastId: 99,
@@ -274,8 +268,7 @@ const UserInFor = () => {
         closeOnClick: true,
       });
     } finally {
-      setEditDisabled(!editDisabled);
-      setAddressBtStatus("Add")
+      setAddressBtStatus("Add");
     }
   };
   // Add
@@ -315,6 +308,7 @@ const UserInFor = () => {
       const { status, data } = res;
       const { gender, name, phone, avatar, addresses } = data;
       if (status) {
+        setAddressBtStatus("Edit");
         const newAddresses = [
           ...userData.addresses,
           {
@@ -353,7 +347,6 @@ const UserInFor = () => {
     });
   };
 
-  const [editDisabled, setEditDisabled] = useState(true);
   return (
     <div className="user-infor-main">
       <div className="user-infor">
@@ -423,7 +416,9 @@ const UserInFor = () => {
           {editDisabled ? (
             <>
               <button
-                onClick={() => setEditDisabled(!editDisabled)}
+                onClick={() => {
+                  setEditDisabled(!editDisabled);
+                }}
                 className="user-infor-address-item__btn btn"
               >
                 Cập nhật
@@ -558,7 +553,7 @@ const UserInFor = () => {
         <div className="user-infor-btn ">
           {addressBtStatus == "Add" ? (
             <button
-              className="btn user-infor-btn__update"
+              className={`btn user-infor-btn__update `}
               style={{ marginRight: "25px" }}
               onClick={handleAddUserAddress}
               disabled={!editDisabled}
@@ -582,7 +577,9 @@ const UserInFor = () => {
               disabled={!editDisabled}
               className="btn user-infor-btn__update"
               style={{ marginRight: "25px" }}
-              onClick={() => setAddressBtStatus("Add")}
+              onClick={() => {
+                setAddressBtStatus("Add");
+              }}
             >
               Hủy
             </button>
@@ -592,6 +589,7 @@ const UserInFor = () => {
         {openModalDelete && (
           <DeleteAddressModal
             deleteAddressId={deleteAddressId}
+            setUserData= {setUserData}
             openModalDelete={setOpenModalDelete}
             addressEdit={addressEdit}
           />
