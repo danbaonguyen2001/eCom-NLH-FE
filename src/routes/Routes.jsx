@@ -161,7 +161,9 @@ const Routes = () => {
       {/* Login, Register, RegisterCode, Phone*/}
       <Route path="/register" exact component={Register} />
       {/* <Route path="/register*" exact component={Register} /> */}
-      <Route path="/registerCode" exact component={RegisterCode} />
+      <Route path="/registerCode/:token" exact component={RegisterCode} />
+      <Route path="/api/auth/verify-email/:token" exact component={RegisterCode} />
+
       <Route path="/login" exact component={Login} />
       <Route path="/phone" exact component={Phone} />
 

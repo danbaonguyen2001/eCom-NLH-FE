@@ -1,9 +1,7 @@
 import axios from 'axios'
 
 const baseURL = {
-
   comment: 'https://tgddgroup04.herokuapp.com/api',
-
 }
 
 const axiosInstance = axios.create({
@@ -13,6 +11,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (req) => {
     const token = window.localStorage.getItem('accessToken')
+    // const ghn_token = 
     if (token) {
       req.headers.Authorization = `Bearer ${token}`
     }

@@ -1,31 +1,43 @@
 import React from "react";
 import "../../../sass/purchasehistory/_delete_address_modal.scss";
 import userController from "../../../features/user/function";
-import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const DeleteAddressModal = ({
   openModalDelete,
   deleteAddressId,
   addressEdit,
+  setUserData,
 }) => {
-  const history = useHistory();
-
   const handleConfirmDeleteAddress = async () => {
     const addressId = deleteAddressId;
-    const res = await userController.deleteAddressById({ addressId });
-    try {
-      let { status } = res;
-      if (status) {
-        console.log("Xóa thành công");
-      } else {
-        console.log("Xóa địa chỉ không thành công");
-      }
-    } catch (e) {
-      console.log(e);
-    } finally {
-      openModalDelete(false);
-      history.go(0);
-    }
+    userController
+      .deleteAddressById({ addressId })
+      .then(() => {
+        toast.success(`Xóa địa chỉ thành công`, {
+          toastId: 88,
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+        setUserData((prev) => {
+          const newAddresses = prev.addresses.filter(
+            (v) => v.detailAddress != deleteAddressId
+          );
+          console.log(newAddresses);
+          return {
+            ...prev,
+            addresses: newAddresses,
+          };
+        });
+        openModalDelete(false);
+      })
+      .catch((err) => {
+        toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
+          toastId: 99,
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+      });
   };
   return (
     <div className="delete-address-modal">
@@ -35,7 +47,7 @@ const DeleteAddressModal = ({
         </header>
         <p className="delete-address-modal-content__question">
           Bạn có muốn xoá địa chỉ <br />
-          <span style={{color: 'red'}}>{addressEdit}?</span>
+          <span style={{ color: "red" }}>{addressEdit}?</span>
         </p>
         <div className="delete-address-modal-content__btn">
           <button

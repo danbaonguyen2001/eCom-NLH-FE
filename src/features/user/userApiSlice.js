@@ -5,30 +5,31 @@ export const userApiSlice = apiSlice.injectEndpoints({
         endpoints: (builder) => ({
             getUser: builder.query({
                 query: () => ({
-                    url: "/user",
+                    url: "http://localhost:5000/api/users/profile",
                     method: "GET",
                 })
             }),
             updateUser: builder.mutation({
                 query: (inputData) => ({
-                    url: "/user",
+                    url: "http://localhost:5000/api/users/profile",
                     method: "PUT",
                     body: {...inputData }
                 })
             }),
             updateAvatar: builder.mutation({
-                query: ({ formData }) => ({
-                    url: "/user/avatar",
+                query: (formData) => ({
+                    url: "http://localhost:5000/api/users/avatar",
                     method: "PUT",
                     body: formData,
                 })
             }),
             deleteAddressById: builder.mutation({
                 query: ({ addressId }) => ({
-                    url: `/user/address/${addressId}`,
+                    url: `http://localhost:5000/api/users/address/${addressId}`,
                     method: "DELETE",
                 })
             }),
+
 
 
         })

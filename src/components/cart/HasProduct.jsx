@@ -5,18 +5,21 @@ import Info from "./subComponent/Info";
 import { toVND } from "../../utils/format";
 import { useDispatch } from "react-redux";
 import { setCartTotal } from "../../features/cart/cartSlice";
+// Ship fee
+import { getShipFee } from "../../apis/apiShipment";
 const OrderConfirm = React.lazy(() => import("./subComponent/OrderConfirm"));
 
 const HasProduct = ({ cart }) => {
   //
   const dispatch = useDispatch();
   //
-  // 
+  //
   const [promotionList, setPromotionList] = useState([]);
   const [productListInfo, setProductListInfo] = useState([]);
   const [cartInfo, setCartInfo] = useState({
     quantity: 0,
     total: 0,
+    serviceFee:0,
   });
   // order info
   const [orderInfo, setOrderInfo] = useState({
@@ -32,7 +35,10 @@ const HasProduct = ({ cart }) => {
         quantity: 0,
       },
     ],
+    shippingPrice: 0,
+    totalPrice: 0,
   });
+
   useEffect(() => {
     // get promotion list
     const promotionsGet = cart.map((v) => {
@@ -72,6 +78,37 @@ const HasProduct = ({ cart }) => {
         total: 0,
       }
     );
+    // get Ship fee
+    // MOCK
+    // sample input ship fee
+    let insuranceValue;
+    const input = {
+      wt: 50,
+      wh: 20,
+      l: 20,
+      h: 50,
+      from_district: 1452,
+      ward: 21012,
+      district: 1454,
+      service_id: 53320,
+      insurance_value: insuranceValue || 100000,
+    };
+    const fetchShip = async (input) => await getShipFee(input);
+    fetchShip(input)
+      .then((res) => {
+        const { total: totalFee, service_fee } = res?.data?.data;
+        setOrderInfo({
+          ...orderInfo,
+          shippingPrice: service_fee,
+        });
+        setCartInfo((prev) => {
+          return {
+            ...prev,
+            serviceFee: service_fee,
+          };
+        });
+      })
+      .catch((e) => console.log(e));
     setCartInfo({
       ...totalGet,
     });

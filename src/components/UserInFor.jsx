@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../sass/purchasehistory/_user_infor.scss";
 import DeleteAddressModal from "./purchasehistory/subcomponents/DeleteAddressModal";
@@ -6,18 +6,21 @@ import DeleteAddressModal from "./purchasehistory/subcomponents/DeleteAddressMod
 import userController from "../features/user/function";
 import DropZone from "./useInfo/DropZone";
 //
+import { getProvince, getDistrict, getWard } from "../apis/apiShipment";
+import { toast } from "react-toastify";
 
 const UserInFor = () => {
   //
   const [province, setProvince] = useState([]);
-  const [provinceID, setProvinceID] = useState("1");
+  const [provinceID, setProvinceID] = useState(269);
   const [district, setDistrict] = useState([]);
-  const [districtID, setDistrictID] = useState("1");
+  const [districtID, setDistrictID] = useState("");
   const [commune, setCommune] = useState([]);
   const [communeID, setCommuneID] = useState("");
-  const [openModalDelete, setOpennModalDelete] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
 
   //
+  const [editDisabled, setEditDisabled] = useState(true);
 
   //
   const [deleteAddressId, setDeleteAddressId] = useState(null);
@@ -40,13 +43,13 @@ const UserInFor = () => {
     }
     setAddressBtStatus("Edit");
     let add = userData.addresses
-      .find((address) => v.id == address.id)
+      .find((address) => v.detailAddress == address.detailAddress)
       .address.split(",");
     setUserData({
       ...userData,
-      addressId: v.id,
+      addressId: v.detailAddress,
     });
-    setDetailAddress(add[0]|| "Chưa có địa chỉ cụ thể");
+    setDetailAddress(add[0] || "Chưa có địa chỉ cụ thể");
     setCommuneName(add[1]);
     setDistrictName(add[2]);
     setProvinceName(add[3]);
@@ -55,19 +58,32 @@ const UserInFor = () => {
 
   // Tỉnh
   useEffect(() => {
-    axios.get("https://provinces.open-api.vn/api/p/").then((res) => {
-      setProvince(res.data);
-      let provinceName = res.data.find((v) => v.code == provinceID);
-      setProvinceName(provinceName.name);
+    const fetchProvince = async () => await getProvince();
+    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
+      toastId: 88,
+      autoClose: 5000,
+      closeOnClick: true,
     });
+    fetchProvince()
+      .then((res) => {
+        const { data } = res.data;
+        setProvince(data);
+        setProvinceName(data[0].ProvinceName);
+      })
+      .catch((err) => {
+        toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
+          toastId: 99,
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+      });
   }, []);
 
   const handleProvince = (e) => {
     const getProvinceID = e.target.value;
-
     const provinceNameV = province.find((v) => {
-      return v.code == getProvinceID;
-    }).name;
+      return v.ProvinceID == getProvinceID;
+    }).ProvinceName;
     setProvinceName(provinceNameV);
     setProvinceID(getProvinceID);
     setCommune([]);
@@ -75,56 +91,70 @@ const UserInFor = () => {
 
   //Huyện
   useEffect(() => {
-    getDistrict(provinceID);
-  }, [provinceID]);
-
-  const getDistrict = (provinceid) => {
-    axios
-      .get(`https://provinces.open-api.vn/api/p/${provinceid}?depth=2`)
+    const fetchDistrict = async (provinceID) => await getDistrict(provinceID);
+    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
+      toastId: 88,
+      autoClose: 5000,
+      closeOnClick: true,
+    });
+    fetchDistrict(provinceID)
       .then((res) => {
-        let districtId = res.data.districts[0].code;
-        let districtName = res.data.districts.find((v) => {
-          return v.code == districtId;
+        // Set default
+        const { data } = res.data;
+        setDistrictName(data[0]?.DistrictName);
+        setDistrictID(data[0]?.DistrictID);
+        setDistrict(data);
+      })
+      .catch((e) => {
+        toast.info(`Lỗi không thể lấy địa chỉ: ${e?.message}`, {
+          toastId: 99,
+          autoClose: 5000,
+          closeOnClick: true,
         });
-        setDistrictName(districtName?.name);
-        setDistrictID(districtId);
-        setDistrict(res.data.districts);
       });
-  };
+  }, [provinceID]);
 
   const handleDistrict = (e) => {
     const getDistrictID = e.target.value;
-    const districtNameV = district.find((v) => {
-      return v.code == getDistrictID;
-    }).name;
+    const districtNameV = district.find(
+      (v) => v.DistrictID == getDistrictID
+    ).DistrictName;
     setDistrictName(districtNameV);
     setDistrictID(getDistrictID);
   };
 
   // Xã
   useEffect(() => {
-    getCommune(districtID);
-  }, [districtID]);
-
-  const getCommune = (districtid) => {
-    axios
-      .get(`https://provinces.open-api.vn/api/d/${districtid}?depth=2`)
+    const fetchWard = async (districtID) => await getWard(districtID);
+    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
+      toastId: 88,
+      autoClose: 5000,
+      closeOnClick: true,
+    });
+    fetchWard(districtID)
       .then((res) => {
-        let communeId = res.data.wards[0].code;
-        let communeNameV = res.data.wards.find((v) => {
-          return v.code == communeId;
+        // Set default
+
+        const { data } = res.data;
+
+        setCommuneName(data[0]?.WardName);
+        setCommuneID(data[0]?.WardCode);
+        setCommune(data);
+      })
+      .catch((e) => {
+        toast.info(`Lỗi không thể lấy địa chỉ: ${e?.message}`, {
+          toastId: 99,
+          autoClose: 5000,
+          closeOnClick: true,
         });
-        setCommuneName(communeNameV?.name);
-        setCommuneID(communeId);
-        setCommune(res.data.wards);
       });
-  };
+  }, [districtID]);
 
   const handleCommune = (e) => {
     const getCommunetID = e.target.value;
     const communeNameV = commune.find((v) => {
-      return v.code == getCommunetID;
-    }).name;
+      return v.WardCode == getCommunetID;
+    }).WardName;
     setCommuneName(communeNameV);
     setCommuneID(getCommunetID);
   };
@@ -137,96 +167,150 @@ const UserInFor = () => {
     phone: "Đang tải dữ liệu...",
     addresses: ["Đang tải dữ liệu..."],
     avatar: null,
+    isNew: false,
     addressId: -1,
   });
-  useMemo(() => {
+  useEffect(() => {
     // userController
-    const fetchUser = async () => {
-      const res = await userController.getUser();
-      try {
-        let { gender, name, addresses, phone, avatar } = res.data.data;
+    userController
+      .getUser()
+      .then((res) => {
 
+        const data = res.data.user;
+        let { gender, name, addresses, phone, avatar } = data;
         setUserData({
           ...userData,
           gender,
           name,
           addresses,
           phone,
-          avatar,
+          avatar: avatar.url,
         });
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchUser();
+      })
+      .catch((e) => {
+        toast.info(`Lỗi không thể tải thông tin người dùng: ${e?.message}`, {
+          toastId: 99,
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+      });
   }, []);
   // address button click handler
   const handleConfirmUpdateUserData = async () => {
-    const addressStr = `${detailAddress},${communeName},${districtName},${provinceName}`;
+    // var
+    const addressStr = `${
+      detailAddress || "Chưa nhập số nhà"
+    },${communeName},${districtName},${provinceName}`;
+    const addressValue = {
+      province: {
+        provinceID: provinceID,
+        provinceName: provinceName,
+      },
+      ward: {
+        wardCode: communeID,
+        wardName: communeName,
+      },
+      district: {
+        districtID: districtID,
+        districtName: districtName,
+      },
+    };
+    const addresses = userData.addresses.filter(
+      (v) => v.detailAddress !== userData.addressId
+    );
+    addresses.push({
+      idDefault: isIdDefault,
+      detailAddress: addressValue,
+      address: addressStr,
+    });
     let inputData = editDisabled
       ? {
           ...userData,
-          addresses: [
-            {
-              id: userData.addressId,
-              address: addressStr,
-              idDefault: isIdDefault,
-            },
-          ],
+          editAddress: userData.addressId,
+          newAddress: {
+            idDefault: isIdDefault,
+            detailAddress: addressValue,
+            address: addressStr,
+          },
         }
       : {
           ...userData,
         };
     const res = await userController.updateUser(inputData);
     try {
-      const { status, data } = res;
-      const { gender, name, phone, avatar, addresses } = data;
+      const { status } = res;
+      const { gender, name, phone, avatar, addresses } = res.data;
 
       if (status) {
-        const newAddresses = userData.addresses.map((v) => {
-          if (v.id == addresses[0].id) {
-            return addresses[0];
-          } else {
-            const tempAdd = { ...v };
-            tempAdd.idDefault = false;
-            return tempAdd;
-          }
+        toast.success(`Cập nhật địa chỉ thành công`, {
+          toastId: 200,
+          autoClose: 5000,
+          closeOnClick: true,
         });
-        alert("Cập nhật thông tin thành công")
         setUserData({
           ...userData,
           gender,
           name,
           phone,
           avatar,
-          addresses: newAddresses,
+          addresses,
         });
       } else {
-        console.log("Khong add cap them dia chi");
+        toast.error(`Lỗi không thể thêm địa chỉ mới`, {
+          toastId: 99,
+          autoClose: 5000,
+          closeOnClick: true,
+        });
       }
     } catch (e) {
-      console.log(e);
-    }finally{
-       setEditDisabled(!editDisabled)
-
+      toast.error(`Lỗi không thể lấy địa chỉ: ${e?.message}`, {
+        toastId: 99,
+        autoClose: 5000,
+        closeOnClick: true,
+      });
+    } finally {
+      if (!editDisabled) setEditDisabled(true);
+      if (addressBtStatus == "Edit") setAddressBtStatus("Add");
     }
   };
+  // Add
   const handleAddUserAddress = async () => {
-    const addressStr = `${detailAddress},${communeName},${districtName},${provinceName}`;
+    // var
+    const addressStr = `${
+      detailAddress || "Chưa nhập số nhà"
+    },${communeName},${districtName},${provinceName}`;
+    const addressValue = {
+      province: {
+        provinceID: provinceID,
+        provinceName: provinceName,
+      },
+      ward: {
+        wardCode: communeID,
+        wardName: communeName,
+      },
+      district: {
+        districtID: districtID,
+        districtName: districtName,
+      },
+    };
+    // call
     const res = await userController.updateUser({
       ...userData,
+      isNew: true,
       addresses: [
         {
-          address: addressStr,
+          isNew: true,
           idDefault: isIdDefault,
+          detailAddress: addressValue,
+          address: addressStr,
         },
       ],
     });
     try {
       const { status, data } = res;
       const { gender, name, phone, avatar, addresses } = data;
-
       if (status) {
+        setAddressBtStatus("Edit");
         const newAddresses = [
           ...userData.addresses,
           {
@@ -240,13 +324,21 @@ const UserInFor = () => {
           name,
           phone,
           avatar,
-          addresses:newAddresses,
+          addresses: newAddresses,
         });
       } else {
-        console.log("Khong add cap them dia chi");
+        toast.error(`Lỗi không thể thêm địa chỉ mới`, {
+          toastId: 99,
+          autoClose: 5000,
+          closeOnClick: true,
+        });
       }
     } catch (e) {
-      console.log(e);
+      toast.error(`Lỗi không thể thêm địa chỉ mới`, {
+        toastId: 99,
+        autoClose: 5000,
+        closeOnClick: true,
+      });
     }
   };
   //
@@ -257,7 +349,6 @@ const UserInFor = () => {
     });
   };
 
-  const [editDisabled, setEditDisabled] = useState(true);
   return (
     <div className="user-infor-main">
       <div className="user-infor">
@@ -265,7 +356,11 @@ const UserInFor = () => {
         <div className="user-infor-header">
           <h4 className="user-infor-header__heading">Thông tin cá nhân</h4>
           {/* Img */}
-          <DropZone userDataAvatar={userData.avatar} setUserData={setUserData} userData={userData} />
+          <DropZone
+            userDataAvatar={userData.avatar}
+            setUserData={setUserData}
+            userData={userData}
+          />
           {/*  */}
           <input
             checked={userData.gender == "man"}
@@ -323,7 +418,9 @@ const UserInFor = () => {
           {editDisabled ? (
             <>
               <button
-                onClick={() => setEditDisabled(!editDisabled)}
+                onClick={() => {
+                  setEditDisabled(!editDisabled);
+                }}
                 className="user-infor-address-item__btn btn"
               >
                 Cập nhật
@@ -357,11 +454,15 @@ const UserInFor = () => {
           <h4 className="user-infor-address__heading">Địa chỉ nhận hàng</h4>
           <div className="line"></div>
           <div className="user-infor-address-list">
-            {userData.addresses.map((v, i) => {
+            {userData?.addresses.map((v, i) => {
               return (
                 <>
                   <div key={i} className="user-infor-address-list__item">
-                    <input type="hidden" name="addressId" value={v.id} />
+                    <input
+                      type="hidden"
+                      name="addressId"
+                      value={v.detailAddress}
+                    />
 
                     <span className="user-infor-address-item__detail">
                       {v.address}
@@ -379,9 +480,9 @@ const UserInFor = () => {
                       className="user-infor-address-item__btn btn"
                       disabled={v.idDefault}
                       onClick={() => {
-                        setOpennModalDelete(true);
+                        setOpenModalDelete(true);
                         handlerEditAddress(v);
-                        setDeleteAddressId(v.id);
+                        setDeleteAddressId(v.detailAddress);
                       }}
                     >
                       Xoá
@@ -402,16 +503,9 @@ const UserInFor = () => {
               name="provinceSelect"
               onChange={handleProvince}
             >
-              <option value={provinceName || province[provinceID - 1]?.name}>
-                {provinceName ? (
-                  <>{provinceName}</>
-                ) : province[provinceID - 1] ? (
-                  <>{province[provinceID - 1]?.name}</>
-                ) : null}
-              </option>
-              {province.map((getPro, index) => (
-                <option key={index} value={getPro.code}>
-                  {getPro.name}
+              {province.map((p, index) => (
+                <option key={index} value={p.ProvinceID}>
+                  {p.ProvinceName}
                 </option>
               ))}
             </select>
@@ -421,16 +515,9 @@ const UserInFor = () => {
               id="district"
               onChange={handleDistrict}
             >
-              <option value={districtName || district[districtID]?.name}>
-                {districtName ? (
-                  <>{districtName}</>
-                ) : district[districtID] ? (
-                  <>{district[districtID]?.name}</>
-                ) : null}
-              </option>
               {district.map((getDis, index) => (
-                <option key={index} value={getDis.code}>
-                  {getDis.name}
+                <option key={index} value={getDis.DistrictID}>
+                  {getDis.DistrictName}
                 </option>
               ))}
             </select>
@@ -440,23 +527,16 @@ const UserInFor = () => {
               id="commune"
               onChange={handleCommune}
             >
-              <option value={communeName || commune[communeID - 1]?.name}>
-                {communeName ? (
-                  <>{communeName}</>
-                ) : commune[communeID - 1] ? (
-                  <>{commune[communeID - 1]?.name}</>
-                ) : null}
-              </option>
               {commune.map((getCom, index) => (
-                <option key={index} value={getCom.code}>
-                  {getCom.name}
+                <option key={index} value={getCom.WardCode}>
+                  {getCom.WardName}
                 </option>
               ))}
             </select>
             <input
               className="update-address__input input"
               type="text"
-              value={detailAddress }
+              value={detailAddress}
               placeholder="Số nhà, tên đường"
               onChange={(e) => setDetailAddress(e.target.value)}
             />
@@ -475,7 +555,7 @@ const UserInFor = () => {
         <div className="user-infor-btn ">
           {addressBtStatus == "Add" ? (
             <button
-              className="btn user-infor-btn__update"
+              className={`btn user-infor-btn__update `}
               style={{ marginRight: "25px" }}
               onClick={handleAddUserAddress}
               disabled={!editDisabled}
@@ -499,7 +579,9 @@ const UserInFor = () => {
               disabled={!editDisabled}
               className="btn user-infor-btn__update"
               style={{ marginRight: "25px" }}
-              onClick={() => setAddressBtStatus("Add")}
+              onClick={() => {
+                setAddressBtStatus("Add");
+              }}
             >
               Hủy
             </button>
@@ -509,7 +591,8 @@ const UserInFor = () => {
         {openModalDelete && (
           <DeleteAddressModal
             deleteAddressId={deleteAddressId}
-            openModalDelete={setOpennModalDelete}
+            setUserData={setUserData}
+            openModalDelete={setOpenModalDelete}
             addressEdit={addressEdit}
           />
         )}

@@ -1,48 +1,85 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import background from "../assets/images/register/login.png";
 import "../sass/auth/_register_code.scss";
 
 // Function
 import authController from "../features/auth/functions";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const RegisterCode = (props) => {
   const [values, setValues] = useState({
     code: "",
   });
+  const history = useHistory();
+  const { token } = useParams();
+  useEffect(() => {
+    const verifyCode = async () => {
+      try {
+        let result = await authController.verify({ token });
+        console.log(result);
+        if (result) {
+          toast.success(`Xác thực tài khoản thành công`, {
+            position: "top-right",
+            autoClose: 5000,
+            closeOnClick: true,
+          });
+          history.push("/login");
+        } else {
+          toast.error(
+            `Link không hợp lệ hoặc đã hết hạn, hoặc thử bằng cách nhập link vào ô bên dưới`,
+            {
+              position: "top-right",
+              autoClose: 5000,
+              closeOnClick: true,
+              toastId: 99,
+            }
+          );
+        }
+      } catch (e) {
+        toast.error(`Thử lại sau`, {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+          toastId: 99,
+        });
+      }
+    };
+    verifyCode();
+  }, []);
 
-  const passEmail = props.location.state;
-
-  // const passEmail = "nvcbg5331@1655mail.com";
-  // console.log(mailCode);
   const onChange = (e) => {
     setValues({ ...values, code: e.target.value });
   };
 
-  const history = useHistory();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let email = passEmail.passEmail;
-    let token = values.code.toString();
     // Xua ly
-    let result = await authController.verify({ token, email });
-    // console.log(email, token);
-    // console.log(result);
-    if (result === true) {
-      toast.info(`Đăng ký tài khoản thành công`, {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: true,
-      });
-      history.push("/login");
-    } else {
+    try {
+      let result = await authController.verify({ token });
+      console.log(result);
+      if (result === true) {
+        toast.success(`Xác thực tài khoản thành công`, {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+        history.push("/login");
+      } else {
+        toast.error(`Link không hợp lệ hoặc đã hết hạn`, {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+          toastId: 99,
+        });
+      }
+    } catch (e) {
       toast.error(`Thử lại sau`, {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
+        toastId: 99,
       });
     }
   };
@@ -63,9 +100,10 @@ const RegisterCode = (props) => {
                   <input
                     type="text"
                     className="registercode_form_input username"
-                    placeholder="Nhập mã code"
+                    placeholder="Nhấn vào đường link dẫn đến mail của bạn"
                     value={values.code}
                     onChange={onChange}
+                    disabled={true}
                   ></input>
                   {/* <i className="fa-solid fa-circle-check"></i>
                   <i className="fa-solid fa-circle-exclamation"></i> */}
@@ -73,8 +111,8 @@ const RegisterCode = (props) => {
                 </div>
 
                 <div className="registercode_form_btn_control">
-                  <button type="submit" className="btn_next">
-                    Tiếp tục
+                  <button type="submit" disabled={true} className="btn_next">
+                    Chờ xác thực
                   </button>
                 </div>
               </form>

@@ -183,7 +183,7 @@ const HeaderContent = () => {
         },
       });
     }
-  }, [status]);
+  }, [avatar,status]);
   //
   // Begin content
   const [data, setData] = useState([]);
@@ -224,8 +224,10 @@ const HeaderContent = () => {
       });
   }, []);
   return (
+
     <div className="headerContainer grid wide">
       <div className="headerInner row">
+
         {/* New  */}
         {/* Top */}
         <div className="headerInner__top  l-12 m-10 c-10  ">
@@ -433,7 +435,9 @@ const HeaderContent = () => {
         </div>
 
         {/* Main */}
-        <div className="headerInner__main    ">
+
+        <div className="headerInner__main l-12 display_none ">
+
           <div className="main__left">
             {/* Main - Phone */}
             <Link to="/phone">

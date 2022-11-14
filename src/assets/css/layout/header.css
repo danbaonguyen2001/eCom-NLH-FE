@@ -486,9 +486,12 @@
 
 .headerInner__main {
   position: relative;
-  /* margin: 0 auto; */
+
+ 
+
+  margin: 0 auto;
   margin-bottom: 1.2rem;
-  /* padding: 1.6rem 0; */
+
   height: 58px;
   /* width: 1196px; */
   background-color: var(--white--color);
