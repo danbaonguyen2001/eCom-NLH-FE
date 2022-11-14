@@ -28,31 +28,29 @@ const Phone = () => {
   const [filter, setFilter] = useState(0);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      let res = await productHandler.getProductList(showSub);
-      try {
-        setListProduct(res.data);
-        setFilter(res.data);
-        setTotalQt(res?.data?.length);
-        console.log(listProduct);
-      } catch (error) {
-        console.log(error);
-      }
-      // try {
-      //   const handleCon = (e) => {
-      //     console.log(e.target);
-      //     if (!btnRef.current.contains(e.target)) {
-      //       // console.log("trong if" + !btnRef.current.contains(e.target));
-      //       setActive(false);
-      //     }
-      //     console.log("Click ngoai " + active);
-      //   };
-      //   document.addEventListener("mousedown", handleCon);
-      // } catch (e) {
-      //   console.log(e);
-      // }
-    };
-    fetchProduct();
+    // const fetchProduct = async () => {
+    //   let res = await productHandler.getProductList(showSub);
+    //   try {
+    //     setListProduct(res.data);
+    //     setFilter(res.data);
+    //     setTotalQt(res?.data?.length);
+    //     console.log(listProduct);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+
+    // };
+    // fetchProduct();
+
+    productHandler.getAllProducts().then((res) => {
+      // console.log(res.data);
+      const listProducts = res.data.products;
+      console.log("List of products:");
+      setListProduct(res.data.products);
+      setFilter(res.data.products);
+      setTotalQt(res.data.products);
+      console.log(listProducts);
+    });
   }, [showSub]);
 
   // lọc theo giá

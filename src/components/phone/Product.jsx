@@ -32,7 +32,7 @@ const Product = ({ list, qt }) => {
   const productList = useSelector((state) => state.product);
   console.log(productList);
   const handleAddProductCompare = (item) => {
-    const action = addProduct(item.id);
+    const action = addProduct(item._id);
     dispatch(action);
   };
 
@@ -43,7 +43,7 @@ const Product = ({ list, qt }) => {
           <Link
             to={{
               pathname: `/productdetail/${item.name.replaceAll(" ", "-")}`,
-              state: { productId: item.id },
+              state: { productId: item._id },
             }}
             key={item?.id}
             className="item_productPhone"
@@ -68,14 +68,14 @@ const Product = ({ list, qt }) => {
                 {/* {item?.marketPrice
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}{" "} */}
-                {toVND(item?.price)}
+                {toVND(item?.price * 1.1)}
                 {/* <div className="donvi">&#8363;</div> */}
               </div>
-              <div className="discount_productPhone">-{item?.promotion}%</div>
+              <div className="discount_productPhone">-10%</div>
             </div>
 
             <div className="price_currency_productPhone">
-              {toVND(item?.marketPrice)}
+              {toVND(item?.price)}
               {/* <div className="donvi">&#8363;</div> */}
             </div>
 
@@ -88,7 +88,7 @@ const Product = ({ list, qt }) => {
               <div className="rate_product">25</div>
             </div> */}
             <div className="star-phone">
-              <StarRating rating={item?.rate} />
+              <StarRating rating={item?.rating} />
               {/* <StarRating rating={3.7} /> */}
             </div>
             <div

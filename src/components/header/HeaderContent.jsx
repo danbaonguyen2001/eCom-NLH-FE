@@ -212,7 +212,7 @@ const HeaderContent = () => {
     // Get city list
     province()
       .then((data) => {
-        console.log(data.data.data);
+        // console.log(data.data.data);
         let raw = data.data.data.map((v) => {
           return v.ProvinceName;
         });

@@ -17,7 +17,7 @@ const ProductDetail = () => {
 
   const productId = location.state.productId;
 
-  //const productId = 20;
+  const fakeProductId = "6362440216e3c97b296ef5dd";
 
   console.log(location);
 
