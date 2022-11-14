@@ -1,5 +1,6 @@
 .headerWrapper {
   background: var(--primary--color);
+  padding-bottom: 0.8rem;
 }
 
 /* Nguyen fix icon */
@@ -487,10 +488,7 @@
 .headerInner__main {
   position: relative;
 
- 
-
-  margin: 0 auto;
-  margin-bottom: 1.2rem;
+  /* margin-bottom: 1.6rem; */
 
   height: 58px;
   /* width: 1196px; */
@@ -508,6 +506,7 @@
   align-items: center;
   justify-content: space-around;
   /* margin-left: 19px; */
+  /* margin-bottom: 0.8rem; */
 }
 
 .main__left > a img:hover {
