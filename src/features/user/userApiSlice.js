@@ -17,7 +17,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 })
             }),
             updateAvatar: builder.mutation({
-                query: ({ formData }) => ({
+                query: (formData) => ({
                     url: "http://localhost:5000/api/users/avatar",
                     method: "PUT",
                     body: formData,

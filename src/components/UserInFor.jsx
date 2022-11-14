@@ -175,6 +175,7 @@ const UserInFor = () => {
     userController
       .getUser()
       .then((res) => {
+
         const data = res.data.user;
         let { gender, name, addresses, phone, avatar } = data;
         setUserData({
@@ -183,7 +184,7 @@ const UserInFor = () => {
           name,
           addresses,
           phone,
-          avatar,
+          avatar: avatar.url,
         });
       })
       .catch((e) => {
