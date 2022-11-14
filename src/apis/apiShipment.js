@@ -1,10 +1,13 @@
-// import axios from "axios";
+
+
 const axios = require("axios")
+
 
 const Token = "36ccac9c-5cf2-11ed-b8cc-a20ef301dcd7";
 const shop_id = 120559;
 const province_id = 202;
 const from_district = 3695;
+
 
 
 // MOCK
@@ -88,3 +91,4 @@ export const getWard = async(districtID) => {
         }
     })
 }
+

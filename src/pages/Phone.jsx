@@ -1,9 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Select from "react-dropdown-select";
 import "../sass/phone/phone.scss";
 import TopSlider from "../components/PCPrint/TopSlider";
 import Banner from "../components/phone/Banner";
 import productHandler from "../features/product/function";
 import Product from "../components/phone/Product";
+import ListProduct from "../components/ListProduct";
+
+const manufactor = ["Iphone", "Sam Sung", "Vivo", "Xiaomi", "Oppo"];
 
 const Phone = () => {
   // const btnRef = useRef();
@@ -19,38 +25,36 @@ const Phone = () => {
   const [selected, setSelected] = useState();
   const [move, setMove] = useState(false);
 
-  const [listProduct, setListProduct] = useState(0);
   const [filter, setFilter] = useState(0);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      let res = await productHandler.getProductList(showSub);
-      try {
-        setListProduct(res.data);
-        setFilter(res.data);
-        setTotalQt(res?.data?.length);
-        console.log(listProduct);
-      } catch (error) {
-        console.log(error);
-      }
-      // try {
-      //   const handleCon = (e) => {
-      //     console.log(e.target);
-      //     if (!btnRef.current.contains(e.target)) {
-      //       // console.log("trong if" + !btnRef.current.contains(e.target));
-      //       setActive(false);
-      //     }
-      //     console.log("Click ngoai " + active);
-      //   };
-      //   document.addEventListener("mousedown", handleCon);
-      // } catch (e) {
-      //   console.log(e);
-      // }
-    };
-    fetchProduct();
+    // const fetchProduct = async () => {
+    //   let res = await productHandler.getProductList(showSub);
+    //   try {
+    //     setListProduct(res.data);
+    //     setFilter(res.data);
+    //     setTotalQt(res?.data?.length);
+    //     console.log(listProduct);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+
+    // };
+    // fetchProduct();
+
+    productHandler.getAllProducts().then((res) => {
+      // console.log(res.data);
+      const listProducts = res.data.products;
+      console.log("List of products:");
+      setListProduct(res.data.products);
+      setFilter(res.data.products);
+      setTotalQt(res.data.products);
+      console.log(listProducts);
+    });
   }, [showSub]);
 
   // lọc theo giá
+  const [listProduct, setListProduct] = useState(0);
   const filterPrice = (priceMin, priceMax) => {
     const result = filter.filter((curData) => {
       // return curData?.price > priceMax;
@@ -87,7 +91,7 @@ const Phone = () => {
   };
 
   return (
-    <div className="phone_rootPhone">
+    <div className="phone_rootPhone grid wide">
       <div className="phone_paddingtoppx"></div>
       {/* thêm slider   */}
       {/* <TopSlider /> */}
@@ -771,6 +775,7 @@ const Phone = () => {
             Masstel
           </button>
         </div>
+
         <div className="phone_box_quicklink">
           <div className="phone_cangiua">Tìm kiếm nhiều nhất&emsp;</div>
 
@@ -815,7 +820,7 @@ const Phone = () => {
           <label htmlFor="" className="phone_labelbox">
             <input type="checkbox"></input> Mới
           </label>
-          {/* <button onClick={handleSort}>nhandoday</button> */}
+
           <div className="phone_options">
             <label style={{ marginRight: "10px" }} htmlFor="Sapxep">
               Sắp xếp theo:
@@ -838,21 +843,8 @@ const Phone = () => {
           </div>
         </div>
       </div>
-      {/* <ListProduct listProduct={listTablet} /> */}
-      {/* <Product /> */}
-      {/* <Product filter={newlistProduct} /> */}
-      {listProduct.length > 0 && <Product list={listProduct} qt={totalQt} />}
 
-      {/* <div className="phone_button_xemthem">
-          {totalQuantity <= 0 ? (
-            ""
-          ) : (
-            <button onClick={handleShowViewMore}>
-              Xem thêm {totalQuantity} sản phẩm &nbsp;
-              <i class="fa-solid fa-caret-down"></i>
-            </button>
-          )}
-        </div> */}
+      {listProduct.length > 0 && <Product list={listProduct} qt={totalQt} />}
     </div>
   );
 };

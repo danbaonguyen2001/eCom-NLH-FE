@@ -29,7 +29,7 @@ import access from "../../assets/images/header/Headphone.svg";
 import another from "../../assets/images/header/another.svg";
 
 // api
-import { country } from "../../apis/countryApi";
+import { province } from "../../apis/countryApi";
 
 // selector
 import { useDispatch, useSelector } from "react-redux";
@@ -210,11 +210,13 @@ const HeaderContent = () => {
 
   useEffect(() => {
     // Get city list
-    country()
+    province()
       .then((data) => {
-        let raw = data.data.results.map((v) => {
-          return v.name;
+        // console.log(data.data.data);
+        let raw = data.data.data.map((v) => {
+          return v.ProvinceName;
         });
+
         setData(raw);
       })
       .catch((e) => {
@@ -222,11 +224,13 @@ const HeaderContent = () => {
       });
   }, []);
   return (
-    <div className="headerContainer row">
-      <div className="headerInner wide">
+
+    <div className="headerContainer grid wide">
+      <div className="headerInner row">
+
         {/* New  */}
         {/* Top */}
-        <div className="headerInner__top">
+        <div className="headerInner__top  l-12 m-10 c-10  ">
           {/* Logo */}
           <div className="top__logo">
             <Link to="/">
@@ -401,7 +405,7 @@ const HeaderContent = () => {
             />
           </Link>
           {/* News */}
-          <div className="top__news">
+          <div className="top__news m-0 c-0">
             <Link to="/GameApp">
               <div className="news__game news__button">
                 {/* Icon */}
@@ -429,8 +433,11 @@ const HeaderContent = () => {
             </Link>
           </div>
         </div>
+
         {/* Main */}
+
         <div className="headerInner__main l-12 display_none ">
+
           <div className="main__left">
             {/* Main - Phone */}
             <Link to="/phone">
@@ -670,52 +677,6 @@ const HeaderContent = () => {
                   <i class="fa-brands fa-usps"></i>
                 </div>
                 &nbsp; Tiện ích
-              </Link>
-              <div className="access__menu">
-                <div className="item-child">
-                  <strong>Tiện ích khác</strong>
-                  {payOnlineData.map((v, i) => {
-                    return (
-                      <Link key={i} to={v.link}>
-                        <h3>{v.content}</h3>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="main__right display_none">
-            {/* Main - Old */}
-            <Link to="/mainproductold">
-              <div className="main__old main__button main__box ">
-                {/* <LazyLoadImage src={old} /> */}
-                <div style={{ fontSize: "24px" }}>
-                  <i class="fa-solid fa-laptop-code"></i>
-                </div>
-                &nbsp; Máy cũ
-              </div>
-            </Link>
-            {/* Main - Sim */}
-            <Link to="/sim-so-dep">
-              <div className="main__sim main__button main__box">
-                {/* <LazyLoadImage src={sim} /> */}
-                <div style={{ fontSize: "24px" }}>
-                  <i class="fa-solid fa-ticket-simple"></i>
-                </div>
-                &nbsp; Sim,thẻ cào
-              </div>
-            </Link>
-            {/* Main - Another */}
-            <div className="main__another .main__pc main__button main__box">
-              <Link to="/">
-                {/* <LazyLoadImage src={another} /> */}
-                <div style={{ fontSize: "24px" }} className="flex_center">
-                  <i class="fa-brands fa-usps"></i>
-                  <div>Tiện ích</div>
-                </div>
-                &nbsp;
               </Link>
               <div className="access__menu">
                 <div className="item-child">

@@ -18,7 +18,7 @@ import {
 } from "../../features/auth/authSlice";
 
 // api
-import { country } from "../../apis/countryApi";
+import { province } from "../../apis/countryApi";
 
 const Introduce = ({ product }) => {
   // img arr
@@ -62,11 +62,12 @@ const Introduce = ({ product }) => {
 
   useEffect(() => {
     // Get city list
-    country()
+    province()
       .then((data) => {
-        let raw = data.data.results.map((v) => {
-          return v.name;
+        let raw = data.data.data.map((v) => {
+          return v.ProvinceName;
         });
+
         setData(raw);
       })
       .catch((e) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // APi
-import { country } from "../../../apis/countryApi";
+import { province } from "../../../apis/countryApi";
 // Material UI
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -11,9 +11,9 @@ const ProvinceSelect = (props) => {
   const [countries, setCountries] = useState([]);
   // Country
   useEffect(() => {
-    country()
+    province()
       .then((data) => {
-        setCountries(data.data.results);
+        setCountries(data.data.data);
       })
       .catch((e) => {
         console.log({
@@ -44,8 +44,8 @@ const ProvinceSelect = (props) => {
         >
           {countries.map((v, i) => {
             return (
-              <MenuItem key={i} classes="sc__item" value={v.name}>
-                {v.name}
+              <MenuItem key={i} classes="sc__item" value={v.ProvinceName}>
+                {v.ProvinceName}
               </MenuItem>
             );
           })}
