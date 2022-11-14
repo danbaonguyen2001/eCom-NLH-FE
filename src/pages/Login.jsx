@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 // Function
 import authController from "../features/auth/functions";
-import { toast } from "react-toastify";
+
 const Login = () => {
   // check login
   const isLogin = useSelector(selectLoginStatus);
@@ -56,7 +56,6 @@ const Login = () => {
 
       if (result) {
         history.push("/");
-
       } else {
         toast.error("Đăng nhập thất bại !", {
           position: "top-right",
@@ -64,12 +63,12 @@ const Login = () => {
           closeOnClick: true,
         });
         history.push("/login");
-        toast.error(`Sai tài khoản hoặc mật khẩu, thử lại!`,{
+        toast.error(`Sai tài khoản hoặc mật khẩu, thử lại!`, {
           position: "top-right",
           autoClose: 5000,
           closeOnClick: true,
           toastId: 99,
-        })
+        });
       }
       console.log(result);
     };
