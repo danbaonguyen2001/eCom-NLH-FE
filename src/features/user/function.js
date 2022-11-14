@@ -18,7 +18,7 @@ const userController = {
             status: false,
             data: [],
         };
-        console.log(inputData)
+
         const res = await dispatch(
             userApiSlice.endpoints.updateUser.initiate({
                 ...inputData
@@ -29,7 +29,6 @@ const userController = {
                 success,
                 user: data
             } = res.data;
-            console.log(data)
             if (success) {
                 dispatch(setUserInfos({
                     name: data.name,
@@ -48,40 +47,21 @@ const userController = {
         }
         return result;
     },
-    updateAvatar: async(inputData) => {
-        let {
-            formData,
-            urlImg
-        } = inputData;
-        let result = {
-            status: false,
-            data: "",
-        };
-        const res = await dispatch(
-            userApiSlice.endpoints.updateAvatar.initiate({
+    updateAvatar: async(formData) => {
+        const res = dispatch(
+            userApiSlice.endpoints.updateAvatar.initiate(
                 formData
+            )
+        )
+        res
+            .then(result => {
+                if (result.data.success) {
+                    dispatch(setUserInfos({
+                        avatar: result.data.avatar
+                    }))
+                }
             })
-        );
-        try {
-            let {
-                status,
-                data
-            } = res.data;
-
-            if (status) {
-                dispatch(setUserInfos({
-                    avatar: data
-                }))
-                result.data = data;
-                result.status = status;
-            } else {
-                console.log("Cant update avatar");
-                throw Error();
-            }
-        } catch (e) {
-            console.log(e);
-        }
-        return result;
+        return res
     },
     deleteAddressById: async({
         addressId

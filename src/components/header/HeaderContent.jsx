@@ -183,7 +183,7 @@ const HeaderContent = () => {
         },
       });
     }
-  }, [status]);
+  }, [avatar,status]);
   //
   // Begin content
   const [data, setData] = useState([]);
