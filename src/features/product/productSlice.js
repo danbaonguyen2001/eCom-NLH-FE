@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 const initialState = {
-  productList: [],
+  productList: ["6371f8aa2a41102eb8f27fd5", "6371f8aa2a41102eb8f27f26"],
 };
 
 const productSlice = createSlice({
