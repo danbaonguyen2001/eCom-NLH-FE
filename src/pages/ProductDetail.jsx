@@ -15,9 +15,9 @@ import "../sass/productdetail/_product_detail.scss";
 const ProductDetail = () => {
   const location = useLocation();
 
-  // const productId = location.state.productId;
+  const productId = location.state.productId;
 
-  const productId = 20;
+  //const productId = 20;
 
   console.log(location);
 

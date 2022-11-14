@@ -1,0 +1,128 @@
+.item_productPhone {
+  position: relative;
+  width: 100%;
+  //   width: 224px;
+  //   height: 420px;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 15px;
+  border: 2px solid #f3f3f3;
+}
+.sosanhproduct {
+  /* color: #2f80ed;
+    margin-top: 10px;
+    margin-bottom: 15px; */
+  position: absolute;
+  bottom: 0;
+  color: #2f80ed;
+  z-index: 99;
+  left: 15px;
+}
+/* hover styles*/
+.item_productPhone:hover {
+  box-shadow: 0px 2px 10px rgb(51 51 51 / 40%);
+}
+
+.item_productPhone:hover .img_item img {
+  transform: translateY(-3%);
+  transition: all 0.4s;
+}
+
+.item_productPhone:hover .title_productPhone {
+  color: #2f80ed;
+}
+
+/* end hover styles*/
+
+.label_tragop {
+  background-color: #f1f1f1;
+  color: #333;
+  font-size: 11px;
+  width: 70px;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.item_productPhone .img_item img {
+  margin-top: 15px;
+  width: 100%;
+  /* height: 190px; */
+  /* max-width: 100%; */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+}
+
+.deal_producPhone {
+  background: linear-gradient(to right, #faab08, #d42611);
+  display: flex;
+  width: 108px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.deal_producPhone img {
+  float: left;
+  width: 18px;
+}
+
+.deal_producPhone div {
+  color: #fff;
+  display: -webkit-box;
+  font-size: 9px;
+  line-height: 13px;
+  overflow: hidden;
+  padding: 4px 0 0 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-line-clamp: 2;
+  text-transform: uppercase;
+}
+
+.title_productPhone {
+  display: block;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.discount_productPhone_priceOld {
+  display: flex;
+  column-gap: 10px;
+  font-size: 14px;
+  margin-top: 5px;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.discount_productPhone {
+  font-size: 13px;
+}
+
+.priceOld_productPhone {
+  color: #222;
+  display: flex;
+  text-decoration-line: line-through;
+}
+
+.price_currency_productPhone {
+  font-size: 16px;
+  margin-top: 5px;
+  display: flex;
+  font-weight: bold;
+}
+
+.donvi {
+  font-size: 12px;
+}
+
+.list_start {
+  display: flex;
+  column-gap: 5px;
+  margin-top: 5px;
+}
+
+.list_start i {
+  color: orange;
+}

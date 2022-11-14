@@ -6,6 +6,7 @@ import login from "../assets/images/register/login.png";
 import FormInput from "../components/login/FormInput";
 import background from "../assets/images/register/login.png";
 import "../sass/auth/_login.scss";
+import { toast } from "react-toastify";
 //
 
 // Function
@@ -55,8 +56,14 @@ const Login = () => {
       if (result) {
         history.push("/");
       } else {
+        toast.error("Đăng nhập thất bại !", {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+        });
         history.push("/login");
       }
+      console.log(result);
     };
 
     const onChange = (e) => {

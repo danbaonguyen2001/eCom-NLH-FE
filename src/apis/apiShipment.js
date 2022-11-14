@@ -4,7 +4,7 @@ const Token = "36ccac9c-5cf2-11ed-b8cc-a20ef301dcd7";
 const shop_id = 120559;
 const province_id = 202;
 const from_district = 3695;
-let config = {
+let configShip = {
   headers: {
     Token,
     "Content-Type": "application/json",
@@ -27,7 +27,7 @@ const input = {
 // close before product
 
 export const getShipFee = async (input) => {
-  const data = {
+  const dataShip = {
     from_district_id: input.from_district,
     service_id: input.service_id,
     service_type_id: null,
@@ -39,9 +39,15 @@ export const getShipFee = async (input) => {
     width: input.wh,
   };
   axios
-    .get(``, data, config)
+    .get(
+      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province`,
+      dataShip,
+      configShip
+    )
     .then((data) => {
       console.log(data);
     })
     .catch((e) => console.log(e));
 };
+
+export const getProvince = async () => {};

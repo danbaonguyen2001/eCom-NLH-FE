@@ -26,7 +26,7 @@
     &_detail_pd {
       &_price {
         padding-top: 5px;
-        color: $main-color;
+        color: var(--primary--color);
         font-weight: 800;
       }
     }
@@ -50,6 +50,7 @@
     &_qt_pd {
       margin-top: 1.6rem;
       &_border {
+        border: 1px solid var(--black--color);
         display: flex;
         align-items: center;
         justify-content: space-evenly;

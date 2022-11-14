@@ -6,8 +6,6 @@
 /* Wrapper */
 
 .bannerWrapper {
-  background-color: var(--primary--color);
-  width: 100vw;
 }
 
 /* Slider */
@@ -15,6 +13,8 @@
 .bannerSlider {
   height: 44px;
   position: relative;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .bg0 {
