@@ -45,7 +45,7 @@ const Product = ({ list, qt }) => {
               pathname: `/productdetail/${item.name.replaceAll(" ", "-")}`,
               state: { productId: item._id },
             }}
-            key={item?.id}
+            key={item?._id}
             className="item_productPhone"
           >
             <div className="label_tragop">Trả góp 0.5%</div>

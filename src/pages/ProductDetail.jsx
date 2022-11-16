@@ -17,37 +17,45 @@ const ProductDetail = () => {
 
   const productId = location.state.productId;
 
-  const fakeProductId = "6362440216e3c97b296ef5dd";
+  const fakeProductId = "637349ce6e199507ee1d91b9";
 
   console.log(location);
 
   const [product, setProduct] = useState();
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const res = await productHandler.getProductById(productId);
+    productHandler.getProductById({ productId: productId }).then((res) => {
       console.log(res);
-      try {
-        setProduct(res.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchProduct();
+      const product = res.data;
+      // console.log("Get product by Id:");
+      // console.log(product);
+      // setProduct(product);
+    });
   }, [productId]);
+
+  useEffect(() => {
+    productHandler.getProductById({ productId: productId }).then((res) => {
+      console.log(res);
+      const product = res.data;
+      console.log("Get product Test:");
+      console.log(product);
+      console.log(product?.category);
+      console.log(product?.manufacturer);
+      console.log(product?.reviews?.lenght);
+      setProduct(product);
+    });
+  }, []);
 
   return (
     <div className="produt_detail grid  wide">
       {/* <!-- category --> */}
       <div className="product_category">
-        <span className="product_category-title ">
-          {product?.category?.categoryName}
-        </span>
+        <span className="product_category-title ">{product?.category}</span>
         <span className="product_category-title">
           <i className="fa-solid fa-angle-right"></i>
         </span>
         <span className="product_category-title">
-          {product?.category?.categoryName} {product?.manufacturer?.name}
+          {product?.category} {product?.manufacturer}
         </span>
       </div>
 
@@ -56,7 +64,7 @@ const ProductDetail = () => {
         <h2 className="product_title_name">{product?.name}</h2>
         <div className="product_title_star">
           <div className="star-phone">
-            <StarRating rating={product?.rate} />
+            <StarRating rating={product?.rating} />
           </div>
         </div>
         {/* <div className="product_title_star">
@@ -67,7 +75,7 @@ const ProductDetail = () => {
           <i className="fa-solid fa-star-half-stroke"></i>
         </div> */}
         <span className="product_title_review flex_center">
-          {product?.countRate} đánh giá
+          {product?.reviews.lenght || 5} đánh giá
         </span>
       </div>
       <div className="line"></div>

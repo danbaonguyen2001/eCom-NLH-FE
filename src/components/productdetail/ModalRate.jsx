@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
-import "../../sass/productdetail/_modal_rate.scss"
+import "../../sass/productdetail/_modal_rate.scss";
 import { addCommentRateProductId } from "../../features/rate/rateSlice";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,8 @@ import { selectLoginStatus } from "../../features/auth/authSlice";
 import { toHaveClass } from "@testing-library/jest-dom/dist/matchers";
 export default function ModalRate(props) {
   const location = useLocation();
-  const productId = location.state.productId;
+  // const productId = location.state.productId;
+  const productId = "63743fa09878bcdd84b437ab";
   const dispatch = useDispatch();
   const history = useHistory();
   const status = useSelector(selectLoginStatus) || false;
@@ -20,8 +21,8 @@ export default function ModalRate(props) {
   const [value, setValue] = React.useState(0);
   const [data, setData] = useState({
     productId: productId,
-    rate: 0,
-    content: "",
+    rating: 0,
+    comment: "",
   });
   initValue = props.product ? props.product.id : null;
   const onChange = (e) => {
@@ -31,13 +32,14 @@ export default function ModalRate(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (status) {
-      if (data.productId && data.rate && data.content) {
+      if (data.productId && data.rating && data.comment) {
         const res = await dispatch(addCommentRateProductId(data)).unwrap();
         console.log("dasd", res);
-        if (res.data.status) {
+        if ((res.message = "Review added")) {
           toast.success("Thêm Đánh giá thành công");
-          history.go(0);
-        } else if (res.data.status === false) {
+          // // return
+          // console.log(props?.setRenderReview);
+        } else {
           toast.error("Thêm Đánh giá thất bại");
         }
       }
@@ -46,6 +48,9 @@ export default function ModalRate(props) {
       toast.error("Vui lòng đăng nhập");
       onClose();
     }
+    console.log(props?.setRenderReview);
+    props?.setRenderReview(props?.setRenderReview + 1);
+    console.log(props?.setRenderReview);
   };
 
   return (
@@ -54,24 +59,20 @@ export default function ModalRate(props) {
         {/* <span id="close-modal" className="_hide-visual">
           Close
         </span> */}
-        
+
         <div className="modal-body">
-        <button
-          onClick={props.onClose ? props.onClose : null}
-          className="_modal-close-icon"
-          viewBox="0 0 40 40"
-        >
-          <path d="M 10,10 L 30,30 M 30,10 L 10,30" />X
-        </button>
+          <button
+            onClick={props.onClose ? props.onClose : null}
+            className="_modal-close-icon"
+            viewBox="0 0 40 40"
+          >
+            <path d="M 10,10 L 30,30 M 30,10 L 10,30" />X
+          </button>
           <form onSubmit={handleSubmit}>
             <div className="info-pro">
               <div className="img-cmt">
                 <img
-                  src={
-                    props.product
-                      ? props.product.images[0].items[0].urlImage
-                      : ""
-                  }
+                  src={props.product ? props.product?.image : ""}
                   height="80px"
                   width="auto"
                   alt=""
@@ -88,7 +89,7 @@ export default function ModalRate(props) {
                   "& > legend": { mt: 0 },
                 }}
               >
-                <Rating name="rate" value={data.rate} onChange={onChange} />
+                <Rating name="rating" value={data.rating} onChange={onChange} />
               </Box>
             </div>
             {toggle ? (
@@ -97,9 +98,9 @@ export default function ModalRate(props) {
                   <label htmlFor="name">Cảm nhận</label>
                   <input
                     type="name"
-                    name="content"
+                    name="comment"
                     className="form-control"
-                    value={data.content}
+                    value={data.comment}
                     id="name"
                     onChange={onChange}
                     placeholder="Mời bạn chia sẻ cảm nhận về sản phẩm"
@@ -118,7 +119,6 @@ export default function ModalRate(props) {
           </form>
         </div>
       </div>
-      
     </div>
   );
 }

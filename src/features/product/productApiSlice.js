@@ -14,6 +14,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
       //New
       query: ({ productId }) => ({
         url: `http://localhost:5000/api/products/${productId}`,
+        method: "GET",
       }),
     }),
 
