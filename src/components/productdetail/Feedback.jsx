@@ -18,6 +18,8 @@ import {
 import { addCommentRateProductId } from "../../features/rate/rateSlice";
 import { toast } from "react-toastify";
 import Rating from "@mui/material/Rating";
+import productHandler from "../../features/product/function";
+import { toDate } from "../../utils/format";
 
 // import { comment } from 'postcss'
 // import { set } from 'immer/dist/internal'
@@ -25,50 +27,70 @@ import Rating from "@mui/material/Rating";
 const Feedback = ({ product }) => {
   const location = useLocation();
   const productId = location.state.productId;
+  //const productId = "63743fa09878bcdd84b437ab";
   const history = useHistory();
   const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
-  const [feedBack, setFeedBack] = useState([]);
-  const [size, setSize] = useState(5);
-  const [sizeComment, setSizeComment] = useState(5);
+  const [feedBack, setFeedBack] = useState(product?.reviews);
+  const [renderReview, setRenderReview] = useState(0);
+  const [renderComment, setRenderComment] = useState(0);
   const [openRep, setOpenRep] = useState();
   const status = useSelector(selectLoginStatus) || false;
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(product?.comments);
+  console.log("Comments:");
+  console.log(product?.comments);
+
   const [comment, setComment] = useState({
     productId: "",
-    content: "",
+    comment: "",
   });
   const [reply, setReply] = useState({
     productId: productId,
-    content: "",
+    reply: "",
     parentCommentId: "",
   });
+
+  // Get Feedback -Review
   useEffect(() => {
-    const params = {
-      id: productId,
-      size: size,
-    };
-    console.log(params);
-    const fetchGetRate = async (params) => {
-      console.log(params);
-      var res = null;
-      res = await dispatch(getCommentRateProductId(params)).unwrap();
-      setFeedBack(res.data.data);
-    };
-    fetchGetRate(params);
-  }, [size]);
+    // const params = {
+    //   id: productId,
+    //   size: size,
+    // };
+    // console.log(params);
+    // const fetchGetRate = async (params) => {
+    //   console.log(params);
+    //   var res = null;
+    //   res = await dispatch(getCommentRateProductId(params)).unwrap();
+    //   setFeedBack(res.data.data);
+    // };
+    // fetchGetRate(params);
+
+    productHandler.getProductById({ productId: productId }).then((res) => {
+      console.log("Reviews:");
+      console.log(res.data.reviews);
+      setFeedBack(res.data.reviews);
+    });
+  }, [renderReview]);
+
+  //Get Comment
   useEffect(() => {
-    const comments = {
-      id: productId,
-      size: sizeComment,
-    };
-    const fetchCommentProduct = async (comments) => {
-      var res = null;
-      res = await dispatch(getCommentProduct(comments)).unwrap();
-      setComments(res.data.data);
-    };
-    fetchCommentProduct(comments);
-  }, [sizeComment]);
+    // const comments = {
+    //   id: productId,
+    //   size: sizeComment,
+    // };
+    // const fetchCommentProduct = async (comments) => {
+    //   var res = null;
+    //   res = await dispatch(getCommentProduct(comments)).unwrap();
+    //   setComments(res.data.data);
+    // };
+    // fetchCommentProduct(comments);
+
+    productHandler.getProductById({ productId: productId }).then((res) => {
+      console.log(res.data.comments);
+      setComments(res.data.comments);
+    });
+  }, [renderComment]);
+
   console.log(feedBack);
   const onClickRate = () => {
     setToggle(true);
@@ -77,21 +99,24 @@ const Feedback = ({ product }) => {
     setComment({
       ...comment,
       [e.target.name]: e.target.value,
-      ["productId"]: product ? product.id : -1,
+      ["productId"]: product ? product._id : -1,
     });
+    console.log(comment);
   };
+
   const handleSubmitComment = async (e) => {
     e.preventDefault();
     if (status) {
-      if (comment.productId && comment.content) {
-        const res = await dispatch(addCommentRateProductId(comment)).unwrap();
-        if (res.data.status) {
+      if (comment.productId && comment.comment) {
+        const res = await dispatch(addCommentProductId(comment)).unwrap();
+        if (res.data.success) {
           toast.success("Thêm bình luận thành công");
-          history.go(0);
-        } else if (res.data.status === false) {
+          setRenderComment(renderComment++);
+        } else if (res.data.success === false) {
           toast.error("Thêm bình luận thất bại");
         }
       }
+      toast.error("comment");
     } else {
       toast.error("Vui lòng đăng nhập");
     }
@@ -99,11 +124,11 @@ const Feedback = ({ product }) => {
   const handleSubmitReplyComment = async (e) => {
     e.preventDefault();
     if (status) {
-      if (reply.productId && reply.parentCommentId && reply.content) {
+      if (reply.productId && reply.parentCommentId && reply.reply) {
         const res = await dispatch(replyComment(reply)).unwrap();
         if (res.data.status) {
           toast.success("Thêm bình luận thành công");
-          history.go(0);
+          setRenderComment(renderComment++);
         } else if (res.data.status === false) {
           toast.error("Thêm bình luận thất bại");
         }
@@ -126,8 +151,8 @@ const Feedback = ({ product }) => {
         <input
           type="text"
           onChange={onChangeReplyComment}
-          name="content"
-          value={reply.content}
+          name="reply"
+          value={reply.reply}
           class="product_ask_input border flex_80_width"
           placeholder="Xin mời đặt câu hỏi! "
         />
@@ -145,23 +170,24 @@ const Feedback = ({ product }) => {
   };
   return (
     <div class="product_review_ask border  row">
+      {/* Review */}
       <div class="product_review_ask_left col l-6 m-12 c-12">
         <div class="product_review ">
           <div class="product_review_header">
-            <header>Đánh giá {product ? product.name : null}</header>
+            <header>Đánh giá {product ? product?.name : null}</header>
           </div>
           <div class="product_review_statistic flex">
             <div className="product_review_statistic_left flex_40_width">
               <div className="product_review_statistic_header flex">
-                <span>{product ? product.rate : null}</span>
+                <span>{product ? product.rating : null}</span>
                 <Rating
                   name="rate"
-                  value={product ? product.rate : 0}
+                  value={product ? product.rating : 0}
                   readOnly
                 />
                 <span>
                   {" "}
-                  Tổng :{product ? product.countRate : null} đánh giá
+                  Tổng :{product ? product.reviews.lenght : null} đánh giá
                 </span>
               </div>
               <div className="product_review_statistic_star_list">
@@ -257,17 +283,17 @@ const Feedback = ({ product }) => {
                 <>
                   <div className="product_review_item" key={index}>
                     <div className="product_ask_item_answer_header flex">
-                      {item.users.avatar !== null ? (
+                      {item.avatarUrl !== null ? (
                         <div className="product_user">
                           <div className="product_user__image">
-                            <img src={item.users.avatar} alt="" />
+                            <img src={item.avatarUrl} alt="" />
                           </div>
                         </div>
                       ) : (
                         <i className="fa-solid fa-circle-user icon"></i>
                       )}
                       <span className="product_review_header_username">
-                        {item.users.name}
+                        {item.name}
                       </span>
                       <i class="fa-solid fa-thumbs-up icon"></i>
                       <span className="product_review_header_text icon">
@@ -278,13 +304,13 @@ const Feedback = ({ product }) => {
                           fontWeight: "normal",
                         }}
                       >
-                        {" "}
-                        : {item.createTime}
+                        {" xx"}
+                        {/* : xx {item.createTime} */}
                       </span>
                     </div>
 
                     <div className="product_review_item_content">
-                      {item.content}
+                      {item.comment}
                     </div>
                   </div>
                   <div className="line"></div>
@@ -307,13 +333,14 @@ const Feedback = ({ product }) => {
             {toggle ? (
               <ModalRate
                 product={product}
+                setRenderReview={setRenderReview}
                 // open={open}
                 onClose={() => setToggle(false)}
               ></ModalRate>
             ) : null}
 
             <button
-              onClick={() => setSize(size + 5)}
+              // onClick={() => setSize(size + 5)}
               class="product_review_btn l-4 m-4 c-5  btn"
             >
               Xem Thêm đánh giá
@@ -321,16 +348,20 @@ const Feedback = ({ product }) => {
           </div>
         </div>
       </div>
+
+      {/* Ask-comment */}
       <div class="product_review_ask_right  col l-6 m-12 c-12">
         <div class="product_ask ">
           <div class="product_ask_container">
             <header class="product_ask_header">Hỏi và đáp</header>
+
+            {/* Input Comment */}
             <div class="product_ask_header_input  flex_center">
               <input
                 type="text"
                 onChange={onChangeComment}
-                name="content"
-                value={comment.content}
+                name="comment"
+                value={comment.comment}
                 class="product_ask_input border flex_80_width"
                 placeholder="Xin mời đặt câu hỏi! "
               />
@@ -345,92 +376,98 @@ const Feedback = ({ product }) => {
               </div>
             </div>
           </div>
-          <div class="line"></div>
-          <div class="product_ask_list">
-            {comments?.map((item, index) => (
-              <div className="product_ask_item" key={index}>
-                <div class="product_ask_item_ask border">
-                  <div className="product_ask_item_answer_header flex">
-                    {item.users.avatar !== null ? (
-                      <div className="product_user">
-                        <div className="product_user__image">
-                          <img src={item.users.avatar} alt="" />
-                        </div>
-                      </div>
-                    ) : (
-                      <i className="fa-solid fa-circle-user icon"></i>
-                    )}
-                    <header class="product_ask_item_ask_name">
-                      {item.users.name}
-                      <span
-                        style={{
-                          fontWeight: "normal",
-                        }}
-                      >
-                        {" "}
-                        : {item.createTime}
-                      </span>
-                    </header>
-                  </div>
-                  <p class="product_ask_item_ask_content">
-                    {item.content}
 
-                    <button
-                      className="product_ask_item_button"
-                      onClick={() => setOpenRep(item.id)}
-                    >
-                      <i class="fa-solid fa-reply"></i>
-                      Trả lời
-                    </button>
-                  </p>
-                </div>
-                {openRep === item.id ? renderReply() : null}
-                {item.subComments?.map((item, index) => (
-                  <div
-                    key={index}
-                    className="product_ask_item_answer border flex"
-                  >
+          <div class="line"></div>
+
+          {/* List Comment */}
+          <div class="product_ask_list">
+            {comments &&
+              comments?.map((item, index) => (
+                <div className="product_ask_item" key={index}>
+                  {/* Comment */}
+                  <div class="product_ask_item_ask border">
                     <div className="product_ask_item_answer_header flex">
-                      {item.users.avatar !== null ? (
+                      {item.avatarUrl !== null ? (
                         <div className="product_user">
                           <div className="product_user__image">
-                            <img src={item.users.avatar} alt="" />
+                            <img src={item.avatarUrl} alt="AVT" />
                           </div>
                         </div>
                       ) : (
                         <i className="fa-solid fa-circle-user icon"></i>
                       )}
-
-                      <header class="product_ask_item_answer_name">
-                        {item.users.name}
+                      <header class="product_ask_item_ask_name">
+                        {item?.name}
                         <span
                           style={{
                             fontWeight: "normal",
                           }}
                         >
                           {" "}
-                          : {item.createTime}
+                          : {toDate(item.createdAt)}
                         </span>
                       </header>
                     </div>
-                    <p class="product_ask_item_answer_content flex_90_width">
-                      {item.content}
+                    <p class="product_ask_item_ask_content">
+                      {item.comment}
+
                       <button
                         className="product_ask_item_button"
-                        onClick={() => setOpenRep(item.id)}
+                        onClick={() => setOpenRep(item._id)}
                       >
                         <i class="fa-solid fa-reply"></i>
                         Trả lời
                       </button>
                     </p>
-                    {openRep === item.id ? renderReply() : null}
-                    {item.subComments?.map((item, index) => (
+                  </div>
+                  {/* List Rep Comment */}
+                  {openRep === item._id ? renderReply() : null}
+                  {item?.replies?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="product_ask_item_answer border flex"
+                    >
+                      {/* Rep Comment */}
+                      <div className="product_ask_item_answer_header flex">
+                        {item.avatarUrl !== null ? (
+                          <div className="product_user">
+                            <div className="product_user__image">
+                              <img src={item.avatarUrl} alt="AVT" />
+                            </div>
+                          </div>
+                        ) : (
+                          <i className="fa-solid fa-circle-user icon"></i>
+                        )}
+
+                        <header class="product_ask_item_answer_name">
+                          {item?.name}
+                          <span
+                            style={{
+                              fontWeight: "normal",
+                            }}
+                          >
+                            : {toDate(item.createdAt)}
+                          </span>
+                        </header>
+                      </div>
+                      <p class="product_ask_item_answer_content flex_90_width">
+                        {item.reply}
+                        {/* <button
+                        className="product_ask_item_button"
+                        onClick={() => setOpenRep(item._id)}
+                      >
+                        <i class="fa-solid fa-reply"></i>
+                        Trả lời
+                      </button> */}
+                      </p>
+                      {/* {openRep === item._id ? renderReply() : null}
+                    {item.replies?.map((item, index) => (
                       <div key={index} className="product_ask_item_answer flex">
                         <div className="product_ask_item_answer_header flex">
-                          {item.users.avatar !== null ? (
+                          {item.avatarUrl !== null ? (
                             <div className="product_user">
                               <div className="product_user__image">
-                                <img src={item.users.avatar} alt="" />
+                                <img src={item.avatarUrl} alt="AVT" />
                               </div>
                             </div>
                           ) : (
@@ -438,38 +475,38 @@ const Feedback = ({ product }) => {
                           )}
 
                           <header class="product_ask_item_answer_name">
-                            {item.users.name}
+                            {item.name}
                             <span
                               style={{
                                 fontWeight: "normal",
                               }}
                             >
                               {" "}
-                              : {item.createTime}
+                              : {toDate(item.createdAt)}
                             </span>
                           </header>
                         </div>
                         <p class="product_ask_item_answer_content flex_90_width">
-                          {item.content}
+                          {item.reply}
                           <button
                             className="product_ask_item_button"
-                            onClick={() => setOpenRep(item.id)}
+                            onClick={() => setOpenRep(item._id)}
                           >
                             <i class="fa-solid fa-reply"></i>
                             Trả lời
                           </button>
                         </p>
-                        {openRep === item.id ? renderReply() : null}
-                        {item.subComments?.map((item, index) => (
+                        {openRep === item._id ? renderReply() : null}
+                        {item.replies?.map((item, index) => (
                           <div
                             key={index}
                             className="product_ask_item_answer flex"
                           >
                             <div className="product_ask_item_answer_header flex">
-                              {item.users.avatar !== null ? (
+                              {item.avatarUrl !== null ? (
                                 <div className="product_user">
                                   <div className="product_user__image">
-                                    <img src={item.users.avatar} alt="" />
+                                    <img src={item.avatarUrl} alt="AVT" />
                                   </div>
                                 </div>
                               ) : (
@@ -477,46 +514,32 @@ const Feedback = ({ product }) => {
                               )}
 
                               <header class="product_ask_item_answer_name">
-                                {item.users.name}
+                                {item.name}
                                 <span
                                   style={{
                                     fontWeight: "normal",
                                   }}
                                 >
                                   {" "}
-                                  : {item.createTime}
+                                  : {toDate(item.createdAt)}
                                 </span>
                               </header>
                             </div>
                             <p class="product_ask_item_answer_content flex_90_width">
-                              {item.content}
+                              {item.reply}
                             </p>
                           </div>
                         ))}
                       </div>
-                    ))}
-                  </div>
-                ))}
-                {/* {console.log(item)} */}
-                {/* {C
-                                        reply.map((item, index) => (
-                                            <div class="product_ask_item_answer flex">
-                                                <div class="product_ask_item_answer_header flex">
-                                                    <i class="fa-solid fa-circle-user icon"></i>
-                                                    <header class="product_ask_item_answer_name">
-                                                        Quản trị viên
-                                                    </header>
-                                                </div>
-                                                <p class="product_ask_item_answer_content flex_90_width">Thegioididong xin chào anh A! Máy hiện tại có ở các chi nhánh tại Quận 9, HCM. Anh có thể ghé cửa hàng gần nhất tham khảo ạ.</p>
-                                            </div>
-                                        ))
-                                    } */}
-              </div>
-            ))}
+                    ))} */}
+                    </div>
+                  ))}
+                </div>
+              ))}
           </div>
           <div class="flex_center">
             <button
-              onClick={() => setSizeComment(sizeComment + 5)}
+              // onClick={() => setSizeComment(sizeComment + 5)}
               class="product_ask_list_btn flex_50_width btn"
             >
               Xem thêm

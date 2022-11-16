@@ -49,6 +49,7 @@ const Phone = () => {
       setListProduct(res.data.products);
       setFilter(res.data.products);
       setTotalQt(res.data.products);
+      console.log(res.data);
       console.log(listProducts);
     });
   }, [showSub]);
