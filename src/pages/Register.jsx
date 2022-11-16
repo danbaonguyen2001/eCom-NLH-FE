@@ -5,16 +5,103 @@ import { toast } from "react-toastify";
 import login from "../assets/images/register/login.png";
 import FormInput from "../components/register/FormInput.jsx";
 import "../sass/auth/_register.scss";
+import { getDistrict, getWard, getProvince } from "../apis/apiShipment";
 // Function
 import authController from "../features/auth/functions";
 const Register = () => {
+  // ADDRESS STATE
+  const [provinces, setProvinces] = useState([]);
+  const [province, setProvince] = useState({
+    ID: 269,
+    value: "",
+  });
+  const [districts, setDistricts] = useState([]);
+  const [district, setDistrict] = useState({
+    ID: 2264,
+    value: "",
+  });
+  const [wards, setWards] = useState([]);
+  const [ward, setWard] = useState({
+    ID: 80213,
+    value: "",
+  });
+  // ADDRESS FETCH
+  useEffect(() => {
+    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
+      toastId: 88,
+      autoClose: 5000,
+      closeOnClick: true,
+    });
+    getProvince()
+      .then((res) => {
+        const { data } = res.data;
+        setProvinces(data);
+        setProvince({
+          ID: data[0]?.ProvinceID,
+          value: data[0]?.ProvinceName,
+        });
+      })
+      .catch((err) => {
+        toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
+          toastId: 99,
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+      });
+  }, []);
+  useEffect(() => {
+    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
+      toastId: 88,
+      autoClose: 5000,
+      closeOnClick: true,
+    });
+    getDistrict(province.ID)
+      .then((res) => {
+        const { data } = res.data;
+        setDistricts(data);
+        setDistrict({
+          ID: data[0]?.DistrictID,
+          value: data[0]?.DistrictName,
+        });
+      })
+      .catch((err) => {
+        toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
+          toastId: 99,
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+      });
+  }, [province]);
+  useEffect(() => {
+    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
+      toastId: 88,
+      autoClose: 5000,
+      closeOnClick: true,
+    });
+    getWard(district.ID)
+      .then((res) => {
+        const { data } = res.data;
+        setWard({
+          ID: data[0]?.WardCode,
+          value: data[0]?.WardName,
+        });
+      })
+      .catch((err) => {
+        toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
+          toastId: 99,
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+      });
+  }, [district]);
+  //
   const [values, setValues] = useState({
     email: "",
     password: "",
     gender: "man",
     confirmPassword: "",
     phone: "",
-    address: "",
+    addresses: [],
     name: "",
   });
   const inputs = [
@@ -61,14 +148,14 @@ const Register = () => {
       pattern: values.password,
       required: true,
     },
-
     {
       id: 6,
       name: "address",
       type: "text",
-      placeholder: "Địa chỉ",
-      errorMessage: "Địa chỉ không chính xác!",
-    },
+      placeholder: "Nhập số nhà",
+      errorMessage: "Số nhà không hợp lệ",
+      required: true,
+    }
   ];
 
   const history = useHistory();
@@ -79,7 +166,6 @@ const Register = () => {
     let password = values.password;
     let gender = values.gender;
     let phone = values.phone;
-    let address = values.address;
     let name = values.name;
     // Xu ly
     try {
@@ -88,16 +174,18 @@ const Register = () => {
         password,
         gender,
         phone,
-        address,
         name,
       });
       if (result) {
         let emailCode = values.email;
-        toast.success(`Tài khoản của bạn đã được tạo, kiểm tra mail để xác thực tài khoản`, {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-        });
+        toast.success(
+          `Tài khoản của bạn đã được tạo, kiểm tra mail để xác thực tài khoản`,
+          {
+            position: "top-right",
+            autoClose: 5000,
+            closeOnClick: true,
+          }
+        );
         history.push({
           pathname: "/registerCode",
           state: { passEmail: emailCode },
@@ -135,102 +223,6 @@ const Register = () => {
 
   return (
     <div className="row register">
-      {/* Old */}
-      <div className="register_container_background display_none">
-        <div className="register_form">
-          <div className="register_form_header">
-            <img src={login} alt="" className="img_login"></img>
-          </div>
-
-          <div className="register_form_form">
-            <form className="register_form_group" onSubmit={handleSubmit}>
-              <div className="register_form_group_inputs">
-                {inputs.map((input) => (
-                  <FormInput
-                    key={input.id}
-                    {...input}
-                    value={values[input.name]}
-                    onChange={onChange}
-                  />
-                ))}
-              </div>
-
-              <div className="register_form_gender">
-                {/* <p>Chọn giới tính:</p> */}
-
-                <div className="register_form_radio_buttons_input_man">
-                  <input
-                    type="radio"
-                    id="man"
-                    name="gender"
-                    value="man"
-                    onChange={onChange}
-                  ></input>
-                  <label htmlFor="man">Nam</label>
-                </div>
-                <div className="register_form_radio_buttons_input_woman">
-                  <input
-                    type="radio"
-                    id="woman"
-                    name="gender"
-                    value="woman"
-                    onChange={onChange}
-                  ></input>
-                  <label htmlFor="woman">Nữ</label>
-                </div>
-              </div>
-
-              <div className="register_form_btn_control">
-                <button type="submit" className="btn_next">
-                  Đăng ký
-                </button>
-              </div>
-            </form>
-
-            <div className="text_or">
-              <div className="line"></div>
-              <span className="or">Hoặc</span>
-              <div className="line"></div>
-            </div>
-
-            <div className="register_form_btn_socials">
-              <Link to="/#" className="btn btn_icon flex_center">
-                <i className="fa-brands fa-google "></i>
-                Google
-              </Link>
-
-              <Link to="/#" className="btn btn_icon flex_center">
-                <i className="fa-brands fa-facebook "></i>
-                Facebook
-              </Link>
-            </div>
-
-            <div className="register_form_aside">
-              <div className="register_form_policy_text">
-                <span className="text_policy">
-                  Bằng việc đăng ký, bạn đã đồng ý về
-                </span>
-                <div className="chinhsach">
-                  <Link to="/#" className="register_form_policy_link">
-                    Điều khoản dịch vụ
-                  </Link>
-                  <span className="and"> & </span>
-                  <Link to="/#" className="register_form_policy_link">
-                    Chính sách bảo mật
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <div className="register_login">
-              <span className="text_login">Bạn đã có tài khoản?</span>
-              <Link to="/login" className="register_login_link">
-                Đăng nhập
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
       {/* New */}
       <div className="l-8 m-10 c-12  register__container">
         <div class="login__header">
@@ -285,7 +277,9 @@ const Register = () => {
                 <label htmlFor="woman">Nữ</label>
               </div>
             </div>
+            {/* ADDRESS */}
 
+            {/*  */}
             <center>
               <div className="l-4 m-6 c-4 register_form_btn_control">
                 <button type="submit" className="btn_next">

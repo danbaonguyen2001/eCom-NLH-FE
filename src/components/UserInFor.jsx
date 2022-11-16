@@ -14,9 +14,9 @@ const UserInFor = () => {
   const [province, setProvince] = useState([]);
   const [provinceID, setProvinceID] = useState(269);
   const [district, setDistrict] = useState([]);
-  const [districtID, setDistrictID] = useState("");
+  const [districtID, setDistrictID] = useState(2264);
   const [commune, setCommune] = useState([]);
-  const [communeID, setCommuneID] = useState("");
+  const [communeID, setCommuneID] = useState(80213);
   const [openModalDelete, setOpenModalDelete] = useState(false);
 
   //

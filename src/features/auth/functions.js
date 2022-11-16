@@ -23,7 +23,7 @@ const authHandler = {
         setUserInfos({
           role: role || "ROLE_USER",
           name,
-          avatar,
+          avatar:avatar.url,
           email,
           access_token,
           userId: _id,
