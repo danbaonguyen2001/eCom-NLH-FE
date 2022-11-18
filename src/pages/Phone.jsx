@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Select from "react-dropdown-select";
+
 import "../sass/phone/phone.scss";
 import TopSlider from "../components/PCPrint/TopSlider";
 import Banner from "../components/phone/Banner";
