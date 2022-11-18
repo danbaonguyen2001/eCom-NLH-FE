@@ -10,8 +10,8 @@ import { selectLoginStatus } from "../../features/auth/authSlice";
 import { toHaveClass } from "@testing-library/jest-dom/dist/matchers";
 export default function ModalRate(props) {
   const location = useLocation();
-  // const productId = location.state.productId;
-  const productId = "63743fa09878bcdd84b437ab";
+  const productId = location.state.productId;
+  // const productId = "63743fa09878bcdd84b437ab";
   const dispatch = useDispatch();
   const history = useHistory();
   const status = useSelector(selectLoginStatus) || false;
@@ -33,6 +33,7 @@ export default function ModalRate(props) {
     e.preventDefault();
     if (status) {
       if (data.productId && data.rating && data.comment) {
+        console.log(data);
         const res = await dispatch(addCommentRateProductId(data)).unwrap();
         console.log("dasd", res);
         if ((res.message = "Review added")) {

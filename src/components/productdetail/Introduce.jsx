@@ -19,6 +19,7 @@ import {
 
 // api
 import { province } from "../../apis/countryApi";
+import { getProvince } from "../../apis/apiShipment";
 
 const Introduce = ({ product }) => {
   // img arr
@@ -51,14 +52,6 @@ const Introduce = ({ product }) => {
   };
 
   useEffect(() => {
-    // let arr = [];
-    // product?.images.forEach((v) => {
-    //   v.items.forEach((vi) => {
-    //     arr.push(vi?.urlImage);
-    //   });
-    // });
-    // setImgArr(arr);
-
     let arr = [];
     product?.productOptions.forEach((productOption) => {
       productOption?.colors.forEach((color) => {
@@ -75,9 +68,10 @@ const Introduce = ({ product }) => {
 
   useEffect(() => {
     // Get city list
-    province()
-      .then((data) => {
-        let raw = data.data.data.map((v) => {
+    getProvince()
+      .then((res) => {
+        //console.log(res.data.data);
+        let raw = res.data.data.map((v) => {
           return v.ProvinceName;
         });
 
@@ -216,11 +210,14 @@ const Introduce = ({ product }) => {
           })}
         </div>
 
-        <div class="product_introduce_price_location " onClick={locationShow}>
+        <div class="product_introduce_price_location ">
           <div>
             <span>
               Giá tại
-              <Link class="product_introduce_location mg_r_5" to="#">
+              <Link
+                class="product_introduce_location mg_r_5"
+                onClick={locationShow}
+              >
                 {" "}
                 {locationI || "Hồ Chí Minh"}
               </Link>

@@ -1,8 +1,11 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../assets/css/layout/header.css";
-
+import { setCurrentCart } from "../features/cart/cartSlice";
+import cartHandler from "../features/cart/function";
+import { toast } from "react-toastify";
 import productHandler from "../features/product/function";
 const Banner = React.lazy(() => import("../components/header/Banner.jsx"));
 const HeaderContent = React.lazy(() =>
@@ -13,6 +16,8 @@ const Header = () => {
   const [imgArr, setImgArr] = useState([]);
   const [product, setProduct] = useState();
 
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
   //Test API - Nguyên
   useEffect(() => {
     // //Get All products New Api
@@ -38,6 +43,28 @@ const Header = () => {
     //     console.log(product);
     //     setProduct(product);
     //   });
+
+    // productHandler.getProductsTop().then((res) => {
+    //   console.log(res);
+    //   const product = res.data;
+    //   console.log("Get Top products:");
+    //   console.log(product);
+    //   setProduct(product);
+    // });
+
+    cartHandler
+      .getCurrentCart()
+      .then((res) => {
+        console.log("Get cart:");
+        console.log(res);
+        console.log(res.data);
+        console.log(res.data.cart);
+        dispatch(setCurrentCart(res?.data?.cart));
+        console.log(cart);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {

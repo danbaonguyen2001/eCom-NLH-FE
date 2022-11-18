@@ -4,6 +4,7 @@ import "../assets/css//tabletlaptop/tablet.css";
 import TopSlider from "../components/PCPrint/TopSlider";
 import ListProductOld from "../components/ProductOld/ListProductOld";
 import productHandler from "../features/product/function";
+import Product from "../components/phone/Product";
 
 // lọc theo hãng, giá + sắp xếp tăng giảm
 const Tablet = () => {
@@ -23,17 +24,15 @@ const Tablet = () => {
   const listTemp = tempList;
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      let res = await productHandler.getProductList(showSub);
-      try {
-        setListProduct(res.data);
-        setTotalQt(res?.data?.length);
-        setTempList(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProduct();
+    productHandler.getAllProducts().then((res) => {
+      const listProducts = res.data.products;
+      // console.log("List of products:");
+      setListProduct(res.data.products);
+      //setFilter(res.data.products);
+      setTotalQt(res.data.products);
+      // console.log(res.data);
+      // console.log(listProducts);
+    });
   }, [showSub]);
   console.log(listProduct);
   // lọc theo giá
@@ -329,9 +328,7 @@ const Tablet = () => {
             </select>
           </div>
         </div>
-        {listProduct.length > 0 && (
-          <ListProductOld list={listProduct} qt={totalQt} />
-        )}
+        {listProduct.length > 0 && <Product list={listProduct} qt={totalQt} />}
       </div>
     </div>
   );

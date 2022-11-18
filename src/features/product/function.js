@@ -15,11 +15,23 @@ const productHandler = {
       })
     ),
 
-  // Get product by keyword
+  // Get product by keyword - all product
   getProductList: async (inputData) =>
     await dispatch(
       productApiSlice.endpoints.getProductsList.initiate({ ...inputData })
     ),
+
+  getProductsByCategory: async ({ categoryID }) =>
+    await dispatch(
+      productApiSlice.endpoints.getProductsByCategory.initiate({
+        categoryID,
+      })
+    ),
+
+  // Get top products
+
+  getProductsTop: async () =>
+    await dispatch(productApiSlice.endpoints.getProductsTop.initiate()),
 
   //Get All Products
   getAllProducts: async () =>

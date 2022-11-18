@@ -40,6 +40,22 @@ export const productApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    //By Category
+
+    getProductsByCate: builder.query({
+      query: (categoryID) => ({
+        url: `http://localhost:5000/api/products/${categoryID}`,
+        method: "GET",
+      }),
+    }),
+
+    // Top Products
+    getProductsTop: builder.query({
+      query: () => ({
+        url: `http://localhost:5000/api/products/topreviews`,
+      }),
+    }),
+
     // All products
     getAllProducts: builder.query({
       // common key : keyword

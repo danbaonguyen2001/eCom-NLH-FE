@@ -15,8 +15,10 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
   // config
   const dispatch = useDispatch();
   // content
-  const availableQuantity = data?.productColor.quantity;
-  const currentProductId = data?.productColor.id;
+  // const availableQuantity = data?.productColor.quantity;
+  // const currentProductId = data?.productColor.id;
+  const availableQuantity = data?.quantity;
+  const currentProductId = data?.color;
   const handleIncrease = async () => {
     if (availableQuantity > quantity) {
       setQuantity(quantity + 1);
@@ -91,7 +93,7 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
           });
           setProductListInfo([...newProductInfo]);
           setQuantity(0);
-          dispatch(removeFromCart({id:currentProductId}))
+          dispatch(removeFromCart({ id: currentProductId }));
         }
         !status &&
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
@@ -133,7 +135,7 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
               <span className="product_item_price mg_r_10">
                 {toVND(data?.marketPrice) || "Đang tải dữ liệu"}
               </span>
-              <span className="product_item_color">{`Màu: ${data?.productColor.color.name}`}</span>
+              <span className="product_item_color">{`Màu: ${data?.color}`}</span>
             </div>
             <div className="has_cart_item_qt_delete flex">
               <div className="product_item_qt mg_r_10">
