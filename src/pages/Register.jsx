@@ -1,107 +1,27 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // import "../assets/css/register/testmain.css";
 import { useHistory, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import login from "../assets/images/register/login.png";
 import FormInput from "../components/register/FormInput.jsx";
 import "../sass/auth/_register.scss";
-import { getDistrict, getWard, getProvince } from "../apis/apiShipment";
 // Function
 import authController from "../features/auth/functions";
+//
+const AddressSelect = React.lazy(() =>
+  import("../components/register/AddressSelect")
+);
+//
 const Register = () => {
-  // ADDRESS STATE
-  const [provinces, setProvinces] = useState([]);
-  const [province, setProvince] = useState({
-    ID: 269,
-    value: "",
-  });
-  const [districts, setDistricts] = useState([]);
-  const [district, setDistrict] = useState({
-    ID: 2264,
-    value: "",
-  });
-  const [wards, setWards] = useState([]);
-  const [ward, setWard] = useState({
-    ID: 80213,
-    value: "",
-  });
-  // ADDRESS FETCH
-  useEffect(() => {
-    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
-      toastId: 88,
-      autoClose: 5000,
-      closeOnClick: true,
-    });
-    getProvince()
-      .then((res) => {
-        const { data } = res.data;
-        setProvinces(data);
-        setProvince({
-          ID: data[0]?.ProvinceID,
-          value: data[0]?.ProvinceName,
-        });
-      })
-      .catch((err) => {
-        toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
-          toastId: 99,
-          autoClose: 5000,
-          closeOnClick: true,
-        });
-      });
-  }, []);
-  useEffect(() => {
-    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
-      toastId: 88,
-      autoClose: 5000,
-      closeOnClick: true,
-    });
-    getDistrict(province.ID)
-      .then((res) => {
-        const { data } = res.data;
-        setDistricts(data);
-        setDistrict({
-          ID: data[0]?.DistrictID,
-          value: data[0]?.DistrictName,
-        });
-      })
-      .catch((err) => {
-        toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
-          toastId: 99,
-          autoClose: 5000,
-          closeOnClick: true,
-        });
-      });
-  }, [province]);
-  useEffect(() => {
-    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
-      toastId: 88,
-      autoClose: 5000,
-      closeOnClick: true,
-    });
-    getWard(district.ID)
-      .then((res) => {
-        const { data } = res.data;
-        setWard({
-          ID: data[0]?.WardCode,
-          value: data[0]?.WardName,
-        });
-      })
-      .catch((err) => {
-        toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
-          toastId: 99,
-          autoClose: 5000,
-          closeOnClick: true,
-        });
-      });
-  }, [district]);
-  //
   const [values, setValues] = useState({
     email: "",
     password: "",
     gender: "man",
     confirmPassword: "",
     phone: "",
-    addresses: [],
+    address:"",
+    detailAddress: { 
+    },
     name: "",
   });
   const inputs = [
@@ -155,7 +75,7 @@ const Register = () => {
       placeholder: "Nhập số nhà",
       errorMessage: "Số nhà không hợp lệ",
       required: true,
-    }
+    },
   ];
 
   const history = useHistory();
@@ -169,10 +89,16 @@ const Register = () => {
     let name = values.name;
     // Xu ly
     try {
+      const addressForm = {
+        address:values.address, 
+        detailAddress:values.detailAddress,
+        idDefault:true,
+      }
       let result = await authController.register({
         email,
         password,
         gender,
+        addressForm,
         phone,
         name,
       });
@@ -250,7 +176,8 @@ const Register = () => {
                 />
               ))}
             </div>
-
+            {/* ADDRESS */}
+            <AddressSelect setValues={setValues} />
             <div className="register_form_gender">
               {/* <p>Chọn giới tính:</p> */}
 
@@ -277,7 +204,6 @@ const Register = () => {
                 <label htmlFor="woman">Nữ</label>
               </div>
             </div>
-            {/* ADDRESS */}
 
             {/*  */}
             <center>

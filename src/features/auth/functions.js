@@ -36,16 +36,11 @@ const authHandler = {
     }
     return false;
   },
-  register: async ({ email, password, gender, phone, address, name }) => {
+  register: async (inputData) => {
     try {
       let response = await dispatch(
         authApiSlice.endpoints.register.initiate({
-          email,
-          password,
-          gender,
-          phone,
-          address,
-          name,
+          ...inputData
         })
       );
       if (response?.data?.success) return true;

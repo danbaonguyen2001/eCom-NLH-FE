@@ -19,7 +19,12 @@ const FormInput = (props) => {
       />
       {/* <i className="fa-solid fa-circle-check"></i> */}
       <i className="fa-solid fa-circle-exclamation"></i>
-      <span className="register_form_input_mess">{errorMessage}</span>
+      <span
+        style={{ position: "relative", left: "2rem" }}
+        className="register_form_input_mess"
+      >
+        {errorMessage}
+      </span>
     </div>
   );
 };

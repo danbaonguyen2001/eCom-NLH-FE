@@ -32,7 +32,7 @@ const userController = {
             if (success) {
                 dispatch(setUserInfos({
                     name: data.name,
-                    avatar: data.avatar,
+                    avatar: data.avatar.url,
                     gender: data.gender,
                     userId: data.id,
                     phone: data.phone,
@@ -57,7 +57,7 @@ const userController = {
             .then(result => {
                 if (result.data.success) {
                     dispatch(setUserInfos({
-                        avatar: result.data.avatar
+                        avatar: result.data.avatar.url
                     }))
                 }
             })

@@ -175,7 +175,6 @@ const UserInFor = () => {
     userController
       .getUser()
       .then((res) => {
-
         const data = res.data.user;
         let { gender, name, addresses, phone, avatar } = data;
         setUserData({
@@ -252,7 +251,7 @@ const UserInFor = () => {
           gender,
           name,
           phone,
-          avatar,
+          avatar:avatar.url,
           addresses,
         });
       } else {
@@ -311,20 +310,20 @@ const UserInFor = () => {
       const { gender, name, phone, avatar, addresses } = data;
       if (status) {
         setAddressBtStatus("Edit");
-        const newAddresses = [
-          ...userData.addresses,
-          {
-            address: addressStr,
-            idDefault: isIdDefault,
-          },
-        ];
+        // const newAddresses = [
+        //   ...userData.addresses,
+        //   {
+        //     address: addressStr,
+        //     idDefault: isIdDefault,
+        //   },
+        // ];
         setUserData({
           ...userData,
           gender,
           name,
           phone,
-          avatar,
-          addresses: newAddresses,
+          avatar:avatar.url,
+          addresses: addresses,
         });
       } else {
         toast.error(`Lỗi không thể thêm địa chỉ mới`, {
@@ -465,6 +464,7 @@ const UserInFor = () => {
                     />
 
                     <span className="user-infor-address-item__detail">
+                      {console.log(v)}
                       {v.address}
                     </span>
                     <span className="user-infor-address-item__default">

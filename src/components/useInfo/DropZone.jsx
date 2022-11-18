@@ -94,7 +94,7 @@ const DropZone = ({ userDataAvatar }) => {
     userController
       .updateAvatar(formData)
       .then((res) => {
-        setAvatar(res.data.avatar);
+        setAvatar(res.data.avatar.url);
         toast.success("Cập nhật ảnh đại diện thành công", {
           position: "top-right",
           autoClose: 3000,
