@@ -43,12 +43,15 @@ const HasProduct = ({ cart }) => {
     // get promotion list
     const promotionsGet = cart.map((v) => {
       return 10;
+
       //return v?.item.promotion;
+
     });
 
     setPromotionList([...promotionList, ...promotionsGet]);
 
     // get cart info
+
     const newArr = cart.map((v) => {
       console.log(cart);
       const currentProduct = productListInfo.find(
@@ -65,6 +68,7 @@ const HasProduct = ({ cart }) => {
     });
 
     //setProductListInfo([...newArr]);
+
 
     setProductListInfo(cart);
   }, [cart]);

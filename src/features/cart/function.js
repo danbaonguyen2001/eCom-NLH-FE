@@ -20,6 +20,7 @@ const cartHandler = {
       product: inputData.product,
       option: inputData.option,
       color: inputData.color,
+
     };
 
     let { quantity } = inputData.quantity;
@@ -31,6 +32,7 @@ const cartHandler = {
     );
   },
 
+
   // Update quantity
   updateQuantity: async ({ itemId, quantity }) => {
     await dispatch(
@@ -40,6 +42,7 @@ const cartHandler = {
       })
     );
   },
+
 
   // // Remove item from cart
   // removeCart: async ({ productColorId }) => {
