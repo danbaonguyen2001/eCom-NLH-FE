@@ -175,8 +175,10 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
             autoClose: 5000,
             closeOnClick: true,
           });
+
         })
         .catch((err) => {
+
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
             position: "top-right",
             autoClose: 5000,
@@ -211,6 +213,7 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
                 {toVND(data?.price) || "Đang tải dữ liệu"}
               </span>
               <span className="product_item_color">{`Màu: ${data?.info?.colorName}`}</span>
+
             </div>
             <div className="has_cart_item_qt_delete flex">
               <div className="product_item_qt mg_r_10">
