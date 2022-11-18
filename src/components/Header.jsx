@@ -56,11 +56,9 @@ const Header = () => {
       .getCurrentCart()
       .then((res) => {
         console.log("Get cart:");
-        console.log(res);
-        console.log(res.data);
         console.log(res.data.cart);
         dispatch(setCurrentCart(res?.data?.cart));
-        console.log(cart);
+        //if (res.data.cart.length > 0) console.log(cart);
       })
       .catch((err) => {
         console.log(err);
