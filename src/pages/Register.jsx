@@ -90,7 +90,7 @@ const Register = () => {
     // Xu ly
     try {
       const addressForm = {
-        address:values.address, 
+        address:`${values.address}, ${values.detailAddress.ward.wardName}, ${values.detailAddress.district.districtName}, ${values.detailAddress.province.provinceName}`, 
         detailAddress:values.detailAddress,
         idDefault:true,
       }
