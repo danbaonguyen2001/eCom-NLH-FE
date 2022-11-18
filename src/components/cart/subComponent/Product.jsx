@@ -11,7 +11,7 @@ import { removeFromCart } from "../../../features/cart/cartSlice";
 const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
   const [quantity, setQuantity] = useState(dataProduct?.item?.quantity || "0");
   const [data, setData] = useState(dataProduct?.item);
-  console.log(data);
+  //console.log(data);
   // config
   const dispatch = useDispatch();
   // content

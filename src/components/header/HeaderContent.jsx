@@ -142,12 +142,12 @@ const HeaderContent = () => {
   // cart redux set up
   const cartInfo = useSelector(selectCurrentCartInfo);
   const cartLength = useSelector(selectCurrentCartLength);
+
   useEffect(() => {
     dispatch(getTotals());
   }, [cartInfo]);
 
   // check
-
   useEffect(() => {
     // check auth
     if (status) {
@@ -162,20 +162,21 @@ const HeaderContent = () => {
       });
       //const fetchCart = async () => await cartHandler.getCurrentCart();
 
-      cartHandler
-        .getCurrentCart()
-        .then((res) => {
-          const newArr = res?.data?.cart?.map((v) => ({
-            product: v?.item?.product,
-            option: v?.item?.option,
-            color: v?.item?.color,
-            price: v?.item?.price,
-            quantity: v?.quantity,
-          }));
-
-          dispatch(setCurrentCart([...newArr]));
-        })
-        .catch((e) => console.log(e));
+      // cartHandler
+      //   .getCurrentCart()
+      //   .then((res) => {
+      //     console.log(res.data.cart);
+      //     const newArr = res?.data.cart.map((v) => ({
+      //       product: v.item.product,
+      //       option: v.item.option,
+      //       color: v.item.color,
+      //       price: v.item.price,
+      //       quantity: v.item.quantity,
+      //     }));
+      //     console.log(newArr);
+      //     dispatch(setCurrentCart([...newArr]));
+      //   })
+      //   .catch((e) => console.log(e));
     } else {
       setUserLogin({
         ...userLogin,
@@ -187,6 +188,24 @@ const HeaderContent = () => {
       });
     }
   }, [avatar, status]);
+
+  useEffect(() => {
+    cartHandler
+      .getCurrentCart()
+      .then((res) => {
+        console.log(res.data.cart);
+        const newArr = res?.data.cart.map((v) => ({
+          product: v.item.product,
+          option: v.item.option,
+          color: v.item.color,
+          price: v.item.price,
+          quantity: v.item.quantity,
+        }));
+        console.log(newArr);
+        dispatch(setCurrentCart([...newArr]));
+      })
+      .catch((e) => console.log(e));
+  }, [cartLength]);
   //
   // Begin content
   const [data, setData] = useState([]);
@@ -341,12 +360,13 @@ const HeaderContent = () => {
               />
               &nbsp;
               <div className="cart__text">
+                {console.log(cartInfo)}
                 {cartShow ? (
                   <div className="cart__info">
-                    <h6>Số lượng: {cartInfo?.quantity}</h6>
+                    <h6>Số lượng: {cartInfo?.quantity || 0}</h6>
                     <h6>Loại: {cartLength}</h6>
 
-                    <h6>{toVND(cartInfo?.total)}</h6>
+                    <h6>{toVND(cartInfo?.total || 0)}</h6>
                   </div>
                 ) : (
                   "Giỏ hàng"
@@ -359,6 +379,7 @@ const HeaderContent = () => {
                 ) : (
                   ""
                 )}
+                {/* {console.log(cartInfo)} */}
               </span>
             </div>
           </Link>

@@ -50,7 +50,7 @@ const HasProduct = ({ cart }) => {
 
     // get cart info
     const newArr = cart.map((v) => {
-      console.log(cart);
+      //console.log(cart);
       const currentProduct = productListInfo.find(
         (item) => item._id == v?.item?.color
       );
@@ -69,7 +69,7 @@ const HasProduct = ({ cart }) => {
     setProductListInfo(cart);
   }, [cart]);
 
-  console.log(cart);
+  //console.log(cart);
 
   useEffect(() => {
     const totalGet = cart.reduce(
