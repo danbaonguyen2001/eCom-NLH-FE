@@ -43,25 +43,32 @@ const HasProduct = ({ cart }) => {
     // get promotion list
     const promotionsGet = cart.map((v) => {
       return 10;
-      // return v?.item.promotion;
+
+      //return v?.item.promotion;
+
     });
 
     setPromotionList([...promotionList, ...promotionsGet]);
 
     // get cart info
-    // const newArr = cart.map((v) => {
-    //   const currentProduct = productListInfo.find(
-    //     (product) => product.id == v.item.productColor.id
-    //   );
-    //   let obj = {
-    //     quantity: currentProduct?.quantity || v.quantity || 0,
-    //     id: v.item.productColor.id || 0,
-    //   };
-    //   if (currentProduct || obj.id != 0) {
-    //     return obj;
-    //   }
-    // });
-    // setProductListInfo([...newArr]);
+
+    const newArr = cart.map((v) => {
+      console.log(cart);
+      const currentProduct = productListInfo.find(
+        (item) => item._id == v?.item?.color
+      );
+
+      let obj = {
+        quantity: currentProduct?.quantity || v.quantity || 0,
+        id: v.item.color._id || 0,
+      };
+      if (currentProduct || obj.id != 0) {
+        return obj;
+      }
+    });
+
+    //setProductListInfo([...newArr]);
+
 
     setProductListInfo(cart);
   }, [cart]);
@@ -130,6 +137,7 @@ const HasProduct = ({ cart }) => {
       items: [...validInputArray],
     });
   }, [productListInfo]);
+
   return (
     <div className="has_cart  ">
       <div className="has_cart_header flex ">

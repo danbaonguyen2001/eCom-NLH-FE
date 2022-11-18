@@ -20,9 +20,10 @@ const cartHandler = {
       product: inputData.product,
       option: inputData.option,
       color: inputData.color,
+
     };
 
-    let { quantity } = inputData;
+    let { quantity } = inputData.quantity;
     await dispatch(
       cartApiSlice.endpoints.addToCart.initiate({
         item,
@@ -31,41 +32,17 @@ const cartHandler = {
     );
   },
 
+
   // Update quantity
-  updateQuantity: async ({ quantity, productColorId }) => {
-    let result = {
-      status: false,
-      message: "",
-      data: [],
-    };
-    let response = await dispatch(
-      cartApiSlice.endpoints.updateQuantity.initiate({
+  updateQuantity: async ({ itemId, quantity }) => {
+    await dispatch(
+      cartApiSlice.endpoints.updateCart.initiate({
+        itemId,
         quantity,
-        productColorId,
       })
     );
-    try {
-      let { status, data, message } = response;
-      if (status === true) {
-        result.status = status;
-        result.data = data;
-        result.message = message;
-      } else {
-        console.log("Cant update quantity");
-      }
-    } catch (e) {
-      if (!e?.response) {
-        console.log("No Server Response");
-      } else if (e.response?.status === 400) {
-        console.log("Missing Input");
-      } else if (e.response?.status === 401) {
-        console.log("Unauthorized");
-      } else {
-        console.log("Update cart failed");
-      }
-      return result;
-    }
   },
+
 
   // // Remove item from cart
   // removeCart: async ({ productColorId }) => {
