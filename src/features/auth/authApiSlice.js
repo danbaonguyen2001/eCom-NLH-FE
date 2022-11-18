@@ -4,14 +4,14 @@ export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (inputData) => ({
-                url: "https://tlcn-2022-be.onrender.com/api/auth/login",
+                url: "http://localhost:5000/api/auth/login",
                 method: "POST",
                 body: {...inputData },
             }),
         }),
         register: builder.mutation({
             query: (inputData) => ({
-                url: `https://tlcn-2022-be.onrender.com/api/auth/register`,
+                url: `http://localhost:5000/api/auth/register`,
                 method: "POST",
                 body: {...inputData },
             }),
