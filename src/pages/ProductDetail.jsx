@@ -7,7 +7,7 @@ import Introduce from "../components/productdetail/Introduce";
 import "../assets/css/productdetail/productdetail.css";
 import Information from "../components/productdetail/Information";
 import Feedback from "../components/productdetail/Feedback";
-import SeeMore from "../components/SeeMore";
+import SeeMore from "../components/seemore/SeeMore";
 import productHandler from "../features/product/function";
 import StarRating from "../components/accessories/StarRating";
 import "../sass/phone/rating.scss";
@@ -17,7 +17,7 @@ const ProductDetail = () => {
 
   const productId = location.state.productId;
 
-  const fakeProductId = "637349ce6e199507ee1d91b9";
+  //const fakeProductId = "637349ce6e199507ee1d91b9";
 
   console.log(location);
 
@@ -29,22 +29,22 @@ const ProductDetail = () => {
       const product = res.data;
       // console.log("Get product by Id:");
       // console.log(product);
-      // setProduct(product);
+      setProduct(product);
     });
   }, [productId]);
 
-  useEffect(() => {
-    productHandler.getProductById({ productId: productId }).then((res) => {
-      console.log(res);
-      const product = res.data;
-      console.log("Get product Test:");
-      console.log(product);
-      console.log(product?.category);
-      console.log(product?.manufacturer);
-      console.log(product?.reviews?.lenght);
-      setProduct(product);
-    });
-  }, []);
+  // useEffect(() => {
+  //   productHandler.getProductById({ productId: productId }).then((res) => {
+  //     // console.log(res);
+  //     const product = res.data;
+  //     // console.log("Get product Test:");
+  //     // console.log(product);
+  //     // console.log(product?.category);
+  //     // console.log(product?.manufacturer);
+  //     // console.log(product?.reviews?.lenght);
+  //     setProduct(product);
+  //   });
+  // }, []);
 
   return (
     <div className="produt_detail grid  wide">
@@ -84,8 +84,8 @@ const ProductDetail = () => {
       <Information product={product} />
       <div className="line"></div>
       <Feedback product={product} />
-      {/* <div className="line"></div>
-      <SeeMore /> */}
+      <div className="line"></div>
+      <SeeMore />
     </div>
   );
 };

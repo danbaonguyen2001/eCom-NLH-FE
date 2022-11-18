@@ -20,19 +20,27 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
   const status = useSelector(selectLoginStatus) || false;
   const dispatch = useDispatch();
   const history = useHistory();
-  const productColorList = product?.productOptions[chooseOption]?.productColors;
+  const productColorList = product?.productOptions[chooseOption]?.colors;
+
   // input
   const [body, setBody] = useState({
-    productColorId: productColorList?.[0].id,
+    product: product?._id,
+    option: product?.productOptions[chooseOption]?._id,
+    color: productColorList?.[0]._id,
     quantity: 1,
   });
+
   // checked
   const availableQuantity = productColorList.find(
-    (v) => v.id == body.productColorId
+    (v) => v._id == body.color
   ).quantity;
 
+  console.log(body);
+  console.log(productColorList);
+  console.log(availableQuantity);
+
   // event handler
-  const handleAddToCart = async () => {
+  const handleAddToCart = () => {
     // Have not authenticated
     if (!status) {
       toast.info("Vui lòng đăng nhập để thực hiện thao tác", {
@@ -43,33 +51,58 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
       history.push("/login");
       return;
     }
+    console.log(body);
+
     // Authenticated
-    try {
-      const res = await cartController.addCart({ ...body });
-      const { status } = res;
-      status &&
-        toast.success("Thêm vào giỏ hàng thành công", {
+    cartController
+      .addCart({ ...body })
+      .then((res) => {
+        console.log(res);
+        toast.success("Thêm sản phẩm vào giỏ hàng thành công", {
           position: "top-right",
           autoClose: 5000,
           closeOnClick: true,
-        }) &&
+        });
+        history.push("/cart");
         dispatch(
           addToCart({
-            id: body.productColorId,
+            product: body.product,
+            option: body.option,
+            color: body.color,
             quantity: body.quantity,
-            price: product?.productOptions[chooseOption]?.marketPrice,
+            price: product?.productOptions[chooseOption]?.price,
           })
-        ) &&
-        history.push("/cart");
+        );
+      })
+      .catch((err) => console.log(err));
 
-      if (!status) throw new Error();
-    } catch (e) {
-      toast.error("Lỗi hệ thống, thử lại sau", {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: true,
-      });
-    }
+    // try {
+    //   const res = cartController.addCart({ ...body });
+    //   console.log(res);
+    //   //const { result } = res;
+    //   res == "true" &&
+    //     toast.success("Thêm vào giỏ hàng thành công", {
+    //       position: "top-right",
+    //       autoClose: 5000,
+    //       closeOnClick: true,
+    //     }) &&
+    //     dispatch(
+    //       addToCart({
+    //         // id: body.color,
+    //         // quantity: body.quantity,
+    //         // price: product?.productOptions[chooseOption]?.price,
+    //       })
+    //     ) &&
+    //     history.push("/cart");
+
+    //   //if (!res) throw new Error();
+    // } catch (e) {
+    //   toast.error("Lỗi hệ thống, thử lại sau", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     closeOnClick: true,
+    //   });
+    // }
   };
   const handlerIncreaseQuantity = () => {
     body.quantity < availableQuantity &&
@@ -104,13 +137,15 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
         <div className="add_cart_modal_content_detail_pd">
           {/* Intro */}
           <header className="">
-            {product?.name} {product?.productOptions[chooseOption]?.optionName}
+            {product?.name}{" "}
+            {product?.productOptions[chooseOption]?.productOptionName}
           </header>
           <header className="add_cart_modal_content_detail_pd_price">
-            {toVND(product?.productOptions[chooseOption]?.marketPrice)} &nbsp;
+            {toVND(product?.productOptions[chooseOption]?.price)} &nbsp;
             <span className="product_introduce_price_original">
-              <s>{toVND(product?.productOptions[chooseOption]?.price)}</s> -
-              {product?.productOptions[chooseOption]?.promotion}%
+              <s>{toVND(product?.productOptions[chooseOption]?.price * 1.1)}</s>{" "}
+              -{/* {product?.productOptions[chooseOption]?.price * 1.1}% */}
+              10%
             </span>
           </header>
         </div>
@@ -120,32 +155,30 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
           <header>Chọn màu</header>
           <div className="add_cart_modal_content_color_pd_list flex">
             {/* List */}
-            {product?.productOptions[chooseOption]?.productColors?.map(
-              (v, i) => {
-                return (
-                  <div className="add_cart_modal_content_color_pd_list_item">
-                    <img
-                      className="add_cart_modal_content_color_pd_list_item_img "
-                      src={img}
-                      alt=""
-                    />
-                    <input
-                      type="radio"
-                      className="mg-y-1"
-                      onChange={() =>
-                        setBody({
-                          ...body,
-                          productColorId: v.id,
-                        })
-                      }
-                      name="option"
-                      checked={v.id == body.productColorId ? "checked" : false}
-                    />
-                    <label htmlFor="">{v?.color?.name}</label>
-                  </div>
-                );
-              }
-            )}
+            {product?.productOptions[chooseOption]?.colors?.map((v, i) => {
+              return (
+                <div className="add_cart_modal_content_color_pd_list_item">
+                  <img
+                    className="add_cart_modal_content_color_pd_list_item_img "
+                    src={v?.images[0]?.urlImage}
+                    alt=""
+                  />
+                  <input
+                    type="radio"
+                    className="mg-y-1"
+                    onChange={() =>
+                      setBody({
+                        ...body,
+                        color: v._id,
+                      })
+                    }
+                    name="option"
+                    checked={v._id == body.color ? "checked" : false}
+                  />
+                  <label htmlFor="">{v?.color}</label>
+                </div>
+              );
+            })}
           </div>
         </div>
         {/* Quantity set */}

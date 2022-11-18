@@ -77,7 +77,7 @@ const HeaderContent = () => {
   const fetchListProductApi = (text) =>
     productHandler.getProductList({
       page: 1,
-      size: 20,
+      size: 10,
       keyword: text,
     });
   const debounceFetch = useConstant(() => debounce(fetchListProductApi, 500));
@@ -97,8 +97,8 @@ const HeaderContent = () => {
 
       try {
         const res = await debounceFetch(searchWord);
-
-        setListProducts(res.data);
+        //console.log(res);
+        setListProducts(res.data.products);
         // set
       } catch (e) {
         console.log(e);
@@ -160,13 +160,16 @@ const HeaderContent = () => {
           status,
         },
       });
-      const fetchCart = async () => await cartHandler.getCurrentCart();
+      //const fetchCart = async () => await cartHandler.getCurrentCart();
 
-      fetchCart()
-        .then((data) => {
-          const newArr = data?.map((v) => ({
-            id: v?.item?.productColor?.id,
-            price: v?.item?.marketPrice,
+      cartHandler
+        .getCurrentCart()
+        .then((res) => {
+          const newArr = res?.data?.cart?.map((v) => ({
+            product: v?.item?.product,
+            option: v?.item?.option,
+            color: v?.item?.color,
+            price: v?.item?.price,
             quantity: v?.quantity,
           }));
 
@@ -293,7 +296,7 @@ const HeaderContent = () => {
                           " ",
                           "-"
                         )}`,
-                        state: { productId: value?.id },
+                        state: { productId: value?._id },
                       }}
                       className="dataItem"
                       onClick={clearInput}
@@ -310,9 +313,11 @@ const HeaderContent = () => {
                         <div className="dataResult__detail">
                           <h3 className="pd_b_5">{value?.name} </h3>
                           <span className="price--original">
-                            {toVND(value?.marketPrice)} &nbsp;
+                            {toVND(value?.price)} &nbsp;
                           </span>
-                          <s className="price--marke">{toVND(value?.price)}</s>{" "}
+                          <s className="price--marke">
+                            {toVND(value?.price * 1.1)}
+                          </s>{" "}
                         </div>
                       </div>
                     </Link>

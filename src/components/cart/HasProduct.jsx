@@ -19,7 +19,7 @@ const HasProduct = ({ cart }) => {
   const [cartInfo, setCartInfo] = useState({
     quantity: 0,
     total: 0,
-    serviceFee:0,
+    serviceFee: 0,
   });
   // order info
   const [orderInfo, setOrderInfo] = useState({
@@ -42,34 +42,40 @@ const HasProduct = ({ cart }) => {
   useEffect(() => {
     // get promotion list
     const promotionsGet = cart.map((v) => {
-      return v?.item.promotion;
-    });
-    setPromotionList([...promotionList, ...promotionsGet]);
-    // get cart info
-    const newArr = cart.map((v) => {
-      const currentProduct = productListInfo.find(
-        (product) => product.id == v.item.productColor.id
-      );
-      let obj = {
-        quantity: currentProduct?.quantity || v.quantity || 0,
-        id: v.item.productColor.id || 0,
-      };
-      if (currentProduct || obj.id != 0) {
-        return obj;
-      }
+      return 10;
+      // return v?.item.promotion;
     });
 
-    setProductListInfo([...newArr]);
+    setPromotionList([...promotionList, ...promotionsGet]);
+
+    // get cart info
+    // const newArr = cart.map((v) => {
+    //   const currentProduct = productListInfo.find(
+    //     (product) => product.id == v.item.productColor.id
+    //   );
+    //   let obj = {
+    //     quantity: currentProduct?.quantity || v.quantity || 0,
+    //     id: v.item.productColor.id || 0,
+    //   };
+    //   if (currentProduct || obj.id != 0) {
+    //     return obj;
+    //   }
+    // });
+    // setProductListInfo([...newArr]);
+
+    setProductListInfo(cart);
   }, [cart]);
+
+  console.log(cart);
 
   useEffect(() => {
     const totalGet = cart.reduce(
       (prev, curr) => {
         const currQuantity =
-          productListInfo.find((v) => v.id == curr.item?.productColor.id)
+          productListInfo.find((v) => v._id == curr.item?.color?._id)
             ?.quantity || 0;
         return {
-          total: prev.total + curr.item?.marketPrice * currQuantity,
+          total: prev.total + curr.item?.price * currQuantity,
           quantity: prev.quantity + currQuantity,
         };
       },
@@ -78,6 +84,7 @@ const HasProduct = ({ cart }) => {
         total: 0,
       }
     );
+
     // get Ship fee
     // MOCK
     // sample input ship fee
@@ -115,7 +122,7 @@ const HasProduct = ({ cart }) => {
 
     // set order info
     const validInputArray = productListInfo.map((v) => ({
-      productColorId: v.id,
+      color: v._id,
       quantity: v.quantity,
     }));
     setOrderInfo({
@@ -145,20 +152,21 @@ const HasProduct = ({ cart }) => {
             );
           })}
         </div>
+
         {/* UserInfo */}
         <div className="line"></div>
-        <Info
+        {/* <Info
           promotionList={promotionList}
           orderInfo={orderInfo}
           setOrderInfo={setOrderInfo}
-        />
+        /> */}
 
         <div className="line"></div>
-        <OrderConfirm
+        {/* <OrderConfirm
           cartInfo={cartInfo}
           orderInfo={orderInfo}
           setOrderInfo={setOrderInfo}
-        />
+        /> */}
       </div>
     </div>
   );

@@ -20,8 +20,8 @@ const Cart = () => {
       const res = await cartHandler.getCurrentCart();
 
       try {
-        setCart(res);
-
+        setCart(res.data.cart);
+        console.log(res.data.cart);
         // set
       } catch (e) {
         toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
@@ -33,6 +33,7 @@ const Cart = () => {
     };
     fetchCart();
   }, []);
+
   useEffect(() => {
     if (isSuccess) {
       toast.success("Đặt hàng thành công", {
@@ -42,7 +43,6 @@ const Cart = () => {
       });
       // setOrderSuccess(true);
       // setCart([]);
-
     }
     if (isLoading) {
       toast.info("Đang thực hiện yêu cầu", {
@@ -67,12 +67,11 @@ const Cart = () => {
       <div className="cart flex_center">
         {cart?.length === 0 ? <NoProduct /> : <HasProduct cart={cart} />}
         {/* Không có sản phẩm*/}
-
+        {/* <NoProduct /> */}
         {/* {noProduct && <NoProduct />} */}
 
         {/* có sản phẩm */}
         {/* {hasProduct && <HasProduct />} */}
-
       </div>
     </div>
   );

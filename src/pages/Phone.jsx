@@ -28,29 +28,12 @@ const Phone = () => {
   const [filter, setFilter] = useState(0);
 
   useEffect(() => {
-    // const fetchProduct = async () => {
-    //   let res = await productHandler.getProductList(showSub);
-    //   try {
-    //     setListProduct(res.data);
-    //     setFilter(res.data);
-    //     setTotalQt(res?.data?.length);
-    //     console.log(listProduct);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-
-    // };
-    // fetchProduct();
-
     productHandler.getAllProducts().then((res) => {
-      // console.log(res.data);
       const listProducts = res.data.products;
-      console.log("List of products:");
+
       setListProduct(res.data.products);
       setFilter(res.data.products);
       setTotalQt(res.data.products);
-      console.log(res.data);
-      console.log(listProducts);
     });
   }, [showSub]);
 

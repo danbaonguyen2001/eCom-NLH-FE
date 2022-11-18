@@ -1,16 +1,15 @@
-import React,{useState,useEffect} from 'react'
-import banner from '../../assets/images/accessories/backup-battery.png'
+import React, { useState, useEffect } from "react";
+import banner from "../../assets/images/accessories/backup-battery.png";
 
-import { menuBackupBattery } from './data'
-import { Link } from 'react-router-dom'
-import MenuTop from './MenuTop'
+import { menuBackupBattery } from "./data";
+import { Link } from "react-router-dom";
+import MenuTop from "./MenuTop";
 import productHandler from "../../features/product/function";
-import ListProduct from './ListProduct'
+import ListProduct from "./ListProduct";
 
 const BackupBattery = () => {
-
-  const [listProduct,setListProduct] = useState()
-  const [showSub,setShowSub] = useState({
+  const [listProduct, setListProduct] = useState();
+  const [showSub, setShowSub] = useState({
     manufacturerId: 0,
     categoryId: 4,
     subCategoryId: 5,
@@ -18,32 +17,32 @@ const BackupBattery = () => {
     size: 10,
   });
   useEffect(() => {
-    const fetchProduct = async () => {
-      let res = await productHandler.getProductList(showSub);
-      try {
-        setListProduct(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProduct();
+    productHandler.getAllProducts().then((res) => {
+      const listProducts = res.data.products;
+      //console.log("List of products:");
+      setListProduct(res.data.products);
+      //setFilter(res.data.products);
+      //setTotalQt(res.data.products);
+      //console.log(res.data);
+      //console.log(listProducts);
+    });
   }, [showSub]);
 
   return (
-    <div className='backup-battery list-product-same'
-          id='battery'>
-      
-      <div className='banner'><img src={banner} alt="" /></div>
+    <div className="backup-battery list-product-same" id="battery">
+      <div className="banner">
+        <img src={banner} alt="" />
+      </div>
 
-        <MenuTop menuTop={menuBackupBattery} />
+      <MenuTop menuTop={menuBackupBattery} />
 
+      <ListProduct listProduct={listProduct} quantityShow={10} />
 
-        <ListProduct listProduct={listProduct}
-                      quantityShow={10} />
-      
-        <button className='btnViewMore'><Link to='/sac-dtdd'>XEM TẤT CẢ CÁC SẠC DỰ PHÒNG</Link></button>
+      <button className="btnViewMore">
+        <Link to="/sac-dtdd">XEM TẤT CẢ CÁC SẠC DỰ PHÒNG</Link>
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default BackupBattery
+export default BackupBattery;
