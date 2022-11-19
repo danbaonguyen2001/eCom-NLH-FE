@@ -142,10 +142,11 @@ const HeaderContent = () => {
   // cart redux set up
   const cartInfo = useSelector(selectCurrentCartInfo);
   const cartLength = useSelector(selectCurrentCartLength);
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(getTotals());
-  }, [cartInfo]);
+  }, [cart]);
 
   // check
   useEffect(() => {
@@ -205,7 +206,7 @@ const HeaderContent = () => {
         dispatch(setCurrentCart([...newArr]));
       })
       .catch((e) => console.log(e));
-  }, [cartLength]);
+  }, [cart]);
   //
   // Begin content
   const [data, setData] = useState([]);

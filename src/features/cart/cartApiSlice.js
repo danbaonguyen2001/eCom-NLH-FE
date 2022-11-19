@@ -30,7 +30,6 @@ export const cartApiSlice = apiSlice.injectEndpoints({
     // Update quality and remove
     updateCart: builder.mutation({
       query: (inputData) => {
-
         let { itemId, quantity } = inputData;
         return {
           url: `http://localhost:5000/api/carts`,

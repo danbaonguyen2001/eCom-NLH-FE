@@ -78,7 +78,7 @@ const CompareProducts = () => {
   //handle
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.product.productList);
-  console.log(productList);
+  //console.log(productList);
   useEffect(() => {
     const fetchProduct = async () => {
       const compareList = await Promise.all(

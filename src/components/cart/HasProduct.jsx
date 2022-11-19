@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import Product from "./subComponent/Product";
 import Info from "./subComponent/Info";
 import { toVND } from "../../utils/format";
-import { useDispatch } from "react-redux";
-import { setCartTotal } from "../../features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCartTotal,
+  selectCurrentCartInfo,
+} from "../../features/cart/cartSlice";
 // Ship fee
 import { getShipFee } from "../../apis/apiShipment";
 const OrderConfirm = React.lazy(() => import("./subComponent/OrderConfirm"));
@@ -14,6 +17,8 @@ const HasProduct = ({ cart }) => {
   const dispatch = useDispatch();
   //
   //
+  const stateCart = useSelector((state) => state.cart);
+  console.log(stateCart);
   const [promotionList, setPromotionList] = useState([]);
   const [productListInfo, setProductListInfo] = useState([]);
   const [cartInfo, setCartInfo] = useState({
@@ -45,7 +50,6 @@ const HasProduct = ({ cart }) => {
       return 10;
 
       //return v?.item.promotion;
-
     });
 
     setPromotionList([...promotionList, ...promotionsGet]);
@@ -68,7 +72,6 @@ const HasProduct = ({ cart }) => {
     });
 
     //setProductListInfo([...newArr]);
-
 
     setProductListInfo(cart);
   }, [cart]);

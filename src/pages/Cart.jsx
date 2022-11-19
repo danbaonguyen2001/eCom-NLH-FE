@@ -6,6 +6,7 @@ import cartHandler from "../features/cart/function";
 import { selectCurrentState } from "../features/order/orderSlice";
 import "../sass/cart/cart.scss";
 import { toast } from "react-toastify";
+import { selectCurrentCartLength } from "../features/cart/cartSlice";
 
 const Cart = () => {
   const [orderSuccess, setOrderSuccess] = useState(false);
@@ -15,6 +16,7 @@ const Cart = () => {
   // const cart = useSelector((state) => state.cart);
   //const cart = cartHandler.getCurrentCart().then((data) => console.log(data));
 
+  const cartLength = useSelector(selectCurrentCartLength);
   useEffect(() => {
     const fetchCart = async () => {
       const res = await cartHandler.getCurrentCart();
@@ -32,7 +34,7 @@ const Cart = () => {
       }
     };
     fetchCart();
-  }, []);
+  }, [cartLength]);
 
   useEffect(() => {
     if (isSuccess) {

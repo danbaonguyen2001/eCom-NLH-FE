@@ -20,10 +20,9 @@ const cartHandler = {
       product: inputData.product,
       option: inputData.option,
       color: inputData.color,
-
     };
+    let quantity = inputData.quantity;
 
-    let { quantity } = inputData.quantity;
     await dispatch(
       cartApiSlice.endpoints.addToCart.initiate({
         item,
@@ -31,7 +30,6 @@ const cartHandler = {
       })
     );
   },
-
 
   // Update quantity
   updateQuantity: async ({ itemId, quantity }) => {
@@ -42,7 +40,6 @@ const cartHandler = {
       })
     );
   },
-
 
   // // Remove item from cart
   // removeCart: async ({ productColorId }) => {

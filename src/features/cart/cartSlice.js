@@ -51,7 +51,10 @@ const cartSlice = createSlice({
     //Xoá sản phẩm khỏi giỏ hàng
     removeFromCart(state, action) {
       const nextCartItems = state.cartItems.filter(
-        (cartItem) => cartItem.id !== action.payload.id
+        (cartItem) =>
+          cartItem.product !== action.payload.product &&
+          cartItem.option !== action.payload.option &&
+          cartItem.color !== action.payload.color
       );
       state.cartItems = nextCartItems;
     },
@@ -59,7 +62,11 @@ const cartSlice = createSlice({
     //Tăng số lượng sản phẩm dung trong addToCart
     increaseQuantity(state, action) {
       const itemIndex = state.cartItems.findIndex((cartItem) => {
-        return cartItem.id === action.payload.id;
+        return (
+          cartItem.product !== action.payload.product &&
+          cartItem.option !== action.payload.option &&
+          cartItem.color !== action.payload.color
+        );
       });
       console.log(itemIndex);
       if (itemIndex >= 0) {
