@@ -51,7 +51,10 @@ const cartSlice = createSlice({
     //Xoá sản phẩm khỏi giỏ hàng
     removeFromCart(state, action) {
       const nextCartItems = state.cartItems.filter(
-        (cartItem) => cartItem.id !== action.payload.id
+        (cartItem) =>
+          cartItem.product !== action.payload.product &&
+          cartItem.option !== action.payload.option &&
+          cartItem.color !== action.payload.color
       );
       state.cartItems = nextCartItems;
     },
@@ -59,7 +62,11 @@ const cartSlice = createSlice({
     //Tăng số lượng sản phẩm dung trong addToCart
     increaseQuantity(state, action) {
       const itemIndex = state.cartItems.findIndex((cartItem) => {
-        return cartItem.id === action.payload.id;
+        return (
+          cartItem.product !== action.payload.product &&
+          cartItem.option !== action.payload.option &&
+          cartItem.color !== action.payload.color
+        );
       });
       console.log(itemIndex);
       if (itemIndex >= 0) {
@@ -81,11 +88,9 @@ const cartSlice = createSlice({
     getTotals(state, action) {
       let { total, quantity } = state.cartItems.reduce(
         (cartTotal, cartItem) => {
-          const { price, quantity } = cartItem;
-          const itemTotal = price * quantity;
-          //console.log(price);
-          cartTotal.total += itemTotal;
-          cartTotal.quantity += quantity;
+          //console.log(cartItem.quantity);
+          cartTotal.total += cartItem.price * cartItem.quantity;
+          cartTotal.quantity += cartItem.quantity;
 
           return cartTotal;
         },

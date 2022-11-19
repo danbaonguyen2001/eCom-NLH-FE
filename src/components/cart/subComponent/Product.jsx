@@ -7,7 +7,11 @@ import cartController from "../../../features/cart/function";
 // import img2 from "../../assets/images/phone/realme-9-pro-1-1.jpg";
 import { toast } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { removeFromCart } from "../../../features/cart/cartSlice";
+import {
+  removeFromCart,
+  increaseQuantity,
+  decreaseQuantity,
+} from "../../../features/cart/cartSlice";
 const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
   const [quantity, setQuantity] = useState(dataProduct?.item?.quantity || "0");
   const [data, setData] = useState(dataProduct?.item);
@@ -65,6 +69,14 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
             autoClose: 5000,
             closeOnClick: true,
           });
+
+          dispatch(
+            increaseQuantity({
+              product: data.product,
+              option: data.option,
+              color: data.color,
+            })
+          );
         })
         .catch((err) => {
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
@@ -81,6 +93,7 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
       });
     }
   };
+
   const handleDecrease = () => {
     if (quantity < 2) {
       toast.error("Số lượng không thể giảm nữa.", {
@@ -175,10 +188,16 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
             autoClose: 5000,
             closeOnClick: true,
           });
-
+          //Set state
+          dispatch(
+            removeFromCart({
+              product: data.product,
+              option: data.option,
+              color: data.color,
+            })
+          );
         })
         .catch((err) => {
-
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
             position: "top-right",
             autoClose: 5000,
@@ -186,7 +205,6 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
           });
         });
     }
-    //dispatch(removeFromCart);
   };
 
   return (
@@ -213,7 +231,6 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
                 {toVND(data?.price) || "Đang tải dữ liệu"}
               </span>
               <span className="product_item_color">{`Màu: ${data?.info?.colorName}`}</span>
-
             </div>
             <div className="has_cart_item_qt_delete flex">
               <div className="product_item_qt mg_r_10">
