@@ -66,6 +66,7 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
         .then((res) => {
           toast.success("Tăng số lượng thành công", {
             position: "top-right",
+            toastId: 1,
             autoClose: 5000,
             closeOnClick: true,
           });
@@ -128,9 +129,17 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
         .then((res) => {
           toast.success("Giảm số lượng thành công", {
             position: "top-right",
+            toastId: 1,
             autoClose: 5000,
             closeOnClick: true,
           });
+          dispatch(
+            decreaseQuantity({
+              product: data.product,
+              option: data.option,
+              color: data.color,
+            })
+          );
         })
         .catch((err) => {
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
@@ -185,6 +194,7 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
           console.log(res);
           toast.info("Xóa sản phẩm thành công", {
             position: "top-right",
+            toastId: 1,
             autoClose: 5000,
             closeOnClick: true,
           });
