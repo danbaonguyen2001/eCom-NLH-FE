@@ -1,5 +1,3 @@
-
-
 const axios = require("axios")
 
 
@@ -10,45 +8,19 @@ const from_district = 3695;
 
 
 
-// MOCK
-// sample input
-let insuranceValue;
-const input = {
-    wt: 50,
-    wh: 20,
-    l: 20,
-    h: 50,
-    from_district: 1452,
-    ward: 21012,
-    district: 1454,
-    service_id: 53320,
-    insurance_value: insuranceValue || 100000,
-};
-
-// Response
-// {
-//     "code": 200,
-//     "message": "Success",
-//     "data": {
-//         "total": 38500,
-//         "service_fee": 38500,
-//         "insurance_fee": 0,
-//         "pick_station_fee": 0,
-//         "coupon_value": 0,
-//         "r2s_fee": 0,
-//         "document_return": 0
-//     }
-// }
 const headers = {
-        Token,
-        "Content-Type": "application/json",
-        ShopId: shop_id,
+    Token,
+    "Content-Type": "application/json",
+}
+const params = {
+        "shop_id": shop_id,
+        "from_district": from_district,
     }
     // close before product
 export const getShipFee = async(input) => {
-    const inputData = {
+    let inputData = {
         from_district_id: input.from_district,
-        service_id: input.service_id,
+        service_id: null,
         service_type_id: null,
         to_district_id: input.district,
         to_ward_code: input.ward,
@@ -57,15 +29,39 @@ export const getShipFee = async(input) => {
         weight: input.wt,
         width: input.wh,
     };
-    return axios
+
+    const res = await axios.get(`https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services`, {
+        params: {
+            ...params,
+            to_district: input.district,
+        },
+        headers: {
+            ...headers,
+        }
+    })
+    const {
+        data
+    } = res.data
+        // Get first serve - temp only
+    inputData = {
+        ...inputData,
+        service_id: data[0].service_id,
+    }
+
+    return await axios
         .get(`https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee`, {
             params: {
+                ...params,
                 ...inputData
             },
             headers
         })
 
 };
+
+// fetch service
+
+
 // fetch location
 // Province
 export const getProvince = async() => {
@@ -91,4 +87,3 @@ export const getWard = async(districtID) => {
         }
     })
 }
-

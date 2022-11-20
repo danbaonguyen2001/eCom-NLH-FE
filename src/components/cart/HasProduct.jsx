@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Product from "./subComponent/Product";
+import { toast } from "react-toastify";
+
 import Info from "./subComponent/Info";
-import { toVND } from "../../utils/format";
-import { useDispatch } from "react-redux";
-import { setCartTotal } from "../../features/cart/cartSlice";
 // Ship fee
 import { getShipFee } from "../../apis/apiShipment";
 const OrderConfirm = React.lazy(() => import("./subComponent/OrderConfirm"));
 
 const HasProduct = ({ cart }) => {
   //
-  const dispatch = useDispatch();
-  //
-  //
+  const [detailAddress, setDetailAddress] = useState({});
   const [promotionList, setPromotionList] = useState([]);
   const [productListInfo, setProductListInfo] = useState([]);
   const [cartInfo, setCartInfo] = useState({
@@ -42,31 +39,14 @@ const HasProduct = ({ cart }) => {
   useEffect(() => {
     // get promotion list
     const promotionsGet = cart.map((v) => {
-      return 10;
+      return v;
       // return v?.item.promotion;
     });
 
     setPromotionList([...promotionList, ...promotionsGet]);
 
-    // get cart info
-    // const newArr = cart.map((v) => {
-    //   const currentProduct = productListInfo.find(
-    //     (product) => product.id == v.item.productColor.id
-    //   );
-    //   let obj = {
-    //     quantity: currentProduct?.quantity || v.quantity || 0,
-    //     id: v.item.productColor.id || 0,
-    //   };
-    //   if (currentProduct || obj.id != 0) {
-    //     return obj;
-    //   }
-    // });
-    // setProductListInfo([...newArr]);
-
     setProductListInfo(cart);
   }, [cart]);
-
-  console.log(cart);
 
   useEffect(() => {
     const totalGet = cart.reduce(
@@ -85,19 +65,38 @@ const HasProduct = ({ cart }) => {
       }
     );
 
+    setCartInfo({
+      ...totalGet,
+    });
+
+    // set order info
+    const validInputArray = productListInfo.map((v) => ({
+      color: v._id,
+      quantity: v.quantity,
+    }));
+    setOrderInfo({
+      ...orderInfo,
+      items: [...validInputArray],
+    });
+  }, [productListInfo, detailAddress]);
+  useMemo(() => {
     // get Ship fee
-    // MOCK
     // sample input ship fee
     let insuranceValue;
+    const getAddress = detailAddress?.detailAddress
+      ? {
+          ...detailAddress.detailAddress,
+        }
+      : {
+          ...detailAddress,
+        };
     const input = {
       wt: 50,
       wh: 20,
       l: 20,
       h: 50,
-      from_district: 1452,
-      ward: 21012,
-      district: 1454,
-      service_id: 53320,
+      ward: getAddress?.ward?.wardCode,
+      district: getAddress?.district?.districtID,
       insurance_value: insuranceValue || 100000,
     };
     const fetchShip = async (input) => await getShipFee(input);
@@ -115,21 +114,13 @@ const HasProduct = ({ cart }) => {
           };
         });
       })
-      .catch((e) => console.log(e));
-    setCartInfo({
-      ...totalGet,
-    });
-
-    // set order info
-    const validInputArray = productListInfo.map((v) => ({
-      color: v._id,
-      quantity: v.quantity,
-    }));
-    setOrderInfo({
-      ...orderInfo,
-      items: [...validInputArray],
-    });
-  }, [productListInfo]);
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [
+    detailAddress?.detailAddress?.district?.districtID,
+    detailAddress?.detailAddress?.ward?.wardCode,
+  ]);
   return (
     <div className="has_cart  ">
       <div className="has_cart_header flex ">
@@ -155,18 +146,20 @@ const HasProduct = ({ cart }) => {
 
         {/* UserInfo */}
         <div className="line"></div>
-        {/* <Info
+        <Info
           promotionList={promotionList}
           orderInfo={orderInfo}
           setOrderInfo={setOrderInfo}
-        /> */}
+          detailAddress={detailAddress}
+          setDetailAddress={setDetailAddress}
+        />
 
         <div className="line"></div>
-        {/* <OrderConfirm
+        <OrderConfirm
           cartInfo={cartInfo}
           orderInfo={orderInfo}
           setOrderInfo={setOrderInfo}
-        /> */}
+        />
       </div>
     </div>
   );

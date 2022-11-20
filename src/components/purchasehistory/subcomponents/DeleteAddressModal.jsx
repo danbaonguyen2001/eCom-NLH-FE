@@ -5,14 +5,13 @@ import { toast } from "react-toastify";
 
 const DeleteAddressModal = ({
   openModalDelete,
-  deleteAddressId,
+  currentAddressInfo,
   addressEdit,
   setUserData,
 }) => {
   const handleConfirmDeleteAddress = async () => {
-    const addressId = deleteAddressId;
     userController
-      .deleteAddressById({ addressId })
+      .deleteAddressById({ addressId: addressEdit })
       .then(() => {
         toast.success(`Xóa địa chỉ thành công`, {
           toastId: 88,
@@ -21,7 +20,7 @@ const DeleteAddressModal = ({
         });
         setUserData((prev) => {
           const newAddresses = prev.addresses.filter(
-            (v) => v.detailAddress != deleteAddressId
+            (v) => v.detailAddress != addressEdit
           );
           console.log(newAddresses);
           return {
@@ -47,7 +46,7 @@ const DeleteAddressModal = ({
         </header>
         <p className="delete-address-modal-content__question">
           Bạn có muốn xoá địa chỉ <br />
-          <span style={{ color: "red" }}>{addressEdit}?</span>
+          <span style={{ color: "red" }}>{currentAddressInfo}?</span>
         </p>
         <div className="delete-address-modal-content__btn">
           <button
