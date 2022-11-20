@@ -45,7 +45,7 @@ const UserInFor = () => {
   //
   const handleAddressEdit = (v) => {
     setNumberAddress(v?.address.split(",")[0]);
-    if (v.idDefault) {
+    if (v?.idDefault) {
       setIsIdDefault(true);
     } else {
       setIsIdDefault(false);
@@ -68,7 +68,7 @@ const UserInFor = () => {
       });
     setUserData({
       ...userData,
-      addressId: v.detailAddress,
+      addressId: v?.detailAddress,
     });
   };
   // Xã
@@ -111,17 +111,18 @@ const UserInFor = () => {
   }, []);
   // address button click handler
   const handleConfirmUpdateUserData = async () => {
+    const getAddress = detailAddress?.detailAddress || detailAddress;
     // var
     const addressStr = `${numberAddress || "Chưa nhập số nhà"},${
-      detailAddress?.detailAddress?.ward?.wardName
-    },${detailAddress?.detailAddress?.district?.districtName},${
-      detailAddress?.detailAddress?.province?.provinceName
+      getAddress?.ward?.wardName
+    },${getAddress?.district?.districtName},${
+      getAddress?.province?.provinceName
     }`;
     const addressValue = {
-      ...detailAddress.detailAddress,
+      ...getAddress,
     };
     const addresses = userData.addresses.filter(
-      (v) => v.addressIdEdit !== userData.addressId
+      (v) => v?.addressIdEdit !== userData.addressId
     );
     addresses.push({
       idDefault: isIdDefault,
@@ -180,14 +181,16 @@ const UserInFor = () => {
   };
   // Add
   const handleAddUserAddress = async () => {
+    const getAddress = detailAddress?.detailAddress || detailAddress;
+
     // var
     const addressStr = `${numberAddress || "Chưa nhập số nhà"},${
-      detailAddress?.detailAddress?.ward?.wardName
-    },${detailAddress?.detailAddress?.district?.districtName},${
-      detailAddress?.detailAddress?.province?.provinceName
+      getAddress?.ward?.wardName
+    },${getAddress?.district?.districtName},${
+      getAddress?.province?.provinceName
     }`;
     const addressValue = {
-      ...detailAddress.detailAddress,
+      ...getAddress,
     };
     // call
     const res = await userController.updateUser({
@@ -390,11 +393,11 @@ const UserInFor = () => {
                     <input
                       type="hidden"
                       name="addressId"
-                      value={v.detailAddress}
+                      value={v?.detailAddress}
                     />
 
                     <Box sx={{ width: "100%", maxWidth: "60%" }}>
-                      <Typography variant="h5">{v.address}</Typography>
+                      <Typography variant="h5">{v?.address}</Typography>
                     </Box>
 
                     <Stack
@@ -405,7 +408,7 @@ const UserInFor = () => {
                       sx={{ width: "30%" }}
                     >
                       <span className="user-infor-address-item__default">
-                        {v.idDefault ? "Mặc định" : i == 0}
+                        {v?.idDefault ? "Mặc định" : i == 0}
                       </span>
                       <Button
                         sx={{ fontSize: "12px" }}
@@ -419,7 +422,7 @@ const UserInFor = () => {
                         variant="outlined"
                         startIcon={<DeleteIcon />}
                         color="error"
-                        disabled={v.idDefault}
+                        disabled={v?.idDefault}
                         onClick={() => {
                           setOpenModalDelete(true);
                           setAddressEdit(v?.detailAddress);
@@ -456,6 +459,7 @@ const UserInFor = () => {
             <div className="update-address__default">
               <input
                 type="checkbox"
+                disabled={isIdDefault ? true : false}
                 checked={isIdDefault ? "checked" : ""}
                 onChange={() => setIsIdDefault(!isIdDefault)}
               />

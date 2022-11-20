@@ -20,7 +20,7 @@ const DeleteAddressModal = ({
         });
         setUserData((prev) => {
           const newAddresses = prev.addresses.filter(
-            (v) => v.detailAddress != addressEdit
+            (v) => v?.detailAddress != addressEdit
           );
           console.log(newAddresses);
           return {

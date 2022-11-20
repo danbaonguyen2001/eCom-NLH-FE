@@ -26,7 +26,6 @@ const AddressSelect = ({
     ID: "",
     value: "",
   });
-
   // ADDRESS FETCH
   useEffect(() => {
     toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
