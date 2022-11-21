@@ -13,7 +13,33 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     setCurrentCart(state, action) {
-      state.cartItems = [...action.payload];
+      const cart = [...action.payload];
+
+      state.cartItems = cart;
+
+      let { total, quantity } = cart.reduce(
+        (cartTotal, cartItem) => {
+          //console.log(cartItem.item);
+          cartTotal.total += cartItem.item.price * cartItem.item.quantity;
+          cartTotal.quantity += cartItem.item.quantity;
+          return {
+            ...cartTotal,
+          };
+        },
+        {
+          total: 0,
+          quantity: 0,
+        }
+      );
+
+      state.quantity = quantity;
+      state.total = total;
+    },
+
+    resetCurrentCart(state, action) {
+      state.cartItems = [];
+      state.quantity = 0;
+      state.total = 0;
     },
 
     //lấy cart hiện tại
@@ -24,37 +50,28 @@ const cartSlice = createSlice({
     },
 
     // Thêm sản phẩm vào giỏ hàng
-    addToCart(state, action) {
-      const item = {
-        product: action.payload.product,
-        option: action.payload.option,
-        color: action.payload.color,
-      };
-      const { quantity, price } = action.payload;
+    // addToCart(state, action) {
+    //   const { quantity, price } = action.payload;
 
-      const itemIndex = state.cartItems.findIndex(
-        // product color id
-        (i) =>
-          i.product === action.payload.product &&
-          i.option === action.payload.option &&
-          i.color === action.payload.color
-      );
-      if (itemIndex >= 0) {
-        // {payload : id , quantity, price}
-        state.cartItems[itemIndex].quantity += quantity;
-      } else {
-        const tempProduct = { ...{ item, quantity, price } };
-        state.cartItems.push(tempProduct);
-      }
-    },
+    //   const itemIndex = state.cartItems.findIndex(
+    //     (v) => v._id === action.payload._id
+    //   );
+
+    //   //Existing item
+    //   if (itemIndex >= 0) {
+    //     // {payload : id , quantity, price}
+    //     console.log(state.cartItems[0]);
+    //     state.cartItems[itemIndex].quantity += quantity;
+    //   } else {
+    //     const tempProduct = {};
+    //     state.cartItems.push(tempProduct);
+    //   }
+    // },
 
     //Xoá sản phẩm khỏi giỏ hàng
     removeFromCart(state, action) {
       const nextCartItems = state.cartItems.filter(
-        (cartItem) =>
-          cartItem.product !== action.payload.product &&
-          cartItem.option !== action.payload.option &&
-          cartItem.color !== action.payload.color
+        (cartItem) => cartItem._id !== action.payload
       );
       state.cartItems = nextCartItems;
     },
@@ -62,28 +79,22 @@ const cartSlice = createSlice({
     //Tăng số lượng sản phẩm dung trong addToCart
     increaseQuantity(state, action) {
       const itemIndex = state.cartItems.findIndex((cartItem) => {
-        return (
-          cartItem.product !== action.payload.product &&
-          cartItem.option !== action.payload.option &&
-          cartItem.color !== action.payload.color
-        );
+        return cartItem._id !== action.payload;
       });
-      console.log(itemIndex);
       if (itemIndex >= 0) {
-        state.cartItems[itemIndex].quantity += 1;
+        state.cartItems[itemIndex].item.quantity += 1;
       }
     },
     //Giảm số lượng sản phẩm
     decreaseQuantity(state, action) {
       const itemIndex = state.cartItems.findIndex(
-        (cartItem) =>
-          cartItem.product !== action.payload.product &&
-          cartItem.option !== action.payload.option &&
-          cartItem.color !== action.payload.color
+        (cartItem) => cartItem._id !== action.payload
       );
+
+      console.log(action.payload);
       console.log(itemIndex);
       if (itemIndex >= 0) {
-        state.cartItems[itemIndex].quantity -= 1;
+        state.cartItems[itemIndex].item.quantity -= 1;
       }
     },
 
@@ -92,8 +103,8 @@ const cartSlice = createSlice({
       let { total, quantity } = state.cartItems.reduce(
         (cartTotal, cartItem) => {
           //console.log(cartItem.quantity);
-          cartTotal.total += cartItem.price * cartItem.quantity;
-          cartTotal.quantity += cartItem.quantity;
+          cartTotal.total += cartItem.item.price * cartItem.item.quantity;
+          cartTotal.quantity += cartItem.item.quantity;
 
           return cartTotal;
         },
@@ -117,6 +128,7 @@ export const {
   increaseQuantity,
   setCurrentCart,
   getTotals,
+  resetCurrentCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;
 
@@ -125,4 +137,6 @@ export const selectCurrentCartLength = (state) => state.cart.cartItems.length;
 export const selectCurrentCartInfo = (state) => ({
   quantity: state.cart.quantity,
   total: state.cart.total,
+  length: state.cart.cartItems.length,
 });
+export const selectCurrentCartItems = (state) => state.cart.cartItems;

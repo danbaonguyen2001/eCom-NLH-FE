@@ -11,11 +11,14 @@ import {
   removeFromCart,
   increaseQuantity,
   decreaseQuantity,
+  getTotals,
 } from "../../../features/cart/cartSlice";
-const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
-  const [quantity, setQuantity] = useState(dataProduct?.item?.quantity || "0");
+const Product = ({ dataProduct, setCart }) => {
+  const [quantity, setQuantity] = useState(dataProduct?.item?.quantity || "1");
   const [data, setData] = useState(dataProduct?.item);
-  console.log(data);
+
+  console.log(dataProduct);
+  console.log(dataProduct._id);
   // config
   const dispatch = useDispatch();
   // content
@@ -25,36 +28,6 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
   const currentProductId = data?.color;
 
   const handleIncrease = async () => {
-    // if (availableQuantity > quantity) {
-    //   setQuantity(quantity + 1);
-    //   const status = await cartController.increaseQuantity({
-    //     productColorId: currentProductId,
-    //   });
-
-    //   const newProductInfo = productListInfo.map((v) => {
-    //     if (v.id == currentProductId) {
-    //       v.quantity = quantity + 1;
-    //     }
-    //     return v;
-    //   });
-    //   setProductListInfo([...newProductInfo]);
-    //   // setProductListInfo
-    //   // console.log(status);
-    //   !status &&
-    //     toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
-    //       position: "top-right",
-    //       autoClose: 5000,
-    //       closeOnClick: true,
-    //     }) &&
-    //     setQuantity(quantity);
-    // } else {
-    //   toast.error("Tiếc quá sản phẩm này mình không đủ rồi", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     closeOnClick: true,
-    //   });
-    // }
-
     if (availableQuantity >= quantity) {
       setQuantity(quantity + 1);
 
@@ -73,11 +46,10 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
 
           dispatch(
             increaseQuantity({
-              product: data.product,
-              option: data.option,
-              color: data.color,
+              _id: dataProduct._id,
             })
           );
+          dispatch(getTotals());
         })
         .catch((err) => {
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
@@ -104,23 +76,6 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
       });
     } else {
       setQuantity(quantity - 1);
-
-      // const status =  cartController.decreaseQuantity({
-      //   productColorId: currentProductId,
-      // });
-      // const newProductInfo = productListInfo.map((v) => {
-      //   if (v.id == currentProductId) {
-      //     v.quantity = quantity - 1;
-      //   }
-      //   return v;
-      // });
-      // setProductListInfo([...newProductInfo]);
-      // !status &&
-      //   toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
-      //     position: "top-right",
-      //     autoClose: 5000,
-      //     closeOnClick: true,
-      //   }) &&
       cartController
         .updateQuantity({
           itemId: dataProduct._id,
@@ -135,11 +90,11 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
           });
           dispatch(
             decreaseQuantity({
-              product: data.product,
-              option: data.option,
-              color: data.color,
+              _id: dataProduct._id,
             })
           );
+
+          dispatch(getTotals());
         })
         .catch((err) => {
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
@@ -156,42 +111,12 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
   const handleRemoveFromCart = () => {
     const confirm = window.confirm("Bạn có thật sự muốn xóa sản phẩm này?");
     if (confirm) {
-      // try {
-      //   // const res = await cartController.removeCart({
-      //   //   productColorId: currentProductId,
-      //   // });
-      //   // const { status } = res;
-      //   // if (status) {
-      //   //   const newProductInfo = productListInfo.filter((v) => {
-      //   //     return v.id != currentProductId;
-      //   //   });
-      //   //   setProductListInfo([...newProductInfo]);
-      //   //   setQuantity(0);
-      //   //   dispatch(removeFromCart({ id: currentProductId }));
-      //   // }
-      //   // !status &&
-      //   //   toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
-      //   //     position: "top-right",
-      //   //     autoClose: 5000,
-      //   //     closeOnClick: true,
-      //   //   });
-
-      // } catch (e) {
-      //   toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
-      //     position: "top-right",
-      //     autoClose: 5000,
-      //     closeOnClick: true,
-      //   });
-      // }
-
-      //console.log(dataProduct._id);
       cartController
         .updateQuantity({
           itemId: dataProduct._id,
           quantity: 0,
         })
         .then((res) => {
-          console.log(res);
           toast.info("Xóa sản phẩm thành công", {
             position: "top-right",
             toastId: 1,
@@ -201,11 +126,11 @@ const Product = ({ dataProduct, productListInfo, setProductListInfo }) => {
           //Set state
           dispatch(
             removeFromCart({
-              product: data.product,
-              option: data.option,
-              color: data.color,
+              _id: dataProduct._id,
             })
           );
+          setCart([]);
+          dispatch(getTotals());
         })
         .catch((err) => {
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {

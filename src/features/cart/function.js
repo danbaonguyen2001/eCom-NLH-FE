@@ -23,7 +23,7 @@ const cartHandler = {
     };
     let quantity = inputData.quantity;
 
-    await dispatch(
+    return await dispatch(
       cartApiSlice.endpoints.addToCart.initiate({
         item,
         quantity,
