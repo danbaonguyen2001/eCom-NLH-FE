@@ -1,28 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NoProduct from "../components/cart/NoProduct";
 import HasProduct from "../components/cart/HasProduct";
 import cartHandler from "../features/cart/function";
 import { selectCurrentState } from "../features/order/orderSlice";
 import "../sass/cart/cart.scss";
 import { toast } from "react-toastify";
+import {
+  selectCurrentCartLength,
+  setCurrentCart,
+} from "../features/cart/cartSlice";
 
 const Cart = () => {
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [cart, setCart] = useState([]);
   const { isLoading, isSuccess, isError } = useSelector(selectCurrentState);
+  const dispatch = useDispatch();
 
   // const cart = useSelector((state) => state.cart);
   //const cart = cartHandler.getCurrentCart().then((data) => console.log(data));
-
+  const cartState = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   useEffect(() => {
     const fetchCart = async () => {
       const res = await cartHandler.getCurrentCart();
 
       try {
         setCart(res.data.cart);
-        console.log(res.data.cart);
+        //console.log(res.data.cart);
         // set
+        dispatch(setCurrentCart(res.data.cart));
       } catch (e) {
         toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
           position: "top-right",
@@ -32,7 +39,7 @@ const Cart = () => {
       }
     };
     fetchCart();
-  }, []);
+  }, [cart]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -62,10 +69,19 @@ const Cart = () => {
     }
   }, [isLoading, isSuccess, isError]);
 
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <div>
       <div className="cart flex_center">
-        {cart?.length === 0 ? <NoProduct /> : <HasProduct cart={cart} />}
+        {cart?.length === 0 ? (
+          <NoProduct />
+        ) : (
+          <HasProduct cart={cart} setCart={setCart} />
+        )}
         {/* Không có sản phẩm*/}
         {/* <NoProduct /> */}
         {/* {noProduct && <NoProduct />} */}

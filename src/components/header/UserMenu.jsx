@@ -2,8 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 //
+import {
+  resetCurrentCart,
+  selectCurrentCartInfo,
+} from "../../features/cart/cartSlice";
 import authController from "../../features/auth/functions";
 import UserInfoSubMenu from "./UserInfoSubMenu";
+import { useDispatch, useSelector } from "react-redux";
+
 //
 const MenuWrap = styled.div`
   position: absolute;
@@ -55,12 +61,16 @@ const GuestMenuWrap = styled.div`
 
 const UserMenu = (props) => {
   // const
+  const dispatch = useDispatch();
 
   let history = useHistory();
+  const cart = useSelector((state) => state.cart);
   // Handler
   const handleLogoutClick = () => {
     authController.logOut();
-    history.push("/")
+    dispatch(resetCurrentCart());
+    console.log(cart);
+    history.push("/");
   };
   const handleOrderClick = () => {
     history.push({

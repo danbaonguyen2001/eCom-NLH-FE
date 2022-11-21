@@ -4,13 +4,22 @@ import Product from "./subComponent/Product";
 import { toast } from "react-toastify";
 
 import Info from "./subComponent/Info";
+import { toVND } from "../../utils/format";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCartTotal,
+  selectCurrentCartInfo,
+} from "../../features/cart/cartSlice";
+
 // Ship fee
 import { getShipFee } from "../../apis/apiShipment";
 const OrderConfirm = React.lazy(() => import("./subComponent/OrderConfirm"));
 
-const HasProduct = ({ cart }) => {
+const HasProduct = ({ cart, setCart }) => {
   //
   const [detailAddress, setDetailAddress] = useState({});
+  const dispatch = useDispatch();
+  const stateCart = useSelector((state) => state.cart);
   const [promotionList, setPromotionList] = useState([]);
   const [productListInfo, setProductListInfo] = useState([]);
   const [cartInfo, setCartInfo] = useState({
@@ -134,12 +143,7 @@ const HasProduct = ({ cart }) => {
         <div className="has_cart_list_product">
           {cart.map((product, index) => {
             return (
-              <Product
-                productListInfo={productListInfo}
-                setProductListInfo={setProductListInfo}
-                key={index}
-                dataProduct={product}
-              />
+              <Product key={index} dataProduct={product} setCart={setCart} />
             );
           })}
         </div>

@@ -36,8 +36,8 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
   ).quantity;
 
   console.log(body);
-  console.log(productColorList);
-  console.log(availableQuantity);
+  // console.log(productColorList);
+  // console.log(availableQuantity);
 
   // event handler
   const handleAddToCart = () => {
@@ -64,15 +64,12 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
           closeOnClick: true,
         });
         history.push("/cart");
-        dispatch(
-          addToCart({
-            product: body.product,
-            option: body.option,
-            color: body.color,
-            quantity: body.quantity,
-            price: product?.productOptions[chooseOption]?.price,
-          })
-        );
+        // dispatch(
+        //   addToCart({
+        //     item: res?.data?.cart[res.data.cart.length - 1].item,
+        //     _id: res?.data?.cart[res.data.cart.length - 1]._id,
+        //   })
+        // );
       })
       .catch((err) => console.log(err));
 
