@@ -12,13 +12,12 @@ import {
 import { getShipFee } from "../../apis/apiShipment";
 const OrderConfirm = React.lazy(() => import("./subComponent/OrderConfirm"));
 
-const HasProduct = ({ cart }) => {
+const HasProduct = ({ cart, setCart }) => {
   //
   const dispatch = useDispatch();
   //
   //
   const stateCart = useSelector((state) => state.cart);
-  console.log(stateCart);
   const [promotionList, setPromotionList] = useState([]);
   const [productListInfo, setProductListInfo] = useState([]);
   const [cartInfo, setCartInfo] = useState({
@@ -44,102 +43,102 @@ const HasProduct = ({ cart }) => {
     totalPrice: 0,
   });
 
-  useEffect(() => {
-    // get promotion list
-    const promotionsGet = cart.map((v) => {
-      return 10;
+  // useEffect(() => {
+  //   // get promotion list
+  //   const promotionsGet = cart.map((v) => {
+  //     return 10;
 
-      //return v?.item.promotion;
-    });
+  //     //return v?.item.promotion;
+  //   });
 
-    setPromotionList([...promotionList, ...promotionsGet]);
+  //   setPromotionList([...promotionList, ...promotionsGet]);
 
-    // get cart info
+  //   // get cart info
 
-    const newArr = cart.map((v) => {
-      //console.log(cart);
-      const currentProduct = productListInfo.find(
-        (item) => item._id == v?.item?.color
-      );
+  //   const newArr = cart.map((v) => {
+  //     //console.log(cart);
+  //     const currentProduct = productListInfo.find(
+  //       (item) => item._id == v?.item?.color
+  //     );
 
-      let obj = {
-        quantity: currentProduct?.quantity || v.quantity || 0,
-        id: v.item.color._id || 0,
-      };
-      if (currentProduct || obj.id != 0) {
-        return obj;
-      }
-    });
+  //     let obj = {
+  //       quantity: currentProduct?.quantity || v.quantity || 0,
+  //       id: v.item.color._id || 0,
+  //     };
+  //     if (currentProduct || obj.id != 0) {
+  //       return obj;
+  //     }
+  //   });
 
-    //setProductListInfo([...newArr]);
+  //   //setProductListInfo([...newArr]);
 
-    setProductListInfo(cart);
-  }, [cart]);
+  //   setProductListInfo(cart);
+  // }, [cart]);
 
   //console.log(cart);
 
-  useEffect(() => {
-    const totalGet = cart.reduce(
-      (prev, curr) => {
-        const currQuantity =
-          productListInfo.find((v) => v._id == curr.item?.color?._id)
-            ?.quantity || 0;
-        return {
-          total: prev.total + curr.item?.price * currQuantity,
-          quantity: prev.quantity + currQuantity,
-        };
-      },
-      {
-        quantity: 0,
-        total: 0,
-      }
-    );
+  // useEffect(() => {
+  //   const totalGet = cart.reduce(
+  //     (prev, curr) => {
+  //       const currQuantity =
+  //         productListInfo.find((v) => v._id == curr.item?.color?._id)
+  //           ?.quantity || 0;
+  //       return {
+  //         total: prev.total + curr.item?.price * currQuantity,
+  //         quantity: prev.quantity + currQuantity,
+  //       };
+  //     },
+  //     {
+  //       quantity: 0,
+  //       total: 0,
+  //     }
+  //   );
 
-    // get Ship fee
-    // MOCK
-    // sample input ship fee
-    let insuranceValue;
-    const input = {
-      wt: 50,
-      wh: 20,
-      l: 20,
-      h: 50,
-      from_district: 1452,
-      ward: 21012,
-      district: 1454,
-      service_id: 53320,
-      insurance_value: insuranceValue || 100000,
-    };
-    const fetchShip = async (input) => await getShipFee(input);
-    fetchShip(input)
-      .then((res) => {
-        const { total: totalFee, service_fee } = res?.data?.data;
-        setOrderInfo({
-          ...orderInfo,
-          shippingPrice: service_fee,
-        });
-        setCartInfo((prev) => {
-          return {
-            ...prev,
-            serviceFee: service_fee,
-          };
-        });
-      })
-      .catch((e) => console.log(e));
-    setCartInfo({
-      ...totalGet,
-    });
+  // get Ship fee
+  // MOCK
+  // sample input ship fee
+  // let insuranceValue;
+  // const input = {
+  //   wt: 50,
+  //   wh: 20,
+  //   l: 20,
+  //   h: 50,
+  //   from_district: 1452,
+  //   ward: 21012,
+  //   district: 1454,
+  //   service_id: 53320,
+  //   insurance_value: insuranceValue || 100000,
+  // };
+  // const fetchShip = async (input) => await getShipFee(input);
+  // fetchShip(input)
+  //   .then((res) => {
+  //     const { total: totalFee, service_fee } = res?.data?.data;
+  //     setOrderInfo({
+  //       ...orderInfo,
+  //       shippingPrice: service_fee,
+  //     });
+  //     setCartInfo((prev) => {
+  //       return {
+  //         ...prev,
+  //         serviceFee: service_fee,
+  //       };
+  //     });
+  //   })
+  //   .catch((e) => console.log(e));
+  // setCartInfo({
+  //   ...totalGet,
+  // });
 
-    // set order info
-    const validInputArray = productListInfo.map((v) => ({
-      color: v._id,
-      quantity: v.quantity,
-    }));
-    setOrderInfo({
-      ...orderInfo,
-      items: [...validInputArray],
-    });
-  }, [productListInfo]);
+  //   // set order info
+  //   const validInputArray = productListInfo.map((v) => ({
+  //     color: v._id,
+  //     quantity: v.quantity,
+  //   }));
+  //   setOrderInfo({
+  //     ...orderInfo,
+  //     items: [...validInputArray],
+  //   });
+  // }, [productListInfo]);
 
   return (
     <div className="has_cart  ">
@@ -154,12 +153,7 @@ const HasProduct = ({ cart }) => {
         <div className="has_cart_list_product">
           {cart.map((product, index) => {
             return (
-              <Product
-                productListInfo={productListInfo}
-                setProductListInfo={setProductListInfo}
-                key={index}
-                dataProduct={product}
-              />
+              <Product key={index} dataProduct={product} setCart={setCart} />
             );
           })}
         </div>

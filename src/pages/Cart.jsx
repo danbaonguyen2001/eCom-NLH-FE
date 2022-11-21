@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NoProduct from "../components/cart/NoProduct";
 import HasProduct from "../components/cart/HasProduct";
 import cartHandler from "../features/cart/function";
 import { selectCurrentState } from "../features/order/orderSlice";
 import "../sass/cart/cart.scss";
 import { toast } from "react-toastify";
-import { selectCurrentCartLength } from "../features/cart/cartSlice";
+import {
+  selectCurrentCartLength,
+  setCurrentCart,
+} from "../features/cart/cartSlice";
 
 const Cart = () => {
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [cart, setCart] = useState([]);
   const { isLoading, isSuccess, isError } = useSelector(selectCurrentState);
+  const dispatch = useDispatch();
 
   // const cart = useSelector((state) => state.cart);
   //const cart = cartHandler.getCurrentCart().then((data) => console.log(data));
-
-  const cartLength = useSelector(selectCurrentCartLength);
+  const cartState = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   useEffect(() => {
     const fetchCart = async () => {
       const res = await cartHandler.getCurrentCart();
@@ -25,6 +29,7 @@ const Cart = () => {
         setCart(res.data.cart);
         //console.log(res.data.cart);
         // set
+        dispatch(setCurrentCart(res.data.cart));
       } catch (e) {
         toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
           position: "top-right",
@@ -34,7 +39,7 @@ const Cart = () => {
       }
     };
     fetchCart();
-  }, [cartLength]);
+  }, [cart]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -72,7 +77,11 @@ const Cart = () => {
   return (
     <div>
       <div className="cart flex_center">
-        {cart?.length === 0 ? <NoProduct /> : <HasProduct cart={cart} />}
+        {cart?.length === 0 ? (
+          <NoProduct />
+        ) : (
+          <HasProduct cart={cart} setCart={setCart} />
+        )}
         {/* Không có sản phẩm*/}
         {/* <NoProduct /> */}
         {/* {noProduct && <NoProduct />} */}
