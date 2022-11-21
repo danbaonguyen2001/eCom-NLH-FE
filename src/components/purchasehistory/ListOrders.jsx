@@ -6,55 +6,51 @@ import { useSelector } from "react-redux";
 import { selectCurrentUserId } from "../../features/auth/authSlice";
 import orderController from "../../features/order/function";
 import { toast } from "react-toastify";
+import { Typography, Stack } from "@mui/material";
 
 const ListOrders = () => {
-  const userId = useSelector(selectCurrentUserId);
   const [order, setOrder] = useState([]);
   useEffect(() => {
     let page = 1;
     let size = 5;
-    const fetchData = async () => {
-      const result = await orderController.getHistoryOrder({ userId, page, size });
-      try {
-        const {status,data} = result
-        if(status){
-          console.log(data)
-          setOrder([
-          ...order,
-            ...data,
-          ]);
 
-        }else{
-          toast.error(`Tải lịch sử đơn hàng thất bại, thử lại`,{
-            position: "top-right",
-            autoClose: 5000,
-            closeOnClick: true,
-          })
-
-
-        }
-      } catch (e) {
-        console.log("Cant get order history: " + e);
-      }
-    };
-    fetchData()
-    
-  }, [userId]);
+    orderController
+      .getHistoryOrder({ page, size })
+      .then((res) => {
+        setOrder([...res?.data]);
+      })
+      .catch((e) =>
+        toast.error(`Tải lịch sử đơn hàng thất bại, thử lại: ${e.message}`, {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+        })
+      );
+  }, []);
   return (
     <div className="list_orders">
       <div className="list_orders_header">
         <h4 className="mg_b_10">ĐƠN HÀNG MUA GẦN ĐÂY</h4>
       </div>
-      <div className="list_orders_title">
-        <h5 className="width_15">Mã đơn hàng</h5>
-        <h5 className="flex_40_width">Sản phẩm</h5>
-        <h5 className="width_15">Giá</h5>
-        <h5 className="width_15">Ngày đặt mua</h5>
-        <h5 className="width_15">Trạng thái</h5>
-      </div>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography sx={{ flex: 3, fontWeight: "bold" }} variant="h6">
+          Mã đơn hàng
+        </Typography>
+        <Typography sx={{ml:3, flex: 4, fontWeight: "bold" }} variant="h6">
+          Sản phẩm
+        </Typography>
+        <Typography sx={{ flex: 2, fontWeight: "bold" }} variant="h6">
+          Giá
+        </Typography>
+        <Typography sx={{ flex: 2, fontWeight: "bold" }} variant="h6">
+          Ngày đặt mua
+        </Typography>
+        <Typography sx={{ flex: 1, fontWeight: "bold" }} variant="h6">
+          Trạng thái
+        </Typography>
+      </Stack>
       <div className="line"></div>
       <div className="list_orders_list">
-        
         {order.map((v, i) => {
           return (
             <div key={i}>

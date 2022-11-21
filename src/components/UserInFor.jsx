@@ -15,6 +15,8 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
+  Checkbox,
+  FormGroup,
 } from "@mui/material";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 //
@@ -176,7 +178,7 @@ const UserInFor = () => {
       });
     } finally {
       if (!editDisabled) setEditDisabled(true);
-      if (addressBtStatus == "Edit") setAddressBtStatus("Add");
+      setAddressBtStatus("Add");
     }
   };
   // Add
@@ -210,13 +212,7 @@ const UserInFor = () => {
       const { gender, name, phone, avatar, addresses } = data;
       if (status) {
         setAddressBtStatus("Edit");
-        // const newAddresses = [
-        //   ...userData.addresses,
-        //   {
-        //     address: addressStr,
-        //     idDefault: isIdDefault,
-        //   },
-        // ];
+
         setUserData({
           ...userData,
           gender,
@@ -224,6 +220,11 @@ const UserInFor = () => {
           phone,
           avatar: avatar.url,
           addresses: addresses,
+        });
+        toast.success(`Thêm địa chỉ thành công`, {
+          toastId: 200,
+          autoClose: 5000,
+          closeOnClick: true,
         });
       } else {
         toast.error(`Lỗi không thể thêm địa chỉ mới`, {
@@ -439,71 +440,107 @@ const UserInFor = () => {
             })}
           </div>
         </div>
+
+        {/* Address update Button */}
         {/* Address detail */}
-        <div className="user-infor-new-address">
-          <h4 className="user-infor-new-address__heading">Cập nhật địa chỉ</h4>
-          <form className="update-address">
+        <div>
+          <h4>Cập nhật địa chỉ</h4>
+          <Stack direction="row" flexWrap="wrap">
             <AddressSelect
+              style={{ width: "100%" }}
               detailAddress={detailAddress}
               addressEdit={addressEdit}
               setValues={setDetailAddress}
               addressBtStatus={addressBtStatus}
             />
-            <input
-              className="update-address__input input"
-              type="text"
-              value={numberAddress}
-              placeholder="Số nhà, tên đường"
-              onChange={(e) => setNumberAddress(e.target.value)}
-            />
-            <div className="update-address__default">
-              <input
-                type="checkbox"
-                disabled={isIdDefault ? true : false}
-                checked={isIdDefault ? "checked" : ""}
-                onChange={() => setIsIdDefault(!isIdDefault)}
+            {/* Under */}
+            <Stack
+              sx={{ width: "100%", m: 1 }}
+              justifyContent="flex-end"
+              direction="row"
+            >
+              <TextField
+                inputProps={{ style: { fontSize: 16 } }}
+                InputLabelProps={{ style: { fontSize: 16 } }}
+                sx={{ width: "16em" }}
+                variant="standard"
+                value={numberAddress}
+                placeholder="Số nhà, tên đường"
+                onChange={(e) => setNumberAddress(e.target.value)}
               />
+              <FormGroup sx={{ width: "10em", ml: 4 }}>
+                <FormControlLabel
+                  sx={{ "	& .MuiFormControlLabel-label": { fontSize: 16 } }}
+                  label="Địa chỉ mặc định"
+                  control={
+                    <Checkbox
+                      disabled={addressBtStatus==="Edit"&& isIdDefault===true &&
+                        userData.addresses.find((v) => {
+                          console.log(
+                            v?.detailAddress == addressEdit.toString()
+                          );
+                          if (v?.detailAddress == addressEdit.toString()) {
+                            return v?.idDefault == isIdDefault;
+                          }
+                        })
+                          ? true
+                          : false
+                      }
+                      defaultChecked={isIdDefault}
+                      onChange={() => setIsIdDefault(!isIdDefault)}
+                    />
+                  }
+                />
+              </FormGroup>
 
-              <label htmlFor=""> &nbsp; Địa chỉ mặc định</label>
-            </div>
-          </form>
+              {/* Button */}
+              <Stack
+                direction="row"
+                sx={{ minWidth: "20em" }}
+                spacing={2}
+                justifyContent="flex-end"
+              >
+                {addressBtStatus == "Add" ? (
+                  <Button
+                    sx={{ fontSize: 12 }}
+                    variant="contained"
+                    style={{ marginRight: "25px" }}
+                    onClick={handleAddUserAddress}
+                    disabled={!editDisabled}
+                  >
+                    Thêm địa chỉ mới
+                  </Button>
+                ) : (
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    justifyContent="space-between"
+                  >
+                    <Button
+                      sx={{ fontSize: 12, mr: 2 }}
+                      variant="contained"
+                      onClick={handleConfirmUpdateUserData}
+                      disabled={!editDisabled}
+                    >
+                      Cập nhật thông tin
+                    </Button>
+                    <Button
+                      sx={{ fontSize: 12, mr: 2 }}
+                      variant="contained"
+                      disabled={!editDisabled}
+                      onClick={() => {
+                        setAddressBtStatus("Add");
+                      }}
+                    >
+                      Hủy
+                    </Button>
+                  </Stack>
+                )}
+              </Stack>
+            </Stack>
+          </Stack>
         </div>
-        {/* Address update Button */}
-        <div className="user-infor-btn ">
-          {addressBtStatus == "Add" ? (
-            <button
-              className={`btn user-infor-btn__update `}
-              style={{ marginRight: "25px" }}
-              onClick={handleAddUserAddress}
-              disabled={!editDisabled}
-            >
-              Thêm địa chỉ mới
-            </button>
-          ) : (
-            <button
-              className="btn user-infor-btn__update"
-              style={{ marginRight: "25px" }}
-              onClick={handleConfirmUpdateUserData}
-              disabled={!editDisabled}
-            >
-              Cập nhật thông tin
-            </button>
-          )}
-          {addressBtStatus == "Add" ? (
-            <></>
-          ) : (
-            <button
-              disabled={!editDisabled}
-              className="btn user-infor-btn__update"
-              style={{ marginRight: "25px" }}
-              onClick={() => {
-                setAddressBtStatus("Add");
-              }}
-            >
-              Hủy
-            </button>
-          )}
-        </div>
+
         {/* Modal */}
         {openModalDelete && (
           <DeleteAddressModal

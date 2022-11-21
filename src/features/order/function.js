@@ -1,42 +1,17 @@
 import { orderApiSlice } from "./orderApiSlice";
 import { store } from "../../redux/stores";
 import { setState } from "./orderSlice";
-import cartController from "../cart/function";
-import { setCurrentCart } from "../cart/cartSlice";
 const { dispatch } = store;
 const orderController = {
   // get History Order function
-  getHistoryOrder: async ({ userId, page, size }) => {
-    let result = {
-      status: false,
-      data: [],
-    };
-    page = page || 1;
-    size = size || 10;
-    let response = await dispatch(
-      orderApiSlice.endpoints.getHistoryOrder.initiate({ userId, page, size })
-    );
-    try {
-      let { status, data } = response.data;
-      if (status === true) {
-        result.status = status;
-        result.data = data;
-      } else {
-        console.log("Cant get history order");
-      }
-    } catch (e) {
-      if (!e?.response) {
-        console.log("No Server Response");
-      } else if (e.response?.status === 400) {
-        console.log("Missing Input");
-      } else if (e.response?.status === 401) {
-        console.log("Unauthorized");
-      } else {
-        console.log("Get History Failed");
-      }
-    }
-    return result;
-  },
+  getHistoryOrder: async ({ userId, page, size }) =>
+    await dispatch(
+      orderApiSlice.endpoints.getHistoryOrder.initiate({
+        userId,
+        page: page || 1,
+        size: size || 10,
+      })
+    ),
   //get Order Info function
   getOrderInfo: async ({ orderId }) => {
     let result = {
@@ -45,7 +20,9 @@ const orderController = {
       data: [],
     };
     let response = await dispatch(
-      orderApiSlice.endpoints.getOrderInfo.initiate({ orderId })
+      orderApiSlice.endpoints.getOrderInfo.initiate({
+        orderId,
+      })
     );
     // console.log(response);
     try {
@@ -76,7 +53,11 @@ const orderController = {
       data: [],
     };
     let response = await dispatch(
-      orderApiSlice.endpoints.filterOrderStatus.initiate({ page, size, status })
+      orderApiSlice.endpoints.filterOrderStatus.initiate({
+        page,
+        size,
+        status,
+      })
     );
 
     try {
@@ -106,27 +87,52 @@ const orderController = {
       data: [],
     };
     const res = await dispatch(
-      orderApiSlice.endpoints.orderByCod.initiate({ ...inputData })
+      orderApiSlice.endpoints.orderByCod.initiate({
+        ...inputData,
+      })
     );
-    dispatch(setState({ isLoading: true }));
+    dispatch(
+      setState({
+        isLoading: true,
+      })
+    );
 
     try {
       const { status, data } = res.data;
       if (status) {
-        dispatch(setState({ isSuccess: true,isLoading:false }));
+        dispatch(
+          setState({
+            isSuccess: true,
+            isLoading: false,
+          })
+        );
 
         result.data = data;
         result.status = status;
       } else {
-        dispatch(setState({ isLoading: false, isError: true }));
+        dispatch(
+          setState({
+            isLoading: false,
+            isError: true,
+          })
+        );
 
         console.log("Cant make a cod order");
       }
     } catch (e) {
       console.log(e);
-      dispatch(setState({ isLoading: false, isError: true }));
+      dispatch(
+        setState({
+          isLoading: false,
+          isError: true,
+        })
+      );
     } finally {
-      dispatch(setState({ isLoading: false }));
+      dispatch(
+        setState({
+          isLoading: false,
+        })
+      );
     }
     return result;
   },
@@ -135,11 +141,12 @@ const orderController = {
     let set = false;
     try {
       const res = await dispatch(
-        orderApiSlice.endpoints.cancelCodOrder.initiate({ orderId })
+        orderApiSlice.endpoints.cancelCodOrder.initiate({
+          orderId,
+        })
       );
       console.log(res);
-      set = res?.error?.originalStatus==200?true:false
-
+      set = res?.error?.originalStatus == 200 ? true : false;
     } catch (e) {
       console.log(e);
     }

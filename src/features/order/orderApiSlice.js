@@ -4,16 +4,12 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         // get History Order
         getHistoryOrder: builder.query({
             query: (inputData) => {
-                let { page, size, userId } = inputData;
+                let { page, size } = inputData;
                 return {
-                    url: `/order/history/${userId}`,
+                    url: `http://localhost:5000/api/orders`,
                     params: { page, size },
                 };
-            },
-            transformResponse: (res) => ({
-                status: res.status,
-                data: res.data,
-            }),
+            }
         }),
         // get Order Info
         getOrderInfo: builder.query({

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getDistrict, getWard, getProvince } from "../../apis/apiShipment";
 import "../../sass/auth/_register.scss";
-import { FormControl, InputLabel, NativeSelect } from "@mui/material";
+import { FormControl, InputLabel, NativeSelect, Box } from "@mui/material";
 
 const AddressSelect = ({
   setValues,
@@ -171,13 +171,19 @@ const AddressSelect = ({
     });
   };
   return (
-    <div className="register__address">
+    <Box
+      sx={{ width: "100%", margin: "1.5rem auto",display:"flex" }}
+      justifyContent="space-around"
+      alignItems="center"
+
+    >
       {/* ADDRESS */}
       {/* ADDRESS - PROVINCE */}
       <FormControl
-        className="register__select"
         sx={{
           "&	.MuiInputLabel-root": { fontSize: 16 },
+          paddingRight: "3rem",
+          marginRight: "2rem",
         }}
       >
         <InputLabel sx={{ fontSize: "1.4rem" }} id="demo" variant="standard">
@@ -185,10 +191,9 @@ const AddressSelect = ({
         </InputLabel>
         <NativeSelect
           onChange={(e) => handleChangeProvince(e)}
-          sx={{ fontSize: "1.5rem" }}
+          sx={{ fontSize: "1.5rem", minWidth: "30ch" }}
           defaultValue={`${province?.ID || provinces[0]?.ProvinceName}`}
           inputProps={{
-            className: "register__native-select",
             name: "province",
           }}
         >
@@ -213,16 +218,15 @@ const AddressSelect = ({
         </NativeSelect>
       </FormControl>
       {/* ADDRESS - DISTRICT */}
-      <FormControl className="register__select">
+      <FormControl sx={{ paddingRight: "3rem", marginRight: "2rem" }}>
         <InputLabel sx={{ fontSize: "1.4rem" }} variant="standard">
           Quận, Huyện
         </InputLabel>
         <NativeSelect
           onChange={(e) => handleChangeDistrict(e)}
-          sx={{ fontSize: "1.5rem" }}
+          sx={{ fontSize: "1.5rem", minWidth: "30ch" }}
           defaultValue={`${district?.ID || "DEFAULT"}`}
           inputProps={{
-            className: "register__native-select",
             name: "district",
           }}
         >
@@ -244,17 +248,15 @@ const AddressSelect = ({
       </FormControl>
       {/* ADDRESS - WARD */}
 
-      <FormControl className="register__select">
+      <FormControl sx={{ paddingRight: "3rem", marginRight: "2rem" }}>
         <InputLabel sx={{ fontSize: "1.4rem" }} variant="standard">
           Khu vực
         </InputLabel>
         <NativeSelect
           onChange={(e) => handleChangeWard(e)}
-          sx={{ fontSize: "1.5rem" }}
+          sx={{ fontSize: "1.5rem", minWidth: "30ch" }}
           defaultValue={`${ward?.ID || "DEFAULT"}`}
           inputProps={{
-            className: "register__native-select",
-
             name: "ward",
           }}
         >
@@ -274,7 +276,7 @@ const AddressSelect = ({
           })}
         </NativeSelect>
       </FormControl>
-    </div>
+    </Box>
   );
 };
 
