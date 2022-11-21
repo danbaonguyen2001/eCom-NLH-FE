@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Product from "./subComponent/Product";
+import { toast } from "react-toastify";
+
 import Info from "./subComponent/Info";
 import { toVND } from "../../utils/format";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,15 +10,15 @@ import {
   setCartTotal,
   selectCurrentCartInfo,
 } from "../../features/cart/cartSlice";
+
 // Ship fee
 import { getShipFee } from "../../apis/apiShipment";
 const OrderConfirm = React.lazy(() => import("./subComponent/OrderConfirm"));
 
 const HasProduct = ({ cart, setCart }) => {
   //
+  const [detailAddress, setDetailAddress] = useState({});
   const dispatch = useDispatch();
-  //
-  //
   const stateCart = useSelector((state) => state.cart);
   const [promotionList, setPromotionList] = useState([]);
   const [productListInfo, setProductListInfo] = useState([]);
@@ -43,103 +45,91 @@ const HasProduct = ({ cart, setCart }) => {
     totalPrice: 0,
   });
 
-  // useEffect(() => {
-  //   // get promotion list
-  //   const promotionsGet = cart.map((v) => {
-  //     return 10;
+  useEffect(() => {
+    // get promotion list
+    const promotionsGet = cart.map((v) => {
+      return v;
+      // return v?.item.promotion;
+    });
 
-  //     //return v?.item.promotion;
-  //   });
+    setPromotionList([...promotionList, ...promotionsGet]);
 
-  //   setPromotionList([...promotionList, ...promotionsGet]);
+    setProductListInfo(cart);
+  }, [cart]);
 
-  //   // get cart info
+  useEffect(() => {
+    const totalGet = cart.reduce(
+      (prev, curr) => {
+        const currQuantity =
+          productListInfo.find((v) => v._id == curr.item?.color?._id)
+            ?.quantity || 0;
+        return {
+          total: prev.total + curr.item?.price * currQuantity,
+          quantity: prev.quantity + currQuantity,
+        };
+      },
+      {
+        quantity: 0,
+        total: 0,
+      }
+    );
 
-  //   const newArr = cart.map((v) => {
-  //     //console.log(cart);
-  //     const currentProduct = productListInfo.find(
-  //       (item) => item._id == v?.item?.color
-  //     );
+    setCartInfo({
+      ...totalGet,
+    });
 
-  //     let obj = {
-  //       quantity: currentProduct?.quantity || v.quantity || 0,
-  //       id: v.item.color._id || 0,
-  //     };
-  //     if (currentProduct || obj.id != 0) {
-  //       return obj;
-  //     }
-  //   });
-
-  //   //setProductListInfo([...newArr]);
-
-  //   setProductListInfo(cart);
-  // }, [cart]);
-
-  //console.log(cart);
-
-  // useEffect(() => {
-  //   const totalGet = cart.reduce(
-  //     (prev, curr) => {
-  //       const currQuantity =
-  //         productListInfo.find((v) => v._id == curr.item?.color?._id)
-  //           ?.quantity || 0;
-  //       return {
-  //         total: prev.total + curr.item?.price * currQuantity,
-  //         quantity: prev.quantity + currQuantity,
-  //       };
-  //     },
-  //     {
-  //       quantity: 0,
-  //       total: 0,
-  //     }
-  //   );
-
-  // get Ship fee
-  // MOCK
-  // sample input ship fee
-  // let insuranceValue;
-  // const input = {
-  //   wt: 50,
-  //   wh: 20,
-  //   l: 20,
-  //   h: 50,
-  //   from_district: 1452,
-  //   ward: 21012,
-  //   district: 1454,
-  //   service_id: 53320,
-  //   insurance_value: insuranceValue || 100000,
-  // };
-  // const fetchShip = async (input) => await getShipFee(input);
-  // fetchShip(input)
-  //   .then((res) => {
-  //     const { total: totalFee, service_fee } = res?.data?.data;
-  //     setOrderInfo({
-  //       ...orderInfo,
-  //       shippingPrice: service_fee,
-  //     });
-  //     setCartInfo((prev) => {
-  //       return {
-  //         ...prev,
-  //         serviceFee: service_fee,
-  //       };
-  //     });
-  //   })
-  //   .catch((e) => console.log(e));
-  // setCartInfo({
-  //   ...totalGet,
-  // });
-
-  //   // set order info
-  //   const validInputArray = productListInfo.map((v) => ({
-  //     color: v._id,
-  //     quantity: v.quantity,
-  //   }));
-  //   setOrderInfo({
-  //     ...orderInfo,
-  //     items: [...validInputArray],
-  //   });
-  // }, [productListInfo]);
-
+    // set order info
+    const validInputArray = productListInfo.map((v) => ({
+      color: v._id,
+      quantity: v.quantity,
+    }));
+    setOrderInfo({
+      ...orderInfo,
+      items: [...validInputArray],
+    });
+  }, [productListInfo, detailAddress]);
+  useMemo(() => {
+    // get Ship fee
+    // sample input ship fee
+    let insuranceValue;
+    const getAddress = detailAddress?.detailAddress
+      ? {
+          ...detailAddress.detailAddress,
+        }
+      : {
+          ...detailAddress,
+        };
+    const input = {
+      wt: 50,
+      wh: 20,
+      l: 20,
+      h: 50,
+      ward: getAddress?.ward?.wardCode,
+      district: getAddress?.district?.districtID,
+      insurance_value: insuranceValue || 100000,
+    };
+    const fetchShip = async (input) => await getShipFee(input);
+    fetchShip(input)
+      .then((res) => {
+        const { total: totalFee, service_fee } = res?.data?.data;
+        setOrderInfo({
+          ...orderInfo,
+          shippingPrice: service_fee,
+        });
+        setCartInfo((prev) => {
+          return {
+            ...prev,
+            serviceFee: service_fee,
+          };
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [
+    detailAddress?.detailAddress?.district?.districtID,
+    detailAddress?.detailAddress?.ward?.wardCode,
+  ]);
   return (
     <div className="has_cart  ">
       <div className="has_cart_header flex ">
@@ -160,18 +150,20 @@ const HasProduct = ({ cart, setCart }) => {
 
         {/* UserInfo */}
         <div className="line"></div>
-        {/* <Info
+        <Info
           promotionList={promotionList}
           orderInfo={orderInfo}
           setOrderInfo={setOrderInfo}
-        /> */}
+          detailAddress={detailAddress}
+          setDetailAddress={setDetailAddress}
+        />
 
         <div className="line"></div>
-        {/* <OrderConfirm
+        <OrderConfirm
           cartInfo={cartInfo}
           orderInfo={orderInfo}
           setOrderInfo={setOrderInfo}
-        /> */}
+        />
       </div>
     </div>
   );

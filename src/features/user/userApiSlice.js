@@ -29,6 +29,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
                     method: "DELETE",
                 })
             }),
+            getAddressById: builder.mutation({
+                query: ({ addressId }) => ({
+                    url: `http://localhost:5000/api/users/address/${addressId}`,
+                    method: "GET",
+                })
+            }),
 
 
 

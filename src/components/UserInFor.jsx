@@ -1,163 +1,80 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "../sass/purchasehistory/_user_infor.scss";
 import DeleteAddressModal from "./purchasehistory/subcomponents/DeleteAddressModal";
 // controller
 import userController from "../features/user/function";
 import DropZone from "./useInfo/DropZone";
+import {
+  Button,
+  Stack,
+  Box,
+  Typography,
+  TextField,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+  Checkbox,
+  FormGroup,
+} from "@mui/material";
+import { Delete as DeleteIcon } from "@material-ui/icons";
 //
-import { getProvince, getDistrict, getWard } from "../apis/apiShipment";
 import { toast } from "react-toastify";
+//
+
+const AddressSelect = React.lazy(() =>
+  import("../components/register/AddressSelect")
+);
 
 const UserInFor = () => {
   //
-  const [province, setProvince] = useState([]);
-  const [provinceID, setProvinceID] = useState(269);
-  const [district, setDistrict] = useState([]);
-  const [districtID, setDistrictID] = useState(2264);
-  const [commune, setCommune] = useState([]);
-  const [communeID, setCommuneID] = useState(80213);
+
   const [openModalDelete, setOpenModalDelete] = useState(false);
 
   //
   const [editDisabled, setEditDisabled] = useState(true);
-
+  const [detailAddress, setDetailAddress] = useState({});
+  const [currentAddressInfo, setCurrentAddressInfo] = useState("");
   //
-  const [deleteAddressId, setDeleteAddressId] = useState(null);
   const [addressBtStatus, setAddressBtStatus] = useState("Add");
   const [addressEdit, setAddressEdit] = useState([]);
   //
-  const [detailAddress, setDetailAddress] = useState("");
-  const [provinceName, setProvinceName] = useState("");
-  const [districtName, setDistrictName] = useState("");
-  const [communeName, setCommuneName] = useState("");
+  const [numberAddress, setNumberAddress] = useState("");
   const [isIdDefault, setIsIdDefault] = useState(false);
   //45Yasuo,Xã Bình Yên,Huyện Sơn Dương,Tỉnh Tuyên Quang
   // detail              + commune ,      + district, +    province name
   //
-  const handlerEditAddress = (v) => {
-    if (v.idDefault) {
+  const handleAddressEdit = (v) => {
+    setNumberAddress(v?.address.split(",")[0]);
+    if (v?.idDefault) {
       setIsIdDefault(true);
     } else {
       setIsIdDefault(false);
     }
     setAddressBtStatus("Edit");
-    let add = userData.addresses
-      .find((address) => v.detailAddress == address.detailAddress)
-      .address.split(",");
+    setAddressEdit(v?.detailAddress);
+    userController
+      .getAddressById({ addressId: v?.detailAddress })
+      .then((res) => {
+        console.log(res);
+        const address = res.data.address;
+        setDetailAddress({ ...address });
+      })
+      .catch((e) => {
+        toast.error(`Lỗi không thể lấy địa chỉ phù hợp`, {
+          autoClose: 5000,
+          closeOnClick: true,
+          position: "top-right",
+        });
+      });
     setUserData({
       ...userData,
-      addressId: v.detailAddress,
+      addressId: v?.detailAddress,
     });
-    setDetailAddress(add[0] || "Chưa có địa chỉ cụ thể");
-    setCommuneName(add[1]);
-    setDistrictName(add[2]);
-    setProvinceName(add[3]);
-    setAddressEdit(add.join(","));
   };
-
-  // Tỉnh
-  useEffect(() => {
-    const fetchProvince = async () => await getProvince();
-    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
-      toastId: 88,
-      autoClose: 5000,
-      closeOnClick: true,
-    });
-    fetchProvince()
-      .then((res) => {
-        const { data } = res.data;
-        setProvince(data);
-        setProvinceName(data[0].ProvinceName);
-      })
-      .catch((err) => {
-        toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
-          toastId: 99,
-          autoClose: 5000,
-          closeOnClick: true,
-        });
-      });
-  }, []);
-
-  const handleProvince = (e) => {
-    const getProvinceID = e.target.value;
-    const provinceNameV = province.find((v) => {
-      return v.ProvinceID == getProvinceID;
-    }).ProvinceName;
-    setProvinceName(provinceNameV);
-    setProvinceID(getProvinceID);
-    setCommune([]);
-  };
-
-  //Huyện
-  useEffect(() => {
-    const fetchDistrict = async (provinceID) => await getDistrict(provinceID);
-    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
-      toastId: 88,
-      autoClose: 5000,
-      closeOnClick: true,
-    });
-    fetchDistrict(provinceID)
-      .then((res) => {
-        // Set default
-        const { data } = res.data;
-        setDistrictName(data[0]?.DistrictName);
-        setDistrictID(data[0]?.DistrictID);
-        setDistrict(data);
-      })
-      .catch((e) => {
-        toast.info(`Lỗi không thể lấy địa chỉ: ${e?.message}`, {
-          toastId: 99,
-          autoClose: 5000,
-          closeOnClick: true,
-        });
-      });
-  }, [provinceID]);
-
-  const handleDistrict = (e) => {
-    const getDistrictID = e.target.value;
-    const districtNameV = district.find(
-      (v) => v.DistrictID == getDistrictID
-    ).DistrictName;
-    setDistrictName(districtNameV);
-    setDistrictID(getDistrictID);
-  };
-
   // Xã
-  useEffect(() => {
-    const fetchWard = async (districtID) => await getWard(districtID);
-    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
-      toastId: 88,
-      autoClose: 5000,
-      closeOnClick: true,
-    });
-    fetchWard(districtID)
-      .then((res) => {
-        // Set default
 
-        const { data } = res.data;
-
-        setCommuneName(data[0]?.WardName);
-        setCommuneID(data[0]?.WardCode);
-        setCommune(data);
-      })
-      .catch((e) => {
-        toast.info(`Lỗi không thể lấy địa chỉ: ${e?.message}`, {
-          toastId: 99,
-          autoClose: 5000,
-          closeOnClick: true,
-        });
-      });
-  }, [districtID]);
-
-  const handleCommune = (e) => {
-    const getCommunetID = e.target.value;
-    const communeNameV = commune.find((v) => {
-      return v.WardCode == getCommunetID;
-    }).WardName;
-    setCommuneName(communeNameV);
-    setCommuneID(getCommunetID);
-  };
   // Get element
   ///[###]/////////////////////////////////////////////////////////////////////////
   // Get user info
@@ -196,26 +113,18 @@ const UserInFor = () => {
   }, []);
   // address button click handler
   const handleConfirmUpdateUserData = async () => {
+    const getAddress = detailAddress?.detailAddress || detailAddress;
     // var
-    const addressStr = `${
-      detailAddress || "Chưa nhập số nhà"
-    },${communeName},${districtName},${provinceName}`;
+    const addressStr = `${numberAddress || "Chưa nhập số nhà"},${
+      getAddress?.ward?.wardName
+    },${getAddress?.district?.districtName},${
+      getAddress?.province?.provinceName
+    }`;
     const addressValue = {
-      province: {
-        provinceID: provinceID,
-        provinceName: provinceName,
-      },
-      ward: {
-        wardCode: communeID,
-        wardName: communeName,
-      },
-      district: {
-        districtID: districtID,
-        districtName: districtName,
-      },
+      ...getAddress,
     };
     const addresses = userData.addresses.filter(
-      (v) => v.detailAddress !== userData.addressId
+      (v) => v?.addressIdEdit !== userData.addressId
     );
     addresses.push({
       idDefault: isIdDefault,
@@ -228,7 +137,7 @@ const UserInFor = () => {
           editAddress: userData.addressId,
           newAddress: {
             idDefault: isIdDefault,
-            detailAddress: addressValue,
+            numberAddress: addressValue,
             address: addressStr,
           },
         }
@@ -251,7 +160,7 @@ const UserInFor = () => {
           gender,
           name,
           phone,
-          avatar:avatar.url,
+          avatar: avatar.url,
           addresses,
         });
       } else {
@@ -269,28 +178,21 @@ const UserInFor = () => {
       });
     } finally {
       if (!editDisabled) setEditDisabled(true);
-      if (addressBtStatus == "Edit") setAddressBtStatus("Add");
+      setAddressBtStatus("Add");
     }
   };
   // Add
   const handleAddUserAddress = async () => {
+    const getAddress = detailAddress?.detailAddress || detailAddress;
+
     // var
-    const addressStr = `${
-      detailAddress || "Chưa nhập số nhà"
-    },${communeName},${districtName},${provinceName}`;
+    const addressStr = `${numberAddress || "Chưa nhập số nhà"},${
+      getAddress?.ward?.wardName
+    },${getAddress?.district?.districtName},${
+      getAddress?.province?.provinceName
+    }`;
     const addressValue = {
-      province: {
-        provinceID: provinceID,
-        provinceName: provinceName,
-      },
-      ward: {
-        wardCode: communeID,
-        wardName: communeName,
-      },
-      district: {
-        districtID: districtID,
-        districtName: districtName,
-      },
+      ...getAddress,
     };
     // call
     const res = await userController.updateUser({
@@ -310,20 +212,19 @@ const UserInFor = () => {
       const { gender, name, phone, avatar, addresses } = data;
       if (status) {
         setAddressBtStatus("Edit");
-        // const newAddresses = [
-        //   ...userData.addresses,
-        //   {
-        //     address: addressStr,
-        //     idDefault: isIdDefault,
-        //   },
-        // ];
+
         setUserData({
           ...userData,
           gender,
           name,
           phone,
-          avatar:avatar.url,
+          avatar: avatar.url,
           addresses: addresses,
+        });
+        toast.success(`Thêm địa chỉ thành công`, {
+          toastId: 200,
+          autoClose: 5000,
+          closeOnClick: true,
         });
       } else {
         toast.error(`Lỗi không thể thêm địa chỉ mới`, {
@@ -354,99 +255,127 @@ const UserInFor = () => {
         {/* Info */}
         <div className="user-infor-header">
           <h4 className="user-infor-header__heading">Thông tin cá nhân</h4>
-          {/* Img */}
+          {/* Avatar */}
           <DropZone
             userDataAvatar={userData.avatar}
             setUserData={setUserData}
             userData={userData}
           />
-          {/*  */}
-          <input
-            checked={userData.gender == "man"}
-            type="radio"
-            id="male-input"
-            className="user-infor-header__input"
-            name="sex"
-            onChange={(e) => {
-              setUserData({
-                ...userData,
-                gender: "man",
-              });
-            }}
-            disabled={editDisabled}
-          />
-          <label className="user-infor-header__label" htmlFor="male-input">
-            Anh
-          </label>
-          <input
-            checked={userData.gender != "man"}
-            type="radio"
-            id="female-input"
-            name="sex"
-            className="user-infor-header__input"
-            onChange={(e) => {
-              setUserData({
-                ...userData,
-                gender: "woman",
-              });
-            }}
-            disabled={editDisabled}
-          />
-          <label className="user-infor-header__label" htmlFor="female-input">
-            Chị
-          </label>
-          <br />
-          <input
-            type="text"
-            className="user-infor-header__input input"
-            placeholder={userData.name}
-            value={userData.name}
-            name="name"
-            disabled={editDisabled}
-            onChange={(e) => updateInput(e)}
-          />
-          <input
-            type="text"
-            className="user-infor-header__input input"
-            placeholder={userData.phone}
-            value={userData.phone}
-            disabled={editDisabled}
-            name="phone"
-            onChange={(e) => updateInput(e)}
-          />
-          {editDisabled ? (
-            <>
-              <button
-                onClick={() => {
-                  setEditDisabled(!editDisabled);
+
+          {/* EDIT USER INFO */}
+          {/* GENDER */}
+          <FormControl>
+            <FormLabel sx={{ fontSize: 18 }}>Giới tính</FormLabel>
+            <RadioGroup
+              row
+              sx={{
+                "& .MuiSvgIcon-root": { fontSize: 20 },
+                "& .MuiFormControlLabel-label": { fontSize: 16 },
+              }}
+              onChange={(e) => {
+                setUserData({
+                  ...userData,
+                  gender: e.target.value,
+                });
+              }}
+            >
+              <FormControlLabel
+                InputLabelProps={{ style: { fontSize: 16 } }}
+                checked={userData.gender === "man"}
+                value="man"
+                control={<Radio />}
+                label="Nam"
+                disabled={editDisabled}
+              />
+              <FormControlLabel
+                InputLabelProps={{ style: { fontSize: 16 } }}
+                checked={userData.gender === "woman"}
+                value="woman"
+                control={<Radio />}
+                label="Nữ"
+                disabled={editDisabled}
+              />
+            </RadioGroup>
+          </FormControl>
+
+          {/* INFO */}
+          <Stack
+            sx={{ mt: 2 }}
+            direction="row"
+            align="center"
+            justifyContent="space-between"
+          >
+            <Box
+              sx={{
+                "& > :not(style)": { width: "25ch", mr: 2 },
+              }}
+            >
+              <TextField
+                inputProps={{ style: { fontSize: 16 } }}
+                InputLabelProps={{ style: { fontSize: 16 } }}
+                label="Tên"
+                variant="standard"
+                placeholder={userData.name}
+                value={userData.name}
+                name="name"
+                disabled={editDisabled}
+                onChange={(e) => updateInput(e)}
+              />
+              <TextField
+                InputLabelProps={{ style: { fontSize: 16 } }}
+                label="Số điện thoại"
+                inputProps={{
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                  style: { fontSize: 16 },
                 }}
-                className="user-infor-address-item__btn btn"
-              >
-                Cập nhật
-              </button>
-              <button
-                onClick={() => alert("Coming soon...")}
-                className="user-infor-address-item__btn btn"
-              >
-                Liên hệ với quản lý
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                onClick={handleConfirmUpdateUserData}
-                className="user-infor-address-item__btn btn"
-              >
-                Lưu
-              </button>
-              <button
-                onClick={() => setEditDisabled(!editDisabled)}
-                className="user-infor-address-item__btn btn"
-              >
-                Hủy
-              </button>
-            </>
-          )}
+                variant="standard"
+                placeholder={userData.phone}
+                value={userData.phone}
+                disabled={editDisabled}
+                name="phone"
+                onChange={(e) => updateInput(e)}
+              />
+            </Box>
+
+            {editDisabled ? (
+              <Stack direction="row">
+                <Button
+                  sx={{ m: 0.8, fontSize: 12 }}
+                  variant="contained"
+                  onClick={() => {
+                    setEditDisabled(!editDisabled);
+                  }}
+                >
+                  Cập nhật
+                </Button>
+                <Button
+                  sx={{ m: 0.8, fontSize: 12 }}
+                  variant="contained"
+                  onClick={() => alert("Coming soon...")}
+                >
+                  Liên hệ với quản lý
+                </Button>
+              </Stack>
+            ) : (
+              <Stack direction="row">
+                <Button
+                  sx={{ m: 0.8, fontSize: 12 }}
+                  variant="contained"
+                  onClick={handleConfirmUpdateUserData}
+                >
+                  Lưu
+                </Button>
+                <Button
+                  sx={{ m: 0.8, fontSize: 12 }}
+                  variant="contained"
+                  onClick={() => setEditDisabled(!editDisabled)}
+                >
+                  Hủy
+                </Button>
+              </Stack>
+            )}
+          </Stack>
         </div>
         {/* Address list */}
         <div className="user-infor-address">
@@ -456,141 +385,166 @@ const UserInFor = () => {
             {userData?.addresses.map((v, i) => {
               return (
                 <>
-                  <div key={i} className="user-infor-address-list__item">
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    spacing={2}
+                    key={i}
+                  >
                     <input
                       type="hidden"
                       name="addressId"
-                      value={v.detailAddress}
+                      value={v?.detailAddress}
                     />
 
-                    <span className="user-infor-address-item__detail">
-                      {console.log(v)}
-                      {v.address}
-                    </span>
-                    <span className="user-infor-address-item__default">
-                      {v.idDefault ? "Mặc định" : i == 0}
-                    </span>
-                    <button
-                      className="user-infor-address-item__btn btn"
-                      onClick={() => handlerEditAddress(v)}
+                    <Box sx={{ width: "100%", maxWidth: "60%" }}>
+                      <Typography variant="h5">{v?.address}</Typography>
+                    </Box>
+
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="flex-end"
+                      spacing={2}
+                      sx={{ width: "30%" }}
                     >
-                      Sửa
-                    </button>
-                    <button
-                      className="user-infor-address-item__btn btn"
-                      disabled={v.idDefault}
-                      onClick={() => {
-                        setOpenModalDelete(true);
-                        handlerEditAddress(v);
-                        setDeleteAddressId(v.detailAddress);
-                      }}
-                    >
-                      Xoá
-                    </button>
-                  </div>
+                      <span className="user-infor-address-item__default">
+                        {v?.idDefault ? "Mặc định" : i == 0}
+                      </span>
+                      <Button
+                        sx={{ fontSize: "12px" }}
+                        variant="contained"
+                        onClick={() => handleAddressEdit(v)}
+                      >
+                        Sửa
+                      </Button>
+                      <Button
+                        sx={{ fontSize: "12px" }}
+                        variant="outlined"
+                        startIcon={<DeleteIcon />}
+                        color="error"
+                        disabled={v?.idDefault}
+                        onClick={() => {
+                          setOpenModalDelete(true);
+                          setAddressEdit(v?.detailAddress);
+                          setCurrentAddressInfo(v?.address);
+                        }}
+                      >
+                        Xoá
+                      </Button>
+                    </Stack>
+                  </Stack>
                   <div className="line"></div>
                 </>
               );
             })}
           </div>
         </div>
-        {/* Address detail */}
-        <div className="user-infor-new-address">
-          <h4 className="user-infor-new-address__heading">Cập nhật địa chỉ</h4>
-          <form className="update-address">
-            <select
-              className="update-address__input input"
-              name="provinceSelect"
-              onChange={handleProvince}
-            >
-              {province.map((p, index) => (
-                <option key={index} value={p.ProvinceID}>
-                  {p.ProvinceName}
-                </option>
-              ))}
-            </select>
-            <select
-              className="update-address__input input"
-              name=""
-              id="district"
-              onChange={handleDistrict}
-            >
-              {district.map((getDis, index) => (
-                <option key={index} value={getDis.DistrictID}>
-                  {getDis.DistrictName}
-                </option>
-              ))}
-            </select>
-            <select
-              className="update-address__input input"
-              name=""
-              id="commune"
-              onChange={handleCommune}
-            >
-              {commune.map((getCom, index) => (
-                <option key={index} value={getCom.WardCode}>
-                  {getCom.WardName}
-                </option>
-              ))}
-            </select>
-            <input
-              className="update-address__input input"
-              type="text"
-              value={detailAddress}
-              placeholder="Số nhà, tên đường"
-              onChange={(e) => setDetailAddress(e.target.value)}
-            />
-            <div className="update-address__default">
-              <input
-                type="checkbox"
-                checked={isIdDefault ? "checked" : ""}
-                onChange={() => setIsIdDefault(!isIdDefault)}
-              />
 
-              <label htmlFor=""> &nbsp; Địa chỉ mặc định</label>
-            </div>
-          </form>
+        {/* Address update Button */}
+        {/* Address detail */}
+        <div>
+          <h4>Cập nhật địa chỉ</h4>
+          <Stack direction="row" flexWrap="wrap">
+            <AddressSelect
+              style={{ width: "100%" }}
+              detailAddress={detailAddress}
+              addressEdit={addressEdit}
+              setValues={setDetailAddress}
+              addressBtStatus={addressBtStatus}
+            />
+            {/* Under */}
+            <Stack
+              sx={{ width: "100%", m: 1 }}
+              justifyContent="flex-end"
+              direction="row"
+            >
+              <TextField
+                inputProps={{ style: { fontSize: 16 } }}
+                InputLabelProps={{ style: { fontSize: 16 } }}
+                sx={{ width: "16em" }}
+                variant="standard"
+                value={numberAddress}
+                placeholder="Số nhà, tên đường"
+                onChange={(e) => setNumberAddress(e.target.value)}
+              />
+              <FormGroup sx={{ width: "10em", ml: 4 }}>
+                <FormControlLabel
+                  sx={{ "	& .MuiFormControlLabel-label": { fontSize: 16 } }}
+                  label="Địa chỉ mặc định"
+                  control={
+                    <Checkbox
+                      disabled={addressBtStatus==="Edit"&& isIdDefault===true &&
+                        userData.addresses.find((v) => {
+                          console.log(
+                            v?.detailAddress == addressEdit.toString()
+                          );
+                          if (v?.detailAddress == addressEdit.toString()) {
+                            return v?.idDefault == isIdDefault;
+                          }
+                        })
+                          ? true
+                          : false
+                      }
+                      defaultChecked={isIdDefault}
+                      onChange={() => setIsIdDefault(!isIdDefault)}
+                    />
+                  }
+                />
+              </FormGroup>
+
+              {/* Button */}
+              <Stack
+                direction="row"
+                sx={{ minWidth: "20em" }}
+                spacing={2}
+                justifyContent="flex-end"
+              >
+                {addressBtStatus == "Add" ? (
+                  <Button
+                    sx={{ fontSize: 12 }}
+                    variant="contained"
+                    style={{ marginRight: "25px" }}
+                    onClick={handleAddUserAddress}
+                    disabled={!editDisabled}
+                  >
+                    Thêm địa chỉ mới
+                  </Button>
+                ) : (
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    justifyContent="space-between"
+                  >
+                    <Button
+                      sx={{ fontSize: 12, mr: 2 }}
+                      variant="contained"
+                      onClick={handleConfirmUpdateUserData}
+                      disabled={!editDisabled}
+                    >
+                      Cập nhật thông tin
+                    </Button>
+                    <Button
+                      sx={{ fontSize: 12, mr: 2 }}
+                      variant="contained"
+                      disabled={!editDisabled}
+                      onClick={() => {
+                        setAddressBtStatus("Add");
+                      }}
+                    >
+                      Hủy
+                    </Button>
+                  </Stack>
+                )}
+              </Stack>
+            </Stack>
+          </Stack>
         </div>
-        {/* Add ress update Button */}
-        <div className="user-infor-btn ">
-          {addressBtStatus == "Add" ? (
-            <button
-              className={`btn user-infor-btn__update `}
-              style={{ marginRight: "25px" }}
-              onClick={handleAddUserAddress}
-              disabled={!editDisabled}
-            >
-              Thêm địa chỉ mới
-            </button>
-          ) : (
-            <button
-              className="btn user-infor-btn__update"
-              style={{ marginRight: "25px" }}
-              onClick={handleConfirmUpdateUserData}
-              disabled={!editDisabled}
-            >
-              Cập nhật thông tin
-            </button>
-          )}
-          {addressBtStatus == "Add" ? (
-            <></>
-          ) : (
-            <button
-              disabled={!editDisabled}
-              className="btn user-infor-btn__update"
-              style={{ marginRight: "25px" }}
-              onClick={() => {
-                setAddressBtStatus("Add");
-              }}
-            >
-              Hủy
-            </button>
-          )}
-        </div>
+
         {/* Modal */}
         {openModalDelete && (
           <DeleteAddressModal
-            deleteAddressId={deleteAddressId}
+            currentAddressInfo={currentAddressInfo}
             setUserData={setUserData}
             openModalDelete={setOpenModalDelete}
             addressEdit={addressEdit}
