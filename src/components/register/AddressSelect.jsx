@@ -34,7 +34,6 @@ const AddressSelect = ({
       closeOnClick: true,
     });
     // First initial
-
     if (addressBtStatus == "Edit") {
       setProvince({
         ...province,
@@ -45,10 +44,11 @@ const AddressSelect = ({
           detailAddress?.detailAddress?.province?.provinceName ||
           detailAddress?.province?.provinceName,
       });
-    } else {
+    } else if (!province.ID) {
       getProvince()
         .then((res) => {
           const { data } = res.data;
+
           setProvinces(data);
           setProvince({
             ID: data[0]?.ProvinceID,
@@ -70,7 +70,18 @@ const AddressSelect = ({
       autoClose: 5000,
       closeOnClick: true,
     });
-    if (province.ID) {
+
+    if (addressBtStatus == "Edit" && !district.ID) {
+      setDistrict({
+        ...district,
+        ID:
+          detailAddress?.detailAddress?.district.districtID ||
+          detailAddress?.district?.districtID,
+        value:
+          detailAddress?.detailAddress?.district.districtName ||
+          detailAddress?.district?.districtName,
+      });
+    } else if (province.ID) {
       getDistrict(province.ID)
         .then((res) => {
           const { data } = res.data;
@@ -95,7 +106,17 @@ const AddressSelect = ({
       autoClose: 5000,
       closeOnClick: true,
     });
-    if (district.ID) {
+    if (addressBtStatus == "Edit" && !ward.ID) {
+      setWard({
+        ...ward,
+        ID:
+          detailAddress?.detailAddress?.ward?.wardCode ||
+          detailAddress?.ward?.wardCode,
+        value:
+          detailAddress?.detailAddress?.ward?.wardName ||
+          detailAddress?.ward?.wardName,
+      });
+    } else if (district.ID) {
       getWard(district.ID)
         .then((res) => {
           const { data } = res.data;
@@ -103,6 +124,7 @@ const AddressSelect = ({
             ID: data[0]?.WardCode,
             value: data[0]?.WardName,
           });
+
           setWards(data);
         })
         .catch((err) => {
@@ -118,6 +140,18 @@ const AddressSelect = ({
     setValues((prev) => {
       return {
         ...prev,
+        ward: {
+          wardCode: ward.ID,
+          wardName: ward.value,
+        },
+        province: {
+          provinceID: province.ID,
+          provinceName: province.value,
+        },
+        district: {
+          districtID: district.ID,
+          districtName: district.value,
+        },
         detailAddress: {
           ward: {
             wardCode: ward.ID,
@@ -142,7 +176,6 @@ const AddressSelect = ({
       return v.ProvinceID == e.target.value;
     }).ProvinceName;
     setProvince({
-      ...province,
       ID: e.target.value,
       value: name,
     });
@@ -153,7 +186,6 @@ const AddressSelect = ({
       return v.DistrictID == e.target.value;
     }).DistrictName;
     setDistrict({
-      ...district,
       ID: e.target.value,
       value: name,
     });
@@ -165,17 +197,15 @@ const AddressSelect = ({
     }).WardName;
 
     setWard({
-      ...ward,
       ID: e.target.value,
       value: name,
     });
   };
   return (
     <Box
-      sx={{ width: "100%", margin: "1.5rem auto",display:"flex" }}
+      sx={{ width: "100%", margin: "1.5rem auto", display: "flex" }}
       justifyContent="space-around"
       alignItems="center"
-
     >
       {/* ADDRESS */}
       {/* ADDRESS - PROVINCE */}

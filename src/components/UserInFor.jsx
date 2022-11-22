@@ -47,17 +47,12 @@ const UserInFor = () => {
   //
   const handleAddressEdit = (v) => {
     setNumberAddress(v?.address.split(",")[0]);
-    if (v?.idDefault) {
-      setIsIdDefault(true);
-    } else {
-      setIsIdDefault(false);
-    }
+    if (v?.idDefault != isIdDefault) setIsIdDefault(!isIdDefault);
     setAddressBtStatus("Edit");
     setAddressEdit(v?.detailAddress);
     userController
       .getAddressById({ addressId: v?.detailAddress })
       .then((res) => {
-        console.log(res);
         const address = res.data.address;
         setDetailAddress({ ...address });
       })
@@ -127,19 +122,22 @@ const UserInFor = () => {
       (v) => v?.addressIdEdit !== userData.addressId
     );
     addresses.push({
-      idDefault: isIdDefault,
+      idDefault: isIdDefault || false,
       detailAddress: addressValue,
       address: addressStr,
     });
     let inputData = editDisabled
       ? {
+          isNew: false,
           ...userData,
           editAddress: userData.addressId,
-          newAddress: {
-            idDefault: isIdDefault,
-            numberAddress: addressValue,
-            address: addressStr,
-          },
+          addresses: [
+            {
+              idDefault: isIdDefault || false,
+              detailAddress: addressValue,
+              address: addressStr,
+            },
+          ],
         }
       : {
           ...userData,
@@ -201,7 +199,7 @@ const UserInFor = () => {
       addresses: [
         {
           isNew: true,
-          idDefault: isIdDefault,
+          idDefault: isIdDefault || false,
           detailAddress: addressValue,
           address: addressStr,
         },
@@ -211,8 +209,6 @@ const UserInFor = () => {
       const { status, data } = res;
       const { gender, name, phone, avatar, addresses } = data;
       if (status) {
-        setAddressBtStatus("Edit");
-
         setUserData({
           ...userData,
           gender,
@@ -383,6 +379,7 @@ const UserInFor = () => {
           <div className="line"></div>
           <div className="user-infor-address-list">
             {userData?.addresses.map((v, i) => {
+              console.log(v?.address);
               return (
                 <>
                   <Stack
@@ -474,11 +471,10 @@ const UserInFor = () => {
                   label="Địa chỉ mặc định"
                   control={
                     <Checkbox
-                      disabled={addressBtStatus==="Edit"&& isIdDefault===true &&
+                      disabled={
+                        addressBtStatus === "Edit" &&
+                        isIdDefault === true &&
                         userData.addresses.find((v) => {
-                          console.log(
-                            v?.detailAddress == addressEdit.toString()
-                          );
                           if (v?.detailAddress == addressEdit.toString()) {
                             return v?.idDefault == isIdDefault;
                           }
@@ -486,7 +482,7 @@ const UserInFor = () => {
                           ? true
                           : false
                       }
-                      defaultChecked={isIdDefault}
+                      checked={isIdDefault}
                       onChange={() => setIsIdDefault(!isIdDefault)}
                     />
                   }
@@ -529,6 +525,9 @@ const UserInFor = () => {
                       variant="contained"
                       disabled={!editDisabled}
                       onClick={() => {
+                        setIsIdDefault(false);
+                        setAddressEdit(null);
+                        setNumberAddress("");
                         setAddressBtStatus("Add");
                       }}
                     >
