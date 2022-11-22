@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectLoginStatus } from "../features/auth/authSlice";
 import login from "../assets/images/register/login.png";
 import FormInput from "../components/login/FormInput";
@@ -11,10 +11,13 @@ import { toast } from "react-toastify";
 
 // Function
 import authController from "../features/auth/functions";
+import cartHandler from "../features/cart/function";
+import { getTotals, setCurrentCart } from "../features/cart/cartSlice";
 
 const Login = () => {
   // check login
   const isLogin = useSelector(selectLoginStatus);
+  const dispatch = useDispatch();
   //
   const inputs = [
     {
@@ -55,6 +58,7 @@ const Login = () => {
       let result = await authController.login({ email, password });
 
       if (result) {
+        //redirect
         history.push("/");
       } else {
         toast.error("Đăng nhập thất bại !", {

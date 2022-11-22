@@ -12,6 +12,7 @@ import {
   increaseQuantity,
   decreaseQuantity,
   getTotals,
+  resetCurrentCart,
 } from "../../../features/cart/cartSlice";
 const Product = ({ dataProduct, setCart }) => {
   const [quantity, setQuantity] = useState(dataProduct?.item?.quantity || "1");

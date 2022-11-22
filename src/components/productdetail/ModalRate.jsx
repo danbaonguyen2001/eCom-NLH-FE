@@ -8,14 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { selectLoginStatus } from "../../features/auth/authSlice";
 import { toHaveClass } from "@testing-library/jest-dom/dist/matchers";
-export default function ModalRate(props) {
+export default function ModalRate({ product, renderReview, openModal, close }) {
   const location = useLocation();
   const productId = location.state.productId;
   // const productId = "63743fa09878bcdd84b437ab";
   const dispatch = useDispatch();
   const history = useHistory();
   const status = useSelector(selectLoginStatus) || false;
-  const onClose = props.onClose ? props.onClose : null;
+  const onClose = () => openModal(false);
   let initValue = null;
   const [toggle, setToggle] = React.useState(false);
   const [value, setValue] = React.useState(0);
@@ -24,7 +24,7 @@ export default function ModalRate(props) {
     rating: 0,
     comment: "",
   });
-  initValue = props.product ? props.product.id : null;
+  initValue = product ? product.id : null;
   const onChange = (e) => {
     setToggle(true);
     setData({ ...data, [e.target.name]: e.target.value });
@@ -33,13 +33,13 @@ export default function ModalRate(props) {
     e.preventDefault();
     if (status) {
       if (data.productId && data.rating && data.comment) {
-        console.log(data);
+        //console.log(data);
         const res = await dispatch(addCommentRateProductId(data)).unwrap();
-        console.log("dasd", res);
+        //console.log("dasd", res);
         if ((res.message = "Review added")) {
           toast.success("Thêm Đánh giá thành công");
-          // // return
-          // console.log(props?.setRenderReview);
+          renderReview(renderReview + 1);
+          return;
         } else {
           toast.error("Thêm Đánh giá thất bại");
         }
@@ -49,9 +49,6 @@ export default function ModalRate(props) {
       toast.error("Vui lòng đăng nhập");
       onClose();
     }
-    console.log(props?.setRenderReview);
-    props?.setRenderReview(props?.setRenderReview + 1);
-    console.log(props?.setRenderReview);
   };
 
   return (
@@ -63,7 +60,7 @@ export default function ModalRate(props) {
 
         <div className="modal-body">
           <button
-            onClick={props.onClose ? props.onClose : null}
+            onClick={() => openModal(false)}
             className="_modal-close-icon"
             viewBox="0 0 40 40"
           >
@@ -73,15 +70,13 @@ export default function ModalRate(props) {
             <div className="info-pro">
               <div className="img-cmt">
                 <img
-                  src={props.product ? props.product?.image : ""}
+                  src={product ? product?.image : ""}
                   height="80px"
                   width="auto"
                   alt=""
                 />
               </div>
-              <div className="text-cmt">
-                {props.product ? props.product.name : ""}
-              </div>
+              <div className="text-cmt">{product ? product.name : ""}</div>
             </div>
             <div className="flex_center">
               <Box

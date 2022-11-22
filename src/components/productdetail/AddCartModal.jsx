@@ -12,7 +12,11 @@ import {
 } from "../../features/auth/authSlice";
 import cartController from "../../features/cart/function";
 //feature
-import { addToCart } from "../../features/cart/cartSlice";
+import {
+  addToCart,
+  getTotals,
+  setQuantity,
+} from "../../features/cart/cartSlice";
 import { toast } from "react-toastify";
 
 const AddCartModal = ({ closeModal, chooseOption, product }) => {
@@ -21,7 +25,7 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const productColorList = product?.productOptions[chooseOption]?.colors;
-
+  console.log(productColorList);
   // input
   const [body, setBody] = useState({
     product: product?._id,
@@ -64,42 +68,10 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
           closeOnClick: true,
         });
         history.push("/cart");
-        // dispatch(
-        //   addToCart({
-        //     item: res?.data?.cart[res.data.cart.length - 1].item,
-        //     _id: res?.data?.cart[res.data.cart.length - 1]._id,
-        //   })
-        // );
+        //dispatch(addToCart({ ...body }));
+        //dispatch(getTotals());
       })
       .catch((err) => console.log(err));
-
-    // try {
-    //   const res = cartController.addCart({ ...body });
-    //   console.log(res);
-    //   //const { result } = res;
-    //   res == "true" &&
-    //     toast.success("Thêm vào giỏ hàng thành công", {
-    //       position: "top-right",
-    //       autoClose: 5000,
-    //       closeOnClick: true,
-    //     }) &&
-    //     dispatch(
-    //       addToCart({
-    //         // id: body.color,
-    //         // quantity: body.quantity,
-    //         // price: product?.productOptions[chooseOption]?.price,
-    //       })
-    //     ) &&
-    //     history.push("/cart");
-
-    //   //if (!res) throw new Error();
-    // } catch (e) {
-    //   toast.error("Lỗi hệ thống, thử lại sau", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     closeOnClick: true,
-    //   });
-    // }
   };
   const handlerIncreaseQuantity = () => {
     body.quantity < availableQuantity &&

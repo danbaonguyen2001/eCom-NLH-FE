@@ -141,6 +141,7 @@ const HeaderContent = () => {
   const status = useSelector(selectLoginStatus) || false;
 
   const cart = useSelector((state) => state.cart);
+  //const [cartState,setCartState]= useState()
 
   useEffect(() => {
     cartHandler
@@ -339,10 +340,16 @@ const HeaderContent = () => {
               <div className="cart__text">
                 {cartShow ? (
                   <div className="cart__info">
-                    <h6>Số lượng: {cart.quantity || 0}</h6>
-                    <h6>Loại: {cart.cartItems.length || 0}</h6>
+                    {status ? (
+                      <div>
+                        <h6>Số lượng: {cart?.quantity || 0}</h6>
+                        <h6>Loại: {cart?.cartItems.length || 0}</h6>
 
-                    <h6>{toVND(cart.total || 0)}</h6>
+                        <h6>{toVND(cart.total || 0)}</h6>
+                      </div>
+                    ) : (
+                      <h5>Xác thực ngay</h5>
+                    )}
                   </div>
                 ) : (
                   "Giỏ hàng"

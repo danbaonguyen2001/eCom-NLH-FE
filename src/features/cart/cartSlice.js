@@ -49,24 +49,25 @@ const cartSlice = createSlice({
       state.quantity = quantity;
     },
 
-    // Thêm sản phẩm vào giỏ hàng
-    // addToCart(state, action) {
-    //   const { quantity, price } = action.payload;
-
-    //   const itemIndex = state.cartItems.findIndex(
-    //     (v) => v._id === action.payload._id
-    //   );
-
-    //   //Existing item
-    //   if (itemIndex >= 0) {
-    //     // {payload : id , quantity, price}
-    //     console.log(state.cartItems[0]);
-    //     state.cartItems[itemIndex].quantity += quantity;
-    //   } else {
-    //     const tempProduct = {};
-    //     state.cartItems.push(tempProduct);
-    //   }
-    // },
+    //Thêm sản phẩm vào giỏ hàng
+    addToCart(state, action) {
+      // const { product, option, color, quantity } = action.payload;
+      // const itemIndex = state.cartItems.findIndex(
+      //   (v) =>
+      //     v.item.product === product &&
+      //     v.item.option === option &&
+      //     v.item.color === color
+      // );
+      // //Existing item
+      // if (itemIndex >= 0) {
+      //   // {payload : id , quantity, price}
+      //   //console.log(state.cartItems[0]);
+      //   state.cartItems[itemIndex].quantity += quantity;
+      // } else {
+      //   state.cartItems[0].item.push(action.payload);
+      //   //state.quantity += quantity;
+      // }
+    },
 
     //Xoá sản phẩm khỏi giỏ hàng
     removeFromCart(state, action) {
@@ -117,6 +118,10 @@ const cartSlice = createSlice({
       state.quantity = quantity;
       state.total = total;
     },
+
+    setQuantity(state, action) {
+      state.quantity += action.payload;
+    },
   },
 });
 
@@ -129,6 +134,7 @@ export const {
   setCurrentCart,
   getTotals,
   resetCurrentCart,
+  setQuantity,
 } = cartSlice.actions;
 export default cartSlice.reducer;
 
