@@ -21,7 +21,7 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const productColorList = product?.productOptions[chooseOption]?.colors;
-
+  console.log(productColorList);
   // input
   const [body, setBody] = useState({
     product: product?._id,
@@ -64,6 +64,7 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
           closeOnClick: true,
         });
         history.push("/cart");
+        //dispatch(addToCart({ ...body }));
       })
       .catch((err) => console.log(err));
   };

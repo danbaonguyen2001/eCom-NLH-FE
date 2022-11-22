@@ -49,24 +49,22 @@ const cartSlice = createSlice({
       state.quantity = quantity;
     },
 
-    // Thêm sản phẩm vào giỏ hàng
-    // addToCart(state, action) {
-    //   const { quantity, price } = action.payload;
-
-    //   const itemIndex = state.cartItems.findIndex(
-    //     (v) => v._id === action.payload._id
-    //   );
-
-    //   //Existing item
-    //   if (itemIndex >= 0) {
-    //     // {payload : id , quantity, price}
-    //     console.log(state.cartItems[0]);
-    //     state.cartItems[itemIndex].quantity += quantity;
-    //   } else {
-    //     const tempProduct = {};
-    //     state.cartItems.push(tempProduct);
-    //   }
-    // },
+    //Thêm sản phẩm vào giỏ hàng
+    addToCart(state, action) {
+      // const { product, optio, color, quantity } = action.payload;
+      // const itemIndex = state.cartItems.findIndex(
+      //   (v) => v._id === action.payload._id
+      // );
+      // //Existing item
+      // if (itemIndex >= 0) {
+      //   // {payload : id , quantity, price}
+      //   console.log(state.cartItems[0]);
+      //   state.cartItems[itemIndex].quantity += quantity;
+      // } else {
+      //   const tempProduct = {};
+      //   state.cartItems.push(tempProduct);
+      // }
+    },
 
     //Xoá sản phẩm khỏi giỏ hàng
     removeFromCart(state, action) {
