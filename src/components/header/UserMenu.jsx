@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 //
 import {
+  getTotals,
   resetCurrentCart,
   selectCurrentCartInfo,
 } from "../../features/cart/cartSlice";

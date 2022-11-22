@@ -12,7 +12,11 @@ import {
 } from "../../features/auth/authSlice";
 import cartController from "../../features/cart/function";
 //feature
-import { addToCart } from "../../features/cart/cartSlice";
+import {
+  addToCart,
+  getTotals,
+  setQuantity,
+} from "../../features/cart/cartSlice";
 import { toast } from "react-toastify";
 
 const AddCartModal = ({ closeModal, chooseOption, product }) => {
@@ -65,6 +69,7 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
         });
         history.push("/cart");
         //dispatch(addToCart({ ...body }));
+        //dispatch(getTotals());
       })
       .catch((err) => console.log(err));
   };
