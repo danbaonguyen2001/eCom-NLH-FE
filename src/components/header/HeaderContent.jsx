@@ -142,6 +142,7 @@ const HeaderContent = () => {
 
   const cart = useSelector((state) => state.cart);
   //const [cartState,setCartState]= useState()
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   useEffect(() => {
     cartHandler
@@ -157,7 +158,7 @@ const HeaderContent = () => {
           closeOnClick: true,
         })
       );
-  }, []);
+  });
 
   // check
   useEffect(() => {
