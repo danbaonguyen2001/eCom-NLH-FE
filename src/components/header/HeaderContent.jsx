@@ -142,6 +142,7 @@ const HeaderContent = () => {
 
   const cart = useSelector((state) => state.cart);
   //const [cartState,setCartState]= useState()
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   useEffect(() => {
     cartHandler
@@ -157,7 +158,7 @@ const HeaderContent = () => {
           closeOnClick: true,
         })
       );
-  }, []);
+  });
 
   // check
   useEffect(() => {
@@ -342,8 +343,8 @@ const HeaderContent = () => {
                   <div className="cart__info">
                     {status ? (
                       <div>
-                        <h6>Số lượng: {cart?.quantity || 0}</h6>
-                        <h6>Loại: {cart?.cartItems.length || 0}</h6>
+                        <h6>Số lượng: {cart.quantity || 0}</h6>
+                        <h6>Loại: {cart.cartItems.length || 0}</h6>
 
                         <h6>{toVND(cart.total || 0)}</h6>
                       </div>
