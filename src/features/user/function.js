@@ -70,6 +70,16 @@ const userController = {
             addressId
         })
     ),
+    getAddressById: async({
+        addressId
+    }) => {
+        return await dispatch(
+            userApiSlice.endpoints.getAddressById.initiate({
+                addressId
+            })
+        )
+    },
+
 
 
 };

@@ -4,6 +4,14 @@ import userController from "../../../features/user/function";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+
+const AddressSelect = React.lazy(() =>
+  import("../../../components/register/AddressSelect")
+);
+const RadioPickup = React.lazy(() =>
+  import("../../../components/cart/subComponent/RadioPickup")
+);
+
 const Title = styled.div`
   display: flex;
   justify-content: space-between;
@@ -22,27 +30,30 @@ const DifferentWrap = styled.div`
     flex: 1;
   }
 `;
-const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
+const Info = ({ promotionList, orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
   const [currentUser, setCurrentUser] = useState({
     phone: "",
     name: "",
     address: "",
     others: "",
+    defaultAddress: "",
     discountCode: "",
     differentReceiverName: "",
     differentReceiverPhone: "",
     promotionList: [],
   });
-
   const [promotionAvailable, setPromotionAvailable] = useState(false);
   const [differentInfo, setDifferentInfo] = useState(false);
-  //   Element get
+
   useEffect(() => {
     setCurrentUser({
       ...currentUser,
       promotionList: [...promotionList],
     });
   }, [promotionList, currentUser.address, currentUser.phone, currentUser.name]);
+
+  const [pickUp, setPickUp] = useState(true);
+
   useEffect(() => {
     setOrderInfo({
       ...orderInfo,
@@ -53,35 +64,58 @@ const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
       differentReceiverPhone: currentUser.differentReceiverPhone,
     });
   }, [currentUser]);
+  useEffect(() => {
+    // change address detail
+    userController
+      .getAddressById({ addressId: currentUser?.defaultAddress })
+      .then((res) => {
+        const address = res?.data?.address;
+        setDetailAddress((prev) => {
+          return {
+            ...prev,
+            ...address,
+          };
+        });
+      })
+      .catch((e) => {
+        toast.error(
+          `Không thể tính phí ship, thử lại sau. Mã lỗi: ${e.message}`,
+          {
+            position: "top-right",
+            autoClose: 5000,
+            closeOnClick: true,
+          }
+        );
+      });
+  }, [currentUser.defaultAddress]);
   const promotionInputElement = useRef(null);
   //   Handler event
   //   Button
-  const handleAutoFillClick = async () => {
-    try {
-      const res = await userController.getUser();
-      const { status, data } = res.data;
-
-      console.log(res.data);
-
-      if (status) {
-        const defaultAddress = data?.addresses.find((v) => v.idDefault);
-        setCurrentUser({
-          ...currentUser,
-          phone: data?.phone || "Chưa cung số điện thoại",
-          name: data?.name,
-          address: defaultAddress?.address || "Chưa cung địa chỉ",
+  const handleAutoFillClick = () => {
+    userController
+      .getUser()
+      .then((res) => {
+        const user = res.data.user;
+        if (user) {
+          const defaultAddress = user.addresses.find(
+            (v) => v.idDefault === true
+          );
+          setCurrentUser({
+            ...currentUser,
+            defaultAddress: defaultAddress.detailAddress,
+            phone: user?.phone || "Chưa cung số điện thoại",
+            name: user?.name,
+            address: defaultAddress?.address || "Chưa cung địa chỉ",
+          });
+        }
+      })
+      .catch((e) => {
+        toast.warning("Thử lại sau, mã lỗi: " + e.message, {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
         });
-      } else {
-        throw new Error();
-      }
-    } catch (e) {
-      toast.warning("Thử lại sau", {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: true,
       });
-      console.log(e);
-    }
   };
   //   Input change
   const handleInputChange = (e) => {
@@ -113,6 +147,7 @@ const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
       setPromotionAvailable(false);
     }
   };
+  //
   return (
     <>
       <div className="has_cart_infor_user">
@@ -156,33 +191,13 @@ const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
             />
           </div>
         </div>
-        <span className="has_cart_infor_user_heading">
-          Chọn cách thức nhận hàng
-        </span>
-        {/* Middle control box */}
-        <div className="has_cart_infor_user_receive flex">
-          <div>
-            <input
-              type="radio"
-              id="athome"
-              name="fav_language"
-              value="athome"
-              checked
-            />
-            &nbsp;
-            <label htmlFor="athome">Giao tận nơi</label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="atstore"
-              name="fav_language"
-              value="atstore"
-            />
-            &nbsp;
-            <label htmlFor="atstore">Nhận tại siêu thị</label>
-          </div>
-        </div>
+
+        {/* SELECT PICKUP WAY */}
+        <RadioPickup setPickup={setPickUp} />
+
+        {/* ADDRESS SELECT */}
+        {Boolean(pickUp) ? <AddressSelect setValues={setDetailAddress} detailAddress={detailAddress} /> : <></>}
+
         {/* Address */}
         <div className="has_cart_infor_user_input_add">
           <input
