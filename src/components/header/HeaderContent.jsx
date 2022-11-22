@@ -156,7 +156,7 @@ const HeaderContent = () => {
           closeOnClick: true,
         })
       );
-  }, []);
+  });
 
   // check
   useEffect(() => {
