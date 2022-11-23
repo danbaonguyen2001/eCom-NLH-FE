@@ -4,7 +4,6 @@ import axios from "axios";
 import { useParams, useLocation } from "react-router-dom";
 
 import Introduce from "../components/productdetail/Introduce";
-import "../assets/css/productdetail/productdetail.css";
 import Information from "../components/productdetail/Information";
 import Feedback from "../components/productdetail/Feedback";
 import SeeMore from "../components/seemore/SeeMore";
@@ -19,7 +18,7 @@ const ProductDetail = () => {
 
   //const fakeProductId = "637349ce6e199507ee1d91b9";
 
-  console.log(location);
+  //console.log(location);
 
   const [product, setProduct] = useState();
 

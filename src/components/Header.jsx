@@ -43,7 +43,6 @@ const Header = () => {
     //     console.log(product);
     //     setProduct(product);
     //   });
-
     // productHandler.getProductsTop().then((res) => {
     //   console.log(res);
     //   const product = res.data;
@@ -51,20 +50,16 @@ const Header = () => {
     //   console.log(product);
     //   setProduct(product);
     // });
-
-    cartHandler
-      .getCurrentCart()
-      .then((res) => {
-        console.log("Get cart:");
-
-        console.log(res.data.cart);
-        dispatch(setCurrentCart(res?.data?.cart));
-        
-
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // cartHandler
+    //   .getCurrentCart()
+    //   .then((res) => {
+    //     console.log("Get cart:");
+    //     console.log(res.data.cart);
+    //     dispatch(setCurrentCart(res?.data?.cart));
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }, []);
 
   useEffect(() => {
