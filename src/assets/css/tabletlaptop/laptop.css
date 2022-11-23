@@ -37,7 +37,7 @@
 }
 .menu-top {
   background-color: #f1f1f1;
-  position: sticky;
+  /* //position: sticky; */
   top: 0;
   padding: 15px 0;
   margin: auto;

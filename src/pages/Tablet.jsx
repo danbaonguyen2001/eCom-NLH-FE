@@ -24,16 +24,17 @@ const Tablet = () => {
   const listTemp = tempList;
 
   useEffect(() => {
-    productHandler.getAllProducts().then((res) => {
-      const listProducts = res.data.products;
-      // console.log("List of products:");
-      setListProduct(res.data.products);
-      //setFilter(res.data.products);
-      setTotalQt(res.data.products);
-      // console.log(res.data);
-      // console.log(listProducts);
-    });
+    productHandler
+      .getProductsByCategory({ categoryName: "Tablet" })
+      .then((res) => {
+        //const listProducts = res.data.products;
+        //console.log(res.data);
+        setListProduct(res.data);
+        //setFilter(res.data);
+        setTotalQt(res.data);
+      });
   }, [showSub]);
+
   console.log(listProduct);
   // lọc theo giá
   const filterPrice = (priceMin, priceMax) => {

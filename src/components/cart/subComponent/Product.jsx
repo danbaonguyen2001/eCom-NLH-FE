@@ -14,22 +14,23 @@ import {
   getTotals,
   resetCurrentCart,
 } from "../../../features/cart/cartSlice";
-const Product = ({ dataProduct, setCart }) => {
+const Product = ({ dataProduct, setCart, render }) => {
   const [quantity, setQuantity] = useState(dataProduct?.item?.quantity || "1");
   const [data, setData] = useState(dataProduct?.item);
 
-  console.log(dataProduct);
-  console.log(dataProduct._id);
+  console.log(data);
+  //console.log(dataProduct._id);
   // config
   const dispatch = useDispatch();
   // content
   // const availableQuantity = data?.productColor.quantity;
   // const currentProductId = data?.productColor.id;
-  const availableQuantity = data?.quantity;
+  const availableQuantity = dataProduct?.item?.countInStock;
   const currentProductId = data?.color;
+  //console.log(availableQuantity);
 
   const handleIncrease = async () => {
-    if (availableQuantity >= quantity) {
+    if (availableQuantity > quantity) {
       setQuantity(quantity + 1);
 
       cartController

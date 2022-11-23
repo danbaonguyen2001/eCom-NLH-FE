@@ -6,6 +6,7 @@ const initialState = {
   quantity: 0,
   shipFee: 0,
   total: 0,
+  render: true,
 };
 
 const cartSlice = createSlice({
@@ -67,6 +68,7 @@ const cartSlice = createSlice({
       //   state.cartItems[0].item.push(action.payload);
       //   //state.quantity += quantity;
       // }
+      state.quantity = action.payload;
     },
 
     //Xoá sản phẩm khỏi giỏ hàng
@@ -122,6 +124,11 @@ const cartSlice = createSlice({
     setQuantity(state, action) {
       state.quantity += action.payload;
     },
+
+    setRender(state, action) {
+      state.render = !state.render;
+      console.log(state.render);
+    },
   },
 });
 
@@ -135,6 +142,7 @@ export const {
   getTotals,
   resetCurrentCart,
   setQuantity,
+  setRender,
 } = cartSlice.actions;
 export default cartSlice.reducer;
 

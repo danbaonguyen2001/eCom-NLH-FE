@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import {
   selectCurrentCartLength,
   setCurrentCart,
+  setRender,
 } from "../features/cart/cartSlice";
 
 const Cart = () => {
@@ -26,10 +27,10 @@ const Cart = () => {
       const res = await cartHandler.getCurrentCart();
 
       try {
-        setCart(res?.data.cart);
+        setCart(res.data.cart);
         //console.log(res.data.cart);
         // set
-        dispatch(setCurrentCart(res?.data.cart));
+        dispatch(setCurrentCart(res.data.cart));
       } catch (e) {
         toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
           position: "top-right",

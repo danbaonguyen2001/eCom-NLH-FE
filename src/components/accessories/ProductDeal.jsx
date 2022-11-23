@@ -45,6 +45,18 @@ const ProductDeal = () => {
     });
   }, [showSub]);
 
+  // useEffect(() => {
+  //   productHandler
+  //     .getProductsByCategory({ categoryName: "Điện thoại" })
+  //     .then((res) => {
+  //       //const listProducts = res.data.products;
+  //       //console.log(res.data);
+  //       setListProduct(res.data);
+  //       //setFilter(res.data);
+  //       //setTotalQt(res.data);
+  //     });
+  // }, [showSub]);
+
   return (
     <div className="deal-main">
       <h2 className="deal-title">

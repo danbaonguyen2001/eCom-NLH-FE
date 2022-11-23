@@ -12,7 +12,11 @@ import { toast } from "react-toastify";
 // Function
 import authController from "../features/auth/functions";
 import cartHandler from "../features/cart/function";
-import { getTotals, setCurrentCart } from "../features/cart/cartSlice";
+import {
+  getTotals,
+  setCurrentCart,
+  setRender,
+} from "../features/cart/cartSlice";
 
 const Login = () => {
   // check login
@@ -60,6 +64,19 @@ const Login = () => {
       if (result) {
         //redirect
         history.push("/");
+        cartHandler
+          .getCurrentCart()
+          .then((res) => {
+            dispatch(setCurrentCart(res.data.cart));
+          })
+          .catch((e) =>
+            toast.error(`Không lấy được thông tin giỏ hàng cũ`, {
+              toastId: 99,
+              position: "top-right",
+              autoClose: 5000,
+              closeOnClick: true,
+            })
+          );
       } else {
         toast.error("Đăng nhập thất bại !", {
           position: "top-right",

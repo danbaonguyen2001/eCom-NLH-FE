@@ -20,15 +20,15 @@ const Laptop = () => {
   const [listProduct, setListProduct] = useState(0);
 
   useEffect(() => {
-    productHandler.getAllProducts().then((res) => {
-      const listProducts = res.data.products;
-      //console.log("List of products:");
-      setListProduct(res.data.products);
-      //setFilter(res.data.products);
-      setTotalQt(res.data.products);
-      // console.log(res.data);
-      // console.log(listProducts);
-    });
+    productHandler
+      .getProductsByCategory({ categoryName: "Laptop" })
+      .then((res) => {
+        //const listProducts = res.data.products;
+        //console.log(res.data);
+        setListProduct(res.data);
+        //setFilter(res.data);
+        setTotalQt(res.data);
+      });
   }, []);
   return (
     <div>
@@ -104,7 +104,8 @@ const Laptop = () => {
           </a>
         </div>
       </div>
-      <div className="the3_deal" id="dealsoc">
+
+      {/* <div className="the3_deal" id="dealsoc">
         <div className="thecondealx">
           <div className="deal_title">
             <span className="txtDs">Deal sốc</span>
@@ -115,12 +116,12 @@ const Laptop = () => {
             alt=""
           />
 
-          {/* đưa list product dô       */}
+          
           {listProduct.length > 0 && (
             <Product list={listProduct} qt={totalQt} />
           )}
         </div>
-      </div>
+      </div> */}
       <div className="the4_gamming" id="gaming">
         <div className="thecongamingx">
           <div className="block_bannergaming">

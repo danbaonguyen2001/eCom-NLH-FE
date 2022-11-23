@@ -4,13 +4,6 @@ export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // By Id
     getProductById: builder.query({
-      // old
-      //   query: ({ productId }) => `/product/${productId}`,
-      //   transformResponse: (res) => ({
-      //     status: res.status,
-      //     data: res.data,
-      //   }),
-
       //New
       query: ({ productId }) => ({
         url: `http://localhost:5000/api/products/${productId}`,
@@ -20,19 +13,6 @@ export const productApiSlice = apiSlice.injectEndpoints({
 
     // By keyword
     getProductsList: builder.query({
-      // common key : keyword
-      // {manufacturerId,categoryId,subCategoryId,page,size}
-      //
-      //   Old
-      //   query: (inputData) => ({
-      //     url: `/product`,
-      //     params: { ...inputData },
-      //   }),
-      //   transformResponse: (res) => ({
-      //     status: res.status,
-      //     data: res.data,
-      //   }),
-
       //New
       query: (inputData) => ({
         url: `http://localhost:5000/api/products`,
@@ -42,9 +22,9 @@ export const productApiSlice = apiSlice.injectEndpoints({
 
     //By Category
 
-    getProductsByCate: builder.query({
-      query: (categoryID) => ({
-        url: `http://localhost:5000/api/products/${categoryID}`,
+    getProductsByCategory: builder.query({
+      query: ({ categoryName }) => ({
+        url: `http://localhost:5000/api/products/category/${categoryName}`,
         method: "GET",
       }),
     }),
