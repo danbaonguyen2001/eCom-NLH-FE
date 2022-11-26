@@ -23,12 +23,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         getOrderInfo: builder.query({
             query: ({
                 orderId
-            }) => `/order/${orderId}`,
-            transformResponse: (res) => ({
-                status: res.status,
-                message: res.message,
-                data: res.data,
-            }),
+            }) => `http://localhost:5000/api/orders/${orderId}`,
         }),
         // get Order Status (pending,processing,complete,cancel,delivery,paid,unpaid)
         filterOrderStatus: builder.query({
@@ -54,18 +49,14 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         }),
         // User
         // Make a order
-        orderByCod: builder.query({
+        placeOrder: builder.query({
             query: (inputData) => ({
-                url: `/order`,
+                url: `http://localhost:5000/api/orders`,
                 method: "POST",
                 body: {
                     ...inputData
                 },
-            }),
-            transformResponse: (res) => ({
-                data: res.data,
-                status: res.status,
-            }),
+            })
         }),
         // Cancel cod order
         cancelCodOrder: builder.query({

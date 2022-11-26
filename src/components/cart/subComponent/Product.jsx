@@ -18,8 +18,6 @@ const Product = ({ dataProduct, setCart }) => {
   const [quantity, setQuantity] = useState(dataProduct?.item?.quantity || "1");
   const [data, setData] = useState(dataProduct?.item);
 
-  console.log(dataProduct);
-  console.log(dataProduct._id);
   // config
   const dispatch = useDispatch();
   // content

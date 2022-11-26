@@ -3,13 +3,10 @@ import { toast } from "react-toastify";
 import { getDistrict, getWard, getProvince } from "../../apis/apiShipment";
 import "../../sass/auth/_register.scss";
 import { FormControl, InputLabel, NativeSelect, Box } from "@mui/material";
+import userController from "../../features/user/function";
 
-const AddressSelect = ({
-  setValues,
-  detailAddress,
-  addressBtStatus,
-  addressEdit,
-}) => {
+const AddressSelect = ({ setValues, addressBtStatus, addressEdit }) => {
+  const [detailAddress, setDetailAddress] = useState({});
   // ADDRESS STATE
   const [provinces, setProvinces] = useState([]);
   const [province, setProvince] = useState({
@@ -28,42 +25,71 @@ const AddressSelect = ({
   });
   // ADDRESS FETCH
   useEffect(() => {
-    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
-      toastId: 88,
-      autoClose: 5000,
-      closeOnClick: true,
-    });
-    // First initial
-    if (addressBtStatus == "Edit") {
-      setProvince({
-        ...province,
-        ID:
-          detailAddress?.detailAddress?.province?.provinceID ||
-          detailAddress?.province?.provinceID,
-        value:
-          detailAddress?.detailAddress?.province?.provinceName ||
-          detailAddress?.province?.provinceName,
-      });
-    } else if (!province.ID) {
-      getProvince()
-        .then((res) => {
-          const { data } = res.data;
+    getProvince().then((res) => {
+      const { data } = res.data;
+      setProvinces(data);
+      if (addressEdit && addressEdit != "") {
+        userController
+          .getAddressById({ addressId: addressEdit })
+          .then((res) => {
+            const address = res.data.address;
 
-          setProvinces(data);
-          setProvince({
-            ID: data[0]?.ProvinceID,
-            value: data[0]?.ProvinceName,
+            setWard({
+              ID: address?.ward?.wardCode,
+              value: address?.ward.wardName,
+            });
+            setProvince({
+              ID: address?.province?.provinceID,
+              value: address?.province.provinceName,
+            });
+            setDistrict({
+              ID: address?.district?.districtID,
+              value: address?.district.districtName,
+            });
+          })
+          .catch((e) => {
+            toast.error(`Lỗi không thể lấy địa chỉ phù hợp`, {
+              autoClose: 5000,
+              closeOnClick: true,
+              position: "top-right",
+            });
           });
-        })
-        .catch((err) => {
-          toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
-            toastId: 99,
-            autoClose: 5000,
-            closeOnClick: true,
-          });
+      } else {
+        setProvince({
+          ID: data[0].ProvinceID,
+          value: data[0].ProvinceName,
         });
+      }
+    });
+  }, [addressEdit]);
+  useEffect(() => {
+    if (province.ID) {
+      getDistrict(province.ID).then((res) => {
+        const { data } = res.data;
+        setDistricts(data);
+        if ((!addressEdit ) || district.ID == "" || (district.ID && addressEdit)) {
+          setDistrict({
+            ID: data[0]?.DistrictID,
+            value: data[0]?.DistrictName,
+          });
+        }
+      });
     }
-  }, [addressEdit, detailAddress]);
+  }, [province.ID]);
+  useEffect(() => {
+    if (district.ID) {
+      getWard(district.ID).then((res) => {
+        const { data } = res.data;
+        setWards(data);
+        if ((!addressEdit || ward.ID == "") || (ward.ID && addressEdit) ) {
+          setWard({
+            ID: data[0]?.WardCode,
+            value: data[0]?.WardName,
+          });
+        }
+      });
+    }
+  }, [district.ID, province.ID]);
   useEffect(() => {
     toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
       toastId: 88,
@@ -81,61 +107,8 @@ const AddressSelect = ({
           detailAddress?.detailAddress?.district.districtName ||
           detailAddress?.district?.districtName,
       });
-    } else if (province.ID) {
-      getDistrict(province.ID)
-        .then((res) => {
-          const { data } = res.data;
-          setDistricts(data);
-          setDistrict({
-            ID: data[0]?.DistrictID,
-            value: data[0]?.DistrictName,
-          });
-        })
-        .catch((err) => {
-          toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
-            toastId: 99,
-            autoClose: 5000,
-            closeOnClick: true,
-          });
-        });
     }
   }, [province.ID]);
-  useEffect(() => {
-    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
-      toastId: 88,
-      autoClose: 5000,
-      closeOnClick: true,
-    });
-    if (addressBtStatus == "Edit" && !ward.ID) {
-      setWard({
-        ...ward,
-        ID:
-          detailAddress?.detailAddress?.ward?.wardCode ||
-          detailAddress?.ward?.wardCode,
-        value:
-          detailAddress?.detailAddress?.ward?.wardName ||
-          detailAddress?.ward?.wardName,
-      });
-    } else if (district.ID) {
-      getWard(district.ID)
-        .then((res) => {
-          const { data } = res.data;
-          setWard({
-            ID: data[0]?.WardCode,
-            value: data[0]?.WardName,
-          });
-
-          setWards(data);
-        })
-        .catch((err) => {
-          toast.info(`Lỗi không thể lấy địa chỉ: ${err?.message}`, {
-            toastId: 99,
-            autoClose: 5000,
-            closeOnClick: true,
-          });
-        });
-    }
-  }, [district.ID, province.ID]);
   useEffect(() => {
     setValues((prev) => {
       return {
@@ -293,7 +266,7 @@ const AddressSelect = ({
           <option value={`${ward?.ID || "DEFAULT"}`} disabled>
             {ward?.value}
           </option>
-          {wards.map((v, i) => {
+          {wards?.map((v, i) => {
             return (
               <option
                 selected={v.WardCode == ward.ID}

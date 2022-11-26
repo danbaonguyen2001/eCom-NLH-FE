@@ -37,7 +37,7 @@ const HasProduct = ({ cart, setCart }) => {
     differentReceiverPhone: "",
     items: [
       {
-        productColorId: 0,
+        itemID: 0,
         quantity: 0,
       },
     ],
@@ -46,26 +46,21 @@ const HasProduct = ({ cart, setCart }) => {
   });
 
   useEffect(() => {
-    // get promotion list
-    const promotionsGet = cart.map((v) => {
-      return v;
-      // return v?.item.promotion;
-    });
+    const arrCart =  cart.map(v=>{
+      return{
+        price:v?.item?.price,
+        quantity:v?.item?.quantity,
+        itemID: v?._id,
+      }
+    })
 
-    setPromotionList([...promotionList, ...promotionsGet]);
+    setProductListInfo(arrCart)
 
-    setProductListInfo(cart);
-  }, [cart]);
-
-  useEffect(() => {
-    const totalGet = cart.reduce(
+    const totalGet = arrCart.reduce(
       (prev, curr) => {
-        const currQuantity =
-          productListInfo.find((v) => v._id == curr.item?.color?._id)
-            ?.quantity || 0;
         return {
-          total: prev.total + curr.item?.price * currQuantity,
-          quantity: prev.quantity + currQuantity,
+          total: prev.total + (curr.price * curr.quantity),
+          quantity: prev.quantity +  curr?.quantity,
         };
       },
       {
@@ -74,61 +69,56 @@ const HasProduct = ({ cart, setCart }) => {
       }
     );
 
+
     setCartInfo({
+      ...cartInfo,
       ...totalGet,
     });
-
+    
     // set order info
-    const validInputArray = productListInfo.map((v) => ({
-      color: v._id,
-      quantity: v.quantity,
-    }));
     setOrderInfo({
       ...orderInfo,
-      items: [...validInputArray],
+      items: [...arrCart],
     });
-  }, [productListInfo, detailAddress]);
+  }, [ cart ]);
   useMemo(() => {
     // get Ship fee
     // sample input ship fee
     let insuranceValue;
-    const getAddress = detailAddress?.detailAddress
-      ? {
-          ...detailAddress.detailAddress,
-        }
-      : {
-          ...detailAddress,
-        };
     const input = {
       wt: 50,
       wh: 20,
       l: 20,
       h: 50,
-      ward: getAddress?.ward?.wardCode,
-      district: getAddress?.district?.districtID,
+      ward: detailAddress?.ward?.wardCode,
+      district: detailAddress?.district?.districtID,
       insurance_value: insuranceValue || 100000,
     };
     const fetchShip = async (input) => await getShipFee(input);
     fetchShip(input)
       .then((res) => {
-        const { total: totalFee, service_fee } = res?.data?.data;
+        const { total } = res?.data?.data;
         setOrderInfo({
           ...orderInfo,
-          shippingPrice: service_fee,
+          shippingPrice: total,
         });
         setCartInfo((prev) => {
           return {
             ...prev,
-            serviceFee: service_fee,
+            serviceFee: total,
           };
         });
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        toast.error(`Địa chỉ này chưa hỗ trợ giao hàng, phí vận chuyển sẽ được nhân viên giao hàng báo và thu trực tiếp`,{
+          position:"top-right",
+          autoClose:5000,
+          toastId:99,
+          closeOnClick:true,
+        })
       });
   }, [
-    detailAddress?.detailAddress?.district?.districtID,
-    detailAddress?.detailAddress?.ward?.wardCode,
+    detailAddress?.district?.districtID,
   ]);
   return (
     <div className="has_cart  ">

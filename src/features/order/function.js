@@ -13,39 +13,12 @@ const orderController = {
       })
     ),
   //get Order Info function
-  getOrderInfo: async ({ orderId }) => {
-    let result = {
-      status: false,
-      message: "",
-      data: [],
-    };
-    let response = await dispatch(
+  getOrderInfo: async ({ orderId }) =>
+    await dispatch(
       orderApiSlice.endpoints.getOrderInfo.initiate({
         orderId,
       })
-    );
-    // console.log(response);
-    try {
-      let { status, message, data } = response.data;
-      if (status === true) {
-        result.status = status;
-        result.data = data;
-        result.message = message;
-      } else {
-        console.log("Cant get order info");
-      }
-    } catch (e) {
-      if (!e?.response) {
-        console.log("No Server Response");
-      } else if (e.response?.status === 400) {
-        console.log("Missing Input");
-      } else if (e.response?.status === 401) {
-      } else {
-        console.log("Get Info Failed");
-      }
-    }
-    return result;
-  },
+    ),
   // filter Order Status page, size, status
   filterOrder: async ({ page, size, status }) => {
     let result = {
@@ -82,12 +55,8 @@ const orderController = {
     return result;
   },
   handlerMakeOrder: async (inputData) => {
-    let result = {
-      status: false,
-      data: [],
-    };
-    const res = await dispatch(
-      orderApiSlice.endpoints.orderByCod.initiate({
+    const query = dispatch(
+      orderApiSlice.endpoints.placeOrder.initiate({
         ...inputData,
       })
     );
@@ -96,45 +65,43 @@ const orderController = {
         isLoading: true,
       })
     );
-
-    try {
-      const { status, data } = res.data;
-      if (status) {
-        dispatch(
-          setState({
-            isSuccess: true,
-            isLoading: false,
-          })
-        );
-
-        result.data = data;
-        result.status = status;
-      } else {
+    query
+      .then((res) => {
+        const { success } = res.data;
+        console.log(res);
+        if (success)
+          dispatch(
+            setState({
+              isSuccess: true,
+              isLoading: false,
+            })
+          );
+        else
+          dispatch(
+            setState({
+              isLoading: false,
+              isError: true,
+            })
+          );
+      })
+      .catch((e) => {
+        console.log(e);
         dispatch(
           setState({
             isLoading: false,
             isError: true,
           })
         );
+      })
+      .finally(() =>
+        dispatch(
+          setState({
+            isLoading: false,
+          })
+        )
+      );
 
-        console.log("Cant make a cod order");
-      }
-    } catch (e) {
-      console.log(e);
-      dispatch(
-        setState({
-          isLoading: false,
-          isError: true,
-        })
-      );
-    } finally {
-      dispatch(
-        setState({
-          isLoading: false,
-        })
-      );
-    }
-    return result;
+    return query;
   },
   handlerCancelCodOrder: async (inputData) => {
     const { orderId } = inputData;

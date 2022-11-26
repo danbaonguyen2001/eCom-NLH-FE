@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useEffect } from "react";
 // component
 const DigitalWalletBox = styled.div`
   display: flex;
@@ -30,9 +31,33 @@ const OrderConfirm = ({ cartInfo, orderInfo }) => {
   const history = useHistory();
   //
   const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [orderInput, setOrderInput] = useState({
+    shippingAddress: {},
+    paymentMethod: false,
+    itemsPrice: 0,
+    taxPrice: 0,
+    shippingPrice: "",
+    totalPrice: 0,
+    voucher: "",
+  });
   //
-    
-  const handleOrderButtonClick = async () => {
+  useEffect(() => {
+    console.log(orderInfo);
+    setOrderInput({
+      shippingAddress:{
+        address:orderInfo?.deliveryAddress,
+        country:"Việt Nam",
+        city:orderInfo?.deliveryAddress?.split(",")[3]?.trim()
+      } ,
+      paymentMethod: paymentMethod !== "cod",
+      itemsPrice: cartInfo?.total,
+      taxPrice: 0,
+      shippingPrice: cartInfo?.serviceFee || 0,
+      totalPrice: cartInfo?.total + (cartInfo?.serviceFee || 0),
+      voucher: 0,
+    });
+  }, [cartInfo, orderInfo]);
+  const handleOrderButtonClick = () => {
     if (orderInfo.deliveryAddress.trim().length === 0) {
       toast.warning(`Đừng bỏ trống địa chỉ giao hàng nhé`, {
         position: "top-right",
@@ -40,40 +65,41 @@ const OrderConfirm = ({ cartInfo, orderInfo }) => {
         closeOnClick: true,
       });
     } else {
-      try {
-        const res = await orderController.handlerMakeOrder({
-          ...orderInfo,
-          totalPrice: cartInfo.total,
-          paymentMethod,
-        });
-
-        const { status, data } = res;
-
-        if (status && paymentMethod == "cod") {
-          toast.success(`Đặt hàng thành công. Nhớ kiểm tra mail nhé`, {
-            position: "top-right",
-            autoClose: 5000,
-            closeOnClick: true,
-          });
-          history.push(`/redirect/order?orderId=${data}`);
-        } else if (status && paymentMethod != "cod") {
-          // Digital wallet
-          window.open(data);
-        } else {
+      //   const {
+      // shippingAddress,
+      // paymentMethod,
+      // itemsPrice,
+      // taxPrice,
+      // shippingPrice,
+      // totalPrice,
+      // voucher,
+      // } = req.body
+      console.log({ orderInput });
+      orderController
+        .handlerMakeOrder(orderInput)
+        .then((res) => {
+          console.log(res);
+          const { success, order } = res?.data;
+          if (success) {
+            toast.success(`Đặt hàng thành công. Nhớ kiểm tra mail nhé`, {
+              position: "top-right",
+              autoClose: 5000,
+              closeOnClick: true,
+            });
+            if (paymentMethod === "cod") {
+              history.push(`/redirect/order?orderId=${order?._id}`);
+            } else {
+              alert("Open paypal");
+            }
+          }
+        })
+        .catch((e) =>
           toast.error(`Có gì trục trặc rồi thử lại sau`, {
             position: "top-right",
             autoClose: 5000,
             closeOnClick: true,
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        toast.error(`Lỗi hệ thống thử lại sau`, {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-        });
-      }
+          })
+        );
     }
   };
   return (
@@ -157,7 +183,9 @@ const OrderConfirm = ({ cartInfo, orderInfo }) => {
 
       <div className="has_cart_total_price_text flex">
         <span>Tổng tiền phải trả</span>
-        <span className="total_price">{toVND(cartInfo.total + cartInfo.serviceFee)}</span>
+        <span className="total_price">
+          {toVND(cartInfo.total + cartInfo.serviceFee)}
+        </span>
       </div>
 
       {/* Button */}
