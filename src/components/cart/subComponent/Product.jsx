@@ -18,7 +18,7 @@ const Product = ({ dataProduct, setCart, render }) => {
   const [quantity, setQuantity] = useState(dataProduct?.item?.quantity || "1");
   const [data, setData] = useState(dataProduct?.item);
 
-  console.log(data);
+  //console.log(data);
   //console.log(dataProduct._id);
   // config
   const dispatch = useDispatch();

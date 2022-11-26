@@ -143,6 +143,7 @@ const HeaderContent = () => {
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
+    console.log("Render get cart");
     dispatch(getTotals());
   }, [cart]);
 
