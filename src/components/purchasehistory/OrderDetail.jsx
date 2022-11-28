@@ -7,6 +7,13 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toDate, toVND } from "../../utils/format";
+import ProductItem from "./subcomponents/ProductItem";
+const OrderInfo = React.lazy(() =>
+  import("../cart/subComponent/OrderInfo/OrderInfo")
+);
+const OrderState = React.lazy(() =>
+  import("../cart/subComponent/OrderInfo/OrderState")
+);
 //
 const CancelButton = styled.span`
   border: 1px solid red;
@@ -24,6 +31,7 @@ const CancelButton = styled.span`
   }
 `;
 //
+
 const OrderDetail = ({ orderId }) => {
   const history = useHistory();
   //
@@ -34,24 +42,22 @@ const OrderDetail = ({ orderId }) => {
   // cancel state
   const [disableCancel, setDisableCancel] = useState(false);
   useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const res = await orderController.getOrderInfo({ orderId });
-        const { status, data } = res;
-        console.log(res);
-        if (status) {
-          setOrderData(data?.orders);
-          setItemsData(data?.items);
+    orderController
+      .getOrderInfo({ orderId })
+      .then((res) => {
+        const { success, order } = res?.data;
+        if (success) {
+          setOrderData(order);
+          setItemsData(order?.orderItems);
         }
-      } catch (e) {
+      })
+      .catch((e) => {
         toast.error(`Không thể tải dữ liệu đơn hàng thử lại`, {
           closeOnClick: true,
           autoClose: 5000,
           position: "top-right",
         });
-      }
-    };
-    fetchOrder();
+      });
   }, [orderId]);
   const handleCancelOrder = async () => {
     const paymentMethod = orderData?.orderdetail?.payment?.name;
@@ -75,7 +81,7 @@ const OrderDetail = ({ orderId }) => {
             const res = await orderController.handlerCancelCodOrder({
               orderId,
             });
-            console.log(res)
+            console.log(res);
             res &&
               toast.success(`Hủy đơn hàng thành công`, {
                 closeOnClick: true,
@@ -115,155 +121,12 @@ const OrderDetail = ({ orderId }) => {
         </div>
       </div>
       {/* List content */}
-      {itemsData?.map((item, index) => {
-        return (
-          <li style={{ listStyle: "none" }} key={index}>
-            <div className="line"></div>
+      {orderData?.orderItems?.map((item, index) => <ProductItem key={index} item={item}/>)}
 
-            <div className="order_detail_list">
-              <div className="order_detail_list_item flex">
-                <div className="order_detail_list_item_img">
-                  {
-                    item.product.productImages?.map(i => (
-                      (i.id === item.productColor.id ? <img className="order_detail_img" src={i.urlImage} alt="loading" /> : null)
-                    ))
-                  }
-                 
-                </div>
-                <div className="order_detail_list_item_infor">
-                  <h5 className="mg_b_10">
-                    {item?.itemName || "Đang cập nhật"}
-                  </h5>
-                  <h6 className="mg_b_10">
-                    {`Màu: ${
-                      item?.productColor?.color?.name || "Đang cập nhật"
-                    }`}
-                  </h6>
-                  <h6 className="mg_b_10">
-                    {`Loại: ${
-                      item?.productOption?.optionName || "Đang cập nhật"
-                    }`}
-                  </h6>
-                  <h6 className="mg_b_10">
-                    {`Số lượng: ${item?.quantity || "Đang cập nhật"}`}
-                  </h6>
-                  <h6 className="mg_b_10">
-                    {`Giá niêm yết: ${
-                      toVND(item?.productOption?.price) || "Đang cập nhật"
-                    }`}
-                  </h6>
-                  <h6 className="mg_b_10">
-                    {`Thương hiệu: ${
-                      item?.product?.manufacturer?.name || "Đang cập nhật"
-                    }`}
-                  </h6>
-                  <h6 className="mg_b_10">
-                    {`Hệ điều hành: ${
-                      item?.product?.subcategory?.categoryName ||
-                      "Đang cập nhật"
-                    }`}
-                  </h6>
+      {/*Order Info */}
+      <OrderInfo orderData={orderData} />
+      <OrderState orderData={orderData} />
 
-                  <h6>
-                    <i class="fa-solid fa-circle mg_r_5"></i>
-                    Giảm 500.000 khi toán bằng zalo pay
-                  </h6>
-                </div>
-                <div className="order_detail_list_item_price">
-                  <h5 className="text_primary">
-                    {toVND(item?.totalPrice) || "Đang cập nhật"}
-                  </h5>
-                </div>
-              </div>
-            </div>
-          </li>
-        );
-      })}
-      <div className="line"></div>
-      <div className="order_detail_total_price flex">
-        {/* Pay State */}
-        {paymentMethod == "cod" ? (
-          <h6>Đơn hàng chưa được thanh toán</h6>
-        ) : (
-          <div>
-            <div style={{ display: "flex" }}>
-              <h6>Đơn hàng đã được thanh toán bằng &nbsp;</h6>
-              <h6 style={{ fontWeight: "bold", fontSize: "14px" }}>
-                {orderData?.orderdetail?.payment?.name.toUpperCase()}
-              </h6>
-            </div>
-            <h6>Mã thanh toán: {orderData?.paymentId}</h6>
-          </div>
-        )}
-        {/* Total */}
-        <div>
-          <h5>Tổng tiền</h5>
-          <h5 className="text_primary">
-            {toVND(orderData?.orderdetail?.totalPrice) || "Đang cập nhật"}
-          </h5>
-        </div>
-      </div>
-
-      <div className="line"></div>
-      {/* Info */}
-      <div className="order_detail_infor">
-        <div className="order_detail_infor_header">
-          <h5>Địa chỉ và thông tin người nhận hàng : </h5>
-        </div>
-        <h6 className="mg_b_10">
-          <i class="fa-solid fa-user mg_r_5"></i>
-          {`${orderData?.orderUser?.name} - ${
-            orderData?.orderUser?.phone || "Chưa cung cấp số điện thoại"
-          } - ${orderData?.orderUser?.email || "Chưa cung cấp email"}`}
-        </h6>
-
-        <h6 className="mg_b_10">
-          <i class="fa-solid fa-location-dot mg_r_5"></i>
-          {orderData?.orderdetail?.deliveryAddress || "Đang cập nhật"}
-        </h6>
-
-        {/* Thời gian nhận hàng */}
-        {/* 6 : Sunday */}
-
-        <h6>
-          <i class="fa-solid fa-clock mg_r_5"></i>
-
-          {`Đơn hàng đặt lúc: ${toDate(date) || "Đang cập nhật"}`}
-        </h6>
-        <h6>
-          <i class="fa-solid fa-clock-rotate-left mg_r_5"></i>
-
-          {`Được xác nhận lúc: Sau 30 phút làm việc ngày ${
-            toDate(date) || "Đang cập nhật"
-          }`}
-        </h6>
-        <h6>
-          <i class="fa-solid fa-truck mg_r_5"></i>
-          Thời gian nhận hàng: Trước{" "}
-          {(date.getDay() == 6
-            ? toDate(date.setDate(date.getDate() + 4))
-            : date.getDay() == 5
-            ? toDate(date.setDate(date.getDate() + 5))
-            : toDate(date.setDate(date.getDate() + 3))) || "Đang cập nhật"}
-        </h6>
-      </div>
-      <div className="line"></div>
-
-      <div className="flex_center" style={{ justifyContent: "space-between" }}>
-        <button
-          className="order_detail_btn btn"
-          onClick={() => history.push("/purchasehistory/product")}
-        >
-          Quay lại danh sách đơn hàng
-        </button>
-        <CancelButton
-          style={disableCancel ? { pointerEvents: "none", opacity: 0.6 } : {}}
-          onClick={handleCancelOrder}
-        >
-          {" "}
-          Hủy đơn{" "}
-        </CancelButton>
-      </div>
     </div>
   );
 };
