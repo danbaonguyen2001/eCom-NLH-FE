@@ -14,7 +14,7 @@ import {
   getTotals,
   resetCurrentCart,
 } from "../../../features/cart/cartSlice";
-const Product = ({ dataProduct, setCart }) => {
+const Product = ({ dataProduct, setCart, render }) => {
   const [quantity, setQuantity] = useState(dataProduct?.item?.quantity || "1");
   const [data, setData] = useState(dataProduct?.item);
 
@@ -23,11 +23,12 @@ const Product = ({ dataProduct, setCart }) => {
   // content
   // const availableQuantity = data?.productColor.quantity;
   // const currentProductId = data?.productColor.id;
-  const availableQuantity = data?.quantity;
+  const availableQuantity = dataProduct?.item?.countInStock;
   const currentProductId = data?.color;
+  //console.log(availableQuantity);
 
   const handleIncrease = async () => {
-    if (availableQuantity >= quantity) {
+    if (availableQuantity > quantity) {
       setQuantity(quantity + 1);
 
       cartController

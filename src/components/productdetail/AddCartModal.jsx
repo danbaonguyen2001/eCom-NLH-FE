@@ -16,6 +16,7 @@ import {
   addToCart,
   getTotals,
   setQuantity,
+  setRender,
 } from "../../features/cart/cartSlice";
 import { toast } from "react-toastify";
 
@@ -25,7 +26,7 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const productColorList = product?.productOptions[chooseOption]?.colors;
-  console.log(productColorList);
+  console.log(product);
   // input
   const [body, setBody] = useState({
     product: product?._id,
@@ -41,7 +42,7 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
 
   console.log(body);
   // console.log(productColorList);
-  // console.log(availableQuantity);
+  //console.log(availableQuantity);
 
   // event handler
   const handleAddToCart = () => {
@@ -67,8 +68,9 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
           closeOnClick: true,
         });
         history.push("/cart");
-        //dispatch(addToCart({ ...body }));
+        //dispatch(addToCart({ quantity: body.quantity }));
         //dispatch(getTotals());
+        //window.location.reload(false);
       })
       .catch((err) => console.log(err));
   };

@@ -6,6 +6,12 @@ import Banner from "../components/phone/Banner";
 import productHandler from "../features/product/function";
 import Product from "../components/phone/Product";
 import ListProduct from "../components/ListProduct";
+import {
+  FormControl,
+  InputLabel,
+  NativeSelect,
+  Select,
+} from "@material-ui/core";
 
 const manufactor = ["Iphone", "Sam Sung", "Vivo", "Xiaomi", "Oppo"];
 
@@ -26,13 +32,15 @@ const Phone = () => {
   const [filter, setFilter] = useState(0);
 
   useEffect(() => {
-    productHandler.getAllProducts().then((res) => {
-      const listProducts = res.data.products;
-
-      setListProduct(res.data.products);
-      setFilter(res.data.products);
-      setTotalQt(res.data.products);
-    });
+    productHandler
+      .getProductsByCategory({ categoryName: "Điện thoại" })
+      .then((res) => {
+        //const listProducts = res.data.products;
+        //console.log(res.data);
+        setListProduct(res.data);
+        setFilter(res.data);
+        setTotalQt(res.data);
+      });
   }, [showSub]);
 
   // lọc theo giá
@@ -228,48 +236,20 @@ const Phone = () => {
                 </div>
               </div>
             </div>
+            {/* 
+            <InputLabel htmlFor="selectManu">Hãng</InputLabel>
+            <NativeSelect id="selectManu">
+              <option value="">Tất cả</option>
+              <option value="10">Iphone</option>
+              <option value="20">Samsung</option>
+            </NativeSelect>
 
-            {/* <div className="phone_hangx">
-              <button
-                className="phone_item_btn"
-                onClick={() => {
-                  setActive(!active);
-                  setSelected("hang");
-                }}
-              >
-                Hãng&nbsp;
-                <i className="fa-solid fa-caret-down"></i>
-              </button>
-              <div className="phone_thechuakhoangtrong">
-                {setSelected === "hang" && active ? (
-                  <div
-                    // className={
-                    //   selected === "hang"
-                    //     ? `phone_theconcuahang active`
-                    //     : `phone_theconcuahang`
-                    // }
-                    className="phone_theconcuahang active"
-                    ref={btnRef}
-                  >
-                    <div
-                      className="phone_box_quicklinkhang"
-                      // className="phone_theconcuahang"
-                    >
-                      <button className="phone_quicklink">iPhone</button>
-                      <button className="phone_quicklink">Samsung</button>
-                      <button className="phone_quicklink">Xiaomi</button>
-                      <button className="phone_quicklink">Lenovo</button>
-                      <button className="phone_quicklink">Masstel</button>
-                      <button className="phone_quicklink">Nokia</button>
-                      <button className="phone_quicklink">Huawei</button>
-                      <button className="phone_quicklink">Alcate</button>
-                    </div>
-                  </div>
-                ) : (
-                  "Test"
-                )}
-              </div>
-            </div> */}
+            <InputLabel htmlFor="selectSub">Hệ điều hành</InputLabel>
+            <NativeSelect id="selectSub">
+              <option value="">Tất cả</option>
+              <option value="10">Android</option>
+              <option value="20">IOS</option>
+            </NativeSelect> */}
 
             <div className="phone_giax">
               <button
@@ -285,60 +265,6 @@ const Phone = () => {
               </button>
 
               <div className="phone_thechuakhoangtrong">
-                {/* {(setSelected === "gia") & active ? (
-                  <div
-                    // className={
-                    //   selected === "gia"
-                    //     ? `phone_thecongia active`
-                    //     : `phone_thecongia`
-                    // }
-                    className="phone_thecongia active"
-                    ref={btnRef}
-                  >
-                    <div>
-                      <div className="phone_box_quicklinkgia">
-                        <button
-                          className="phone_btnconmenu"
-                          onClick={() => filterPrice(0, 5000000)}
-                        >
-                          Dưới 5 triệu
-                        </button>
-                        <button
-                          className="phone_btnconmenu"
-                          onClick={() => filterPrice(5000000, 9999999)}
-                        >
-                          Từ 5 - 10 triệu
-                        </button>
-                        <button
-                          className="phone_btnconmenu"
-                          onClick={() => filterPrice(10000000, 19999999)}
-                        >
-                          &nbsp;Từ 10 - 20 triệu&nbsp;
-                        </button>
-                        <button
-                          className="phone_btnconmenu"
-                          onClick={() => filterPrice(20000000, 29999999)}
-                        >
-                          &nbsp;Từ 20 - 30 triệu&nbsp;
-                        </button>
-                        <button
-                          className="phone_btnconmenu"
-                          onClick={() => filterPrice(30000000, 39999999)}
-                        >
-                          &nbsp;Từ 30 - 40 triệu&nbsp;
-                        </button>
-                        <button
-                          className="phone_btnconmenu"
-                          onClick={() => filterPrice(0, 40000000)}
-                        >
-                          Trên 40 triệu
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  ""
-                )} */}
                 <div
                   className={
                     (selected === "gia") & active && move
@@ -615,7 +541,7 @@ const Phone = () => {
           </div>
         </div>
 
-        <div className="phone_box_quicklink">
+        {/* <div className="phone_box_quicklink">
           <button
             className="phone_quicklink"
             onClick={() =>
@@ -756,7 +682,7 @@ const Phone = () => {
           >
             Masstel
           </button>
-        </div>
+        </div> */}
 
         <div className="phone_box_quicklink">
           <div className="phone_cangiua">Tìm kiếm nhiều nhất&emsp;</div>

@@ -104,7 +104,7 @@ const HeaderContent = () => {
         console.log(e);
       }
     }
-    console.log(searchWord);
+    //console.log(searchWord);
   };
 
   const clearInput = () => {
@@ -141,23 +141,10 @@ const HeaderContent = () => {
   const status = useSelector(selectLoginStatus) || false;
 
   const cart = useSelector((state) => state.cart);
-  //const [cartState,setCartState]= useState()
 
   useEffect(() => {
-    cartHandler
-      .getCurrentCart()
-      .then((res) => {
-        dispatch(setCurrentCart(res?.data?.cart));
-      })
-      .catch((e) =>
-        toast.error(`Không lấy được thông tin giỏ hàng cũ`, {
-          toastId: 99,
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-        })
-      );
-  }, []);
+    dispatch(getTotals());
+  }, [cart]);
 
   // check
   useEffect(() => {
@@ -342,10 +329,9 @@ const HeaderContent = () => {
                   <div className="cart__info">
                     {status ? (
                       <div>
-                        <h6>Số lượng: {cart?.quantity || 0}</h6>
-                        <h6>Loại: {cart?.cartItems.length || 0}</h6>
-
-                        <h6>{toVND(cart.total || 0)}</h6>
+                        <h6>Số lượng: {cart.quantity}</h6>
+                        <h6>Loại: {cart.cartItems.length}</h6>
+                        <h6>{toVND(cart.total)}</h6>
                       </div>
                     ) : (
                       <h5>Xác thực ngay</h5>

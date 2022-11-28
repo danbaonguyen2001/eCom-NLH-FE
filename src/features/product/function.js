@@ -21,10 +21,10 @@ const productHandler = {
       productApiSlice.endpoints.getProductsList.initiate({ ...inputData })
     ),
 
-  getProductsByCategory: async ({ categoryID }) =>
+  getProductsByCategory: async ({ categoryName }) =>
     await dispatch(
       productApiSlice.endpoints.getProductsByCategory.initiate({
-        categoryID,
+        categoryName,
       })
     ),
 
