@@ -6,6 +6,7 @@ const initialState = {
   quantity: 0,
   shipFee: 0,
   total: 0,
+  count: 0,
   render: true,
 };
 
@@ -17,12 +18,13 @@ const cartSlice = createSlice({
       const cart = [...action.payload];
 
       state.cartItems = cart;
-
-      let { total, quantity } = cart.reduce(
+      state.count = 0;
+      let { total, quantity, count } = cart.reduce(
         (cartTotal, cartItem) => {
           //console.log(cartItem.item);
           cartTotal.total += cartItem.item.price * cartItem.item.quantity;
           cartTotal.quantity += cartItem.item.quantity;
+          cartTotal.count += 1;
           return {
             ...cartTotal,
           };
@@ -30,11 +32,13 @@ const cartSlice = createSlice({
         {
           total: 0,
           quantity: 0,
+          count: 0,
         }
       );
 
       state.quantity = quantity;
       state.total = total;
+      state.count = count;
     },
 
     resetCurrentCart(state, action) {
@@ -103,22 +107,26 @@ const cartSlice = createSlice({
 
     //Tính tổng tiền
     getTotals(state, action) {
-      let { total, quantity } = state.cartItems.reduce(
+      let { total, quantity, count } = state.cartItems.reduce(
         (cartTotal, cartItem) => {
           //console.log(cartItem.quantity);
           cartTotal.total += cartItem.item.price * cartItem.item.quantity;
           cartTotal.quantity += cartItem.item.quantity;
-
-          return cartTotal;
+          cartTotal.count += 1;
+          return {
+            ...cartTotal,
+          };
         },
         {
           total: 0,
           quantity: 0,
+          count: 0,
         }
       );
 
       state.quantity = quantity;
       state.total = total;
+      state.count = count;
     },
 
     setQuantity(state, action) {
@@ -127,7 +135,7 @@ const cartSlice = createSlice({
 
     setRender(state, action) {
       state.render = !state.render;
-      console.log(state.render);
+      //console.log(state.render);
     },
   },
 });

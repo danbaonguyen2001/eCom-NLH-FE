@@ -50,19 +50,6 @@ const UserInFor = () => {
     if (v?.idDefault != isIdDefault) setIsIdDefault(!isIdDefault);
     setAddressBtStatus("Edit");
     setAddressEdit(v?.detailAddress);
-    userController
-      .getAddressById({ addressId: v?.detailAddress })
-      .then((res) => {
-        const address = res.data.address;
-        setDetailAddress({ ...address });
-      })
-      .catch((e) => {
-        toast.error(`Lỗi không thể lấy địa chỉ phù hợp`, {
-          autoClose: 5000,
-          closeOnClick: true,
-          position: "top-right",
-        });
-      });
     setUserData({
       ...userData,
       addressId: v?.detailAddress,
@@ -381,12 +368,11 @@ const UserInFor = () => {
             {userData?.addresses.map((v, i) => {
               console.log(v?.address);
               return (
-                <>
+                <React.Fragment key={i}>
                   <Stack
                     direction="row"
                     justifyContent="space-between"
                     spacing={2}
-                    key={i}
                   >
                     <input
                       type="hidden"
@@ -432,7 +418,7 @@ const UserInFor = () => {
                     </Stack>
                   </Stack>
                   <div className="line"></div>
-                </>
+                </React.Fragment>
               );
             })}
           </div>
@@ -445,7 +431,6 @@ const UserInFor = () => {
           <Stack direction="row" flexWrap="wrap">
             <AddressSelect
               style={{ width: "100%" }}
-              detailAddress={detailAddress}
               addressEdit={addressEdit}
               setValues={setDetailAddress}
               addressBtStatus={addressBtStatus}

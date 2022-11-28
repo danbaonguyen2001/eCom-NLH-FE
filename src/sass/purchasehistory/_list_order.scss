@@ -1,34 +1,32 @@
 .list_orders {
-  padding: 16px 15px 32px 16px;
-  font-size: 1.6rem;
-
-  &_title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+    padding: 16px 8px 32px 8px;
+    font-size: 1.6rem;
+    &_title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 }
 
 //
 .order {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 0;
-  font-size: 1.4rem;
-  &_pd {
-    &_img {
-      height: 80px;
-      width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 1.4rem;
+    &_pd {
+        &_img {
+            height: 80px;
+            width: auto;
+        }
     }
-  }
 }
 
 //
 .order_detail {
-  padding: 10px;
-
-  &_btn {
-    padding: 8px;
-  }
+    padding: 10px;
+    &_btn {
+        padding: 8px;
+    }
 }

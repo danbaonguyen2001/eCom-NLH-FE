@@ -143,7 +143,28 @@ const HeaderContent = () => {
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
-    console.log("Render get cart");
+    const fetchCart = async () => {
+      const res = await cartHandler.getCurrentCart();
+
+      try {
+        //setCurrentCart(res.data.cart);
+        console.log(res.data.cart);
+        // set
+        dispatch(setCurrentCart(res.data.cart));
+        console.log(cart);
+      } catch (e) {
+        toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+      }
+    };
+    fetchCart();
+  }, []);
+
+  useEffect(() => {
+    console.log("Render get  cart");
     dispatch(getTotals());
   }, [cart]);
 
@@ -331,7 +352,7 @@ const HeaderContent = () => {
                     {status ? (
                       <div>
                         <h6>Số lượng: {cart.quantity}</h6>
-                        <h6>Loại: {cart.cartItems.length}</h6>
+                        <h6>Loại: {cart.count}</h6>
                         <h6>{toVND(cart.total)}</h6>
                       </div>
                     ) : (

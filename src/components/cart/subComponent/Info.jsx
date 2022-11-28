@@ -30,7 +30,11 @@ const DifferentWrap = styled.div`
     flex: 1;
   }
 `;
-const Info = ({ promotionList, orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
+const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
+
+  // ADDRESS ID
+  const [addressEdit,setAddressEdit] = useState("")
+  // 
   const [currentUser, setCurrentUser] = useState({
     phone: "",
     name: "",
@@ -44,14 +48,6 @@ const Info = ({ promotionList, orderInfo, setOrderInfo, setDetailAddress,detailA
   });
   const [promotionAvailable, setPromotionAvailable] = useState(false);
   const [differentInfo, setDifferentInfo] = useState(false);
-
-  useEffect(() => {
-    setCurrentUser({
-      ...currentUser,
-      promotionList: [...promotionList],
-    });
-  }, [promotionList, currentUser.address, currentUser.phone, currentUser.name]);
-
   const [pickUp, setPickUp] = useState(true);
 
   useEffect(() => {
@@ -64,32 +60,19 @@ const Info = ({ promotionList, orderInfo, setOrderInfo, setDetailAddress,detailA
       differentReceiverPhone: currentUser.differentReceiverPhone,
     });
   }, [currentUser]);
-  useEffect(() => {
-    // change address detail
-    userController
-      .getAddressById({ addressId: currentUser?.defaultAddress })
-      .then((res) => {
-        const address = res?.data?.address;
-        setDetailAddress((prev) => {
-          return {
-            ...prev,
-            ...address,
-          };
-        });
-      })
-      .catch((e) => {
-        toast.error(
-          `Không thể tính phí ship, thử lại sau. Mã lỗi: ${e.message}`,
-          {
-            position: "top-right",
-            autoClose: 5000,
-            closeOnClick: true,
-          }
-        );
-      });
-  }, [currentUser.defaultAddress]);
-  const promotionInputElement = useRef(null);
-  //   Handler event
+
+
+  useEffect(()=>{
+    // 280AAAA,Côn Đảo,Huyện đảo Côn Đảo,Bà Rịa - Vũng Tàu
+    const arr = currentUser.address && currentUser.address.split(",")
+    setCurrentUser({
+      ...currentUser,
+      address:`${arr[0]||"Nhập địa chỉ"}, ${detailAddress?.ward?.wardName}, ${detailAddress?.district?.districtName}, ${detailAddress?.province?.provinceName}`    
+    })
+  },[detailAddress])
+
+
+  //   Handler Auto Form Fill
   //   Button
   const handleAutoFillClick = () => {
     userController
@@ -97,15 +80,16 @@ const Info = ({ promotionList, orderInfo, setOrderInfo, setDetailAddress,detailA
       .then((res) => {
         const user = res.data.user;
         if (user) {
-          const defaultAddress = user.addresses.find(
+          const defaultAddress = user?.addresses.find(
             (v) => v.idDefault === true
           );
+          setAddressEdit(defaultAddress?.detailAddress)
           setCurrentUser({
             ...currentUser,
             defaultAddress: defaultAddress.detailAddress,
             phone: user?.phone || "Chưa cung số điện thoại",
             name: user?.name,
-            address: defaultAddress?.address || "Chưa cung địa chỉ",
+            address: defaultAddress?.address,
           });
         }
       })
@@ -124,29 +108,8 @@ const Info = ({ promotionList, orderInfo, setOrderInfo, setDetailAddress,detailA
       [e.target.name]: e.target.value,
     });
   };
-  //   Promotion Check
-  const handlePromotionCheck = (e) => {
-    const availablePromotions = currentUser.promotionList;
-    const currentPromotion = promotionInputElement.current.value;
-    if (availablePromotions.some((v) => v == currentPromotion)) {
-      toast.success(
-        `Bạn được giảm ${currentPromotion}%, Giá sẽ được cập nhât sau nhé`,
-        {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-        }
-      );
-      setCurrentUser({
-        ...currentUser,
-        discountCode: `${currentPromotion}%`,
-      });
-      setPromotionAvailable(true);
-    } else {
-      toast.error(`Mã này hết hiệu lực rồi`);
-      setPromotionAvailable(false);
-    }
-  };
+
+  
   //
   return (
     <>
@@ -196,7 +159,7 @@ const Info = ({ promotionList, orderInfo, setOrderInfo, setDetailAddress,detailA
         <RadioPickup setPickup={setPickUp} />
 
         {/* ADDRESS SELECT */}
-        {Boolean(pickUp) ? <AddressSelect setValues={setDetailAddress} detailAddress={detailAddress} /> : <></>}
+        {Boolean(pickUp) ? <AddressSelect setValues={setDetailAddress} addressBtStatus="Edit" addressEdit={addressEdit} /> : <></>}
 
         {/* Address */}
         <div className="has_cart_infor_user_input_add">
@@ -286,7 +249,6 @@ const Info = ({ promotionList, orderInfo, setOrderInfo, setDetailAddress,detailA
           className="has_cart_voucher_input"
           placeholder="Nhập mã giảm giá"
           disabled={promotionAvailable}
-          ref={promotionInputElement}
         />
 
         {promotionAvailable ? (
@@ -298,7 +260,7 @@ const Info = ({ promotionList, orderInfo, setOrderInfo, setDetailAddress,detailA
           </button>
         ) : (
           <button
-            onClick={handlePromotionCheck}
+            onClick={()=>alert("Coming soon")}
             className="has_cart_voucher_apply btn"
           >
             Áp dụng

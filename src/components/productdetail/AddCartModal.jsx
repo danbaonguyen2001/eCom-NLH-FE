@@ -56,7 +56,6 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
       history.push("/login");
       return;
     }
-    console.log(body);
 
     // Authenticated
     cartController
