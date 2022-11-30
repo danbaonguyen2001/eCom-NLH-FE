@@ -36,13 +36,12 @@ const OrderSuccess = () => {
   useEffect(() => {
     // function
     if (orderState === "orderId") {
-      console.log(orderId);
+
       dispatch(setCurrentCart([]));
       orderController
         .getOrderInfo({ orderId })
         .then((res) => {
           const { order, success } = res.data;
-          console.log(order);
           if (success) {
             setOrderData(order);
           }
@@ -68,7 +67,7 @@ const OrderSuccess = () => {
     }
   }, []);
 
-  //
+  // render 
 
   return (
     <Stack
@@ -93,7 +92,7 @@ const OrderSuccess = () => {
             Cảm ơn khách hàng đã cho NLH ecom cơ hội được phục vụ
           </Typography>
           {/* USER INFO */}
-          <OrderInfo />
+          <OrderInfo  orderData={orderData}/>
           {/* PAYMENT */}
           {!orderData?.isPaid ? (
             // PAYMENT - IS NOT

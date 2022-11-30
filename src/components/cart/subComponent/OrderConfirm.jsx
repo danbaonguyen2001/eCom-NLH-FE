@@ -42,7 +42,6 @@ const OrderConfirm = ({ cartInfo, orderInfo }) => {
   });
   //
   useEffect(() => {
-    console.log(orderInfo);
     setOrderInput({
       shippingAddress:{
         address:orderInfo?.deliveryAddress,
@@ -74,11 +73,11 @@ const OrderConfirm = ({ cartInfo, orderInfo }) => {
       // totalPrice,
       // voucher,
       // } = req.body
-      console.log({ orderInput });
+
       orderController
         .handlerMakeOrder(orderInput)
         .then((res) => {
-          console.log(res);
+
           const { success, order } = res?.data;
           if (success) {
             toast.success(`Đặt hàng thành công. Nhớ kiểm tra mail nhé`, {
