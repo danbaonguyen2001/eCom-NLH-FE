@@ -70,7 +70,7 @@ const OrderDetail = ({ orderId }) => {
             Trạng thái:
           </Typography>
           <Typography textTransform="capitalize" variant="h6">
-            <OrderStateText orderState={orderData?.state || "Đang xử lý"} />
+            <OrderStateText orderState={orderData?.status?.statusNow || "Đang xử lý"} />
           </Typography>
         </Stack>
       </Stack>
@@ -81,7 +81,7 @@ const OrderDetail = ({ orderId }) => {
 
       {/*Order Info */}
       <OrderInfo orderData={orderData} />
-      <OrderState orderData={orderData} />
+      <OrderState orderData={orderData} setOrderData={setOrderData}/>
     </div>
   );
 };

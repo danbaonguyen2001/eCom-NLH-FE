@@ -40,9 +40,9 @@ const ProductItem = ({ item, index }) => {
       </AccordionSummary>
 
       <Stack mr={2} pb={2} justifyContent="space-between" direction="row">
+        <Stack direction="row" spacing={2}>
         {/* LEFT */}
         {/* IMAGE */}
-        <Stack direction="row" spacing={2}>
           <Box
             display="flex"
             justifyContent="center"

@@ -58,14 +58,22 @@ export const orderApiSlice = apiSlice.injectEndpoints({
                 },
             })
         }),
+        // Update order
+        updateOrder: builder.query({
+            query: (inputData) => ({
+                url: `http://localhost:5000/api/orders/${inputData.orderId}/update`,
+                method: "PUT",
+                body: inputData
+            })
+        }),
         // Cancel cod order
         cancelCodOrder: builder.query({
-            query: ({
-                orderId
-            }) => ({
-                url: `/cod/cancel/${orderId}`,
+            query: (inputData) => ({
+                url: `http://localhost:5000/api/orders/${inputData?.orderId}`,
                 method: "PUT",
+                body: inputData
             }),
         }),
+
     }),
 });

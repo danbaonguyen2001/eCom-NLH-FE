@@ -7,11 +7,22 @@ import productController from "../../../features/product/function";
 import { Link } from "react-router-dom";
 import orderController from "../../../features/order/function";
 import { Stack, Typography, Link as LinkMui } from "@mui/material";
+import OrderStateText from "./OrderStateText";
 const Order = ({ data }) => {
-  const [rootImg, setRootImg] = useState("");
   // get img
   return (
-    <Stack direction="row" justifyContent="space-between" alignItems="center">
+    <Stack
+      sx={{
+        opacity:
+          data?.status?.statusNow?.toUpperCase() === "CANCEL" ||
+          data?.status?.statusNow?.toUpperCase() === "REFUND"
+            ? "0.3"
+            : "1",
+      }}
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+    >
       <Typography
         sx={{ flex: 2, fontSize: "11px" }}
         variant="h6"
@@ -62,7 +73,7 @@ const Order = ({ data }) => {
         variant="h6"
         style={{ textTransform: "capitalize" }}
       >
-        {data?.status?.statusNow || "Đang chờ"}
+        <OrderStateText orderState={data?.status?.statusNow} />
       </Typography>
     </Stack>
   );

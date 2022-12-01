@@ -10,7 +10,7 @@ const OrderStateText = (props) => {
   };
   useEffect(() => {
     for (let color in colors) {
-      if (colors[color].includes(props?.orderState)) {
+      if (colors[color].includes(props?.orderState.toUpperCase())) {
         setOrderState(color);
         break;
       }
