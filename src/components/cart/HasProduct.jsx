@@ -94,8 +94,7 @@ const HasProduct = ({ cart, setCart }) => {
       district: detailAddress?.district?.districtID,
       insurance_value: insuranceValue || 100000,
     };
-    const fetchShip = async (input) => await getShipFee(input);
-    fetchShip(input)
+    getShipFee(input)
       .then((res) => {
         const { total } = res?.data?.data;
         setOrderInfo({

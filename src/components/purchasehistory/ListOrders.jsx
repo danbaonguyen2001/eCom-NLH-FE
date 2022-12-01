@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "../../sass/purchasehistory/_list_order.scss";
-import Order from "./subcomponents/Order";
 // selector
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../features/auth/authSlice";
 import orderController from "../../features/order/function";
 import { toast } from "react-toastify";
 import { Typography, Stack, Divider } from "@mui/material";
-import { Chip } from "@material-ui/core";
 
+const Order = React.lazy(() => import("./subcomponents/Order"));
 const ListOrders = () => {
   const currentUser = useSelector(selectCurrentUser);
-  console.log(currentUser);
   const [order, setOrder] = useState([]);
   useEffect(() => {
     let page = 1;
@@ -53,7 +51,7 @@ const ListOrders = () => {
             fontWeight="bold"
             textTransform="uppercase"
           >
-           { `${currentUser.name}`}
+            {`${currentUser.name}`}
           </Typography>
         </Typography>
       </Divider>

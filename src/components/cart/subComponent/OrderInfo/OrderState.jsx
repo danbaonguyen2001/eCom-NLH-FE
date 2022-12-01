@@ -5,65 +5,91 @@ import { toDate } from "../../../../utils/format";
 import orderController from "../../../../features/order/function";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import OrderModal from "./OrderModal";
+import { toastObject } from "../../../../constants/toast";
 
 const ListOrderInfo = React.lazy(() => import("./ListOrderInfo"));
-const OrderState = ({ orderData }) => {
+const OrderState = ({ orderData, setOrderData }) => {
   const history = useHistory();
 
   const [date, setDate] = useState(new Date(orderData?.createdAt));
+  const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => {
-    setDate(new Date(orderData?.createdAt));
+    const dateI = new Date(orderData?.createdAt);
+    const time =
+      dateI?.getDay() == 6
+        ? toDate(dateI?.setDate(dateI?.getDate() + 4))
+        : dateI?.getDay() == 5
+        ? toDate(dateI?.setDate(dateI?.getDate() + 5))
+        : toDate(dateI?.setDate(dateI?.getDate() + 3));
+    setDate(time);
   }, [orderData]);
   //   Handle cancel order
-  const handleCancelOrder = async () => {
-    const paymentMethod = orderData?.orderdetail?.payment?.name;
-    if (paymentMethod != "cod") {
-      toast.warning(`Chưa hỗ trợ hoàn tiền ví điện tử. Liên hệ hotline`, {
-        autoClose: 5000,
-        closeOnClick: true,
-        position: "top-right",
-      });
+  const handleCancelOrder = () => {
+    const { idPaid, isConfirm, isDelivered } = orderData;
+    if (idPaid) {
+      toast.warning(
+        `Chưa hỗ trợ hoàn tiền ví điện tử. Liên hệ hotline`,
+        toastObject
+      );
+    } else if (isConfirm) {
+      toast.warning(
+        `Đơn hàng này đã xác nhận, không thể hủy bây giờ. Liên hệ hotline`,
+        toastObject
+      );
+    } else if (isDelivered) {
+      toast.warning(
+        `Đơn hàng này đã được giao hàng, không thể hủy.`,
+        toastObject
+      );
     } else {
       const confirm = window.confirm("Bạn có chắc muốn hủy đơn hàng này không");
       if (confirm) {
-        try {
-          // alter
-          const res = await orderController.handlerCancelCodOrder({ orderId:orderData?._id });
-          res &&
-            toast.success(`Hủy đơn hàng thành công`, {
-              closeOnClick: true,
-              autoClose: 5000,
-              position: "top-right",
-            });
-          !res &&
-            toast.error(`Xảy ra lỗi trong quá trình hủy đơn hàng`, {
-              closeOnClick: true,
-              autoClose: 5000,
-              position: "top-right",
-            });
-        } catch (e) {
-          console.log(e);
-        }
+        orderController
+          .handlerCancelCodOrder({
+            orderId: orderData?._id,
+          })
+          .then((res) => {
+            if (res?.data?.success) {
+              toast.success(`Hủy đơn hàng thành công`, toastObject);
+              setOrderData((prev) => {
+                return {
+                  ...prev,
+                  status: {
+                    statusNow: "Cancel",
+                    description: "Cancel.",
+                  },
+                };
+              });
+            }
+          })
+          .catch((e) =>
+            toast.error(
+              `Xảy ra lỗi trong quá trình hủy đơn hàng: ${e.message}, Thử lại`,
+              toastObject
+            )
+          );
       }
     }
   };
   return (
     <List>
+      {
+        <OrderModal
+          orderData={orderData}
+          open={modalOpen}
+          setOpen={setModalOpen}
+        />
+      }
       {/* Process Time*/}
       <ListOrderInfo
         primary="Chờ xác nhận đơn hàng:"
-        secondary={`30 phút làm việc kể từ: ${toDate(date)}`}
+        secondary={`30 phút làm việc kể từ: ${toDate(orderData?.createAt)}`}
       />
       {/* Receive Time */}
       <ListOrderInfo
         primary="Chờ xác nhận đơn hàng:"
-        secondary={`Thời gian nhận hàng: ${
-          date?.getDay() == 6
-            ? toDate(date?.setDate(date?.getDate() + 4))
-            : date?.getDay() == 5
-            ? toDate(date?.setDate(date?.getDate() + 5))
-            : toDate(date?.setDate(date?.getDate() + 3))
-        }`}
+        secondary={`Thời gian nhận hàng: ${date}`}
       />
 
       {/* Order State */}
@@ -89,9 +115,15 @@ const OrderState = ({ orderData }) => {
         <Button
           variant="outlined"
           sx={{ textAlign: "center", fontSize: "12px", minWidth: "13em" }}
-          onClick={() => history.push("/")}
+          disabled={
+            orderData?.status?.statusNow.toUpperCase() === "CANCEL" ||
+            orderData?.status?.statusNow.toUpperCase() === "REFUND"
+          }
+          onClick={() => {
+            setModalOpen(!modalOpen);
+          }}
         >
-          Thay đổi thông tin
+          Yêu cầu thay đổi thông tin
         </Button>
         <Button
           sx={{ textAlign: "center", fontSize: "12px", minWidth: "13em" }}
@@ -99,6 +131,10 @@ const OrderState = ({ orderData }) => {
           color="error"
           variant="outlined"
           onClick={handleCancelOrder}
+          disabled={
+            orderData?.status?.statusNow.toUpperCase() === "CANCEL" ||
+            orderData?.status?.statusNow.toUpperCase() === "REFUND"
+          }
         >
           Huỷ đơn hàng
         </Button>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getDistrict, getWard, getProvince } from "../../apis/apiShipment";
-import "../../sass/auth/_register.scss";
 import { FormControl, InputLabel, NativeSelect, Box } from "@mui/material";
 import userController from "../../features/user/function";
 
-const AddressSelect = ({ setValues, addressBtStatus, addressEdit }) => {
+const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
   const [detailAddress, setDetailAddress] = useState({});
   // ADDRESS STATE
   const [provinces, setProvinces] = useState([]);
@@ -194,7 +193,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit }) => {
         </InputLabel>
         <NativeSelect
           onChange={(e) => handleChangeProvince(e)}
-          sx={{ fontSize: "1.5rem", minWidth: "30ch" }}
+          sx={sx ||{ fontSize: "1.5rem", minWidth: "25ch" }}
           defaultValue={`${province?.ID || provinces[0]?.ProvinceName}`}
           inputProps={{
             name: "province",
@@ -227,7 +226,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit }) => {
         </InputLabel>
         <NativeSelect
           onChange={(e) => handleChangeDistrict(e)}
-          sx={{ fontSize: "1.5rem", minWidth: "30ch" }}
+          sx={sx ||{ fontSize: "1.5rem", minWidth: "25ch" }}
           defaultValue={`${district?.ID || "DEFAULT"}`}
           inputProps={{
             name: "district",
@@ -257,7 +256,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit }) => {
         </InputLabel>
         <NativeSelect
           onChange={(e) => handleChangeWard(e)}
-          sx={{ fontSize: "1.5rem", minWidth: "30ch" }}
+          sx={sx ||{ fontSize: "1.5rem", minWidth: "25ch" }}
           defaultValue={`${ward?.ID || "DEFAULT"}`}
           inputProps={{
             name: "ward",

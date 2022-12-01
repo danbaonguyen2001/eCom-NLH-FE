@@ -54,11 +54,11 @@ const orderController = {
     }
     return result;
   },
+  updateOrderInfo: (inputData) =>
+    dispatch(orderApiSlice.endpoints.updateOrder.initiate(inputData)),
   handlerMakeOrder: async (inputData) => {
     const query = dispatch(
-      orderApiSlice.endpoints.placeOrder.initiate({
-        ...inputData,
-      })
+      orderApiSlice.endpoints.placeOrder.initiate(inputData)
     );
     dispatch(
       setState({
@@ -103,21 +103,15 @@ const orderController = {
 
     return query;
   },
-  handlerCancelCodOrder: async (inputData) => {
-    const { orderId } = inputData;
-    let set = false;
-    try {
-      const res = await dispatch(
-        orderApiSlice.endpoints.cancelCodOrder.initiate({
-          orderId,
-        })
-      );
-      console.log(res);
-      set = res?.error?.originalStatus == 200 ? true : false;
-    } catch (e) {
-      console.log(e);
-    }
-    return set;
-  },
+  handlerCancelCodOrder: async ({ orderId }) =>
+    await dispatch(
+      orderApiSlice.endpoints.cancelCodOrder.initiate({
+        orderId,
+        status: {
+          statusNow: "cancel",
+          description: "blank",
+        },
+      })
+    ),
 };
 export default orderController;
