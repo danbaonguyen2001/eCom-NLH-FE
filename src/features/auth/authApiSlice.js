@@ -1,4 +1,6 @@
-import { apiSlice } from "../../apis/apiSlice";
+import {
+    apiSlice
+} from "../../apis/apiSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -6,14 +8,18 @@ export const authApiSlice = apiSlice.injectEndpoints({
             query: (inputData) => ({
                 url: "http://localhost:5000/api/auth/login",
                 method: "POST",
-                body: {...inputData },
+                body: {
+                    ...inputData
+                },
             }),
         }),
         register: builder.mutation({
             query: (inputData) => ({
                 url: `http://localhost:5000/api/auth/register`,
                 method: "POST",
-                body: {...inputData },
+                body: {
+                    ...inputData
+                },
             }),
         }),
         // verify: builder.mutation({
@@ -25,17 +31,44 @@ export const authApiSlice = apiSlice.injectEndpoints({
 
         // }),
         verify: builder.mutation({
-            query: ({ token }) => {
+            query: ({
+                token
+            }) => {
                 return {
                     url: `https://tlcn-2022-be.onrender.com/api/auth/verify-email/${token}`,
                     method: "POST",
                 };
             },
-            transformResponse: (res, meta) => ({ res, meta }),
+            transformResponse: (res, meta) => ({
+                res,
+                meta
+            }),
+        }),
+        verify: builder.mutation({
+            query: ({
+                token
+            }) => {
+                return {
+                    url: `https://tlcn-2022-be.onrender.com/api/auth/verify-email/${token}`,
+                    method: "POST",
+                };
+            },
+            transformResponse: (res, meta) => ({
+                res,
+                meta
+            }),
+        }),
+        logOut: builder.mutation({
+            query: () => `http://localhost:5000/api/auth/logout`
         })
+
 
     }),
 });
 // Hook useMutation
-export const { useLoginMutation, useRegisterMutation, useVerifyMutation } =
+export const {
+    useLoginMutation,
+    useRegisterMutation,
+    useVerifyMutation
+} =
 authApiSlice;

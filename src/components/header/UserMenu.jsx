@@ -10,6 +10,8 @@ import {
 import authController from "../../features/auth/functions";
 import UserInfoSubMenu from "./UserInfoSubMenu";
 import { useDispatch, useSelector } from "react-redux";
+import { toastObject } from "../../constants/toast";
+import { toast } from "react-toastify";
 
 //
 const MenuWrap = styled.div`
@@ -69,9 +71,6 @@ const UserMenu = (props) => {
   // Handler
   const handleLogoutClick = () => {
     authController.logOut();
-    dispatch(resetCurrentCart());
-    console.log(cart);
-    history.push("/");
   };
   const handleOrderClick = () => {
     history.push({
