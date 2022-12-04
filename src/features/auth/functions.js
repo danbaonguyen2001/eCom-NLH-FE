@@ -5,6 +5,9 @@ import { authApiSlice } from "./authApiSlice";
 import cartController from "../cart/function";
 import { store } from "../../redux/stores";
 import { setCurrentCart } from "../cart/cartSlice";
+import {resetCurrentCart} from "../cart/cartSlice"
+import { toast } from "react-toastify";
+import { toastObject } from "../../constants/toast";
 const { dispatch } = store;
 // content
 const authHandler = {
@@ -16,14 +19,14 @@ const authHandler = {
       );
       let result = { ...response.data };
       const { access_token } = result.data;
-      const { role, name, avatar, email, _id } = result.data.user;
+      const { name, avatar, email, _id, isAdmin } = result.data.user;
       // Change auth state
       dispatch(logIn());
       dispatch(
         setUserInfos({
-          role: role || "ROLE_USER",
+          role: !isAdmin ? "ROLE_USER" : "ROLE_ADMIN",
           name,
-          avatar:avatar.url,
+          avatar: avatar.url,
           email,
           access_token,
           userId: _id,
@@ -40,7 +43,7 @@ const authHandler = {
     try {
       let response = await dispatch(
         authApiSlice.endpoints.register.initiate({
-          ...inputData
+          ...inputData,
         })
       );
       if (response?.data?.success) return true;
@@ -67,7 +70,16 @@ const authHandler = {
     return false;
   },
   logOut: () => {
-    store.dispatch(logOut());
+    let success = false
+    dispatch(authApiSlice.endpoints.logOut.initiate()).then((res) => {
+      if (res?.data?.success) {
+        dispatch(resetCurrentCart())
+        store.dispatch(logOut());
+        toast.success(`Đăng xuất thành công`, toastObject)
+        success =true
+      }
+    }).catch(e=>toast.error(`Lỗi hệ thống thử lại: ${e.message}`,toastObject))
+    return success;
   },
 };
 export default authHandler;
