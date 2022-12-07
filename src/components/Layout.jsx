@@ -16,16 +16,17 @@ import { store } from "../redux/stores";
 import { Provider } from "react-redux";
 import ChatBot from "./ChatBot";
 import AddCompareProduct from "./AddCompareProduct";
+import SkeletonLayout  from "./SkeletonLayout";
 //
 let persistor = persistStore(store);
 const Layout = () => {
   return (
-    <React.Suspense fallback={<h1>Loading ....</h1>}>
+    <React.Suspense fallback={<SkeletonLayout/>}>
       <Provider store={store}>
         <PersistGate loading={<h1>Loading ...</h1>} persistor={persistor}>
           <BrowserRouter>
             <ToastContainer />
-            <Route
+            {/* <Route
               render={(props) => (
                 <div>
                   <Header {...props} />
@@ -39,7 +40,8 @@ const Layout = () => {
                   <Footer />
                 </div>
               )}
-            />
+            /> */}
+            <SkeletonLayout/>
           </BrowserRouter>
         </PersistGate>
       </Provider>

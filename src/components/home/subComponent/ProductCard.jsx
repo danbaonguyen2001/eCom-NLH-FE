@@ -9,16 +9,8 @@ import { Link } from "react-router-dom";
 import eyeI from "../../../assets/images/home/eyeI.png";
 import { toVND } from "../../../utils/format";
 const StarRating = React.lazy(() => import("../../accessories/StarRating"));
-const ProductCard = ({ ...props }) => {
-  const mouseEnterHandler = () => {
-    setEyeS(true);
-  };
-  const mouseLeaveHandler = () => {
-    setEyeS(false);
-  };
+const ProductCard = ({data:v}) => {
   const [eyeS, setEyeS] = useState(false);
-
-  const v = props.data;
   return (
     <Link
       to={{
@@ -27,8 +19,8 @@ const ProductCard = ({ ...props }) => {
       }}
     >
       <div
-        onMouseEnter={mouseEnterHandler}
-        onMouseLeave={mouseLeaveHandler}
+        onMouseEnter={()=>setEyeS(true)}
+        onMouseLeave={()=>setEyeS(false)}
         className="pCardWrap"
       >
         {/* overlay */}
@@ -46,7 +38,7 @@ const ProductCard = ({ ...props }) => {
           </div>
           <div className="pCard__img">
             <LazyLoadImage
-              src={v?.productImages?.[0]?.urlImage || v?.image || v.path}
+              src={v?.image}
             />
           </div>
           <div className="pCard__des">
@@ -78,16 +70,16 @@ const ProductCard = ({ ...props }) => {
               )}
               <div className="marketPriceWrap">
                 <div className="pCard__price--onStockPrice">
-                  {toVND(v?.marketPrice)}
+                  {toVND(v?.price)}
                 </div>
-                <div className="pCard__promotion">-{v?.promotion || "15"}%</div>
+                <div className="pCard__promotion">-{v?.productOptions?.[0]?.promotion || "0"}%</div>
               </div>
             </div>
             {/* promotion */}
 
-            <div className="pCard__award">{props?.award || v.award}</div>
+            <div className="pCard__award">{v?.award}</div>
             <div className="star-phone">
-              <StarRating rating={v?.rate ?? v.numRate} />
+              <StarRating rating={v?.rating} />
               <span>{`(${v?.countRate || v.rate})`}</span>
             </div>
           </div>
