@@ -36,13 +36,11 @@ const OrderSuccess = () => {
   useEffect(() => {
     // function
     if (orderState === "orderId") {
-      console.log(orderId);
       dispatch(setCurrentCart([]));
       orderController
         .getOrderInfo({ orderId })
         .then((res) => {
           const { order, success } = res.data;
-          console.log(order);
           if (success) {
             setOrderData(order);
           }
@@ -68,7 +66,7 @@ const OrderSuccess = () => {
     }
   }, []);
 
-  //
+  // render
 
   return (
     <Stack
@@ -132,7 +130,7 @@ const OrderSuccess = () => {
         </div>
 
         {/* ORDER STATUS */}
-        <OrderState orderData={orderData} />
+        <OrderState orderData={orderData} setOrderData={setOrderData} />
 
         {/* RATE FOR SERVICE */}
         <Divider

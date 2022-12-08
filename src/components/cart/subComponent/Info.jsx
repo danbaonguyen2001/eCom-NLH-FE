@@ -159,7 +159,7 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
         <RadioPickup setPickup={setPickUp} />
 
         {/* ADDRESS SELECT */}
-        {Boolean(pickUp) ? <AddressSelect setValues={setDetailAddress} addressBtStatus="Edit" addressEdit={addressEdit} /> : <></>}
+        {Boolean(pickUp) ? <AddressSelect sx={{minWidth:"21ch",fontSize: "1.5rem"}} setValues={setDetailAddress} addressBtStatus="Edit" addressEdit={addressEdit} /> : <></>}
 
         {/* Address */}
         <div className="has_cart_infor_user_input_add">

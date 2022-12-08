@@ -2,7 +2,9 @@ import React from 'react'
 import { ListItem,ListItemText } from '@mui/material' 
 const ListOrderInfo = (props) => {
   return (
-    <ListItem>
+    <ListItem
+    sx={props.wrapSx}
+    >
     <ListItemText
       {...props}
       secondaryTypographyProps={{

@@ -223,7 +223,7 @@ const Register = () => {
 
           <div className="register_form_btn_socials">
             <a
-              href="https://tgddgroup04.herokuapp.com/oauth2/authorize/google"
+              href="http://localhost:5000/api/oauth2/google"
               className="btn btn_icon flex_center"
             >
               <i className="fa-brands fa-google "></i>

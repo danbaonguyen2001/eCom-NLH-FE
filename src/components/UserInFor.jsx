@@ -366,7 +366,6 @@ const UserInFor = () => {
           <div className="line"></div>
           <div className="user-infor-address-list">
             {userData?.addresses.map((v, i) => {
-              console.log(v?.address);
               return (
                 <React.Fragment key={i}>
                   <Stack
@@ -380,8 +379,8 @@ const UserInFor = () => {
                       value={v?.detailAddress}
                     />
 
-                    <Box sx={{ width: "100%", maxWidth: "60%" }}>
-                      <Typography variant="h5">{v?.address}</Typography>
+                    <Box alignItems="center" sx={{ width: "100%", maxWidth: "60%" }}>
+                      <Typography variant="h5" sx={{lineHeight: "33px"}}>{v?.address}</Typography>
                     </Box>
 
                     <Stack
@@ -391,30 +390,38 @@ const UserInFor = () => {
                       spacing={2}
                       sx={{ width: "30%" }}
                     >
-                      <span className="user-infor-address-item__default">
+                      <Typography sx={{minWidth:"70px"}} variant="h5" color="red">
                         {v?.idDefault ? "Mặc định" : i == 0}
-                      </span>
-                      <Button
-                        sx={{ fontSize: "12px" }}
-                        variant="contained"
-                        onClick={() => handleAddressEdit(v)}
+                      </Typography>
+                      {/* Button Group */}
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        spacing={1}
                       >
-                        Sửa
-                      </Button>
-                      <Button
-                        sx={{ fontSize: "12px" }}
-                        variant="outlined"
-                        startIcon={<DeleteIcon />}
-                        color="error"
-                        disabled={v?.idDefault}
-                        onClick={() => {
-                          setOpenModalDelete(true);
-                          setAddressEdit(v?.detailAddress);
-                          setCurrentAddressInfo(v?.address);
-                        }}
-                      >
-                        Xoá
-                      </Button>
+                        <Button
+                          sx={{ fontSize: "12px" }}
+                          variant="contained"
+                          onClick={() => handleAddressEdit(v)}
+                        >
+                          Sửa
+                        </Button>
+                        <Button
+                          sx={{ fontSize: "12px" }}
+                          variant="outlined"
+                          startIcon={<DeleteIcon />}
+                          color="error"
+                          disabled={v?.idDefault}
+                          onClick={() => {
+                            setOpenModalDelete(true);
+                            setAddressEdit(v?.detailAddress);
+                            setCurrentAddressInfo(v?.address);
+                          }}
+                        >
+                          Xoá
+                        </Button>
+                      </Stack>
                     </Stack>
                   </Stack>
                   <div className="line"></div>
