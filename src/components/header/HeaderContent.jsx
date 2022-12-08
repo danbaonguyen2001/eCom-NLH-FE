@@ -51,6 +51,7 @@ import {
   setCurrentCart,
   selectCurrentCartLength,
   selectCurrentCartItems,
+  setRender,
 } from "../../features/cart/cartSlice";
 import useConstant from "use-constant";
 
@@ -98,7 +99,7 @@ const HeaderContent = () => {
 
       try {
         const res = await debounceFetch(searchWord);
-        setListProducts(res.data.products);
+        setListProducts(res?.data?.products);
         // set
       } catch (e) {
         console.log(e);
@@ -141,6 +142,11 @@ const HeaderContent = () => {
   const status = useSelector(selectLoginStatus) || false;
 
   const cart = useSelector((state) => state.cart);
+  // const [cartInfo, setCartInfo] = useState({
+  //   quantity: 0,
+  //   total: 0,
+  //   count: 0,
+  // });
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -148,10 +154,11 @@ const HeaderContent = () => {
 
       try {
         //setCurrentCart(res.data.cart);
-        console.log(res.data.cart);
+        //console.log(res.data.cart);
         // set
         dispatch(setCurrentCart(res.data.cart));
-        console.log(cart);
+        //dispatch(getTotals());
+        //console.log(cart);
       } catch (e) {
         toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
           position: "top-right",
@@ -161,12 +168,12 @@ const HeaderContent = () => {
       }
     };
     fetchCart();
-  }, []);
+    console.log("Render Cart");
+  }, [cart.render]);
 
   useEffect(() => {
-    console.log("Render get  cart");
-    dispatch(getTotals());
-  }, [cart]);
+    //dispatch(setRender());
+  }, []);
 
   // check
   useEffect(() => {
@@ -351,9 +358,9 @@ const HeaderContent = () => {
                   <div className="cart__info">
                     {status ? (
                       <div>
-                        <h6>Số lượng: {cart.quantity}</h6>
-                        <h6>Loại: {cart.count}</h6>
-                        <h6>{toVND(cart.total)}</h6>
+                        <h6>Số lượng: {cart?.quantity}</h6>
+                        <h6>Loại: {cart?.count}</h6>
+                        <h6>{toVND(cart?.total)}</h6>
                       </div>
                     ) : (
                       <h5>Xác thực ngay</h5>

@@ -66,7 +66,7 @@ const Tablet = () => {
     }
   };
   return (
-    <div>
+    <div className="grid wide">
       <div className="paddingtoppx"></div>
       {/* thêm slider   */}
       <TopSlider sliders={sliderPC} banners={bannerPC} />

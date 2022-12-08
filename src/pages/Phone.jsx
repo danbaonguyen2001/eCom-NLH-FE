@@ -6,14 +6,54 @@ import Banner from "../components/phone/Banner";
 import productHandler from "../features/product/function";
 import Product from "../components/phone/Product";
 import ListProduct from "../components/ListProduct";
-import {
-  FormControl,
-  InputLabel,
-  NativeSelect,
-  Select,
-} from "@material-ui/core";
+import Select from "../components/Select";
+// import {
+//   FormControl,
+//   InputLabel,
+//   NativeSelect,
+//   Select,
+//   MenuItem,
+// } from "@material-ui/core";
 
-const manufactor = ["Iphone", "Sam Sung", "Vivo", "Xiaomi", "Oppo"];
+const manu = [
+  {
+    id: "0",
+    name: "Apple",
+  },
+  {
+    id: "1",
+    name: "Samsung",
+  },
+];
+const price = [
+  {
+    id: "0",
+    name: "Dưới 5 triệu",
+  },
+  {
+    id: "1",
+    name: "Từ 5 triệu đến 10 triệu",
+  },
+  {
+    id: "2",
+    name: "Từ 10 đến 20 triệu",
+  },
+  {
+    id: "3",
+    name: "Trên 20 triệu",
+  },
+];
+
+const os = [
+  {
+    id: "0",
+    name: "IOS",
+  },
+  {
+    id: "1",
+    name: "Android",
+  },
+];
 
 const Phone = () => {
   // const btnRef = useRef();
@@ -86,6 +126,22 @@ const Phone = () => {
       {/* thêm slider   */}
       {/* <TopSlider /> */}
       <Banner />
+      {/* &nbsp;
+      <div className="phone__filter row">
+        &nbsp;
+        <Select name="Hãng" id="manu" options={manu}></Select>
+        &nbsp;
+        <Select name="Giá" id="price" options={price}></Select>
+        &nbsp;
+        <Select name="Hệ điều hành" id="os" options={os}></Select>
+      </div>
+      &nbsp; */}
+      {/* <div className="phone_cangiua2 row">
+        {listProduct?.length} Điện thoại &nbsp;
+        <b>Sắp xếp theo</b>
+        &nbsp;
+        <Select name="Nổi bật" id="rank" options={os}></Select>
+      </div> */}
       <div className="phone_box_filter">
         <div className="phone_scroll">
           <div className="phone_scroll_main_item">
@@ -236,20 +292,6 @@ const Phone = () => {
                 </div>
               </div>
             </div>
-            {/* 
-            <InputLabel htmlFor="selectManu">Hãng</InputLabel>
-            <NativeSelect id="selectManu">
-              <option value="">Tất cả</option>
-              <option value="10">Iphone</option>
-              <option value="20">Samsung</option>
-            </NativeSelect>
-
-            <InputLabel htmlFor="selectSub">Hệ điều hành</InputLabel>
-            <NativeSelect id="selectSub">
-              <option value="">Tất cả</option>
-              <option value="10">Android</option>
-              <option value="20">IOS</option>
-            </NativeSelect> */}
 
             <div className="phone_giax">
               <button
@@ -751,8 +793,13 @@ const Phone = () => {
           </div>
         </div>
       </div>
-
       {listProduct.length > 0 && <Product list={listProduct} qt={totalQt} />}
+      {listProduct.length === 0 && (
+        <center style={{ marginBottom: "8px" }}>
+          {" "}
+          <h3>Không có sản phẩm phù hợp</h3>
+        </center>
+      )}
     </div>
   );
 };

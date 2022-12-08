@@ -135,7 +135,7 @@ const cartSlice = createSlice({
 
     setRender(state, action) {
       state.render = !state.render;
-      //console.log(state.render);
+      //
     },
   },
 });

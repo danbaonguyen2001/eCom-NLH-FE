@@ -46,21 +46,21 @@ const HasProduct = ({ cart, setCart }) => {
   });
 
   useEffect(() => {
-    const arrCart =  cart.map(v=>{
-      return{
-        price:v?.item?.price,
-        quantity:v?.item?.quantity,
+    const arrCart = cart.map((v) => {
+      return {
+        price: v?.item?.price,
+        quantity: v?.item?.quantity,
         itemID: v?._id,
-      }
-    })
+      };
+    });
 
-    setProductListInfo(arrCart)
+    setProductListInfo(arrCart);
 
     const totalGet = arrCart.reduce(
       (prev, curr) => {
         return {
-          total: prev.total + (curr.price * curr.quantity),
-          quantity: prev.quantity +  curr?.quantity,
+          total: prev.total + curr.price * curr.quantity,
+          quantity: prev.quantity + curr?.quantity,
         };
       },
       {
@@ -69,18 +69,17 @@ const HasProduct = ({ cart, setCart }) => {
       }
     );
 
-
     setCartInfo({
       ...cartInfo,
       ...totalGet,
     });
-    
+
     // set order info
     setOrderInfo({
       ...orderInfo,
       items: [...arrCart],
     });
-  }, [ cart ]);
+  }, [cart]);
   useMemo(() => {
     // get Ship fee
     // sample input ship fee
@@ -110,16 +109,17 @@ const HasProduct = ({ cart, setCart }) => {
         });
       })
       .catch(() => {
-        toast.error(`Địa chỉ này chưa hỗ trợ giao hàng, phí vận chuyển sẽ được nhân viên giao hàng báo và thu trực tiếp`,{
-          position:"top-right",
-          autoClose:5000,
-          toastId:99,
-          closeOnClick:true,
-        })
+        toast.error(
+          `Địa chỉ này chưa hỗ trợ giao hàng, phí vận chuyển sẽ được nhân viên giao hàng báo và thu trực tiếp`,
+          {
+            position: "top-right",
+            autoClose: 5000,
+            toastId: 99,
+            closeOnClick: true,
+          }
+        );
       });
-  }, [
-    detailAddress?.district?.districtID,
-  ]);
+  }, [detailAddress?.district?.districtID]);
   return (
     <div className="has_cart  ">
       <div className="has_cart_header flex ">

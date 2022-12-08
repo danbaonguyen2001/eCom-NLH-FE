@@ -64,19 +64,21 @@ const Login = () => {
       if (result) {
         //redirect
         history.push("/");
-        cartHandler
-          .getCurrentCart()
-          .then((res) => {
-            dispatch(setCurrentCart(res.data.cart));
-          })
-          .catch((e) =>
-            toast.error(`Không lấy được thông tin giỏ hàng cũ`, {
-              toastId: 99,
-              position: "top-right",
-              autoClose: 5000,
-              closeOnClick: true,
-            })
-          );
+        await dispatch(setRender());
+        // cartHandler
+        //   .getCurrentCart()
+        //   .then((res) => {
+        //     dispatch(setCurrentCart(res.data.cart));
+        //     dispatch(setRender());
+        //   })
+        //   .catch((e) =>
+        //     toast.error(`Không lấy được thông tin giỏ hàng cũ`, {
+        //       toastId: 99,
+        //       position: "top-right",
+        //       autoClose: 5000,
+        //       closeOnClick: true,
+        //     })
+        //   );
       } else {
         toast.error("Đăng nhập thất bại !", {
           position: "top-right",
@@ -91,7 +93,7 @@ const Login = () => {
           toastId: 99,
         });
       }
-      console.log(result);
+      //console.log(result);
     };
 
     const onChange = (e) => {
