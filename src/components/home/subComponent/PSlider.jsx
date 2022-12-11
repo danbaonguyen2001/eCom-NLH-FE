@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import prevI from "../../../assets/images/home/prevI.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "../../../assets/css/home/pSlider.css";
+import productHandler from "../../../features/product/function";
 const ProductCard = React.lazy(() => import("./ProductCard"));
 //#region Nav bt
 const addClass = (e, className) => {
@@ -64,26 +65,30 @@ const NextArr = (props) => {
 };
 //#endregion
 // end nav bt
-const Pslider = ({ ...props }) => {
-  let { event,data,award } = props;
-  event = event?.length >0 ? event : [...data]
-
+const Pslider = (props ) => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const arrProduct = props?.event?.map((v) => productHandler.getProductById({ productId: v }).then((res) => res?.data));
+    Promise.all(arrProduct).then(res=>{
+      setProducts(res)
+    })
+  }, [props?.event]);
   const settings = {
     ...props.settings,
     nextArrow: <NextArr />,
     prevArrow: <PrevArr />,
-    infinite:event?.length>5
+    infinite: props?.event?.length > 5,
   };
   return (
     <div className="pSliderWrap">
       <Slider className="ps__slider" {...settings}>
-        {event?.map((v, i) => {
-              return (
-                <div key={i} className="ps__item">
-                  <ProductCard data={v} award={award}/>
-                </div>
-              );
-            })}
+        {products?.map((v, i) => {
+          return (
+            <div key={i} className="ps__item">
+              <ProductCard data={v} award={props?.award} />
+            </div>
+          );
+        })}
       </Slider>
     </div>
   );

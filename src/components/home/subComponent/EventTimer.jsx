@@ -7,7 +7,7 @@ const EventTimer = ({ data }) => {
     let endUp = false;
     // just event at index=0 is known as timer UI need
     const expired =
-      new Date(data?.expireTime) || new Date("2022-08-24 23:25:00");
+      new Date(data?.expireIn) || new Date("2022-08-24 23:25:00");
     // const expired = new Date("2022-08-25 11:47:00");
     const secondMinus = setInterval(() => {
       const now = new Date().getTime();

@@ -13,7 +13,7 @@ const BigBanner = React.lazy(() => import("../components/home/BigBanner"));
 const OptionPromote = React.lazy(() =>
   import("../components/home/OptionPromote")
 );
-const LuckyCircle = React.lazy(() => import("../components/home/LuckyCircle"));
+const EventList = React.lazy(() => import("../components/home/EventList"));
 const GoldenWeek = React.lazy(() => import("../components/home/GoldenWeek"));
 const TrendingShop = React.lazy(() =>
   import("../components/home/TrendingShop")
@@ -75,7 +75,7 @@ const Home = () => {
       <BigBanner />
       <div className="mainContent">
         <OptionPromote />
-        <LuckyCircle />
+        <EventList />
         <GoldenWeek />
         <TrendingShop />
         <CategoryShop />
