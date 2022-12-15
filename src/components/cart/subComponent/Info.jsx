@@ -4,6 +4,14 @@ import userController from "../../../features/user/function";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+
+const AddressSelect = React.lazy(() =>
+  import("../../../components/register/AddressSelect")
+);
+const RadioPickup = React.lazy(() =>
+  import("../../../components/cart/subComponent/RadioPickup")
+);
+
 const Title = styled.div`
   display: flex;
   justify-content: space-between;
@@ -22,27 +30,26 @@ const DifferentWrap = styled.div`
     flex: 1;
   }
 `;
-const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
+const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
+
+  // ADDRESS ID
+  const [addressEdit,setAddressEdit] = useState("")
+  // 
   const [currentUser, setCurrentUser] = useState({
     phone: "",
     name: "",
     address: "",
     others: "",
+    defaultAddress: "",
     discountCode: "",
     differentReceiverName: "",
     differentReceiverPhone: "",
     promotionList: [],
   });
-
   const [promotionAvailable, setPromotionAvailable] = useState(false);
   const [differentInfo, setDifferentInfo] = useState(false);
-  //   Element get
-  useEffect(() => {
-    setCurrentUser({
-      ...currentUser,
-      promotionList: [...promotionList],
-    });
-  }, [promotionList, currentUser.address, currentUser.phone, currentUser.name]);
+  const [pickUp, setPickUp] = useState(true);
+
   useEffect(() => {
     setOrderInfo({
       ...orderInfo,
@@ -53,35 +60,46 @@ const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
       differentReceiverPhone: currentUser.differentReceiverPhone,
     });
   }, [currentUser]);
-  const promotionInputElement = useRef(null);
-  //   Handler event
+
+
+  useEffect(()=>{
+    // 280AAAA,Côn Đảo,Huyện đảo Côn Đảo,Bà Rịa - Vũng Tàu
+    const arr = currentUser.address && currentUser.address.split(",")
+    setCurrentUser({
+      ...currentUser,
+      address:`${arr[0]||"Nhập địa chỉ"}, ${detailAddress?.ward?.wardName}, ${detailAddress?.district?.districtName}, ${detailAddress?.province?.provinceName}`    
+    })
+  },[detailAddress])
+
+
+  //   Handler Auto Form Fill
   //   Button
-  const handleAutoFillClick = async () => {
-    try {
-      const res = await userController.getUser();
-      const { status, data } = res.data;
-
-      console.log(res.data);
-
-      if (status) {
-        const defaultAddress = data?.addresses.find((v) => v.idDefault);
-        setCurrentUser({
-          ...currentUser,
-          phone: data?.phone || "Chưa cung số điện thoại",
-          name: data?.name,
-          address: defaultAddress?.address || "Chưa cung địa chỉ",
+  const handleAutoFillClick = () => {
+    userController
+      .getUser()
+      .then((res) => {
+        const user = res.data.user;
+        if (user) {
+          const defaultAddress = user?.addresses.find(
+            (v) => v.idDefault === true
+          );
+          setAddressEdit(defaultAddress?.detailAddress)
+          setCurrentUser({
+            ...currentUser,
+            defaultAddress: defaultAddress.detailAddress,
+            phone: user?.phone || "Chưa cung số điện thoại",
+            name: user?.name,
+            address: defaultAddress?.address,
+          });
+        }
+      })
+      .catch((e) => {
+        toast.warning("Thử lại sau, mã lỗi: " + e.message, {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
         });
-      } else {
-        throw new Error();
-      }
-    } catch (e) {
-      toast.warning("Thử lại sau", {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: true,
       });
-      console.log(e);
-    }
   };
   //   Input change
   const handleInputChange = (e) => {
@@ -90,29 +108,9 @@ const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
       [e.target.name]: e.target.value,
     });
   };
-  //   Promotion Check
-  const handlePromotionCheck = (e) => {
-    const availablePromotions = currentUser.promotionList;
-    const currentPromotion = promotionInputElement.current.value;
-    if (availablePromotions.some((v) => v == currentPromotion)) {
-      toast.success(
-        `Bạn được giảm ${currentPromotion}%, Giá sẽ được cập nhât sau nhé`,
-        {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-        }
-      );
-      setCurrentUser({
-        ...currentUser,
-        discountCode: `${currentPromotion}%`,
-      });
-      setPromotionAvailable(true);
-    } else {
-      toast.error(`Mã này hết hiệu lực rồi`);
-      setPromotionAvailable(false);
-    }
-  };
+
+  
+  //
   return (
     <>
       <div className="has_cart_infor_user">
@@ -156,33 +154,13 @@ const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
             />
           </div>
         </div>
-        <span className="has_cart_infor_user_heading">
-          Chọn cách thức nhận hàng
-        </span>
-        {/* Middle control box */}
-        <div className="has_cart_infor_user_receive flex">
-          <div>
-            <input
-              type="radio"
-              id="athome"
-              name="fav_language"
-              value="athome"
-              checked
-            />
-            &nbsp;
-            <label htmlFor="athome">Giao tận nơi</label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="atstore"
-              name="fav_language"
-              value="atstore"
-            />
-            &nbsp;
-            <label htmlFor="atstore">Nhận tại siêu thị</label>
-          </div>
-        </div>
+
+        {/* SELECT PICKUP WAY */}
+        <RadioPickup setPickup={setPickUp} />
+
+        {/* ADDRESS SELECT */}
+        {Boolean(pickUp) ? <AddressSelect sx={{minWidth:"21ch",fontSize: "1.5rem"}} setValues={setDetailAddress} addressBtStatus="Edit" addressEdit={addressEdit} /> : <></>}
+
         {/* Address */}
         <div className="has_cart_infor_user_input_add">
           <input
@@ -271,7 +249,6 @@ const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
           className="has_cart_voucher_input"
           placeholder="Nhập mã giảm giá"
           disabled={promotionAvailable}
-          ref={promotionInputElement}
         />
 
         {promotionAvailable ? (
@@ -283,7 +260,7 @@ const Info = ({ promotionList, orderInfo, setOrderInfo }) => {
           </button>
         ) : (
           <button
-            onClick={handlePromotionCheck}
+            onClick={()=>alert("Coming soon")}
             className="has_cart_voucher_apply btn"
           >
             Áp dụng

@@ -29,7 +29,7 @@ import access from "../../assets/images/header/Headphone.svg";
 import another from "../../assets/images/header/another.svg";
 
 // api
-import { country } from "../../apis/countryApi";
+import { province } from "../../apis/countryApi";
 
 // selector
 import { useDispatch, useSelector } from "react-redux";
@@ -50,6 +50,7 @@ import {
   getTotals,
   setCurrentCart,
   selectCurrentCartLength,
+  selectCurrentCartItems,
 } from "../../features/cart/cartSlice";
 import useConstant from "use-constant";
 
@@ -77,7 +78,7 @@ const HeaderContent = () => {
   const fetchListProductApi = (text) =>
     productHandler.getProductList({
       page: 1,
-      size: 20,
+      size: 10,
       keyword: text,
     });
   const debounceFetch = useConstant(() => debounce(fetchListProductApi, 500));
@@ -97,14 +98,13 @@ const HeaderContent = () => {
 
       try {
         const res = await debounceFetch(searchWord);
-
-        setListProducts(res.data);
+        setListProducts(res.data.products);
         // set
       } catch (e) {
         console.log(e);
       }
     }
-    console.log(searchWord);
+    //console.log(searchWord);
   };
 
   const clearInput = () => {
@@ -139,15 +139,14 @@ const HeaderContent = () => {
   const userInfo = useSelector(selectCurrentUser);
 
   const status = useSelector(selectLoginStatus) || false;
-  // cart redux set up
-  const cartInfo = useSelector(selectCurrentCartInfo);
-  const cartLength = useSelector(selectCurrentCartLength);
+
+  const cart = useSelector((state) => state.cart);
+
   useEffect(() => {
     dispatch(getTotals());
-  }, [cartInfo]);
+  }, [cart]);
 
   // check
-
   useEffect(() => {
     // check auth
     if (status) {
@@ -160,19 +159,6 @@ const HeaderContent = () => {
           status,
         },
       });
-      const fetchCart = async () => await cartHandler.getCurrentCart();
-
-      fetchCart()
-        .then((data) => {
-          const newArr = data?.map((v) => ({
-            id: v?.item?.productColor?.id,
-            price: v?.item?.marketPrice,
-            quantity: v?.quantity,
-          }));
-
-          dispatch(setCurrentCart([...newArr]));
-        })
-        .catch((e) => console.log(e));
     } else {
       setUserLogin({
         ...userLogin,
@@ -183,7 +169,8 @@ const HeaderContent = () => {
         },
       });
     }
-  }, [status]);
+  }, [avatar, status]);
+
   //
   // Begin content
   const [data, setData] = useState([]);
@@ -210,11 +197,13 @@ const HeaderContent = () => {
 
   useEffect(() => {
     // Get city list
-    country()
+    province()
       .then((data) => {
-        let raw = data.data.results.map((v) => {
-          return v.name;
+        // console.log(data.data.data);
+        let raw = data.data.data.map((v) => {
+          return v.ProvinceName;
         });
+
         setData(raw);
       })
       .catch((e) => {
@@ -222,10 +211,11 @@ const HeaderContent = () => {
       });
   }, []);
   return (
-    <div className="headerContainer">
-      <div className="headerInner wide">
+    <div className="headerContainer grid wide">
+      <div className="headerInner row">
+        {/* New  */}
         {/* Top */}
-        <div className="headerInner__top">
+        <div className="headerInner__top  l-12 m-10 c-10  ">
           {/* Logo */}
           <div className="top__logo">
             <Link to="/">
@@ -290,7 +280,7 @@ const HeaderContent = () => {
                           " ",
                           "-"
                         )}`,
-                        state: { productId: value?.id },
+                        state: { productId: value?._id },
                       }}
                       className="dataItem"
                       onClick={clearInput}
@@ -307,9 +297,11 @@ const HeaderContent = () => {
                         <div className="dataResult__detail">
                           <h3 className="pd_b_5">{value?.name} </h3>
                           <span className="price--original">
-                            {toVND(value?.marketPrice)} &nbsp;
+                            {toVND(value?.price)} &nbsp;
                           </span>
-                          <s className="price--marke">{toVND(value?.price)}</s>{" "}
+                          <s className="price--marke">
+                            {toVND(value?.price * 1.1)}
+                          </s>{" "}
                         </div>
                       </div>
                     </Link>
@@ -335,10 +327,15 @@ const HeaderContent = () => {
               <div className="cart__text">
                 {cartShow ? (
                   <div className="cart__info">
-                    <h6>Số lượng: {cartInfo?.quantity}</h6>
-                    <h6>Loại: {cartLength}</h6>
-
-                    <h6>{toVND(cartInfo?.total)}</h6>
+                    {status ? (
+                      <div>
+                        <h6>Số lượng: {cart.quantity}</h6>
+                        <h6>Loại: {cart.cartItems.length}</h6>
+                        <h6>{toVND(cart.total)}</h6>
+                      </div>
+                    ) : (
+                      <h5>Xác thực ngay</h5>
+                    )}
                   </div>
                 ) : (
                   "Giỏ hàng"
@@ -346,11 +343,8 @@ const HeaderContent = () => {
               </div>
               &nbsp;
               <span>
-                {status && !cartShow ? (
-                  <CartQuantity cartInfo={cartInfo} />
-                ) : (
-                  ""
-                )}
+                {status && !cartShow ? <CartQuantity cartInfo={cart} /> : ""}
+                {/* {console.log(cartInfo)} */}
               </span>
             </div>
           </Link>
@@ -400,7 +394,7 @@ const HeaderContent = () => {
             />
           </Link>
           {/* News */}
-          <div className="top__news">
+          <div className="top__news m-0 c-0">
             <Link to="/GameApp">
               <div className="news__game news__button">
                 {/* Icon */}
@@ -428,8 +422,10 @@ const HeaderContent = () => {
             </Link>
           </div>
         </div>
+
         {/* Main */}
-        <div className="headerInner__main">
+
+        <div className="headerInner__main wide ">
           <div className="main__left">
             {/* Main - Phone */}
             <Link to="/phone">
@@ -684,53 +680,8 @@ const HeaderContent = () => {
               </div>
             </div>
           </div>
-
-          <div className="main__right display_none">
-            {/* Main - Old */}
-            <Link to="/mainproductold">
-              <div className="main__old main__button main__box ">
-                {/* <LazyLoadImage src={old} /> */}
-                <div style={{ fontSize: "24px" }}>
-                  <i class="fa-solid fa-laptop-code"></i>
-                </div>
-                &nbsp; Máy cũ
-              </div>
-            </Link>
-            {/* Main - Sim */}
-            <Link to="/sim-so-dep">
-              <div className="main__sim main__button main__box">
-                {/* <LazyLoadImage src={sim} /> */}
-                <div style={{ fontSize: "24px" }}>
-                  <i class="fa-solid fa-ticket-simple"></i>
-                </div>
-                &nbsp; Sim,thẻ cào
-              </div>
-            </Link>
-            {/* Main - Another */}
-            <div className="main__another .main__pc main__button main__box">
-              <Link to="/">
-                {/* <LazyLoadImage src={another} /> */}
-                <div style={{ fontSize: "24px" }} className="flex_center">
-                  <i class="fa-brands fa-usps"></i>
-                  <div>Tiện ích</div>
-                </div>
-                &nbsp;
-              </Link>
-              <div className="access__menu">
-                <div className="item-child">
-                  <strong>Tiện ích khác</strong>
-                  {payOnlineData.map((v, i) => {
-                    return (
-                      <Link key={i} to={v.link}>
-                        <h3>{v.content}</h3>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
+        {/* Main Tablet-Phone */}
       </div>
     </div>
   );

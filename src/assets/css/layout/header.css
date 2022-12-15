@@ -1,3 +1,8 @@
+.headerWrapper {
+  background: var(--primary--color);
+  padding-bottom: 0.8rem;
+}
+
 /* Nguyen fix icon */
 
 .headerInner__top a {
@@ -8,13 +13,14 @@
 /*  */
 
 .headerContainer {
-  height: 121px;
   background-color: var(--primary--color);
   font-family: "Roboto", sans-serif;
   font-size: 1.4rem;
+  /* padding-bottom: 1.6rem; */
 }
 
 .headerInner {
+  flex-direction: column;
 }
 
 /* Top */
@@ -70,7 +76,7 @@
 .top__location {
   margin-left: 6px;
   width: 93px;
-  height: 100%;
+  /* height: 100%; */
   transition: all 0.1s linear;
   display: flex;
   align-items: center;
@@ -481,22 +487,26 @@
 
 .headerInner__main {
   position: relative;
-  margin: 0 auto;
+
+  /* margin-bottom: 1.6rem; */
+
   height: 58px;
-  width: 1196px;
+  /* width: 1196px; */
   background-color: var(--white--color);
   border-radius: 8px;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
 }
 
 .main__left {
   display: flex;
+  height: 100%;
   width: 100%;
   align-items: center;
   justify-content: space-around;
   /* margin-left: 19px; */
+  /* margin-bottom: 0.8rem; */
 }
 
 .main__left > a img:hover {
@@ -571,6 +581,7 @@
   position: relative;
   /* font-size: 12px; */
   transition: all 0.2s linear;
+  height: 100%;
 }
 
 /* Menu Zone */
@@ -578,15 +589,25 @@
 /* Access Menu */
 
 .main__access:hover .access__menu {
-  transition: all 0.2s linear;
+  transition: all 0.1s linear;
   opacity: 1;
-  top: 45px;
+  top: 58px;
   pointer-events: all;
   width: 710px;
+  display: grid;
 }
 
 .main__access .access__menu {
   width: 300px;
+}
+
+.main__access .access__menu::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 3.2rem;
+  height: 1.6rem;
+  background-color: #0000;
 }
 
 /* Pc Menu */
@@ -604,6 +625,7 @@
   pointer-events: all;
   width: 150px;
   z-index: 10;
+  display: grid;
 }
 
 .main__pc .access__menu {
@@ -613,6 +635,7 @@
 
 .main__another {
   position: relative;
+  height: 100%;
   /* font-size: 12px; */
   transition: all 0.2s linear;
 }
@@ -620,7 +643,7 @@
 .main__another:hover .access__menu {
   transition: all 0.2s linear;
   opacity: 1;
-  top: 35px;
+  top: 58px;
   width: 190px;
   z-index: 10;
 }
@@ -645,6 +668,7 @@
   grid-template-columns: repeat(4, auto);
   /* hide */
   top: -500px;
+  /* display: none; */
   pointer-events: none;
   opacity: 0;
 }
@@ -707,3 +731,8 @@
 }
 
 /* #endregion  */
+
+/* Responsive */
+/* Tablet */
+@media (min-width: 740px) and (max-width: 1024px) {
+}

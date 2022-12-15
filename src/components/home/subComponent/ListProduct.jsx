@@ -17,7 +17,7 @@ const ListProduct = (props) => {
   }, []);
   return (
     <div className="lpWrap row">
-      {resultData.length > 0
+      {resultData?.length > 0
         ? resultData.map((cur, i) => {
             return <ProductCard key={i} data={cur}/>;
           })

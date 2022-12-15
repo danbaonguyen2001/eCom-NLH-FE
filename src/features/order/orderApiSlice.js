@@ -1,36 +1,45 @@
-import { apiSlice } from "../../apis/apiSlice";
+import {
+    apiSlice
+} from "../../apis/apiSlice";
 export const orderApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         // get History Order
         getHistoryOrder: builder.query({
             query: (inputData) => {
-                let { page, size, userId } = inputData;
+                let {
+                    page,
+                    size
+                } = inputData;
                 return {
-                    url: `/order/history/${userId}`,
-                    params: { page, size },
+                    url: `https://tlcn-2022-be.onrender.com/api/orders/myorders`,
+                    params: {
+                        page,
+                        size
+                    },
                 };
-            },
-            transformResponse: (res) => ({
-                status: res.status,
-                data: res.data,
-            }),
+            }
         }),
         // get Order Info
         getOrderInfo: builder.query({
-            query: ({ orderId }) => `/order/${orderId}`,
-            transformResponse: (res) => ({
-                status: res.status,
-                message: res.message,
-                data: res.data,
-            }),
+            query: ({
+                orderId
+            }) => `https://tlcn-2022-be.onrender.com/api/orders/${orderId}`,
         }),
         // get Order Status (pending,processing,complete,cancel,delivery,paid,unpaid)
         filterOrderStatus: builder.query({
             query: (inputData) => {
-                let { page, size, status } = inputData;
+                let {
+                    page,
+                    size,
+                    status
+                } = inputData;
                 return {
                     url: `/order/search-status`,
-                    params: { page, size, status },
+                    params: {
+                        page,
+                        size,
+                        status
+                    },
                 };
             },
             transformResponse: (res) => ({
@@ -40,23 +49,31 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         }),
         // User
         // Make a order
-        orderByCod: builder.query({
+        placeOrder: builder.query({
             query: (inputData) => ({
-                url: `/order`,
+                url: `https://tlcn-2022-be.onrender.com/api/orders`,
                 method: "POST",
-                body: {...inputData },
-            }),
-            transformResponse: (res) => ({
-                data: res.data,
-                status: res.status,
-            }),
+                body: {
+                    ...inputData
+                },
+            })
+        }),
+        // Update order
+        updateOrder: builder.query({
+            query: (inputData) => ({
+                url: `https://tlcn-2022-be.onrender.com/api/orders/${inputData.orderId}/update`,
+                method: "PUT",
+                body: inputData
+            })
         }),
         // Cancel cod order
         cancelCodOrder: builder.query({
-            query: ({ orderId }) => ({
-                url: `/cod/cancel/${orderId}`,
+            query: (inputData) => ({
+                url: `https://tlcn-2022-be.onrender.com/api/orders/${inputData?.orderId}`,
                 method: "PUT",
+                body: inputData
             }),
         }),
+
     }),
 });

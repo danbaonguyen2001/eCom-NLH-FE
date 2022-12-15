@@ -89,8 +89,6 @@ const PurchaseHistory = (props) => {
       </div>
       <div className="purchase_history_box_right">
         <div className="purchase_history_box_right_title">
-          <p className="mg_r_5">Chào anh</p>
-          <h4>{name} </h4>
           <div className="purchase_history_box_right_title_right flex">
             <button className="logout_btn_history">
               <i class="fa-regular fa-comment-dots mg_r_5"></i>Phản hồi,góp ý

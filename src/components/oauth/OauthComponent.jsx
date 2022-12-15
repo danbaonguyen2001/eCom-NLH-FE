@@ -10,6 +10,7 @@ import userController from "../../features/user/function";
 import { toast } from "react-toastify";
 import { addToLocalStorage } from "../../utils/tokenHandle";
 import { getParamsValue } from "../../utils/format";
+import { toastObject } from "../../constants/toast";
 const OauthGoogle = () => {
   //state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -25,78 +26,56 @@ const OauthGoogle = () => {
   const responseToken = getParamsValue(search, "token");
   const error = getParamsValue(search, "error");
   useEffect(() => {
-
     addToLocalStorage(responseToken);
+    const access_token = responseToken;
     // call Api
-    const fetchUser = async (token) => {
-      try {
-        const res = await userController.getUser();
-        const { status, data } = res.data;
-        const access_token = token;
-        if (status) {
-          let { role, name, avatar, email, id, provider } = data;
-          // add to local storage
-          // finish login
-          dispatch(logIn());
-          dispatch(
-            setUserInfos({
-              role,
-              name,
-              avatar,
-              email,
-              access_token,
-              userId: id,
-              provider,
-            })
-          );
-          // toast.success(`Đăng ký thành công, chúc bạn một ngày tốt lành `, {
-          //   position: "top-right",
-          //   autoClose: 5000,
-          //   closeOnClick: true,
-          // });
-          if(email || avatar || email){
-            toast.info(
-              `Có thể bạn sẽ trở thành một phần của chúng mình, cho mình biết thêm một vài thông tin nếu bạn đang rảnh`,
-              {
-                toastId:21,
-                position: "top-right",
-                autoClose: 5000,
-                closeOnClick: true,
+    if (!currentUserId.userId) {
+      if (loginState === "token") {
+        userController
+          .getUser()
+          .then((res) => {
+            const { success, user } = res?.data;
+            console.log(user)
+            if (success) {
+              let { name, avatar, email, _id, provider, addresses, isAdmin,phone } =
+                user;
+              if (addresses.length < 1 || phone) {
+                toast.info(
+                  `Có thể bạn sẽ trở thành một phần của chúng mình, cho mình biết thêm một vài thông tin nếu bạn đang rảnh`,
+                  toastObject
+                );
               }
+              // add to local storage
+              // finish login
+              dispatch(logIn());
+              dispatch(
+                setUserInfos({
+                  role: !isAdmin ? "ROLE_USER" : "ROLE_ADMIN",
+                  name,
+                  avatar: avatar.url||avatar,
+                  email,
+                  access_token,
+                  userId: _id,
+                  provider,
+                })
+              );
+              setIsAuthenticated(true);
+            } else {
+              history.push("/login");
+            }
+          })
+          .catch((e) => {
+            toast.error(
+              `Có trục trặc gì trong quá trình đăng ký. Thử lại sau: ${e.message}`,
+              toastObject
             );
-          }
-
-          setIsAuthenticated(true);
-          //
-          // const cart = cartController.getCurrentCart();
-          // cart && dispatch(setCurrentCart({}))
-        } else {
-          history.push("/login")
-          throw new Error();
-        }
-      } catch (e) {
-        toast.error(`Có trục trặc gì trong quá trình đăng ký. Thử lại sau`, {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-          toastId:404,
-        });
-      } finally {
-        setIsLoading(false);
+          })
+          .finally(() => setIsLoading(false));
+      } else if (loginState == "error") {
+        toast.error(`Email này đã được dùng trước đó`, toastObject);
       }
-    };
-
-    if (responseToken && loginState!="error") {
-      
-      fetchUser(responseToken);
-    }else{
-      history.push("/login")
-      toast.error(`Email này đã được dùng trước đó`, {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: true,
-        toastId:404,
-      });
+    } else {
+      toast.error(`Đăng xuất trước khi đăng nhập`, toastObject);
     }
   }, []);
   return (
@@ -110,11 +89,10 @@ const OauthGoogle = () => {
       )}
       {!isAuthenticated &&
         !isLoading &&
-        toast.error(`Có trục trặc gì trong quá trình đăng ký. Thử lại sau`, {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-        })}
+        toast.error(
+          `Có trục trặc gì trong quá trình đăng ký. Thử lại sau`,
+          toastObject
+        )}
     </div>
   );
 };

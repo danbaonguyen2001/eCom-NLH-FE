@@ -1,18 +1,27 @@
 import { React, useState, useEffect } from "react";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectLoginStatus } from "../features/auth/authSlice";
 import login from "../assets/images/register/login.png";
 import FormInput from "../components/login/FormInput";
 import background from "../assets/images/register/login.png";
 import "../sass/auth/_login.scss";
+import { toast } from "react-toastify";
 //
 
 // Function
 import authController from "../features/auth/functions";
+import cartHandler from "../features/cart/function";
+import {
+  getTotals,
+  setCurrentCart,
+  setRender,
+} from "../features/cart/cartSlice";
+
 const Login = () => {
   // check login
   const isLogin = useSelector(selectLoginStatus);
+  const dispatch = useDispatch();
   //
   const inputs = [
     {
@@ -53,10 +62,36 @@ const Login = () => {
       let result = await authController.login({ email, password });
 
       if (result) {
+        //redirect
         history.push("/");
+        cartHandler
+          .getCurrentCart()
+          .then((res) => {
+            dispatch(setCurrentCart(res.data.cart));
+          })
+          .catch((e) =>
+            toast.error(`Không lấy được thông tin giỏ hàng cũ`, {
+              toastId: 99,
+              position: "top-right",
+              autoClose: 5000,
+              closeOnClick: true,
+            })
+          );
       } else {
+        toast.error("Đăng nhập thất bại !", {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+        });
         history.push("/login");
+        toast.error(`Sai tài khoản hoặc mật khẩu, thử lại!`, {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+          toastId: 99,
+        });
       }
+      console.log(result);
     };
 
     const onChange = (e) => {
@@ -118,7 +153,7 @@ const Login = () => {
 
               <div className="login_form_btn_socials">
                 <a
-                  href="https://tgddgroup04.herokuapp.com/oauth2/authorize/google"
+                  href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
                   className="btn btn_icon flex_center"
                 >
                   <i className="fa-brands fa-google "></i>
@@ -126,7 +161,7 @@ const Login = () => {
                 </a>
 
                 <a
-                  href="https://tgddgroup04.herokuapp.com/oauth2/authorize/facebook"
+                  href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
                   className="btn btn_icon flex_center"
                 >
                   <i className="fa-brands fa-facebook "></i>
@@ -195,7 +230,7 @@ const Login = () => {
           </div>
           <div className="login_form_btn_socials">
             <a
-              href="https://tgddgroup04.herokuapp.com/oauth2/authorize/google"
+                href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
               className="btn btn_icon flex_center"
             >
               <i className="fa-brands fa-google "></i>
@@ -203,7 +238,7 @@ const Login = () => {
             </a>
 
             <a
-              href="https://tgddgroup04.herokuapp.com/oauth2/authorize/facebook"
+              href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
               className="btn btn_icon flex_center"
             >
               <i className="fa-brands fa-facebook "></i>

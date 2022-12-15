@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../assets/css/tabletlaptop/laptop.css";
 import { sliderPC, bannerPC } from "../components/PCPrint/data";
 import TopSlider from "../components/PCPrint/TopSlider";
+import Product from "../components/phone/Product";
 import ListProductOld from "../components/ProductOld/ListProductOld";
 import productHandler from "../features/product/function";
 
@@ -19,18 +20,15 @@ const Laptop = () => {
   const [listProduct, setListProduct] = useState(0);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      let res = await productHandler.getProductList(params);
-      try {
+    productHandler
+      .getProductsByCategory({ categoryName: "Laptop" })
+      .then((res) => {
+        //const listProducts = res.data.products;
+        //console.log(res.data);
         setListProduct(res.data);
-        setTotalQt(res?.data?.length);
-        //console.log(listProduct);
-        // console.log(listProduct.length);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProduct();
+        //setFilter(res.data);
+        setTotalQt(res.data);
+      });
   }, []);
   return (
     <div>
@@ -106,7 +104,8 @@ const Laptop = () => {
           </a>
         </div>
       </div>
-      <div className="the3_deal" id="dealsoc">
+
+      {/* <div className="the3_deal" id="dealsoc">
         <div className="thecondealx">
           <div className="deal_title">
             <span className="txtDs">Deal sốc</span>
@@ -117,12 +116,12 @@ const Laptop = () => {
             alt=""
           />
 
-          {/* đưa list product dô       */}
+          
           {listProduct.length > 0 && (
-            <ListProductOld list={listProduct} qt={totalQt} />
+            <Product list={listProduct} qt={totalQt} />
           )}
         </div>
-      </div>
+      </div> */}
       <div className="the4_gamming" id="gaming">
         <div className="thecongamingx">
           <div className="block_bannergaming">
@@ -134,7 +133,7 @@ const Laptop = () => {
           <div className="listproduct_old">
             {/* đưa list product dô       */}
             {listProduct.length > 0 && (
-              <ListProductOld list={listProduct} qt={totalQt} />
+              <Product list={listProduct} qt={totalQt} />
             )}
           </div>
         </div>
@@ -150,7 +149,7 @@ const Laptop = () => {
           <div className="listproduct_old">
             {/* đưa list product dô       */}
             {listProduct.length > 0 && (
-              <ListProductOld list={listProduct} qt={totalQt} />
+              <Product list={listProduct} qt={totalQt} />
             )}
           </div>
         </div>
@@ -166,7 +165,7 @@ const Laptop = () => {
           <div className="listproduct_old">
             {/* đưa list product dô       */}
             {listProduct.length > 0 && (
-              <ListProductOld list={listProduct} qt={totalQt} />
+              <Product list={listProduct} qt={totalQt} />
             )}
           </div>
         </div>
@@ -182,7 +181,7 @@ const Laptop = () => {
           <div className="listproduct_old">
             {/* đưa list product dô       */}
             {listProduct.length > 0 && (
-              <ListProductOld list={listProduct} qt={totalQt} />
+              <Product list={listProduct} qt={totalQt} />
             )}
           </div>
         </div>
@@ -198,7 +197,7 @@ const Laptop = () => {
           <div className="listproduct_old">
             {/* đưa list product dô       */}
             {listProduct.length > 0 && (
-              <ListProductOld list={listProduct} qt={totalQt} />
+              <Product list={listProduct} qt={totalQt} />
             )}
           </div>
         </div>
@@ -214,7 +213,7 @@ const Laptop = () => {
           <div className="listproduct_old">
             {/* đưa list product dô       */}
             {listProduct.length > 0 && (
-              <ListProductOld list={listProduct} qt={totalQt} />
+              <Product list={listProduct} qt={totalQt} />
             )}
           </div>
         </div>
@@ -230,7 +229,7 @@ const Laptop = () => {
           <div className="listproduct_old">
             {/* đưa list product dô       */}
             {listProduct.length > 0 && (
-              <ListProductOld list={listProduct} qt={totalQt} />
+              <Product list={listProduct} qt={totalQt} />
             )}
           </div>
         </div>

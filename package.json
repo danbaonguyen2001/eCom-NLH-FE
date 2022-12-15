@@ -1,6 +1,6 @@
 {
-  "name": "tgdd-team02",
-  "version": "0.1.0",
+  "name": "ecom-nlh",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -17,6 +17,7 @@
     "@trendyol-js/react-carousel": "^3.0.0",
     "awesome-debounce-promise": "^2.1.0",
     "axios": "^0.27.2",
+    "bootstrap": "^5.2.2",
     "dotenv": "^16.0.1",
     "dropzone": "^6.0.0-beta.2",
     "eslint": "^7.32.0",
@@ -25,7 +26,9 @@
     "node-sass": "^7.0.1",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.6.0",
     "react-dom": "^18.2.0",
+    "react-dropdown-select": "^4.9.0",
     "react-dropzone": "^14.2.2",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.33.1",

@@ -18,7 +18,8 @@ import {
 } from "../../features/auth/authSlice";
 
 // api
-import { country } from "../../apis/countryApi";
+import { province } from "../../apis/countryApi";
+import { getProvince } from "../../apis/apiShipment";
 
 const Introduce = ({ product }) => {
   // img arr
@@ -30,7 +31,7 @@ const Introduce = ({ product }) => {
   const status = useSelector(selectLoginStatus) || false;
 
   const [chooseOption, setChooseOption] = useState(0);
-  console.log(product?.productOptions);
+  // console.log(product?.productOptions);
   // const imgProducts = product.img;
   // console.log(imgProducts);
   // const options = product.options;
@@ -52,21 +53,28 @@ const Introduce = ({ product }) => {
 
   useEffect(() => {
     let arr = [];
-    product?.images.forEach((v) => {
-      v.items.forEach((vi) => {
-        arr.push(vi?.urlImage);
+    product?.productOptions.forEach((productOption) => {
+      productOption?.colors.forEach((color) => {
+        color?.images.forEach((img) => {
+          arr.push(img?.urlImage);
+        });
       });
     });
-    setImgArr(arr);
+    // console.log(product?.productOptions);
+    const sliceArr = arr.slice(0, 7);
+    // console.log(sliceArr);
+    setImgArr(sliceArr);
   }, [product]);
 
   useEffect(() => {
     // Get city list
-    country()
-      .then((data) => {
-        let raw = data.data.results.map((v) => {
-          return v.name;
+    getProvince()
+      .then((res) => {
+        //console.log(res.data.data);
+        let raw = res.data.data.map((v) => {
+          return v.ProvinceName;
         });
+
         setData(raw);
       })
       .catch((e) => {
@@ -105,7 +113,7 @@ const Introduce = ({ product }) => {
     console.log(product);
   };
   useEffect(() => {
-    youtube_parser();
+    //youtube_parser();
   }, [product]);
   const handleCloseVideo = () => {
     setOpenVideo(false);
@@ -118,13 +126,14 @@ const Introduce = ({ product }) => {
         <ClickSlider imgArr={imgArr} />
         &nbsp;
         {/* Video */}
-        <ModalVideo
+        {/* <ModalVideo
           channel="youtube"
           autoplay
           isOpen={openVideo}
           videoId={idVideo}
           onClose={handleCloseVideo}
-        />
+        /> */}
+        {/* Left */}
         <div class="product_introduce_expand row flex">
           <div class="product_introduce_expand_item l-2 m-2 c-2 flex ">
             <div class="expand_item_logo flex">
@@ -185,7 +194,7 @@ const Introduce = ({ product }) => {
         <div class="product_introduce_option margin_bottom_10">
           {product?.productOptions.map((v, i) => {
             {
-              console.log(v);
+              // console.log(v);
             }
             return (
               <div
@@ -195,17 +204,20 @@ const Introduce = ({ product }) => {
                   chooseOption == i ? "active" : ""
                 }`}
               >
-                {v?.optionName}
+                {v?.productOptionName}
               </div>
             );
           })}
         </div>
 
-        <div class="product_introduce_price_location " onClick={locationShow}>
+        <div class="product_introduce_price_location ">
           <div>
             <span>
               Giá tại
-              <Link class="product_introduce_location mg_r_5" to="#">
+              <Link
+                class="product_introduce_location mg_r_5"
+                onClick={locationShow}
+              >
                 {" "}
                 {locationI || "Hồ Chí Minh"}
               </Link>
@@ -227,10 +239,11 @@ const Introduce = ({ product }) => {
           </ul>
         </div>
         <div class="product_introduce_price">
-          {toVND(product?.productOptions[chooseOption]?.marketPrice)} &nbsp;
+          {toVND(product?.productOptions[chooseOption]?.price)} &nbsp;
           <span className="product_introduce_price_original">
-            <s>{toVND(product?.productOptions[chooseOption]?.price)}</s> -
-            {product?.productOptions[chooseOption]?.promotion}%
+            <s>{toVND(product?.productOptions[chooseOption]?.price * 1.1)}</s> -
+            10%
+            {/* {product?.productOptions[chooseOption]?.promotion * 1.1}% */}
           </span>
         </div>
         <div class="product_introduce_promotion border">

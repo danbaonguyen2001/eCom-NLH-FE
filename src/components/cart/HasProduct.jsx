@@ -1,22 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Product from "./subComponent/Product";
+import { toast } from "react-toastify";
+
 import Info from "./subComponent/Info";
 import { toVND } from "../../utils/format";
-import { useDispatch } from "react-redux";
-import { setCartTotal } from "../../features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCartTotal,
+  selectCurrentCartInfo,
+} from "../../features/cart/cartSlice";
+
+// Ship fee
+import { getShipFee } from "../../apis/apiShipment";
 const OrderConfirm = React.lazy(() => import("./subComponent/OrderConfirm"));
 
-const HasProduct = ({ cart }) => {
+const HasProduct = ({ cart, setCart }) => {
   //
+  const [detailAddress, setDetailAddress] = useState({});
   const dispatch = useDispatch();
-  //
-  // 
+  const stateCart = useSelector((state) => state.cart);
   const [promotionList, setPromotionList] = useState([]);
   const [productListInfo, setProductListInfo] = useState([]);
   const [cartInfo, setCartInfo] = useState({
     quantity: 0,
     total: 0,
+    serviceFee: 0,
   });
   // order info
   const [orderInfo, setOrderInfo] = useState({
@@ -28,43 +37,30 @@ const HasProduct = ({ cart }) => {
     differentReceiverPhone: "",
     items: [
       {
-        productColorId: 0,
+        itemID: 0,
         quantity: 0,
       },
     ],
+    shippingPrice: 0,
+    totalPrice: 0,
   });
+
   useEffect(() => {
-    // get promotion list
-    const promotionsGet = cart.map((v) => {
-      return v?.item.promotion;
-    });
-    setPromotionList([...promotionList, ...promotionsGet]);
-    // get cart info
-    const newArr = cart.map((v) => {
-      const currentProduct = productListInfo.find(
-        (product) => product.id == v.item.productColor.id
-      );
-      let obj = {
-        quantity: currentProduct?.quantity || v.quantity || 0,
-        id: v.item.productColor.id || 0,
-      };
-      if (currentProduct || obj.id != 0) {
-        return obj;
+    const arrCart =  cart.map(v=>{
+      return{
+        price:v?.item?.price,
+        quantity:v?.item?.quantity,
+        itemID: v?._id,
       }
-    });
+    })
 
-    setProductListInfo([...newArr]);
-  }, [cart]);
+    setProductListInfo(arrCart)
 
-  useEffect(() => {
-    const totalGet = cart.reduce(
+    const totalGet = arrCart.reduce(
       (prev, curr) => {
-        const currQuantity =
-          productListInfo.find((v) => v.id == curr.item?.productColor.id)
-            ?.quantity || 0;
         return {
-          total: prev.total + curr.item?.marketPrice * currQuantity,
-          quantity: prev.quantity + currQuantity,
+          total: prev.total + (curr.price * curr.quantity),
+          quantity: prev.quantity +  curr?.quantity,
         };
       },
       {
@@ -72,20 +68,57 @@ const HasProduct = ({ cart }) => {
         total: 0,
       }
     );
+
+
     setCartInfo({
+      ...cartInfo,
       ...totalGet,
     });
-
+    
     // set order info
-    const validInputArray = productListInfo.map((v) => ({
-      productColorId: v.id,
-      quantity: v.quantity,
-    }));
     setOrderInfo({
       ...orderInfo,
-      items: [...validInputArray],
+      items: [...arrCart],
     });
-  }, [productListInfo]);
+  }, [ cart ]);
+  useMemo(() => {
+    // get Ship fee
+    // sample input ship fee
+    let insuranceValue;
+    const input = {
+      wt: 50,
+      wh: 20,
+      l: 20,
+      h: 50,
+      ward: detailAddress?.ward?.wardCode,
+      district: detailAddress?.district?.districtID,
+      insurance_value: insuranceValue || 100000,
+    };
+    getShipFee(input)
+      .then((res) => {
+        const { total } = res?.data?.data;
+        setOrderInfo({
+          ...orderInfo,
+          shippingPrice: total,
+        });
+        setCartInfo((prev) => {
+          return {
+            ...prev,
+            serviceFee: total,
+          };
+        });
+      })
+      .catch(() => {
+        toast.error(`Địa chỉ này chưa hỗ trợ giao hàng, phí vận chuyển sẽ được nhân viên giao hàng báo và thu trực tiếp`,{
+          position:"top-right",
+          autoClose:5000,
+          toastId:99,
+          closeOnClick:true,
+        })
+      });
+  }, [
+    detailAddress?.district?.districtID,
+  ]);
   return (
     <div className="has_cart  ">
       <div className="has_cart_header flex ">
@@ -99,21 +132,19 @@ const HasProduct = ({ cart }) => {
         <div className="has_cart_list_product">
           {cart.map((product, index) => {
             return (
-              <Product
-                productListInfo={productListInfo}
-                setProductListInfo={setProductListInfo}
-                key={index}
-                dataProduct={product}
-              />
+              <Product key={index} dataProduct={product} setCart={setCart} />
             );
           })}
         </div>
+
         {/* UserInfo */}
         <div className="line"></div>
         <Info
           promotionList={promotionList}
           orderInfo={orderInfo}
           setOrderInfo={setOrderInfo}
+          detailAddress={detailAddress}
+          setDetailAddress={setDetailAddress}
         />
 
         <div className="line"></div>

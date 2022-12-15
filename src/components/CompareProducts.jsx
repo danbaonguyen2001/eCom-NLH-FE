@@ -78,13 +78,16 @@ const CompareProducts = () => {
   //handle
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.product.productList);
-  console.log(productList);
+  //console.log(productList);
   useEffect(() => {
     const fetchProduct = async () => {
       const compareList = await Promise.all(
         productList?.map(async (product, i) => {
-          const res = await productHandler.getProductById(productList[i]);
-          return res.data;
+          const res = await productHandler.getProductById({
+            productId: productList[i],
+          });
+          console.log(res.data);
+          return res?.data;
         })
       );
       setProducts([...compareList]);
@@ -92,17 +95,15 @@ const CompareProducts = () => {
     fetchProduct();
   }, [productList]);
 
+  console.log(products);
+
   const handleDeleteProduct1 = () => {
-    dispatch(removeProduct(products[0].id));
+    dispatch(removeProduct(products[0]._id));
   };
   const handleDeleteProduct2 = () => {
-    dispatch(removeProduct(products[1].id));
+    dispatch(removeProduct(products[1]._id));
   };
 
-  console.log(products);
-  console.log(products[0]?.productOptions[0].price);
-  console.log(products[0]?.productOptions[0]?.productColors[0]?.color?.name);
-  console.log(products[0]?.detailSpecs);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -129,7 +130,7 @@ const CompareProducts = () => {
             &nbsp;
             <div className="cps-img l-12 mg_b_10">
               <img
-                src={products[0]?.images[0]?.items[0]?.urlImage}
+                src={products[0]?.image}
                 alt={products[0]?.name}
                 style={{ width: "50%" }}
               />
@@ -138,21 +139,19 @@ const CompareProducts = () => {
               <h4>
                 {products[0]?.name}
                 &nbsp;
-                {products[0]?.productOptions[0]?.optionName}
-                &nbsp;
-                {products[0]?.productOptions[0]?.productColors[0]?.color?.name}
+                {products[0]?.productOptions[0]?.productOptionName}
               </h4>
             </div>
             <div className="cps-price mg_b_10">
-              <s>{toVND(products[0]?.productOptions[0]?.price)}</s>
+              <s>{toVND(products[0]?.productOptions[0]?.price * 1.1)}</s>
             </div>
             <div className="cps-marketprice mg_b_10">
-              {toVND(products[0]?.productOptions[0]?.marketPrice)}
+              {toVND(products[0]?.productOptions[0]?.price)}
             </div>
             <div className="cps-rating">
-              <Rating name="rate" value={products[0]?.rate} readOnly />
+              <Rating name="rate" value={products[0]?.rating} readOnly />
               &nbsp;
-              <span>{products[0]?.countRate} đánh giá</span>
+              <span>{products[0]?.countRate} 6 đánh giá</span>
               &nbsp;
               <span className="cps-rating-number"></span>
             </div>
@@ -182,7 +181,7 @@ const CompareProducts = () => {
             &nbsp;
             <div className="cps-img l-12 mg_b_10">
               <img
-                src={products[1]?.images[0]?.items[0]?.urlImage}
+                src={products[1]?.image}
                 alt={products[1]?.name}
                 style={{ width: "50%" }}
               />
@@ -191,21 +190,19 @@ const CompareProducts = () => {
               <h4>
                 {products[1]?.name}
                 &nbsp;
-                {products[1]?.productOptions[0]?.optionName}
-                &nbsp;
-                {products[1]?.productOptions[0]?.productColors[0]?.color?.name}
+                {products[1]?.productOptions[0]?.productOptionName}
               </h4>
             </div>
             <div className="cps-price mg_b_10">
-              <s>{toVND(products[1]?.productOptions[0]?.price)}</s>
+              <s>{toVND(products[1]?.productOptions[0]?.price * 1.1)}</s>
             </div>
             <div className="cps-marketprice mg_b_10">
-              {toVND(products[1]?.productOptions[0]?.marketPrice)}
+              {toVND(products[1]?.productOptions[0]?.price)}
             </div>
             <div className="cps-rating">
-              <Rating name="rate" value={products[1]?.rate} readOnly />
+              <Rating name="rate" value={products[1]?.rating} readOnly />
               &nbsp;
-              <span>{products[1]?.countRate} đánh giá</span>
+              <span>{products[1]?.countRate} 6 đánh giá</span>
               &nbsp;
               <span className="cps-rating-number"></span>
             </div>

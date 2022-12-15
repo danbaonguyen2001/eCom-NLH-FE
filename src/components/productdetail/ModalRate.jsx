@@ -1,29 +1,30 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
-import "../../sass/productdetail/_modal_rate.scss"
+import "../../sass/productdetail/_modal_rate.scss";
 import { addCommentRateProductId } from "../../features/rate/rateSlice";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { selectLoginStatus } from "../../features/auth/authSlice";
 import { toHaveClass } from "@testing-library/jest-dom/dist/matchers";
-export default function ModalRate(props) {
+export default function ModalRate({ product, renderReview, openModal, close }) {
   const location = useLocation();
   const productId = location.state.productId;
+  // const productId = "63743fa09878bcdd84b437ab";
   const dispatch = useDispatch();
   const history = useHistory();
   const status = useSelector(selectLoginStatus) || false;
-  const onClose = props.onClose ? props.onClose : null;
+  const onClose = () => openModal(false);
   let initValue = null;
   const [toggle, setToggle] = React.useState(false);
   const [value, setValue] = React.useState(0);
   const [data, setData] = useState({
     productId: productId,
-    rate: 0,
-    content: "",
+    rating: 0,
+    comment: "",
   });
-  initValue = props.product ? props.product.id : null;
+  initValue = product ? product.id : null;
   const onChange = (e) => {
     setToggle(true);
     setData({ ...data, [e.target.name]: e.target.value });
@@ -31,13 +32,15 @@ export default function ModalRate(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (status) {
-      if (data.productId && data.rate && data.content) {
+      if (data.productId && data.rating && data.comment) {
+        //console.log(data);
         const res = await dispatch(addCommentRateProductId(data)).unwrap();
-        console.log("dasd", res);
-        if (res.data.status) {
+        //console.log("dasd", res);
+        if ((res.message = "Review added")) {
           toast.success("Thêm Đánh giá thành công");
-          history.go(0);
-        } else if (res.data.status === false) {
+          renderReview(renderReview + 1);
+          return;
+        } else {
           toast.error("Thêm Đánh giá thất bại");
         }
       }
@@ -54,32 +57,26 @@ export default function ModalRate(props) {
         {/* <span id="close-modal" className="_hide-visual">
           Close
         </span> */}
-        
+
         <div className="modal-body">
-        <button
-          onClick={props.onClose ? props.onClose : null}
-          className="_modal-close-icon"
-          viewBox="0 0 40 40"
-        >
-          <path d="M 10,10 L 30,30 M 30,10 L 10,30" />X
-        </button>
+          <button
+            onClick={() => openModal(false)}
+            className="_modal-close-icon"
+            viewBox="0 0 40 40"
+          >
+            <path d="M 10,10 L 30,30 M 30,10 L 10,30" />X
+          </button>
           <form onSubmit={handleSubmit}>
             <div className="info-pro">
               <div className="img-cmt">
                 <img
-                  src={
-                    props.product
-                      ? props.product.images[0].items[0].urlImage
-                      : ""
-                  }
+                  src={product ? product?.image : ""}
                   height="80px"
                   width="auto"
                   alt=""
                 />
               </div>
-              <div className="text-cmt">
-                {props.product ? props.product.name : ""}
-              </div>
+              <div className="text-cmt">{product ? product.name : ""}</div>
             </div>
             <div className="flex_center">
               <Box
@@ -88,7 +85,7 @@ export default function ModalRate(props) {
                   "& > legend": { mt: 0 },
                 }}
               >
-                <Rating name="rate" value={data.rate} onChange={onChange} />
+                <Rating name="rating" value={data.rating} onChange={onChange} />
               </Box>
             </div>
             {toggle ? (
@@ -97,9 +94,9 @@ export default function ModalRate(props) {
                   <label htmlFor="name">Cảm nhận</label>
                   <input
                     type="name"
-                    name="content"
+                    name="comment"
                     className="form-control"
-                    value={data.content}
+                    value={data.comment}
                     id="name"
                     onChange={onChange}
                     placeholder="Mời bạn chia sẻ cảm nhận về sản phẩm"
@@ -118,7 +115,6 @@ export default function ModalRate(props) {
           </form>
         </div>
       </div>
-      
     </div>
   );
 }

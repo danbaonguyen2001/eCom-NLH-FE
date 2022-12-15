@@ -6,75 +6,76 @@ import cartController from "../../../features/cart/function";
 import productController from "../../../features/product/function";
 import { Link } from "react-router-dom";
 import orderController from "../../../features/order/function";
-const Order = ({data}) => {
-  const [info, setInfo] = useState({
-    items: [],
-    orders: {},
-  });
-  const [rootImg, setRootImg] = useState("");
-  //
-  // 
-  useEffect(() => {
-    // Get order information
-    const fetchData = async () => {
-      // console.log(data)
-
-      const res = await orderController.getOrderInfo({ orderId: data?.orderId });
-      try {
-      // console.log(res)
-
-        let { status, data, message } = res;
-        if (status) {
-          setInfo(data);
-        } else {
-          console.log("Cant get order : " + message);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    // Get product information
-    const fetchProduct = async () => {
-      let productId = info?.items?.[0]?.product?.id ;
-      // console.log(productId)
-      // res
-      const res = await productController.getProductById(productId);
-      try {
-        let { data } = res;
-        // console.log(data)
-        setRootImg(data?.images?.[0]?.items?.[0]?.urlImage);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    // Call
-    // fetchOrder
-    fetchData();
-    // fetchProduct
-    fetchProduct();
-  }, [data,info]);
-
+import { Stack, Typography, Link as LinkMui } from "@mui/material";
+import OrderStateText from "./OrderStateText";
+const Order = ({ data }) => {
   // get img
   return (
-    <div className="order">
-      <h5 className="width_15">{`#${data.orderId}`}</h5>
-      <div className="order_pd flex_40_width flex">
-        <img className="order_pd_img " src={rootImg} alt="Img" />
+    <Stack
+      sx={{
+        opacity:
+          data?.status?.statusNow?.toUpperCase() === "CANCEL" ||
+          data?.status?.statusNow?.toUpperCase() === "REFUND"
+            ? "0.3"
+            : "1",
+      }}
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+    >
+      <Typography
+        sx={{ flex: 2, fontSize: "11px" }}
+        variant="h6"
+        className="width_15"
+      >{`#${data?._id.slice(0, 18)}`}</Typography>
+      <Stack
+        sx={{ flex: 4 }}
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+      >
+        <img
+          className="order_pd_img "
+          src={data?.orderItems[0]?.image}
+          alt="Img"
+        />
         <div className="order_pd_detail flex_60_width">
-          <h5>{info.items[0]?.product?.name || "Khong co du lieu"}</h5>
+          <Typography
+            sx={{ fontSize: "11px", whiteSpace: "nowrap" }}
+            variant="h6"
+          >
+            {data?.orderItems[0]?.name || "Khong co du lieu"}
+          </Typography>
           <br />
-          <Link className="text_primary" to={`order?orderId=${data?.orderId}`}>
-            Xem chi tiết
+          <Link to={`order?orderId=${data?._id}`}>
+            <LinkMui underline="hover" variant="h6">
+              Xem chi tiết
+            </LinkMui>
           </Link>
         </div>
-      </div>
+      </Stack>
 
-      <h5 className="width_15">{toVND(data.totalPrice)}</h5>
-      <h5 className="width_15">{toDate(data.orderDate)}</h5>
-      <h5 className="width_15" style={{ textTransform: "capitalize" }}>
-        {data.state}
-      </h5>
-    </div>
+      <Typography
+        sx={{ fontSize: "13px", textAlign: "center", flex: 2 }}
+        variant="h6"
+        color="blue"
+      >
+        {toVND(data?.totalPrice)}
+      </Typography>
+      <Typography
+        sx={{ fontSize: "11px", textAlign: "center", flex: 3 }}
+        variant="h6"
+      >
+        {toDate(data?.createdAt)}
+      </Typography>
+      <Typography
+        sx={{ fontSize: "11px", flex: 1, textAlign: "center" }}
+        variant="h6"
+        style={{ textTransform: "capitalize" }}
+      >
+        <OrderStateText orderState={data?.status?.statusNow} />
+      </Typography>
+    </Stack>
   );
 };
 

@@ -2,115 +2,84 @@
 import { logIn, logOut, setUserInfos } from "./authSlice";
 import { Redirect, useHistory } from "react-router-dom";
 import { authApiSlice } from "./authApiSlice";
-import cartController from "../cart/function"
+import cartController from "../cart/function";
 import { store } from "../../redux/stores";
 import { setCurrentCart } from "../cart/cartSlice";
+import {resetCurrentCart} from "../cart/cartSlice"
+import { toast } from "react-toastify";
+import { toastObject } from "../../constants/toast";
 const { dispatch } = store;
 // content
 const authHandler = {
-  login: async ({ email, password }) => {
-    // return resolved promise
-    // endpoint login : builder.mutations ({ query: credentials => ({body:{...credentials}})
-    // dispatch(setCredentials({...userData,email}))'
-    // {status,data}
-    let set = false;
+  login: async ({ email: emailI, password }) => {
     try {
       //   let result = login({ email, password }).unwrap();
-      let response = await dispatch(
-        authApiSlice.endpoints.login.initiate({ email, password })
+      const response = await dispatch(
+        authApiSlice.endpoints.login.initiate({ email: emailI, password })
       );
-      let { data: result } = response.data.data;
-      if (response.data.data.status) {
-        let { role, name, avatar, email, access_token, userId } = result;
-        set = true;
-        // add to local storage
-        // finish login
-        dispatch(logIn());
-        dispatch(
-          setUserInfos({ role, name, avatar, email, access_token, userId })
-        );
-        // 
-        // const cart = cartController.getCurrentCart();
-        // cart && dispatch(setCurrentCart({}))
-      } else {
-        console.log("Cant login");
-      }
+      let result = { ...response.data };
+      const { access_token } = result.data;
+      const { name, avatar, email, _id, isAdmin } = result.data.user;
+      // Change auth state
+      dispatch(logIn());
+      dispatch(
+        setUserInfos({
+          role: !isAdmin ? "ROLE_USER" : "ROLE_ADMIN",
+          name,
+          avatar: avatar.url,
+          email,
+          access_token,
+          userId: _id,
+        })
+      );
+      if (result) return true;
+      throw new Error(result.message);
     } catch (e) {
-      if (!e?.response) {
-        console.log("No Server Response");
-      } else if (e.response?.status === 400) {
-        console.log("Missing Input");
-      } else if (e.response?.status === 401) {
-        console.log("Unauthorized");
-      } else {
-        console.log("Login Failed");
-      }
+      console.log(`Cant login with message: ${e.message}`);
     }
-
-    return set;
+    return false;
   },
-  register: async ({ email, password, gender, phone, address, name }) => {
-    let set = false;
+  register: async (inputData) => {
     try {
       let response = await dispatch(
         authApiSlice.endpoints.register.initiate({
-          email,
-          password,
-          gender,
-          phone,
-          address,
-          name,
+          ...inputData,
         })
       );
-      let { status } = response.data;
-      if (status === true) {
-        set = true;
-      } else {
-        console.log("Cant Register");
-      }
+      if (response?.data?.success) return true;
+      throw new Error(response?.data?.message);
     } catch (e) {
-      if (!e?.response) {
-        console.log("No Server Response");
-      } else if (e.response?.status === 400) {
-        console.log("Missing Input");
-      } else if (e.response?.status === 401) {
-        console.log("Unauthorized");
-      } else {
-        console.log("Login Failed");
-      }
+      console.log(`Cant register with message: ${e.message}`);
     }
-    return set;
+    return false;
   },
+
   verify: async ({ email, token }) => {
-    let set = false;
     try {
       let response = await dispatch(
         authApiSlice.endpoints.verify.initiate({ email, token })
       );
       let status = response.data?.meta?.response?.status;
       if (status === 200 && status) {
-        // success
-        set = true;
-      } else {
-        console.log("Error Verification");
-        throw Error();
+        return true;
       }
+      throw new Error("Invalid token");
     } catch (e) {
-      if (!e?.response) {
-        console.log("No Server Response");
-      } else if (e.response?.status === 400) {
-        console.log("Missing Input");
-      } else if (e.response?.status === 401) {
-        console.log("Unauthorized");
-      } else {
-        console.log("Login Failed");
-      }
+      console.log(e.message);
     }
-    return set;
+    return false;
   },
   logOut: () => {
-    store.dispatch(logOut());
-  
+    let success = false
+    dispatch(authApiSlice.endpoints.logOut.initiate()).then((res) => {
+      if (res?.data?.success) {
+        dispatch(resetCurrentCart())
+        store.dispatch(logOut());
+        toast.success(`Đăng xuất thành công`, toastObject)
+        success =true
+      }
+    }).catch(e=>toast.error(`Lỗi hệ thống thử lại: ${e.message}`,toastObject))
+    return success;
   },
 };
 export default authHandler;

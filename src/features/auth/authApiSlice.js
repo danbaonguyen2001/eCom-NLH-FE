@@ -1,25 +1,25 @@
-import { apiSlice } from "../../apis/apiSlice";
+import {
+    apiSlice
+} from "../../apis/apiSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (inputData) => ({
-                url: "/login",
+                url: "https://tlcn-2022-be.onrender.com/api/auth/login",
                 method: "POST",
-                body: {...inputData },
+                body: {
+                    ...inputData
+                },
             }),
-            transformResponse: (res, meta) => {
-                return {
-                    status: meta.response.status === 200 ? true : false,
-                    data: res,
-                };
-            },
         }),
         register: builder.mutation({
             query: (inputData) => ({
-                url: "/register-email",
+                url: `https://tlcn-2022-be.onrender.com/api/auth/register`,
                 method: "POST",
-                body: {...inputData },
+                body: {
+                    ...inputData
+                },
             }),
         }),
         // verify: builder.mutation({
@@ -31,19 +31,44 @@ export const authApiSlice = apiSlice.injectEndpoints({
 
         // }),
         verify: builder.mutation({
-            query: (inputData) => {
-                const { email, token } = inputData;
+            query: ({
+                token
+            }) => {
                 return {
-                    url: "/verifyRegistration",
-                    method: "GET",
-                    params: { email, token },
+                    url: `https://tlcn-2022-be.onrender.com/api/auth/verify-email/${token}`,
+                    method: "POST",
                 };
             },
-            transformResponse: (res, meta) => ({ res, meta }),
+            transformResponse: (res, meta) => ({
+                res,
+                meta
+            }),
+        }),
+        verify: builder.mutation({
+            query: ({
+                token
+            }) => {
+                return {
+                    url: `https://tlcn-2022-be.onrender.com/api/auth/verify-email/${token}`,
+                    method: "POST",
+                };
+            },
+            transformResponse: (res, meta) => ({
+                res,
+                meta
+            }),
+        }),
+        logOut: builder.mutation({
+            query: () => `https://tlcn-2022-be.onrender.com/api/auth/logout`
         })
+
 
     }),
 });
 // Hook useMutation
-export const { useLoginMutation, useRegisterMutation, useVerifyMutation } =
+export const {
+    useLoginMutation,
+    useRegisterMutation,
+    useVerifyMutation
+} =
 authApiSlice;

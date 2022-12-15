@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Button } from "@material-ui/core";
 import userController from "../../features/user/function";
+import { toast } from "react-toastify";
 const DropZone = ({ userDataAvatar }) => {
   //
   //
@@ -87,19 +88,29 @@ const DropZone = ({ userDataAvatar }) => {
   //   #endregion
   // Ours
   //   Handler for update img bt click
-  const handleUploadImg = async () => {
+  const handleUploadImg = () => {
     let formData = new FormData();
-    formData.append("img", file, fileName);
-    const urlImg = avatar;
-    const res = await userController.updateAvatar({ formData, urlImg });
-
-    const { status, data } = res;
-    if (status) {
-      setAvatar(data);
-      alert("Cập nhật ảnh đại diện thành công");
-    } else {
-      console.log("Cant update avatar");
-    }
+    formData.append("image", file);
+    userController
+      .updateAvatar(formData)
+      .then((res) => {
+        setAvatar(res.data.avatar.url);
+        toast.success("Cập nhật ảnh đại diện thành công", {
+          position: "top-right",
+          autoClose: 3000,
+          closeOnClick: true,
+        });
+      })
+      .catch((e) => {
+        toast.error(
+          "Không thể cập nhật ảnh đại diện, thử lại sau: " + e?.message,
+          {
+            position: "top-right",
+            autoClose: 3000,
+            closeOnClick: true,
+          }
+        );
+      });
   };
   return (
     <div className="user-infor-img">

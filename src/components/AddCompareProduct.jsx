@@ -72,8 +72,8 @@ const product2 = {
 };
 
 const AddCompareProduct = () => {
-  const [displaySmall, setDisPlaySmall] = useState(false);
-  const [displayLarge, setDisPlayLarge] = useState(true);
+  const [displaySmall, setDisPlaySmall] = useState(true);
+  const [displayLarge, setDisPlayLarge] = useState(false);
   const [products, setProducts] = useState([]);
 
   const handleClickSmall = () => {
@@ -92,10 +92,10 @@ const AddCompareProduct = () => {
     setDisPlaySmall(true);
   };
   const handleDeleteProduct1 = () => {
-    dispatch(removeProduct(products[0].id));
+    dispatch(removeProduct(products[0]._id));
   };
   const handleDeleteProduct2 = () => {
-    dispatch(removeProduct(products[1].id));
+    dispatch(removeProduct(products[1]._id));
   };
 
   const handleDeleteAll = () => {
@@ -105,24 +105,22 @@ const AddCompareProduct = () => {
   //handle
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.product.productList);
-  console.log(productList);
+
   useEffect(() => {
     const fetchProduct = async () => {
       const compareList = await Promise.all(
         productList?.map(async (product, i) => {
-          const res = await productHandler.getProductById(productList[i]);
-          return res.data;
+          const res = await productHandler.getProductById({
+            productId: productList[i],
+          });
+          console.log(res.data);
+          return res?.data;
         })
       );
       setProducts([...compareList]);
     };
     fetchProduct();
   }, [productList]);
-  console.log(products);
-  console.log(products[0]?.id);
-  // console.log(products[0]);
-  // console.log(products[0].images[0].items[0].urlImage);
-  // console.log(products[1]);
 
   useEffect(() => {}, []);
   return (
@@ -149,7 +147,7 @@ const AddCompareProduct = () => {
                   <center>
                     <img
                       // src={product1?.image}
-                      src={products[0]?.images[0]?.items[0]?.urlImage}
+                      src={products[0]?.image}
                       alt={products[0]?.name}
                       className="acp-large__product1--img l-3"
                     />
@@ -169,7 +167,7 @@ const AddCompareProduct = () => {
                 <div>
                   <center>
                     <img
-                      src={products[1]?.images[1]?.items[1]?.urlImage}
+                      src={products[1]?.image}
                       alt={products[1]?.name}
                       className="acp-large__product2--img l-3"
                     />

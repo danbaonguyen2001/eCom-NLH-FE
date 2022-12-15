@@ -12,8 +12,8 @@ const Wrap = styled.div`
   text-align: center;
   font-size: 0.9rem;
 `;
-const CartQuantity = ({cartInfo}) => {
-  return <Wrap>{cartInfo?.quantity}</Wrap>;
+const CartQuantity = ({ cartInfo }) => {
+  return <Wrap>{cartInfo.quantity || 0}</Wrap>;
 };
 
 export default CartQuantity;
