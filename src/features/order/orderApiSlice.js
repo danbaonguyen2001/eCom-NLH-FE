@@ -11,7 +11,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
                     size
                 } = inputData;
                 return {
-                    url: `http://localhost:5000/api/orders/myorders`,
+                    url: `https://tlcn-2022-be.onrender.com/api/orders/myorders`,
                     params: {
                         page,
                         size
@@ -23,7 +23,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         getOrderInfo: builder.query({
             query: ({
                 orderId
-            }) => `http://localhost:5000/api/orders/${orderId}`,
+            }) => `https://tlcn-2022-be.onrender.com/api/orders/${orderId}`,
         }),
         // get Order Status (pending,processing,complete,cancel,delivery,paid,unpaid)
         filterOrderStatus: builder.query({
@@ -51,7 +51,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         // Make a order
         placeOrder: builder.query({
             query: (inputData) => ({
-                url: `http://localhost:5000/api/orders`,
+                url: `https://tlcn-2022-be.onrender.com/api/orders`,
                 method: "POST",
                 body: {
                     ...inputData
@@ -61,7 +61,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         // Update order
         updateOrder: builder.query({
             query: (inputData) => ({
-                url: `http://localhost:5000/api/orders/${inputData.orderId}/update`,
+                url: `https://tlcn-2022-be.onrender.com/api/orders/${inputData.orderId}/update`,
                 method: "PUT",
                 body: inputData
             })
@@ -69,7 +69,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         // Cancel cod order
         cancelCodOrder: builder.query({
             query: (inputData) => ({
-                url: `http://localhost:5000/api/orders/${inputData?.orderId}`,
+                url: `https://tlcn-2022-be.onrender.com/api/orders/${inputData?.orderId}`,
                 method: "PUT",
                 body: inputData
             }),
