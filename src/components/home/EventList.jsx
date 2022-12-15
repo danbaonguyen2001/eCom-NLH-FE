@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "../../assets/css/home/luckycircle.css";
-import lcBanner from "../../assets/images/home/lcBanner.png";
+import "../../assets/css/home/eventlist.css";
 import { veData } from "./mockData";
 import eventController from "../../features/event/function";
-import { event } from "jquery";
+import { toast } from "react-toastify";
+import {toastObject} from "../../constants/toast"
 //
 //
 // Slider item
@@ -13,24 +13,19 @@ const ListAllButton = React.lazy(() =>
   import("./subComponent/ListAllButton.js")
 );
 const EventTimer = React.lazy(() => import("./subComponent/EventTimer"));
-const dataS = veData;
-const LuckyCircle = () => {
-  //
+const EventList = () => {
   const [resultData, setResultData] = useState([]);
   // Fetch event
   useEffect(() => {
     eventController
-      .handlerGetCurrentEvent()
-      .then((data) => {
-        const result = data.data;
-        setResultData(result.data);
+      .getEvents()
+      .then((res) => {
+
+        setResultData(res?.data?.events);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => toast.error(`Lấy dữ liệu sự kiện thất bại`,{...toastObject,toastId:99}));
   }, []);
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    setData(dataS);
-  }, [data]);
+
 
   
   // slider config
@@ -40,19 +35,19 @@ const LuckyCircle = () => {
     slidesToScroll: 5,
     focusOnSelect: true,
   };
-  // console.log(resultData);
+
   const body = resultData?.map((event, index) => (
     <div  key={index} style={{backgroundColor:event?.color}} className="lcWrap grid wide">
       {/* Banner */}
-      <div className="lcBanner">
-        <LazyLoadImage src={event?.banner} alt={event?.name} />
+      <div className="lcBanner" >
+        <LazyLoadImage style={{maxHeight:"95px"}} src={event?.banner?.url} alt={event?.name} />
       </div>
       {/* Timer */}
       <EventTimer data={event}/>
 
       {/* Slider */}
       <div className="lcSlider">
-        <PSlider award={event?.award} settings={settings} data={data} event={event?.productList} />
+        <PSlider award={event?.award} settings={settings}  event={event?.products} />
       </div>
       {/* Bt */}
       <div className="lcBt row">
@@ -63,4 +58,4 @@ const LuckyCircle = () => {
   return body;
 };
 
-export default LuckyCircle;
+export default EventList;

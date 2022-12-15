@@ -4,10 +4,7 @@ import { store } from "../../redux/stores"
 const { dispatch } = store;
 
 const eventController = {
-    handlerGetCurrentEvent: async() => {
-        return await dispatch(eventApiSlice.endpoints.getCurrentEvent.initiate());
-    }
-
+    getEvents: async() => await dispatch(eventApiSlice.endpoints.getEvents.initiate()),
 }
 
 export default eventController;

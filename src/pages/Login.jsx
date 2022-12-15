@@ -153,7 +153,7 @@ const Login = () => {
 
               <div className="login_form_btn_socials">
                 <a
-                  href="http://localhost:5000/api/oauth2/google"
+                  href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
                   className="btn btn_icon flex_center"
                 >
                   <i className="fa-brands fa-google "></i>
@@ -161,7 +161,7 @@ const Login = () => {
                 </a>
 
                 <a
-                  href="http://localhost:5000/api/oauth2/facebook"
+                  href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
                   className="btn btn_icon flex_center"
                 >
                   <i className="fa-brands fa-facebook "></i>
@@ -230,7 +230,7 @@ const Login = () => {
           </div>
           <div className="login_form_btn_socials">
             <a
-                href="http://localhost:5000/api/oauth2/google"
+                href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
               className="btn btn_icon flex_center"
             >
               <i className="fa-brands fa-google "></i>
@@ -238,7 +238,7 @@ const Login = () => {
             </a>
 
             <a
-              href="http://localhost:5000/api/oauth2/facebook"
+              href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
               className="btn btn_icon flex_center"
             >
               <i className="fa-brands fa-facebook "></i>

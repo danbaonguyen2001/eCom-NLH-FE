@@ -9,13 +9,21 @@ import { Link } from "react-router-dom";
 import eyeI from "../../../assets/images/home/eyeI.png";
 import { toVND } from "../../../utils/format";
 const StarRating = React.lazy(() => import("../../accessories/StarRating"));
-const ProductCard = ({data:v}) => {
+const ProductCard = ({data,award} ) => {
+  const mouseEnterHandler = () => {
+    setEyeS(true);
+  };
+  const mouseLeaveHandler = () => {
+    setEyeS(false);
+  };
   const [eyeS, setEyeS] = useState(false);
+  console.log(data)
+
   return (
     <Link
       to={{
-        pathname: `/productdetail/${v?.name.replaceAll(" ", "-")}`,
-        state: { productId: v.id },
+        pathname: `/productdetail/${data?.name.replaceAll(" ", "-")}`,
+        state: { productId: data?._id },
       }}
     >
       <div
@@ -30,21 +38,21 @@ const ProductCard = ({data:v}) => {
         {/* content */}
         <div className="pCard__inner">
           <div className="pCard__TG">
-            {(v?.installment != null ? (
+            {(data?.installment != null ? (
               <p>Trả góp 0%</p>
             ) : (
               <p>Không áp dụng trả góp</p>
-            )) || (v.TG ? <p>Trả góp 0%</p> : <p>Không áp dụng trả góp</p>)}
+            )) || (data.TG ? <p>Trả góp 0%</p> : <p>Không áp dụng trả góp</p>)}
           </div>
           <div className="pCard__img">
             <LazyLoadImage
-              src={v?.image}
+              src={data?.image}
             />
           </div>
           <div className="pCard__des">
             <div
               className={`pCard__event--${
-                v.event || Math.floor(Math.random() * 2 + 1)
+                data.event || Math.floor(Math.random() * 2 + 1)
               } pCard__event`}
             >
               {Math.floor(Math.random() * 2 + 1) == 1 ? (
@@ -59,28 +67,28 @@ const ProductCard = ({data:v}) => {
                 </div>
               )}
             </div>
-            <div className="pCard__name">{v?.name}</div>
+            <div className="pCard__name">{data?.name}</div>
             <div className="pCard__price">
-              {v?.price ? (
+              {data?.price ? (
                 <div className="pCard__price--marketPrice">
-                  {toVND(v?.price)}
+                  {toVND(data?.price)}
                 </div>
               ) : (
                 <></>
               )}
               <div className="marketPriceWrap">
                 <div className="pCard__price--onStockPrice">
-                  {toVND(v?.price)}
+                  {toVND(data?.price)}
                 </div>
-                <div className="pCard__promotion">-{v?.productOptions?.[0]?.promotion || "0"}%</div>
+                <div className="pCard__promotion">-{data?.promotion || "15"}%</div>
               </div>
             </div>
             {/* promotion */}
 
-            <div className="pCard__award">{v?.award}</div>
+            <div className="pCard__award">{award}</div>
             <div className="star-phone">
-              <StarRating rating={v?.rating} />
-              <span>{`(${v?.countRate || v.rate})`}</span>
+              <StarRating rating={data?.rating} />
+              <span>{`(${data?.countRate || "Chưa cập nhật"})`}</span>
             </div>
           </div>
         </div>
