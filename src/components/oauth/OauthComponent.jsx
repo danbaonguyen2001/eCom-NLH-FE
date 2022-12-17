@@ -52,7 +52,7 @@ const OauthGoogle = () => {
                 setUserInfos({
                   role: !isAdmin ? "ROLE_USER" : "ROLE_ADMIN",
                   name,
-                  avatar: avatar.url,
+                  avatar: avatar.url||avatar,
                   email,
                   access_token,
                   userId: _id,

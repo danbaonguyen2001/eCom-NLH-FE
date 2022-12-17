@@ -222,7 +222,7 @@ const Register = () => {
 
           <div className="register_form_btn_socials">
             <a
-              href="http://localhost:5000/api/oauth2/google"
+              href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
               className="btn btn_icon flex_center"
             >
               <i className="fa-brands fa-google "></i>
@@ -230,7 +230,7 @@ const Register = () => {
             </a>
 
             <a
-              href="https://tgddgroup04.herokuapp.com/oauth2/authorize/facebook"
+              href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
               className="btn btn_icon flex_center"
             >
               <i className="fa-brands fa-facebook "></i>
