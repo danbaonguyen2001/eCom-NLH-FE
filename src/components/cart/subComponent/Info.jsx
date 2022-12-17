@@ -67,7 +67,7 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
     const arr = currentUser.address && currentUser.address.split(",")
     setCurrentUser({
       ...currentUser,
-      address:`${arr[0]||"Nhập địa chỉ"}, ${detailAddress?.ward?.wardName}, ${detailAddress?.district?.districtName}, ${detailAddress?.province?.provinceName}`    
+      address:`${arr?.[0]||"Nhập địa chỉ"}, ${detailAddress?.ward?.wardName}, ${detailAddress?.district?.districtName}, ${detailAddress?.province?.provinceName}`    
     })
   },[detailAddress])
 
@@ -78,15 +78,16 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
     userController
       .getUser()
       .then((res) => {
-        const user = res.data.user;
+        const user = res?.data?.user;
         if (user) {
           const defaultAddress = user?.addresses.find(
             (v) => v.idDefault === true
           );
+          console.clear()
           setAddressEdit(defaultAddress?.detailAddress)
           setCurrentUser({
             ...currentUser,
-            defaultAddress: defaultAddress.detailAddress,
+            defaultAddress: defaultAddress?.detailAddress,
             phone: user?.phone || "Chưa cung số điện thoại",
             name: user?.name,
             address: defaultAddress?.address,
@@ -129,6 +130,7 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
             <label htmlFor="" className="has_cart_infor_user_input_label">
               Họ và tên
             </label>
+            {console.log(currentUser)}
             <input
               type="text"
               name="name"
