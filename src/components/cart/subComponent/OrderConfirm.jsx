@@ -84,7 +84,7 @@ const OrderConfirm = ({ cartInfo, orderInfo }) => {
     }
   };
   return (
-    <div className="has_cart_total_price flex_center">
+    <div className="">
       {/* Payment method */}
 
       <CartPayment
