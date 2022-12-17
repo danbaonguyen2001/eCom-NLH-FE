@@ -13,6 +13,7 @@ import {
   decreaseQuantity,
   getTotals,
   resetCurrentCart,
+  setRender,
 } from "../../../features/cart/cartSlice";
 const Product = ({ dataProduct, setCart, render }) => {
   const [quantity, setQuantity] = useState(dataProduct?.item?.quantity || "1");
@@ -20,11 +21,9 @@ const Product = ({ dataProduct, setCart, render }) => {
 
   // config
   const dispatch = useDispatch();
-  // content
-  // const availableQuantity = data?.productColor.quantity;
-  // const currentProductId = data?.productColor.id;
+
   const availableQuantity = dataProduct?.item?.countInStock;
-  const currentProductId = data?.color;
+
   //console.log(availableQuantity);
 
   const handleIncrease = async () => {
@@ -50,6 +49,7 @@ const Product = ({ dataProduct, setCart, render }) => {
             })
           );
           dispatch(getTotals());
+          dispatch(setRender());
         })
         .catch((err) => {
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
@@ -95,6 +95,7 @@ const Product = ({ dataProduct, setCart, render }) => {
           );
 
           dispatch(getTotals());
+          dispatch(setRender());
         })
         .catch((err) => {
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {
@@ -131,6 +132,7 @@ const Product = ({ dataProduct, setCart, render }) => {
           );
           setCart([]);
           dispatch(getTotals());
+          dispatch(setRender());
         })
         .catch((err) => {
           toast.error("Có trục trặc hệ thống rồi, thử lại sau", {

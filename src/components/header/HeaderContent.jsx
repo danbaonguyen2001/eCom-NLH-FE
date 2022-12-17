@@ -51,6 +51,7 @@ import {
   setCurrentCart,
   selectCurrentCartLength,
   selectCurrentCartItems,
+  setRender,
 } from "../../features/cart/cartSlice";
 import useConstant from "use-constant";
 
@@ -98,7 +99,7 @@ const HeaderContent = () => {
 
       try {
         const res = await debounceFetch(searchWord);
-        setListProducts(res.data.products);
+        setListProducts(res?.data?.products);
         // set
       } catch (e) {
         console.log(e);
@@ -141,10 +142,38 @@ const HeaderContent = () => {
   const status = useSelector(selectLoginStatus) || false;
 
   const cart = useSelector((state) => state.cart);
+  // const [cartInfo, setCartInfo] = useState({
+  //   quantity: 0,
+  //   total: 0,
+  //   count: 0,
+  // });
 
   useEffect(() => {
-    dispatch(getTotals());
-  }, [cart]);
+    const fetchCart = async () => {
+      const res = await cartHandler.getCurrentCart();
+
+      try {
+        //setCurrentCart(res.data.cart);
+        //console.log(res.data.cart);
+        // set
+        dispatch(setCurrentCart(res.data.cart));
+        //dispatch(getTotals());
+        //console.log(cart);
+      } catch (e) {
+        toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+      }
+    };
+    fetchCart();
+    console.log("Render Cart");
+  }, [cart.render]);
+
+  useEffect(() => {
+    //dispatch(setRender());
+  }, []);
 
   // check
   useEffect(() => {
@@ -329,9 +358,9 @@ const HeaderContent = () => {
                   <div className="cart__info">
                     {status ? (
                       <div>
-                        <h6>Số lượng: {cart.quantity}</h6>
-                        <h6>Loại: {cart.cartItems.length}</h6>
-                        <h6>{toVND(cart.total)}</h6>
+                        <h6>Số lượng: {cart?.quantity}</h6>
+                        <h6>Loại: {cart?.count}</h6>
+                        <h6>{toVND(cart?.total)}</h6>
                       </div>
                     ) : (
                       <h5>Xác thực ngay</h5>
