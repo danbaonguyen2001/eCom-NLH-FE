@@ -71,6 +71,7 @@ const UserMenu = (props) => {
   // Handler
   const handleLogoutClick = () => {
     authController.logOut();
+    history.push("/");
   };
   const handleOrderClick = () => {
     history.push({

@@ -75,6 +75,8 @@ const AddCompareProduct = () => {
   const [displaySmall, setDisPlaySmall] = useState(true);
   const [displayLarge, setDisPlayLarge] = useState(false);
   const [products, setProducts] = useState([]);
+  const ps = useSelector((state) => state.product);
+  console.log(ps);
 
   const handleClickSmall = () => {
     setDisPlaySmall(false);

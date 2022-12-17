@@ -19,9 +19,8 @@ const Register = () => {
     gender: "man",
     confirmPassword: "",
     phone: "",
-    address:"",
-    detailAddress: { 
-    },
+    address: "",
+    detailAddress: {},
     name: "",
   });
   const inputs = [
@@ -90,10 +89,10 @@ const Register = () => {
     // Xu ly
     try {
       const addressForm = {
-        address:`${values.address}, ${values.detailAddress.ward.wardName}, ${values.detailAddress.district.districtName}, ${values.detailAddress.province.provinceName}`, 
-        detailAddress:values.detailAddress,
-        idDefault:true,
-      }
+        address: `${values.address}, ${values.detailAddress.ward.wardName}, ${values.detailAddress.district.districtName}, ${values.detailAddress.province.provinceName}`,
+        detailAddress: values.detailAddress,
+        idDefault: true,
+      };
       let result = await authController.register({
         email,
         password,
@@ -113,7 +112,7 @@ const Register = () => {
           }
         );
         history.push({
-          pathname: "/registerCode",
+          pathname: "/login",
           state: { passEmail: emailCode },
         });
       } else {
