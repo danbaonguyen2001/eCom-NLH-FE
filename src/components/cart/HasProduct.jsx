@@ -147,7 +147,7 @@ const HasProduct = ({ cart, setCart }) => {
           setDetailAddress={setDetailAddress}
         />
 
-        <div className="line"></div>
+
         <OrderConfirm
           cartInfo={cartInfo}
           orderInfo={orderInfo}
