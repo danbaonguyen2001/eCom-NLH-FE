@@ -42,7 +42,7 @@ const ProductCard = ({data,award} ) => {
               <p>Trả góp 0%</p>
             ) : (
               <p>Không áp dụng trả góp</p>
-            )) || (data.TG ? <p>Trả góp 0%</p> : <p>Không áp dụng trả góp</p>)}
+            )) || (data?.TG ? <p>Trả góp 0%</p> : <p>Không áp dụng trả góp</p>)}
           </div>
           <div className="pCard__img">
             <LazyLoadImage
@@ -52,7 +52,7 @@ const ProductCard = ({data,award} ) => {
           <div className="pCard__des">
             <div
               className={`pCard__event--${
-                data.event || Math.floor(Math.random() * 2 + 1)
+                data?.event || Math.floor(Math.random() * 2 + 1)
               } pCard__event`}
             >
               {Math.floor(Math.random() * 2 + 1) == 1 ? (
