@@ -36,7 +36,7 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
   });
 
   // checked
-  const availableQuantity = productColorList.find(
+  const availableQuantity = productColorList?.find(
     (v) => v._id == body.color
   ).quantity;
 

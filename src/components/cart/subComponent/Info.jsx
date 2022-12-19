@@ -82,8 +82,9 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
         if (user) {
           const defaultAddress = user?.addresses.find(
             (v) => v.idDefault === true
-          );
+          ) || user?.addresses?.[0];
           console.clear()
+          console.log(user?.addresses)
           setAddressEdit(defaultAddress?.detailAddress)
           setCurrentUser({
             ...currentUser,

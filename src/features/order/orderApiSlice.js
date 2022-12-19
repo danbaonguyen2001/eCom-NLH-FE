@@ -74,6 +74,14 @@ export const orderApiSlice = apiSlice.injectEndpoints({
                 body: inputData
             }),
         }),
+        // Digital wallet pay
+        payOrder: builder.query({
+            query: (inputData) => ({
+                url: `https://tlcn-2022-be.onrender.com/api/orders/${inputData?.orderId}/pay`,
+                method: "PUT",
+                body: inputData,
+            })
+        })
 
     }),
 });

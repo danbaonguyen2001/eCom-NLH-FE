@@ -31,6 +31,9 @@ import Login from "../pages/Login";
 
 // import Login from "../components/fakeLogin/Login";
 
+// PayOrder
+import PayOrder from "../components/PayOrder"
+
 import Phone from "../pages/Phone";
 
 import LayoutAccessories from "../components/accessories/LayoutAccessories";
@@ -254,7 +257,8 @@ const Routes = () => {
       <Route path="/userinfor" exact component={UserInFor} />
       {/* Mock Order */}
       <Route path="/mockOrder*" exact component={Order} />
-
+    {/* Digital wallet */}
+    <Route path="/order/pay/:orderId" exact component={PayOrder}/>
       {/* Authorization  */}
       <Route path="/oauth2*" exact component={OauthComponent} />
       {/* Redirect */}
