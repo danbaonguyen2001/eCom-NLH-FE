@@ -45,6 +45,10 @@ const ProductDetail = () => {
   //   });
   // }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
   return (
     <div className="produt_detail grid  wide">
       {/* <!-- category --> */}
@@ -74,7 +78,7 @@ const ProductDetail = () => {
           <i className="fa-solid fa-star-half-stroke"></i>
         </div> */}
         <span className="product_title_review flex_center">
-          {product?.reviews.lenght || 5} đánh giá
+          {product?.reviews.length || 5} đánh giá
         </span>
       </div>
       <div className="line"></div>

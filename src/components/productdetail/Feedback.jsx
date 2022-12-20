@@ -92,6 +92,7 @@ const Feedback = ({ product }) => {
         if (res.data.success === true) {
           toast.success("Thêm bình luận thành công");
           setRenderComment(renderComment + 1);
+          comment.comment = "";
           return;
         } else if (res.data.success === false) {
           toast.error("Thêm bình luận thất bại");
@@ -171,7 +172,7 @@ const Feedback = ({ product }) => {
                 />
                 <span>
                   {" "}
-                  Tổng :{product ? product.reviews.lenght : null} đánh giá
+                  Tổng :{product ? product.reviews.length : null} đánh giá
                 </span>
               </div>
               <div className="product_review_statistic_star_list">
@@ -264,43 +265,45 @@ const Feedback = ({ product }) => {
 
           <div class="product_review_list">
             {feedBack &&
-              feedBack?.slice(0, 5).map((item, index) => (
-                <>
-                  <div className="product_review_item" key={index}>
-                    <div className="product_ask_item_answer_header flex">
-                      {item.avatarUrl !== null ? (
-                        <div className="product_user">
-                          <div className="product_user__image">
-                            <img src={item.avatarUrl} alt="" />
+              feedBack
+                ?.slice(0, 5)
+                .reverse()
+                .map((item, index) => (
+                  <>
+                    <div className="product_review_item" key={index}>
+                      <div className="product_ask_item_answer_header flex">
+                        {item.avatarUrl !== null ? (
+                          <div className="product_user">
+                            <div className="product_user__image">
+                              <img src={item.avatarUrl} alt="" />
+                            </div>
                           </div>
-                        </div>
-                      ) : (
-                        <i className="fa-solid fa-circle-user icon"></i>
-                      )}
-                      <span className="product_review_header_username">
-                        {item.name}
-                      </span>
-                      <i class="fa-solid fa-thumbs-up icon"></i>
-                      <span className="product_review_header_text icon">
-                        Đánh giá lúc
-                      </span>
-                      <span
-                        style={{
-                          fontWeight: "normal",
-                        }}
-                      >
-                        {" xx"}
-                        {/* : xx {item.createTime} */}
-                      </span>
-                    </div>
+                        ) : (
+                          <i className="fa-solid fa-circle-user icon"></i>
+                        )}
+                        <span className="product_review_header_username">
+                          {item.name}
+                        </span>
+                        <i class="fa-solid fa-thumbs-up icon"></i>
+                        <span className="product_review_header_text icon">
+                          Đánh giá lúc
+                        </span>
+                        <span
+                          style={{
+                            fontWeight: "normal",
+                          }}
+                        >
+                          :{toDate(item.createdAt)}
+                        </span>
+                      </div>
 
-                    <div className="product_review_item_content">
-                      {item.comment}
+                      <div className="product_review_item_content">
+                        {item.comment}
+                      </div>
                     </div>
-                  </div>
-                  <div className="line"></div>
-                </>
-              ))}
+                    <div className="line"></div>
+                  </>
+                ))}
           </div>
 
           <div class="product_review_btns flex">
@@ -367,52 +370,13 @@ const Feedback = ({ product }) => {
           {/* List Comment */}
           <div class="product_ask_list">
             {comments &&
-              comments?.slice(0, 5).map((item, index) => (
-                <div className="product_ask_item" key={index}>
-                  {/* Comment */}
-                  <div class="product_ask_item_ask border">
-                    <div className="product_ask_item_answer_header flex">
-                      {item.avatarUrl !== null ? (
-                        <div className="product_user">
-                          <div className="product_user__image">
-                            <img src={item.avatarUrl} alt="AVT" />
-                          </div>
-                        </div>
-                      ) : (
-                        <i className="fa-solid fa-circle-user icon"></i>
-                      )}
-                      <header class="product_ask_item_ask_name">
-                        {item?.name}
-                        <span
-                          style={{
-                            fontWeight: "normal",
-                          }}
-                        >
-                          {" "}
-                          : {toDate(item.createdAt)}
-                        </span>
-                      </header>
-                    </div>
-                    <p class="product_ask_item_ask_content">
-                      {item.comment}
-
-                      <button
-                        className="product_ask_item_button"
-                        onClick={() => setOpenRep(item._id)}
-                      >
-                        <i class="fa-solid fa-reply"></i>
-                        Trả lời
-                      </button>
-                    </p>
-                  </div>
-                  {/* List Rep Comment */}
-                  {openRep === item._id ? renderReply() : null}
-                  {item?.replies?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="product_ask_item_answer border flex"
-                    >
-                      {/* Rep Comment */}
+              comments
+                ?.slice(0, 5)
+                .reverse()
+                .map((item, index) => (
+                  <div className="product_ask_item" key={index}>
+                    {/* Comment */}
+                    <div class="product_ask_item_ask border">
                       <div className="product_ask_item_answer_header flex">
                         {item.avatarUrl !== null ? (
                           <div className="product_user">
@@ -423,25 +387,67 @@ const Feedback = ({ product }) => {
                         ) : (
                           <i className="fa-solid fa-circle-user icon"></i>
                         )}
-
-                        <header class="product_ask_item_answer_name">
+                        <header class="product_ask_item_ask_name">
                           {item?.name}
                           <span
                             style={{
                               fontWeight: "normal",
                             }}
                           >
+                            {" "}
                             : {toDate(item.createdAt)}
                           </span>
                         </header>
                       </div>
-                      <p class="product_ask_item_answer_content flex_90_width">
-                        {item.reply}
+                      <p class="product_ask_item_ask_content">
+                        {item.comment}
+
+                        <button
+                          className="product_ask_item_button"
+                          onClick={() => setOpenRep(item._id)}
+                        >
+                          <i class="fa-solid fa-reply"></i>
+                          Trả lời
+                        </button>
                       </p>
                     </div>
-                  ))}
-                </div>
-              ))}
+                    {/* List Rep Comment */}
+                    {openRep === item._id ? renderReply() : null}
+                    {item?.replies?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="product_ask_item_answer border flex"
+                      >
+                        {/* Rep Comment */}
+                        <div className="product_ask_item_answer_header flex">
+                          {item.avatarUrl !== null ? (
+                            <div className="product_user">
+                              <div className="product_user__image">
+                                <img src={item.avatarUrl} alt="AVT" />
+                              </div>
+                            </div>
+                          ) : (
+                            <i className="fa-solid fa-circle-user icon"></i>
+                          )}
+
+                          <header class="product_ask_item_answer_name">
+                            {item?.name}
+                            <span
+                              style={{
+                                fontWeight: "normal",
+                              }}
+                            >
+                              : {toDate(item.createdAt)}
+                            </span>
+                          </header>
+                        </div>
+                        <p class="product_ask_item_answer_content flex_90_width">
+                          {item.reply}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ))}
           </div>
           <div class="flex_center">
             <button class="product_ask_list_btn flex_50_width btn">

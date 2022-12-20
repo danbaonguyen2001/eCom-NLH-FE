@@ -3,7 +3,7 @@ import { veData } from "../home/mockData";
 
 import productHandler from "../../features/product/function";
 
-const PSlider = React.lazy(() => import("../home/subComponent/PSlider"));
+const PSlider = React.lazy(() => import("./PSlider"));
 
 // Load sản phẩm điện thoại có thể tái sử dụng để loàd danh sách sản phẩm liên quan
 const SeeMore = () => {
@@ -20,7 +20,7 @@ const SeeMore = () => {
   useEffect(() => {
     productHandler.getProductsTop().then((res) => {
       console.log(res);
-      const products = res.data;
+      const products = res?.data;
       console.log("Get Top products:");
       console.log(products);
       setProducts(products);

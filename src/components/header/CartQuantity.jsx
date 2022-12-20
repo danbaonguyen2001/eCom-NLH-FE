@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+// selector
+import { useDispatch, useSelector } from "react-redux";
+import { getTotals } from "../../features/cart/cartSlice";
+
 const Wrap = styled.div`
   position: absolute;
   top: -4px;
@@ -13,7 +17,13 @@ const Wrap = styled.div`
   font-size: 0.9rem;
 `;
 const CartQuantity = ({ cartInfo }) => {
-  return <Wrap>{cartInfo.quantity || 0}</Wrap>;
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  useEffect(() => {
+    console.log("Render get  cart");
+    dispatch(getTotals());
+  }, [cart.render]);
+  return <Wrap>{cart?.quantity}</Wrap>;
 };
 
 export default CartQuantity;

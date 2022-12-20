@@ -46,7 +46,7 @@ const Product = ({ list, qt }) => {
               state: { productId: item._id },
             }}
             key={item?._id}
-            className="item_productPhone"
+            className="item_productPhone "
           >
             <div className="label_tragop">Trả góp 0.5%</div>
             <div className="img_item">
