@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import prevI from "../../../assets/images/home/prevI.png";
+import prevI from "../../assets/images/home/prevI.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "../../../assets/css/home/pSlider.css";
+import "../../assets/css/home/pSlider.css";
 const ProductCard = React.lazy(() => import("./ProductCard"));
 //#region Nav bt
 const addClass = (e, className) => {
