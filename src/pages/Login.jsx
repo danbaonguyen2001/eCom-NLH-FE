@@ -140,7 +140,7 @@ const Login = () => {
               </div>
 
               <div className="forget_password">
-                <Link to="/#" className="forget_password_link">
+                <Link to="/password_reset" className="forget_password_link">
                   Quên mật khẩu?
                 </Link>
               </div>
@@ -218,7 +218,7 @@ const Login = () => {
           </div>
 
           <div className="forget_password">
-            <Link to="/#" className="forget_password_link">
+            <Link to="/password_reset" className="forget_password_link">
               Quên mật khẩu?
             </Link>
           </div>
