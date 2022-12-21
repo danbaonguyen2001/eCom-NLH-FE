@@ -48,7 +48,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
             query: ({
                 email
             }) => ({
-                url: `https://tlcn-2022-be.onrender.com/auth/password/forgot`,
+                url: `https://tlcn-2022-be.onrender.com/api/auth/password/forgot`,
                 method: "POST",
                 body: {
                     email: email
@@ -61,7 +61,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 token,
                 password
             }) => ({
-                url: `https://tlcn-2022-be.onrender.com/auth/password/resetpassword/${token}`,
+                url: `https://tlcn-2022-be.onrender.com/api/auth/password/resetpassword/${token}`,
                 method: "PUT",
                 body: {
                     password: password

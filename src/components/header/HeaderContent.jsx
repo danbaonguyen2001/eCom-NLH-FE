@@ -164,6 +164,7 @@ const HeaderContent = () => {
           position: "top-right",
           autoClose: 5000,
           closeOnClick: true,
+          toastId:101,
         });
       }
     };
@@ -220,6 +221,7 @@ const HeaderContent = () => {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
+        toastId:101,
       });
     }
   };
