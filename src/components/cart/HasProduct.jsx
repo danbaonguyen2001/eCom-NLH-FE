@@ -22,6 +22,7 @@ const HasProduct = ({ cart, setCart }) => {
   const stateCart = useSelector((state) => state.cart);
   const [promotionList, setPromotionList] = useState([]);
   const [productListInfo, setProductListInfo] = useState([]);
+  const [disableOrder, setDisableOrder] = useState(false);
   const [cartInfo, setCartInfo] = useState({
     quantity: 0,
     total: 0,
@@ -96,6 +97,7 @@ const HasProduct = ({ cart, setCart }) => {
     getShipFee(input)
       .then((res) => {
         const { total } = res?.data?.data;
+        setDisableOrder(false);
         setOrderInfo({
           ...orderInfo,
           shippingPrice: total,
@@ -108,8 +110,21 @@ const HasProduct = ({ cart, setCart }) => {
         });
       })
       .catch(() => {
+
+        setDisableOrder(true);
+        setOrderInfo({
+          ...orderInfo,
+          shippingPrice: 0,
+        });
+        setCartInfo((prev) => {
+          return {
+            ...prev,
+            serviceFee: 0,
+          };
+        });
+
         toast.error(
-          `Địa chỉ này chưa hỗ trợ giao hàng, phí vận chuyển sẽ được nhân viên giao hàng báo và thu trực tiếp`,
+          `Địa chỉ này chưa hỗ trợ giao hàng`,
           {
             position: "top-right",
             autoClose: 5000,
@@ -147,11 +162,11 @@ const HasProduct = ({ cart, setCart }) => {
           setDetailAddress={setDetailAddress}
         />
 
-
         <OrderConfirm
           cartInfo={cartInfo}
           orderInfo={orderInfo}
           setOrderInfo={setOrderInfo}
+          disableOrder={disableOrder}
         />
       </div>
     </div>

@@ -113,5 +113,7 @@ const orderController = {
         },
       })
     ),
+  handlerPayOrder: async (inputData) =>
+    await dispatch(orderApiSlice.endpoints.payOrder.initiate(inputData)),
 };
 export default orderController;

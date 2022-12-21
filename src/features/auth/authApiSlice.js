@@ -15,7 +15,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         register: builder.mutation({
             query: (inputData) => ({
-                url: `https://tlcn-2022-be.onrender.com/api/auth/register`,
+                url: `http://locahost:5000/api/auth/register`,
                 method: "POST",
                 body: {
                     ...inputData
@@ -35,31 +35,38 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 token
             }) => {
                 return {
-                    url: `https://tlcn-2022-be.onrender.com/api/auth/verify-email/${token}`,
+                    url: `https://tlcn-2022-be.onrender.com/auth/verify-email/${token}`,
                     method: "POST",
                 };
             },
-            transformResponse: (res, meta) => ({
-                res,
-                meta
-            }),
         }),
-        verify: builder.mutation({
-            query: ({
-                token
-            }) => {
-                return {
-                    url: `https://tlcn-2022-be.onrender.com/api/auth/verify-email/${token}`,
-                    method: "POST",
-                };
-            },
-            transformResponse: (res, meta) => ({
-                res,
-                meta
-            }),
-        }),
+
         logOut: builder.mutation({
             query: () => `https://tlcn-2022-be.onrender.com/api/auth/logout`
+        }),
+        forgotPassword: builder.mutation({
+            query: ({
+                email
+            }) => ({
+                url: `https://tlcn-2022-be.onrender.com/auth/password/forgot`,
+                method: "POST",
+                body: {
+                    email: email
+                }
+
+            })
+        }),
+        resetPassword: builder.mutation({
+            query: ({
+                token,
+                password
+            }) => ({
+                url: `https://tlcn-2022-be.onrender.com/auth/password/resetpassword/${token}`,
+                method: "PUT",
+                body: {
+                    password: password
+                }
+            })
         })
 
 

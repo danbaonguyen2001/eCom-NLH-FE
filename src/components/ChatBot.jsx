@@ -19,7 +19,16 @@ const ChatBot = () => {
     })(document, window.kommunicate || {});
   }, []);
 
-  return <div></div>;
+  return (
+    <div>
+      {/* <iframe
+        allow="microphone;"
+        width="350"
+        height="430"
+        src="https://console.dialogflow.com/api-client/demo/embedded/644f50c5-139f-4120-9b18-c94d85ea932c"
+      ></iframe> */}
+    </div>
+  );
 };
 
 export default ChatBot;

@@ -87,8 +87,8 @@ const ProductCard = ({ data, award }) => {
 
             <div className="pCard__award">{award}</div>
             <div className="star-phone">
-              <StarRating rating={data?.rating} />
-              <span>{`(${data?.countRate || "2"})`}</span>
+              <StarRating rating={data?.rating || 4} />
+              <span>{`(${data?.countRate || "3"})`}</span>
             </div>
           </div>
         </div>

@@ -107,14 +107,14 @@ const OrderState = ({ orderData, setOrderData }) => {
       >
         <Button
           variant="outlined"
-          sx={{ textAlign: "center", fontSize: "12px", minWidth: "13em" }}
+          sx={{ textAlign: "lef", fontSize: "11px", minWidth: "13em" }}
           onClick={() => history.push("/")}
         >
           Mua thêm sản phẩm khác
         </Button>
         <Button
           variant="outlined"
-          sx={{ textAlign: "center", fontSize: "12px", minWidth: "13em" }}
+          sx={{ textAlign: "center", fontSize: "11px", minWidth: "13em" }}
           disabled={
             orderData?.status?.statusNow.toUpperCase() === "CANCEL" ||
             orderData?.status?.statusNow.toUpperCase() === "REFUND"
@@ -126,7 +126,7 @@ const OrderState = ({ orderData, setOrderData }) => {
           Yêu cầu thay đổi thông tin
         </Button>
         <Button
-          sx={{ textAlign: "center", fontSize: "12px", minWidth: "13em" }}
+          sx={{ textAlign: "center", fontSize: "11px", minWidth: "13em" }}
           endIcon={<DeleteIcon />}
           color="error"
           variant="outlined"
