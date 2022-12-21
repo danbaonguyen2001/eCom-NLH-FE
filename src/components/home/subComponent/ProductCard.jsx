@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import eyeI from "../../../assets/images/home/eyeI.png";
 import { toVND } from "../../../utils/format";
 const StarRating = React.lazy(() => import("../../accessories/StarRating"));
-const ProductCard = ({data,award} ) => {
+const ProductCard = ({ data, award }) => {
   const mouseEnterHandler = () => {
     setEyeS(true);
   };
@@ -17,7 +17,7 @@ const ProductCard = ({data,award} ) => {
     setEyeS(false);
   };
   const [eyeS, setEyeS] = useState(false);
-  console.log(data)
+  console.log(data);
 
   return (
     <Link
@@ -45,9 +45,7 @@ const ProductCard = ({data,award} ) => {
             )) || (data?.TG ? <p>Trả góp 0%</p> : <p>Không áp dụng trả góp</p>)}
           </div>
           <div className="pCard__img">
-            <LazyLoadImage
-              src={data?.image}
-            />
+            <LazyLoadImage src={data?.image} />
           </div>
           <div className="pCard__des">
             <div
@@ -80,15 +78,17 @@ const ProductCard = ({data,award} ) => {
                 <div className="pCard__price--onStockPrice">
                   {toVND(data?.price)}
                 </div>
-                <div className="pCard__promotion">-{data?.promotion || "15"}%</div>
+                <div className="pCard__promotion">
+                  -{data?.promotion || "15"}%
+                </div>
               </div>
             </div>
             {/* promotion */}
 
             <div className="pCard__award">{award}</div>
             <div className="star-phone">
-              <StarRating rating={data?.rating} />
-              <span>{`(${data?.countRate || "Chưa cập nhật"})`}</span>
+              <StarRating rating={data?.rating || 4} />
+              <span>{`(${data?.countRate || "3"})`}</span>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ const ChatBot = () => {
   useEffect(() => {
     (function (d, m) {
       var kommunicateSettings = {
-        appId: "341e504b9fcf1f00a2505a779a85b9159",
+        appId: "954742411b84fe42eaa08dc7310d035",
         popupWidget: true,
         automaticChatOpenOnNavigation: true,
       };
@@ -19,7 +19,16 @@ const ChatBot = () => {
     })(document, window.kommunicate || {});
   }, []);
 
-  return <div></div>;
+  return (
+    <div>
+      {/* <iframe
+        allow="microphone;"
+        width="350"
+        height="430"
+        src="https://console.dialogflow.com/api-client/demo/embedded/644f50c5-139f-4120-9b18-c94d85ea932c"
+      ></iframe> */}
+    </div>
+  );
 };
 
 export default ChatBot;

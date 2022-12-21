@@ -31,6 +31,7 @@ const Cart = () => {
         //console.log(res.data.cart);
         // set
         dispatch(setCurrentCart(res.data.cart));
+        dispatch(setRender());
       } catch (e) {
         toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
           position: "top-right",

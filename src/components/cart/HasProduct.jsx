@@ -110,6 +110,7 @@ const HasProduct = ({ cart, setCart }) => {
         });
       })
       .catch(() => {
+
         setDisableOrder(true);
         setOrderInfo({
           ...orderInfo,
@@ -121,8 +122,9 @@ const HasProduct = ({ cart, setCart }) => {
             serviceFee: 0,
           };
         });
+
         toast.error(
-          `Địa chỉ này chưa hỗ trợ giao hàng, phí vận chuyển sẽ được nhân viên giao hàng báo và thu trực tiếp`,
+          `Địa chỉ này chưa hỗ trợ giao hàng`,
           {
             position: "top-right",
             autoClose: 5000,
