@@ -4,13 +4,15 @@ import orderController from "../../../features/order/function";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { Box, Button, Divider, Stack } from "@mui/material";
+import { AddShoppingCart as Cart } from "@material-ui/icons";
 const CartPrice = React.lazy(() => import("./CartInfo/CartPrice"));
 const CartPayment = React.lazy(() => import("./CartInfo/CartPayment"));
 
 // component
 
 //
-const OrderConfirm = ({ cartInfo, orderInfo }) => {
+const OrderConfirm = ({ cartInfo, orderInfo,disableOrder }) => {
   const history = useHistory();
   //
   const [paymentMethod, setPaymentMethod] = useState("cod");
@@ -67,10 +69,10 @@ const OrderConfirm = ({ cartInfo, orderInfo }) => {
               autoClose: 5000,
               closeOnClick: true,
             });
-            if (paymentMethod === "cod") {
+            if (paymentMethod === "cod" || paymentMethod === "cod1") {
               history.push(`/redirect/order?orderId=${order?._id}`);
             } else {
-              alert("Open paypal");
+              history.push(`/order/pay/${order?._id}`)
             }
           }
         })
@@ -84,8 +86,11 @@ const OrderConfirm = ({ cartInfo, orderInfo }) => {
     }
   };
   return (
-    <div className="has_cart_total_price flex_center">
+    <div className="">
       {/* Payment method */}
+      <Divider sx={{ marginTop: "16px" }} textAlign="left">
+        Chọn hình thức thanh toán
+      </Divider>
 
       <CartPayment
         setPaymentMethod={setPaymentMethod}
@@ -95,12 +100,17 @@ const OrderConfirm = ({ cartInfo, orderInfo }) => {
       <CartPrice cartInfo={cartInfo} />
 
       {/* Button */}
-      <button
-        className="has_cart_total_price_btn btn"
-        onClick={handleOrderButtonClick}
-      >
-        Đặt hàng
-      </button>
+      <Stack  justifyContent="center" alignItems="center">
+        <Button
+          startIcon={<Cart />}
+          variant="outlined"
+          className="has_cart_total_price_btn btn"
+          onClick={handleOrderButtonClick}
+          disabled={disableOrder}
+        >
+          Đặt hàng
+        </Button>
+      </Stack>
     </div>
   );
 };

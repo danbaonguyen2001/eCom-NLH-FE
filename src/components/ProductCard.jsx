@@ -9,7 +9,6 @@ const ProductCard = ({ item }) => {
   //Add Compare Product
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.product);
-  console.log(productList);
   const handleAddProductCompare = (item) => {
     const action = addProduct(item.id);
     dispatch(action);

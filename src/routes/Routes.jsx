@@ -31,6 +31,9 @@ import Login from "../pages/Login";
 
 // import Login from "../components/fakeLogin/Login";
 
+// PayOrder
+import PayOrder from "../components/PayOrder";
+
 import Phone from "../pages/Phone";
 
 import LayoutAccessories from "../components/accessories/LayoutAccessories";
@@ -105,7 +108,9 @@ import UnAuthOrderHistory from "../components/purchasehistory/UnAuthOrderHistory
 import WatchForWomen from "../components/Watches/ChildPage/WatchForWomen";
 import WatchForCouple from "../components/Watches/ChildPage/WatchForCouple";
 import CompareProducts from "../components/CompareProducts";
-
+import Forgot from "../components/forgotPassword/Forgot";
+import Reset from "../components/forgotPassword/Reset";
+import ForgotPassword from "../pages/ForgotPassword";
 const Routes = () => {
   return (
     <Switch>
@@ -162,7 +167,12 @@ const Routes = () => {
       <Route path="/register" exact component={Register} />
       {/* <Route path="/register*" exact component={Register} /> */}
       <Route path="/registerCode/:token" exact component={RegisterCode} />
-      <Route path="/api/auth/verify-email/:token" exact component={RegisterCode} />
+      <Route
+        path="/api/auth/verify-email/:token"
+        exact
+        component={RegisterCode}
+      />
+      <Route path="/password_reset*" exact component={ForgotPassword} />
 
       <Route path="/login" exact component={Login} />
       <Route path="/phone" exact component={Phone} />
@@ -254,7 +264,8 @@ const Routes = () => {
       <Route path="/userinfor" exact component={UserInFor} />
       {/* Mock Order */}
       <Route path="/mockOrder*" exact component={Order} />
-
+      {/* Digital wallet */}
+      <Route path="/order/pay/:orderId" exact component={PayOrder} />
       {/* Authorization  */}
       <Route path="/oauth2*" exact component={OauthComponent} />
       {/* Redirect */}

@@ -3,7 +3,7 @@ import "../sass/purchasehistory/_user_infor.scss";
 import DeleteAddressModal from "./purchasehistory/subcomponents/DeleteAddressModal";
 // controller
 import userController from "../features/user/function";
-import DropZone from "./useInfo/DropZone";
+import DropZone from "./userInfo/DropZone";
 import {
   Button,
   Stack,
@@ -61,9 +61,9 @@ const UserInFor = () => {
   ///[###]/////////////////////////////////////////////////////////////////////////
   // Get user info
   const [userData, setUserData] = useState({
-    gender: "",
-    name: "Đang tải dữ liệu...",
-    phone: "Đang tải dữ liệu...",
+    gender: "private",
+    name: "",
+    phone: "",
     addresses: ["Đang tải dữ liệu..."],
     avatar: null,
     isNew: false,
@@ -278,6 +278,14 @@ const UserInFor = () => {
                 label="Nữ"
                 disabled={editDisabled}
               />
+              <FormControlLabel
+                InputLabelProps={{ style: { fontSize: 16 } }}
+                checked={userData.gender === "private" || !userData.gender}
+                value="private"
+                control={<Radio />}
+                label="Ẩn"
+                disabled={editDisabled}
+              />
             </RadioGroup>
           </FormControl>
 
@@ -290,7 +298,7 @@ const UserInFor = () => {
           >
             <Box
               sx={{
-                "& > :not(style)": { width: "25ch", mr: 2 },
+                "& > :not(style)": { width: "20ch", mr: 2 },
               }}
             >
               <TextField
@@ -299,11 +307,12 @@ const UserInFor = () => {
                 label="Tên"
                 variant="standard"
                 placeholder={userData.name}
-                value={userData.name}
+                value={userData.name || "Đang tải"}
                 name="name"
                 disabled={editDisabled}
                 onChange={(e) => updateInput(e)}
               />
+
               <TextField
                 InputLabelProps={{ style: { fontSize: 16 } }}
                 label="Số điện thoại"
@@ -314,7 +323,7 @@ const UserInFor = () => {
                 }}
                 variant="standard"
                 placeholder={userData.phone}
-                value={userData.phone}
+                value={userData.phone || "Đang tải"}
                 disabled={editDisabled}
                 name="phone"
                 onChange={(e) => updateInput(e)}
@@ -379,8 +388,13 @@ const UserInFor = () => {
                       value={v?.detailAddress}
                     />
 
-                    <Box alignItems="center" sx={{ width: "100%", maxWidth: "60%" }}>
-                      <Typography variant="h5" sx={{lineHeight: "33px"}}>{v?.address}</Typography>
+                    <Box
+                      alignItems="center"
+                      sx={{ width: "100%", maxWidth: "60%" }}
+                    >
+                      <Typography variant="h5" sx={{ lineHeight: "33px" }}>
+                        {v?.address}
+                      </Typography>
                     </Box>
 
                     <Stack
@@ -390,7 +404,11 @@ const UserInFor = () => {
                       spacing={2}
                       sx={{ width: "30%" }}
                     >
-                      <Typography sx={{minWidth:"70px"}} variant="h5" color="red">
+                      <Typography
+                        sx={{ minWidth: "70px" }}
+                        variant="h5"
+                        color="red"
+                      >
                         {v?.idDefault ? "Mặc định" : i == 0}
                       </Typography>
                       {/* Button Group */}
