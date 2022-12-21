@@ -160,10 +160,11 @@ const HeaderContent = () => {
         //dispatch(getTotals());
         //console.log(cart);
       } catch (e) {
-        toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
+        toast.info("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
           position: "top-right",
           autoClose: 5000,
           closeOnClick: true,
+          toastId:101,
         });
       }
     };
@@ -220,6 +221,7 @@ const HeaderContent = () => {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
+        toastId:101,
       });
     }
   };
