@@ -180,19 +180,22 @@ const UserInFor = () => {
       ...getAddress,
     };
     // call
-    const res = await userController.updateUser({
-      ...userData,
-      isNew: true,
-      addresses: [
-        {
-          isNew: true,
-          idDefault: isIdDefault || false,
-          detailAddress: addressValue,
-          address: addressStr,
-        },
-      ],
-    });
+
     try {
+      const res = await userController.updateUser({
+        ...userData,
+        isNew: true,
+        addresses: [
+          {
+            isNew: true,
+            idDefault: isIdDefault || false,
+            detailAddress: addressValue,
+            address: addressStr,
+          },
+        ],
+      });
+      console.log(res);
+
       const { status, data } = res;
       const { gender, name, phone, avatar, addresses } = data;
       if (status) {
@@ -484,7 +487,7 @@ const UserInFor = () => {
                       disabled={
                         addressBtStatus === "Edit" &&
                         isIdDefault === true &&
-                        userData.addresses.find((v) => {
+                        userData?.addresses?.find((v) => {
                           if (v?.detailAddress == addressEdit.toString()) {
                             return v?.idDefault == isIdDefault;
                           }

@@ -164,12 +164,11 @@ const HeaderContent = () => {
           position: "top-right",
           autoClose: 5000,
           closeOnClick: true,
-          toastId:101,
+          toastId: 101,
         });
       }
     };
     fetchCart();
-    console.log("Render Cart");
   }, [cart.render]);
 
   useEffect(() => {
@@ -221,7 +220,7 @@ const HeaderContent = () => {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
-        toastId:101,
+        toastId: 101,
       });
     }
   };
