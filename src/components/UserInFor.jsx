@@ -19,6 +19,7 @@ import {
   FormGroup,
 } from "@mui/material";
 import { Delete as DeleteIcon } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 //
 import { toast } from "react-toastify";
 //
@@ -28,6 +29,7 @@ const AddressSelect = React.lazy(() =>
 );
 
 const UserInFor = () => {
+  const history = useHistory();
   //
 
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -180,19 +182,21 @@ const UserInFor = () => {
       ...getAddress,
     };
     // call
-    const res = await userController.updateUser({
-      ...userData,
-      isNew: true,
-      addresses: [
-        {
-          isNew: true,
-          idDefault: isIdDefault || false,
-          detailAddress: addressValue,
-          address: addressStr,
-        },
-      ],
-    });
+
     try {
+      const res = await userController.updateUser({
+        ...userData,
+        isNew: true,
+        addresses: [
+          {
+            isNew: true,
+            idDefault: isIdDefault || false,
+            detailAddress: addressValue,
+            address: addressStr,
+          },
+        ],
+      });
+
       const { status, data } = res;
       const { gender, name, phone, avatar, addresses } = data;
       if (status) {
@@ -344,9 +348,11 @@ const UserInFor = () => {
                 <Button
                   sx={{ m: 0.8, fontSize: 12 }}
                   variant="contained"
-                  onClick={() => alert("Coming soon...")}
+                  onClick={() =>
+                    history.push("/purchasehistory/password_change")
+                  }
                 >
-                  Liên hệ với quản lý
+                  Đổi mật khẩu
                 </Button>
               </Stack>
             ) : (
@@ -484,7 +490,7 @@ const UserInFor = () => {
                       disabled={
                         addressBtStatus === "Edit" &&
                         isIdDefault === true &&
-                        userData.addresses.find((v) => {
+                        userData?.addresses?.find((v) => {
                           if (v?.detailAddress == addressEdit.toString()) {
                             return v?.idDefault == isIdDefault;
                           }

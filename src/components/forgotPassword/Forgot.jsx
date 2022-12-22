@@ -7,8 +7,8 @@ import authController from "../../features/auth/functions";
 const Forgot = ({ history }) => {
   const [email, setEmail] = useState(null);
   const handlerSendEmail = async () => {
+    toast.info(`Chờ trong giây lát`, toastObject);
     authController.forgotPassword({ email: email }).then((res) => {
-      toast.info(`Chờ trong giây lát`, toastObject);
       if (res?.data?.success) {
         toast.success(res?.data?.message, toastObject);
         history.push("/password_reset/change_password");

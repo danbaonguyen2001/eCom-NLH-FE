@@ -26,7 +26,7 @@ const ListProduct = ({ list, qt }) => {
     <div>
       <div className="list-product grid wide">
         <div className="row">
-          {listProduct?.slice(0, quantityShow).map((item) => (
+          {listProduct?.slice(0, quantityShow)?.map((item) => (
             // <Link
             //   to={{
             //     pathname: `/productdetail/${item.name.replaceAll(" ", "-")}`,
