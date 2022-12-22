@@ -15,7 +15,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         register: builder.mutation({
             query: (inputData) => ({
-                url: `http://locahost:5000/api/auth/register`,
+                url: `https://tlcn-2022-be.onrender.com/api/auth/register`,
                 method: "POST",
                 body: {
                     ...inputData
@@ -35,12 +35,24 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 token
             }) => {
                 return {
-                    url: `https://tlcn-2022-be.onrender.com/auth/verify-email/${token}`,
+                    url: `https://tlcn-2022-be.onrender.com/api/auth/verify-email/${token}`,
                     method: "POST",
                 };
             },
         }),
-
+        passwordChange: builder.mutation({
+            query: ({
+                oldPassword,
+                newPassword
+            }) => ({
+                url: `https://tlcn-2022-be.onrender.com/api/auth/password/change`,
+                body: {
+                    enteredPassword: oldPassword,
+                    newPassword
+                },
+                method: 'PUT',
+            })
+        }),
         logOut: builder.mutation({
             query: () => `https://tlcn-2022-be.onrender.com/api/auth/logout`
         }),

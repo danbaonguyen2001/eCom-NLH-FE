@@ -15,9 +15,14 @@ const authHandler = {
     try {
       //   let result = login({ email, password }).unwrap();
       const response = await dispatch(
-        authApiSlice.endpoints.login.initiate({ email: emailI, password })
+        authApiSlice.endpoints.login.initiate({
+          email: emailI,
+          password,
+        })
       );
-      let result = { ...response.data };
+      let result = {
+        ...response.data,
+      };
       const { access_token } = result.data;
       const { name, avatar, email, _id, isAdmin } = result.data.user;
       // Change auth state
@@ -55,7 +60,12 @@ const authHandler = {
   },
 
   verify: async ({ email, token }) =>
-    await dispatch(authApiSlice.endpoints.verify.initiate({ email, token })),
+    await dispatch(
+      authApiSlice.endpoints.verify.initiate({
+        email,
+        token,
+      })
+    ),
   logOut: async () => {
     return dispatch(authApiSlice.endpoints.logOut.initiate())
       .then((res) => {
@@ -71,12 +81,24 @@ const authHandler = {
   },
   forgotPassword: async ({ email }) => {
     return await dispatch(
-      authApiSlice.endpoints.forgotPassword.initiate({ email })
+      authApiSlice.endpoints.forgotPassword.initiate({
+        email,
+      })
     );
   },
   resetPassword: async ({ token, password }) =>
     await dispatch(
-      authApiSlice.endpoints.resetPassword.initiate({ token, password })
+      authApiSlice.endpoints.resetPassword.initiate({
+        token,
+        password,
+      })
+    ),
+  changePassword: async ({ oldPassword, newPassword }) =>
+    await dispatch(
+      authApiSlice.endpoints.passwordChange.initiate({
+        oldPassword,
+        newPassword,
+      })
     ),
 };
 export default authHandler;

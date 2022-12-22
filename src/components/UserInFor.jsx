@@ -19,6 +19,7 @@ import {
   FormGroup,
 } from "@mui/material";
 import { Delete as DeleteIcon } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 //
 import { toast } from "react-toastify";
 //
@@ -28,6 +29,7 @@ const AddressSelect = React.lazy(() =>
 );
 
 const UserInFor = () => {
+  const history = useHistory();
   //
 
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -194,7 +196,6 @@ const UserInFor = () => {
           },
         ],
       });
-      console.log(res);
 
       const { status, data } = res;
       const { gender, name, phone, avatar, addresses } = data;
@@ -347,9 +348,11 @@ const UserInFor = () => {
                 <Button
                   sx={{ m: 0.8, fontSize: 12 }}
                   variant="contained"
-                  onClick={() => alert("Coming soon...")}
+                  onClick={() =>
+                    history.push("/purchasehistory/password_change")
+                  }
                 >
-                  Liên hệ với quản lý
+                  Đổi mật khẩu
                 </Button>
               </Stack>
             ) : (

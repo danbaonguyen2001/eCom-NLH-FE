@@ -72,7 +72,6 @@ const UserMenu = (props) => {
   const handleLogoutClick = () => {
 
     authController.logOut().then(res=>{
-      console.log(res.data)
       if(res?.data?.success){
         history.push('/')
       }
