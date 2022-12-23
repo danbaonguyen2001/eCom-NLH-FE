@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getDistrict, getWard, getProvince } from "../../apis/apiShipment";
-import { FormControl, InputLabel, NativeSelect, Box } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  NativeSelect,
+  Box,
+  Stack,
+  Skeleton,
+} from "@mui/material";
 import userController from "../../features/user/function";
 
-const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
+const AddressSelect = ({ setValues, addressBtStatus, addressEdit, sx }) => {
+  // loading state
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const [detailAddress, setDetailAddress] = useState({});
   // ADDRESS STATE
   const [provinces, setProvinces] = useState([]);
@@ -24,6 +34,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
   });
   // ADDRESS FETCH
   useEffect(() => {
+    setIsSuccess(false);
     getProvince().then((res) => {
       const { data } = res.data;
       setProvinces(data);
@@ -32,7 +43,6 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
           .getAddressById({ addressId: addressEdit })
           .then((res) => {
             const address = res.data.address;
-
             setWard({
               ID: address?.ward?.wardCode,
               value: address?.ward.wardName,
@@ -45,6 +55,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
               ID: address?.district?.districtID,
               value: address?.district.districtName,
             });
+            setIsSuccess(true);
           })
           .catch((e) => {
             toast.error(`Lỗi không thể lấy địa chỉ phù hợp`, {
@@ -62,11 +73,13 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
     });
   }, [addressEdit]);
   useEffect(() => {
+
+
     if (province.ID) {
       getDistrict(province.ID).then((res) => {
         const { data } = res.data;
         setDistricts(data);
-        if ((!addressEdit ) || district.ID == "" || (district.ID && addressEdit)) {
+        if (!addressEdit || district.ID == "" || (district.ID && addressEdit)) {
           setDistrict({
             ID: data[0]?.DistrictID,
             value: data[0]?.DistrictName,
@@ -76,11 +89,13 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
     }
   }, [province.ID]);
   useEffect(() => {
+
+
     if (district.ID) {
       getWard(district.ID).then((res) => {
         const { data } = res.data;
         setWards(data);
-        if ((!addressEdit || ward.ID == "") || (ward.ID && addressEdit) ) {
+        if (!addressEdit || ward.ID == "" || (ward.ID && addressEdit)) {
           setWard({
             ID: data[0]?.WardCode,
             value: data[0]?.WardName,
@@ -140,9 +155,11 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
         },
       };
     });
+    setIsSuccess(true);
   }, [province.ID, district.ID, ward.ID]);
   //
   const handleChangeProvince = (e) => {
+    setIsSuccess(false);
     e.preventDefault();
     const name = provinces.find((v) => {
       return v.ProvinceID == e.target.value;
@@ -153,6 +170,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
     });
   };
   const handleChangeDistrict = (e) => {
+    setIsSuccess(false);
     e.preventDefault();
     const name = districts.find((v) => {
       return v.DistrictID == e.target.value;
@@ -163,6 +181,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
     });
   };
   const handleChangeWard = (e) => {
+    setIsSuccess(false);
     e.preventDefault();
     const name = wards.find((v) => {
       return v.WardCode == e.target.value;
@@ -173,7 +192,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
       value: name,
     });
   };
-  return (
+  const AddressSelector = () => (
     <Box
       sx={{ width: "100%", margin: "1.5rem auto", display: "flex" }}
       justifyContent="space-around"
@@ -193,7 +212,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
         </InputLabel>
         <NativeSelect
           onChange={(e) => handleChangeProvince(e)}
-          sx={sx ||{ fontSize: "1.5rem", minWidth: "25ch" }}
+          sx={sx || { fontSize: "1.5rem", minWidth: "25ch" }}
           defaultValue={`${province?.ID || provinces[0]?.ProvinceName}`}
           inputProps={{
             name: "province",
@@ -226,7 +245,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
         </InputLabel>
         <NativeSelect
           onChange={(e) => handleChangeDistrict(e)}
-          sx={sx ||{ fontSize: "1.5rem", minWidth: "25ch" }}
+          sx={sx || { fontSize: "1.5rem", minWidth: "25ch" }}
           defaultValue={`${district?.ID || "DEFAULT"}`}
           inputProps={{
             name: "district",
@@ -256,7 +275,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
         </InputLabel>
         <NativeSelect
           onChange={(e) => handleChangeWard(e)}
-          sx={sx ||{ fontSize: "1.5rem", minWidth: "25ch" }}
+          sx={sx || { fontSize: "1.5rem", minWidth: "25ch" }}
           defaultValue={`${ward?.ID || "DEFAULT"}`}
           inputProps={{
             name: "ward",
@@ -279,6 +298,15 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit,sx }) => {
         </NativeSelect>
       </FormControl>
     </Box>
+  );
+  return isSuccess ? (
+    <AddressSelector />
+  ) : (
+    <Stack spacing={3} direction="row" mt={2} mb={2}>
+      <Skeleton variant="rectangular" width="11em" height="2.2em" />
+      <Skeleton variant="rectangular" width="11em" height="2.2em" />
+      <Skeleton variant="rectangular" width="11em" height="2.2em" />
+    </Stack>
   );
 };
 
