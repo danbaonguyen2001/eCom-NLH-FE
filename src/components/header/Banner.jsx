@@ -39,7 +39,8 @@ const Banner = () => {
         <div className="bannerSlider__Item l-12  m-10 c-10">
           <div className="bannerSlider__Item--1">
             <LazyLoadImage
-              src={"https://cdn.tgdd.vn/2022/03/banner/1200-44-1200x44-9.png"}
+              src={"//cdn.tgdd.vn/2022/12/banner/1200-44-1200x44-10.webp"}
+              // src={"https://cdn.tgdd.vn/2022/03/banner/1200-44-1200x44-9.png"}
               width="100%"
             />
           </div>
@@ -48,7 +49,8 @@ const Banner = () => {
         <div className="bannerSlider__Item l-12  m-10 c-10">
           <div className="bannerSlider__Item--2">
             <LazyLoadImage
-              src={"https://cdn.tgdd.vn/2022/09/banner/1200-44-1200x40-2.png"}
+              src={"https://cdn.tgdd.vn/2022/12/banner/1200-44-1200x44-12.webp"}
+              // src={"https://cdn.tgdd.vn/2022/09/banner/1200-44-1200x40-2.png"}
               width="100%"
             />
           </div>
