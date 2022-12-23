@@ -4,6 +4,7 @@ import userController from "../../../features/user/function";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { Button, LinearProgress, Skeleton, Stack, Typography } from "@mui/material";
 
 const AddressSelect = React.lazy(() =>
   import("../../../components/register/AddressSelect")
@@ -12,16 +13,6 @@ const RadioPickup = React.lazy(() =>
   import("../../../components/cart/subComponent/RadioPickup")
 );
 
-const Title = styled.div`
-  display: flex;
-  justify-content: space-between;
-  button {
-    height: 100%;
-    line-height: 30px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    font-size: 14px;
-  }
-`;
 const DifferentWrap = styled.div`
   display: flex;
   width: 100%;
@@ -30,11 +21,11 @@ const DifferentWrap = styled.div`
     flex: 1;
   }
 `;
-const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
-
+const Info = ({ orderInfo, setOrderInfo, setDetailAddress, detailAddress }) => {
+  const [isSuccess, setIsSuccess] = useState(true);
   // ADDRESS ID
-  const [addressEdit,setAddressEdit] = useState("")
-  // 
+  const [addressEdit, setAddressEdit] = useState("");
+  //
   const [currentUser, setCurrentUser] = useState({
     phone: "",
     name: "",
@@ -61,31 +52,35 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
     });
   }, [currentUser]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     // 280AAAA,Côn Đảo,Huyện đảo Côn Đảo,Bà Rịa - Vũng Tàu
-    const arr = currentUser.address && currentUser.address.split(",")
+    const arr = currentUser.address && currentUser.address.split(",");
     setCurrentUser({
       ...currentUser,
-      address:`${arr?.[0]||"Nhập địa chỉ"}, ${detailAddress?.ward?.wardName}, ${detailAddress?.district?.districtName}, ${detailAddress?.province?.provinceName}`    
-    })
-  },[detailAddress])
-
+      address: `${arr?.[0] || "Nhập địa chỉ"}, ${
+        detailAddress?.ward?.wardName
+      }, ${detailAddress?.district?.districtName}, ${
+        detailAddress?.province?.provinceName
+      }`,
+    });
+  }, [detailAddress]);
 
   //   Handler Auto Form Fill
   //   Button
   const handleAutoFillClick = () => {
+    setIsSuccess(false);
     userController
       .getUser()
       .then((res) => {
         const user = res?.data?.user;
+        setIsSuccess(true);
         if (user) {
-          const defaultAddress = user?.addresses.find(
-            (v) => v.idDefault === true
-          ) || user?.addresses?.[0];
-          console.clear()
-          console.log(user?.addresses)
-          setAddressEdit(defaultAddress?.detailAddress)
+          const defaultAddress =
+            user?.addresses.find((v) => v.idDefault === true) ||
+            user?.addresses?.[0];
+          console.clear();
+          console.log(user?.addresses);
+          setAddressEdit(defaultAddress?.detailAddress);
           setCurrentUser({
             ...currentUser,
             defaultAddress: defaultAddress?.detailAddress,
@@ -111,58 +106,98 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
     });
   };
 
-  
   //
   return (
     <>
+      {!isSuccess && <LinearProgress />}
       <div className="has_cart_infor_user">
-        <Title>
-          <p className="has_cart_infor_user_heading">Thông tin khách hàng</p>
-          <button
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography variant="h5" fontWeight="bold">
+            Thông tin khách hàng
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{ lineHeight: "20px", width: "22ch" }}
             onClick={handleAutoFillClick}
-            className="has_cart_voucher_apply btn"
           >
-            Tự động điền
-          </button>
-        </Title>
-
-        <div className="has_cart_infor_user_input">
-          <div className="has_cart_infor_user_input_item">
-            <label htmlFor="" className="has_cart_infor_user_input_label">
-              Họ và tên
-            </label>
-            {console.log(currentUser)}
-            <input
-              type="text"
-              name="name"
-              disabled
-              className="has_cart_infor_user_input_infor input"
-              value={currentUser?.name}
-              onChange={handleInputChange}
-              placeholder="Nhập họ và tên"
-            />
+            <Typography variant="h6" sx={{ fontSize: 10 }}>
+              Tự động điền
+            </Typography>
+          </Button>
+        </Stack>
+        {/* {!isSuccess ?<LinearProgress/>:<></>} */}
+        {isSuccess ? (
+          <div className="has_cart_infor_user_input">
+            <div className="has_cart_infor_user_input_item">
+              <label htmlFor="" className="has_cart_infor_user_input_label">
+                Họ và tên
+              </label>
+              <input
+                type="text"
+                name="name"
+                disabled
+                className="has_cart_infor_user_input_infor input"
+                value={currentUser?.name}
+                onChange={handleInputChange}
+                placeholder="Nhập họ và tên"
+              />
+            </div>
+            <div className="has_cart_infor_user_input_item">
+              <label htmlFor="" className="has_cart_infor_user_input_label">
+                Số điện thoại
+              </label>
+              <input
+                type="text"
+                disabled
+                name="phone"
+                className="has_cart_infor_user_input_infor input"
+                value={currentUser?.phone}
+                onChange={handleInputChange}
+                placeholder="Nhập số điện thoại"
+              />
+            </div>
           </div>
-          <div className="has_cart_infor_user_input_item">
-            <label htmlFor="" className="has_cart_infor_user_input_label">
-              Số điện thoại
-            </label>
-            <input
-              type="text"
-              disabled
-              name="phone"
-              className="has_cart_infor_user_input_infor input"
-              value={currentUser?.phone}
-              onChange={handleInputChange}
-              placeholder="Nhập số điện thoại"
-            />
-          </div>
-        </div>
+        ) : (
+          <Stack>
+            <Stack
+              mt={2}
+              alignItems="center"
+              justifyContent="space-between"
+              direction="row"
+            >
+              <Typography variant="h6">Họ và tên</Typography>
+              <Skeleton variant="rectangular" width="80%" height="30px" />
+            </Stack>
+            <Stack
+              mt={2}
+              alignItems="center"
+              justifyContent="space-between"
+              direction="row"
+            >
+              <Typography variant="h6">Số điện thoại</Typography>
+              <Skeleton variant="rectangular" width="80%" height="30px" />
+            </Stack>
+          </Stack>
+        )}
 
         {/* SELECT PICKUP WAY */}
         <RadioPickup setPickup={setPickUp} />
 
         {/* ADDRESS SELECT */}
-        {Boolean(pickUp) ? <AddressSelect sx={{minWidth:"21ch",fontSize: "1.5rem"}} setValues={setDetailAddress} addressBtStatus="Edit" addressEdit={addressEdit} /> : <></>}
+        {Boolean(pickUp) ? (
+          <AddressSelect
+            sx={{ minWidth: "21ch", fontSize: "1.5rem" }}
+            setValues={setDetailAddress}
+            addressBtStatus="Edit"
+            addressEdit={addressEdit}
+          />
+        ) : (
+          <></>
+        )}
 
         {/* Address */}
         <div className="has_cart_infor_user_input_add">
@@ -263,7 +298,7 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress,detailAddress }) => {
           </button>
         ) : (
           <button
-            onClick={()=>alert("Coming soon")}
+            onClick={() => alert("Coming soon")}
             className="has_cart_voucher_apply btn"
           >
             Áp dụng
