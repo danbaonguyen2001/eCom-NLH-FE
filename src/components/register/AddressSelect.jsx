@@ -10,6 +10,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import userController from "../../features/user/function";
+import AddressSkeleton from "./skeleton/AddressSkeleton";
 
 const AddressSelect = ({ setValues, addressBtStatus, addressEdit, sx }) => {
   // loading state
@@ -55,7 +56,6 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit, sx }) => {
               ID: address?.district?.districtID,
               value: address?.district.districtName,
             });
-            setIsSuccess(true);
           })
           .catch((e) => {
             toast.error(`Lỗi không thể lấy địa chỉ phù hợp`, {
@@ -73,7 +73,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit, sx }) => {
     });
   }, [addressEdit]);
   useEffect(() => {
-
+    setIsSuccess(false);
 
     if (province.ID) {
       getDistrict(province.ID).then((res) => {
@@ -89,7 +89,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit, sx }) => {
     }
   }, [province.ID]);
   useEffect(() => {
-
+    setIsSuccess(false);
 
     if (district.ID) {
       getWard(district.ID).then((res) => {
@@ -105,11 +105,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit, sx }) => {
     }
   }, [district.ID, province.ID]);
   useEffect(() => {
-    toast.info(`Vui lòng chờ hệ thống tải địa chỉ mới`, {
-      toastId: 88,
-      autoClose: 5000,
-      closeOnClick: true,
-    });
+    setIsSuccess(false);
 
     if (addressBtStatus == "Edit" && !district.ID) {
       setDistrict({
@@ -299,15 +295,7 @@ const AddressSelect = ({ setValues, addressBtStatus, addressEdit, sx }) => {
       </FormControl>
     </Box>
   );
-  return isSuccess ? (
-    <AddressSelector />
-  ) : (
-    <Stack spacing={3} direction="row" mt={2} mb={2}>
-      <Skeleton variant="rectangular" width="11em" height="2.2em" />
-      <Skeleton variant="rectangular" width="11em" height="2.2em" />
-      <Skeleton variant="rectangular" width="11em" height="2.2em" />
-    </Stack>
-  );
+  return isSuccess ? <AddressSelector /> : <AddressSkeleton />;
 };
 
 export default AddressSelect;

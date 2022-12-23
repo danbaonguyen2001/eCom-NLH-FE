@@ -18,6 +18,7 @@ import {
   Checkbox,
   FormGroup,
   Skeleton,
+  LinearProgress
 } from "@mui/material";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
@@ -255,6 +256,7 @@ const UserInFor = () => {
       <div className="user-infor">
         {/* Info */}
         <div className="user-infor-header">
+          {!isSuccess?<LinearProgress/>:<></>}
           <h4 className="user-infor-header__heading">Thông tin cá nhân</h4>
           {/* Avatar */}
           {
@@ -263,6 +265,7 @@ const UserInFor = () => {
             setUserData={setUserData}
             userData={userData}
           /> :<Stack direction="row" justifyContent="space-around" alignItems="center">
+            
             <Skeleton variant="rectangular" width="350px" height="120px"/>
             <Skeleton variant="circular" width="198px" height="198px"/>
 

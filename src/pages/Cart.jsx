@@ -6,13 +6,12 @@ import cartHandler from "../features/cart/function";
 import { selectCurrentState } from "../features/order/orderSlice";
 import "../sass/cart/cart.scss";
 import { toast } from "react-toastify";
-import {
-  selectCurrentCartLength,
-  setCurrentCart,
-  setRender,
-} from "../features/cart/cartSlice";
+import { setCurrentCart, setRender } from "../features/cart/cartSlice";
+import { Paper, Skeleton, Stack } from "@mui/material";
+import CartSkeleton from "../components/cart/CartSkeleton";
 
 const Cart = () => {
+  const [isFetch, setIsFetch] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [cart, setCart] = useState([]);
   const { isLoading, isSuccess, isError } = useSelector(selectCurrentState);
@@ -23,24 +22,23 @@ const Cart = () => {
   const cartState = useSelector((state) => state.cart);
   const cartItems = useSelector((state) => state.cart.cartItems);
   useEffect(() => {
-    const fetchCart = async () => {
-      const res = await cartHandler.getCurrentCart();
-
-      try {
+    cartHandler
+      .getCurrentCart()
+      .then((res) => {
+        if (res.isSuccess) setIsFetch(true);
         setCart(res.data.cart);
         //console.log(res.data.cart);
         // set
         dispatch(setCurrentCart(res.data.cart));
         dispatch(setRender());
-      } catch (e) {
+      })
+      .catch((e) =>
         toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
           position: "top-right",
           autoClose: 5000,
           closeOnClick: true,
-        });
-      }
-    };
-    fetchCart();
+        })
+      );
   }, [cart]);
 
   useEffect(() => {
@@ -78,19 +76,23 @@ const Cart = () => {
 
   return (
     <div>
-      <div className="cart flex_center">
-        {cart?.length === 0 ? (
-          <NoProduct />
-        ) : (
-          <HasProduct cart={cart} setCart={setCart} />
-        )}
-        {/* Không có sản phẩm*/}
-        {/* <NoProduct /> */}
-        {/* {noProduct && <NoProduct />} */}
+      {isFetch ? (
+        <div className="cart flex_center">
+          {cart?.length === 0 ? (
+            <NoProduct />
+          ) : (
+            <HasProduct cart={cart} setCart={setCart} />
+          )}
+          {/* Không có sản phẩm*/}
+          {/* <NoProduct /> */}
+          {/* {noProduct && <NoProduct />} */}
 
-        {/* có sản phẩm */}
-        {/* {hasProduct && <HasProduct />} */}
-      </div>
+          {/* có sản phẩm */}
+          {/* {hasProduct && <HasProduct />} */}
+        </div>
+      ) : (
+        <CartSkeleton />
+      )}
     </div>
   );
 };
