@@ -9,7 +9,8 @@ import {
 // fetch
 const baseQuery = fetchBaseQuery({
   // local
-  baseUrl: "https://tgddgroup04.herokuapp.com/api",
+  // baseUrl: "https://tgddgroup04.herokuapp.com/api",
+  baseUrl: "https://tlcn-2022-be.onrender.com/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getFromLocalStorage();

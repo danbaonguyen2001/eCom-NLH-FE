@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "../sass/purchasehistory/_purchase_history.scss";
 
-import NoOrder from "../components/purchasehistory/NoOrder";
-import ListOrder from "../components/purchasehistory/ListOrders";
-import OrderDetail from "../components/purchasehistory/OrderDetail";
-import UserInFor from "../components/UserInFor";
 import { useParams, useLocation, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../features/auth/authSlice";
 import { getParamsValue } from "../utils/format";
-
+const NoOrder = React.lazy(() =>
+  import("../components/purchasehistory/NoOrder")
+);
+const ListOrder = React.lazy(() =>
+  import("../components/purchasehistory/ListOrders")
+);
+const OrderDetail = React.lazy(() =>
+  import("../components/purchasehistory/OrderDetail")
+);
+const PasswordChange = React.lazy(() =>
+  import("../components/purchasehistory/PasswordChange")
+);
+const UserInFor = React.lazy(() => import("../components/UserInFor"));
 const PurchaseHistory = (props) => {
   // Side button effects
   const [clickList, setClickList] = useState(true);
@@ -20,11 +28,14 @@ const PurchaseHistory = (props) => {
   const [openListOrder, setOpenListOrder] = useState(true);
   const [openOrderDetail, setOpenOrderDetail] = useState(false);
   //
+  const [passwordChange, setPasswordChange] = useState(false);
+  //
   // check page
   const params = useParams()[0].slice(1);
   const location = useLocation();
   const orderId = getParamsValue(location.search, "orderId");
   const history = useHistory();
+
   // fake data
   const product = [""];
   useEffect(() => {
@@ -36,19 +47,23 @@ const PurchaseHistory = (props) => {
       setOpenNoOrder(false);
       setOpenListOrder(false);
       setOpenOrderDetail(false);
+      setPasswordChange(false);
     } else if (params === "product") {
       setClickList(true);
       setClickInfo(false);
       setOpenOrderDetail(false);
+      setPasswordChange(false);
 
       if (product < 1) {
         // Order không có đơn
         setOpenNoOrder(false);
         setOpenListOrder(true);
+        setPasswordChange(false);
       } else {
         // Order có đơn
         setOpenNoOrder(true);
         setOpenListOrder(false);
+        setPasswordChange(false);
       }
     } else if (params === "order") {
       setClickInfo(false);
@@ -56,11 +71,19 @@ const PurchaseHistory = (props) => {
       setOpenNoOrder(false);
       setOpenListOrder(false);
       setOpenOrderDetail(true);
+      setPasswordChange(false);
+    } else if (params === "password_change") {
+      setClickInfo(false);
+      setClickList(false);
+      setOpenNoOrder(false);
+      setOpenListOrder(false);
+      setOpenOrderDetail(false);
+      setPasswordChange(true);
     }
-  }, [props]);
+  }, [props,params]);
 
   //Get user information
-  const { name } = useSelector(selectCurrentUser);
+  // const { name } = useSelector(selectCurrentUser);
   return (
     <div className="purchase_history">
       <div className="purchase_history_box_left">
@@ -110,6 +133,12 @@ const PurchaseHistory = (props) => {
 
           {/* Chỉnh sửa thông tin cá nhân */}
           {clickInfor && <UserInFor />}
+          {/* Password Change */}
+          {passwordChange ? (
+            <PasswordChange />
+          ) : (
+            () => history.push(`/purchasehistory/userinfo`)
+          )}
         </div>
       </div>
     </div>

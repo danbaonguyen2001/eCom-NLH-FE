@@ -6,6 +6,7 @@ import "../sass/auth/_register_code.scss";
 import authController from "../features/auth/functions";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { toastObject } from "../constants/toast";
 
 const RegisterCode = (props) => {
   const [values, setValues] = useState({
@@ -14,38 +15,32 @@ const RegisterCode = (props) => {
   const history = useHistory();
   const { token } = useParams();
   useEffect(() => {
-    const verifyCode = async () => {
-      try {
-        let result = await authController.verify({ token });
-        console.log(result);
-        if (result) {
+    authController
+      .verify({ token })
+      .then((res) => {
+        console.log(res?.data);
+        if (res?.data?.status) {
           toast.success(`Xác thực tài khoản thành công`, {
-            position: "top-right",
-            autoClose: 5000,
-            closeOnClick: true,
+            ...toastObject,
+            toastId: 200,
           });
           history.push("/login");
         } else {
           toast.error(
             `Link không hợp lệ hoặc đã hết hạn, hoặc thử bằng cách nhập link vào ô bên dưới`,
             {
-              position: "top-right",
-              autoClose: 5000,
-              closeOnClick: true,
+              ...toastObject,
               toastId: 99,
             }
           );
         }
-      } catch (e) {
-        toast.error(`Thử lại sau`, {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
+      })
+      .catch((e) =>
+        toast.error(`Thử lại sau: ${e?.message}`, {
+          ...toastObject,
           toastId: 99,
-        });
-      }
-    };
-    verifyCode();
+        })
+      );
   }, []);
 
   const onChange = (e) => {

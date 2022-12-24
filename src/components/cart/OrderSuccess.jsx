@@ -41,6 +41,7 @@ const OrderSuccess = () => {
         .getOrderInfo({ orderId })
         .then((res) => {
           const { order, success } = res.data;
+          console.log(order);
           if (success) {
             setOrderData(order);
           }
@@ -102,12 +103,12 @@ const OrderSuccess = () => {
             // PAYMENT - DONE
             <>
               <div className="detail_box_payment">
-                Đơn hàng đã được thanh toán bằng{" "}
+               
                 <Typography
                   variant="h5"
                   style={{ fontWeight: "bold", fontSize: "14px" }}
                 >
-                  {orderData?.orderdetail?.payment?.name.toUpperCase()}
+                   Đơn hàng đã được thanh toán bằng: {orderData?.paymentMethod}
                 </Typography>
               </div>
               <div
@@ -115,14 +116,28 @@ const OrderSuccess = () => {
                 className="detail_box_total_price"
               >
                 <Typography
-                  variant="h5"
+                  variant="h6"
                   fontWeight="bold"
                   display="flex"
                   className="fw_header"
-                  sx={{ width: "150px", lineHeight: "4rem" }}
                 >
-                  Mã thanh toán:{" "}
-                  {orderData?.paymentId || "Chưa xử lý api thanh toán online"}
+                  Mã thanh toán: {orderData?.paymentResult?.id}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  display="flex"
+                  className="fw_header"
+                >
+                  Tài khoản thanh toán: {orderData?.paymentResult?.email_address}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  display="flex"
+                  className="fw_header"
+                >
+                  Thanh toán lúc: {toDate(orderData?.paymentResult?.update_time)}
                 </Typography>
               </div>
             </>

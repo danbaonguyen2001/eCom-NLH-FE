@@ -39,27 +39,46 @@ export const authApiSlice = apiSlice.injectEndpoints({
                     method: "POST",
                 };
             },
-            transformResponse: (res, meta) => ({
-                res,
-                meta
-            }),
         }),
-        verify: builder.mutation({
+        passwordChange: builder.mutation({
             query: ({
-                token
-            }) => {
-                return {
-                    url: `https://tlcn-2022-be.onrender.com/api/auth/verify-email/${token}`,
-                    method: "POST",
-                };
-            },
-            transformResponse: (res, meta) => ({
-                res,
-                meta
-            }),
+                oldPassword,
+                newPassword
+            }) => ({
+                url: `https://tlcn-2022-be.onrender.com/api/auth/password/change`,
+                body: {
+                    enteredPassword: oldPassword,
+                    newPassword
+                },
+                method: 'PUT',
+            })
         }),
         logOut: builder.mutation({
             query: () => `https://tlcn-2022-be.onrender.com/api/auth/logout`
+        }),
+        forgotPassword: builder.mutation({
+            query: ({
+                email
+            }) => ({
+                url: `https://tlcn-2022-be.onrender.com/api/auth/password/forgot`,
+                method: "POST",
+                body: {
+                    email: email
+                }
+
+            })
+        }),
+        resetPassword: builder.mutation({
+            query: ({
+                token,
+                password
+            }) => ({
+                url: `https://tlcn-2022-be.onrender.com/api/auth/password/resetpassword/${token}`,
+                method: "PUT",
+                body: {
+                    password: password
+                }
+            })
         })
 
 

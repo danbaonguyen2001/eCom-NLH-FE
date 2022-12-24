@@ -70,7 +70,13 @@ const UserMenu = (props) => {
   const cart = useSelector((state) => state.cart);
   // Handler
   const handleLogoutClick = () => {
-    authController.logOut();
+
+    authController.logOut().then(res=>{
+      if(res?.data?.success){
+        history.push('/')
+      }
+    })
+
   };
   const handleOrderClick = () => {
     history.push({

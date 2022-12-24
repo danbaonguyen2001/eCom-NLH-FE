@@ -22,6 +22,7 @@ const HasProduct = ({ cart, setCart }) => {
   const stateCart = useSelector((state) => state.cart);
   const [promotionList, setPromotionList] = useState([]);
   const [productListInfo, setProductListInfo] = useState([]);
+  const [disableOrder, setDisableOrder] = useState(false);
   const [cartInfo, setCartInfo] = useState({
     quantity: 0,
     total: 0,
@@ -46,21 +47,21 @@ const HasProduct = ({ cart, setCart }) => {
   });
 
   useEffect(() => {
-    const arrCart =  cart.map(v=>{
-      return{
-        price:v?.item?.price,
-        quantity:v?.item?.quantity,
+    const arrCart = cart.map((v) => {
+      return {
+        price: v?.item?.price,
+        quantity: v?.item?.quantity,
         itemID: v?._id,
-      }
-    })
+      };
+    });
 
-    setProductListInfo(arrCart)
+    setProductListInfo(arrCart);
 
     const totalGet = arrCart.reduce(
       (prev, curr) => {
         return {
-          total: prev.total + (curr.price * curr.quantity),
-          quantity: prev.quantity +  curr?.quantity,
+          total: prev.total + curr.price * curr.quantity,
+          quantity: prev.quantity + curr?.quantity,
         };
       },
       {
@@ -69,18 +70,17 @@ const HasProduct = ({ cart, setCart }) => {
       }
     );
 
-
     setCartInfo({
       ...cartInfo,
       ...totalGet,
     });
-    
+
     // set order info
     setOrderInfo({
       ...orderInfo,
       items: [...arrCart],
     });
-  }, [ cart ]);
+  }, [cart]);
   useMemo(() => {
     // get Ship fee
     // sample input ship fee
@@ -97,6 +97,7 @@ const HasProduct = ({ cart, setCart }) => {
     getShipFee(input)
       .then((res) => {
         const { total } = res?.data?.data;
+        setDisableOrder(false);
         setOrderInfo({
           ...orderInfo,
           shippingPrice: total,
@@ -109,16 +110,30 @@ const HasProduct = ({ cart, setCart }) => {
         });
       })
       .catch(() => {
-        toast.error(`Địa chỉ này chưa hỗ trợ giao hàng, phí vận chuyển sẽ được nhân viên giao hàng báo và thu trực tiếp`,{
-          position:"top-right",
-          autoClose:5000,
-          toastId:99,
-          closeOnClick:true,
-        })
+
+        setDisableOrder(true);
+        setOrderInfo({
+          ...orderInfo,
+          shippingPrice: 0,
+        });
+        setCartInfo((prev) => {
+          return {
+            ...prev,
+            serviceFee: 0,
+          };
+        });
+
+        toast.error(
+          `Địa chỉ này chưa hỗ trợ giao hàng`,
+          {
+            position: "top-right",
+            autoClose: 5000,
+            toastId: 99,
+            closeOnClick: true,
+          }
+        );
       });
-  }, [
-    detailAddress?.district?.districtID,
-  ]);
+  }, [detailAddress?.district?.districtID]);
   return (
     <div className="has_cart  ">
       <div className="has_cart_header flex ">
@@ -147,11 +162,11 @@ const HasProduct = ({ cart, setCart }) => {
           setDetailAddress={setDetailAddress}
         />
 
-        <div className="line"></div>
         <OrderConfirm
           cartInfo={cartInfo}
           orderInfo={orderInfo}
           setOrderInfo={setOrderInfo}
+          disableOrder={disableOrder}
         />
       </div>
     </div>

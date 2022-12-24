@@ -34,11 +34,12 @@ const UserInfo = ({ orderData }) => {
             orderData?.user?.phone || "Chưa có số điện thoại, kiểm tra mail"
           }
         />
+
         <ListItemAvatar>
           <Avatar
             alt="Ảnh đại diện"
-            src={orderData?.user?.avatar?.url}
-          ></Avatar>
+            src={`${orderData?.user?.avatar?.url}`}
+          />
         </ListItemAvatar>
       </Stack>
 

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "../../../assets/css/home/productcard.css";
+import "../../assets/css/home/productcard.css";
 // Icon
-import "../../../sass/phone/rating.scss";
-import bdI from "../../../assets/images/home/event/bdI.png";
-import ticketI from "../../../assets/images/home/event/ticketI.png";
+import "../../sass/phone/rating.scss";
+import bdI from "../../assets/images/home/event/bdI.png";
+import ticketI from "../../assets/images/home/event/ticketI.png";
 import { Link } from "react-router-dom";
-import eyeI from "../../../assets/images/home/eyeI.png";
-import { toVND } from "../../../utils/format";
+import eyeI from "../../assets/images/home/eyeI.png";
+import { toVND } from "../../utils/format";
 import Rating from "@mui/material/Rating";
-const StarRating = React.lazy(() => import("../../accessories/StarRating"));
+const StarRating = React.lazy(() => import("../accessories/StarRating"));
 const ProductCard = ({ ...props }) => {
   const mouseEnterHandler = () => {
     setEyeS(true);
@@ -46,9 +46,7 @@ const ProductCard = ({ ...props }) => {
             )) || (v.TG ? <p>Trả góp 0%</p> : <p>Không áp dụng trả góp</p>)}
           </div>
           <div className="pCard__img">
-            <LazyLoadImage
-              src={v?.productImages?.[0]?.urlImage || v?.image || v.path}
-            />
+            <LazyLoadImage src={v?.image} />
           </div>
           <div className="pCard__des">
             <div

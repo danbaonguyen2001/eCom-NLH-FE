@@ -26,7 +26,7 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const productColorList = product?.productOptions[chooseOption]?.colors;
-  console.log(product);
+  //console.log(product);
   // input
   const [body, setBody] = useState({
     product: product?._id,
@@ -36,16 +36,16 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
   });
 
   // checked
-  const availableQuantity = productColorList.find(
+  const availableQuantity = productColorList?.find(
     (v) => v._id == body.color
   ).quantity;
 
-  console.log(body);
+  //console.log(body);
   // console.log(productColorList);
   //console.log(availableQuantity);
 
   // event handler
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     // Have not authenticated
     if (!status) {
       toast.info("Vui lòng đăng nhập để thực hiện thao tác", {
@@ -58,6 +58,7 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
     }
 
     // Authenticated
+    console.log(body);
     cartController
       .addCart({ ...body })
       .then((res) => {
@@ -69,7 +70,7 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
         });
         history.push("/cart");
         //dispatch(addToCart({ quantity: body.quantity }));
-        //dispatch(getTotals());
+
         //window.location.reload(false);
       })
       .catch((err) => console.log(err));

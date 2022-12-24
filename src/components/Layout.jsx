@@ -10,23 +10,23 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { Audio } from "react-loader-spinner";
 import "../sass/layout/_layout.scss";
-
+import LoadingPage from "./LoadingPage";
 //
 import { store } from "../redux/stores";
 import { Provider } from "react-redux";
 import ChatBot from "./ChatBot";
 import AddCompareProduct from "./AddCompareProduct";
-import SkeletonLayout  from "./SkeletonLayout";
 //
 let persistor = persistStore(store);
 const Layout = () => {
   return (
-    <React.Suspense fallback={<SkeletonLayout/>}>
+    <React.Suspense fallback={<LoadingPage />}>
       <Provider store={store}>
-        <PersistGate loading={<h1>Loading ...</h1>} persistor={persistor}>
+        <PersistGate loading={<LoadingPage />} persistor={persistor}>
+          {/* <LoadingPage /> */}
           <BrowserRouter>
             <ToastContainer />
-            {/* <Route
+            <Route
               render={(props) => (
                 <div>
                   <Header {...props} />
@@ -40,8 +40,7 @@ const Layout = () => {
                   <Footer />
                 </div>
               )}
-            /> */}
-            <SkeletonLayout/>
+            />
           </BrowserRouter>
         </PersistGate>
       </Provider>

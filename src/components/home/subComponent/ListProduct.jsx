@@ -5,9 +5,13 @@ import productController from "../../../features/product/function";
 const ListProduct = ({ data }) => {
   return (
     <div className="lpWrap row">
-      {data.map((product, i) => {
-        return <ProductCard key={i} data={product} />;
-      })}
+      {resultData?.length > 0
+        ? resultData?.map((cur, i) => {
+            return <ProductCard key={i} data={cur}/>;
+          })
+        : data?.map((cur, i) => {
+            return <ProductCard key={i} data={cur} />;
+          })}
     </div>
   );
 };

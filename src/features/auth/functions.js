@@ -5,7 +5,7 @@ import { authApiSlice } from "./authApiSlice";
 import cartController from "../cart/function";
 import { store } from "../../redux/stores";
 import { setCurrentCart } from "../cart/cartSlice";
-import {resetCurrentCart} from "../cart/cartSlice"
+import { resetCurrentCart } from "../cart/cartSlice";
 import { toast } from "react-toastify";
 import { toastObject } from "../../constants/toast";
 const { dispatch } = store;
@@ -15,9 +15,14 @@ const authHandler = {
     try {
       //   let result = login({ email, password }).unwrap();
       const response = await dispatch(
-        authApiSlice.endpoints.login.initiate({ email: emailI, password })
+        authApiSlice.endpoints.login.initiate({
+          email: emailI,
+          password,
+        })
       );
-      let result = { ...response.data };
+      let result = {
+        ...response.data,
+      };
       const { access_token } = result.data;
       const { name, avatar, email, _id, isAdmin } = result.data.user;
       // Change auth state
@@ -54,32 +59,46 @@ const authHandler = {
     return false;
   },
 
-  verify: async ({ email, token }) => {
-    try {
-      let response = await dispatch(
-        authApiSlice.endpoints.verify.initiate({ email, token })
+  verify: async ({ email, token }) =>
+    await dispatch(
+      authApiSlice.endpoints.verify.initiate({
+        email,
+        token,
+      })
+    ),
+  logOut: async () => {
+    return dispatch(authApiSlice.endpoints.logOut.initiate())
+      .then((res) => {
+        if (res?.data?.success) {
+          dispatch(resetCurrentCart());
+          store.dispatch(logOut());
+          toast.success(`Đăng xuất thành công`, toastObject);
+        }
+      })
+      .catch((e) =>
+        toast.error(`Lỗi hệ thống thử lại: ${e.message}`, toastObject)
       );
-      let status = response.data?.meta?.response?.status;
-      if (status === 200 && status) {
-        return true;
-      }
-      throw new Error("Invalid token");
-    } catch (e) {
-      console.log(e.message);
-    }
-    return false;
   },
-  logOut: () => {
-    let success = false
-    dispatch(authApiSlice.endpoints.logOut.initiate()).then((res) => {
-      if (res?.data?.success) {
-        dispatch(resetCurrentCart())
-        store.dispatch(logOut());
-        toast.success(`Đăng xuất thành công`, toastObject)
-        success =true
-      }
-    }).catch(e=>toast.error(`Lỗi hệ thống thử lại: ${e.message}`,toastObject))
-    return success;
+  forgotPassword: async ({ email }) => {
+    return await dispatch(
+      authApiSlice.endpoints.forgotPassword.initiate({
+        email,
+      })
+    );
   },
+  resetPassword: async ({ token, password }) =>
+    await dispatch(
+      authApiSlice.endpoints.resetPassword.initiate({
+        token,
+        password,
+      })
+    ),
+  changePassword: async ({ oldPassword, newPassword }) =>
+    await dispatch(
+      authApiSlice.endpoints.passwordChange.initiate({
+        oldPassword,
+        newPassword,
+      })
+    ),
 };
 export default authHandler;
