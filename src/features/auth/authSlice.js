@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {
+    createSlice
+} from "@reduxjs/toolkit";
 import {
     addToLocalStorage,
     clearFromLocalStorage,
@@ -23,7 +25,14 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
         },
         setUserInfos: (state, action) => {
-            const { role, name, avatar, email, access_token, userId } =
+            const {
+                role,
+                name,
+                avatar,
+                email,
+                access_token,
+                userId
+            } =
             action.payload;
             const provider = action.payload.provider || "TGDD";
             console.log(avatar)
@@ -32,7 +41,7 @@ const authSlice = createSlice({
 
             state.user.role = role || state.user.role;
             state.user.name = name || state.user.name;
-            state.user.avatar = avatar;
+            state.user.avatar = avatar.url || avatar || state.user.avatar;
             state.user.email = email || state.user.email;
             state.user.userId = userId || state.user.userId;
             state.user.provider = provider || state.user.provider;
@@ -48,7 +57,11 @@ const authSlice = createSlice({
         },
     },
 });
-export const { logOut, setUserInfos, logIn } = authSlice.actions;
+export const {
+    logOut,
+    setUserInfos,
+    logIn
+} = authSlice.actions;
 export default authSlice.reducer;
 export const selectCurrentUserId = (state) => state.auth.user.userId;
 export const selectLoginStatus = (state) => state.auth.isAuthenticated;

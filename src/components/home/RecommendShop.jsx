@@ -34,7 +34,7 @@ const RecommendShop = () => {
   return (
     <div className="rsWrap grid wide">
       <div className="rs__title row">
-        <h1>gợi ích hôm nay</h1>
+        <h1>gợi í hôm nay</h1>
       </div>
       <div className="rs__content row">
         <div className="rs__card col l-3 c-12 m-6 ">

@@ -70,13 +70,14 @@ const UserMenu = (props) => {
   const cart = useSelector((state) => state.cart);
   // Handler
   const handleLogoutClick = () => {
-
-    authController.logOut().then(res=>{
-      if(res?.data?.success){
-        history.push('/')
+    authController.logOut().then((res) => {
+      history.push("/");
+      if (res?.data?.success) {
+        toast.success(`Đăng xuất thành công`, toastObject);
+      } else {
+        toast.error(`Lỗi đăng xuất, thử lại`, toastObject);
       }
-    })
-
+    });
   };
   const handleOrderClick = () => {
     history.push({

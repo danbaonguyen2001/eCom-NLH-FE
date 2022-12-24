@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 
 const Title = styled.p``;
@@ -11,7 +11,11 @@ const BoxInfo = styled.div`
   margin-bottom: -0.6rem;
 `;
 
-const UserInfoSubMenu = ({ user }) => {
+const UserInfoSubMenu = ({ user: userInput }) => {
+  const [user, setUser] = useState(userInput)
+  useEffect(()=>{
+    setUser(userInput)
+  },[userInput])
   return (
     <div>
       {/* Title */}

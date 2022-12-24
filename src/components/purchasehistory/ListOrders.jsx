@@ -90,7 +90,7 @@ const ListOrders = () => {
       </Stack>
       <div className="line"></div>
       <div className="list_orders_list">
-        {order.map((v, i) => {
+        {order.reverse().map((v, i) => {
           return (
             <div key={i}>
               <Order data={v} />

@@ -60,7 +60,7 @@ const OrderConfirm = ({ cartInfo, orderInfo,disableOrder }) => {
       // } = req.body
 
       orderController
-        .handlerMakeOrder(orderInput)
+        .handlerMakeOrder({...orderInput,voucher:"63787570e3a504513ef1a042"})
         .then((res) => {
           const { success, order } = res?.data;
           if (success) {

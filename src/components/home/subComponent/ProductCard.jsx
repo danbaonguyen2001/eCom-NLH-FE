@@ -27,8 +27,8 @@ const ProductCard = ({ data, award }) => {
       }}
     >
       <div
-        onMouseEnter={mouseEnterHandler}
-        onMouseLeave={mouseLeaveHandler}
+        onMouseEnter={()=>setEyeS(true)}
+        onMouseLeave={()=>setEyeS(false)}
         className="pCardWrap"
       >
         {/* overlay */}

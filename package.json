@@ -40,6 +40,7 @@
     "react-modal-video": "^1.2.10",
     "react-number-format": "^4.9.3",
     "react-paginate": "^8.1.3",
+    "react-paypal-js": "^0.0.1-security",
     "react-redux": "^8.0.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
