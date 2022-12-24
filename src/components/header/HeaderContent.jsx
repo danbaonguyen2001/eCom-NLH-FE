@@ -171,12 +171,9 @@ const HeaderContent = () => {
     fetchCart();
   }, [cart.render]);
 
-  useEffect(() => {
-    //dispatch(setRender());
-  }, []);
-
   // check
   useEffect(() => {
+    console.log(userInfo)
     // check auth
     if (status) {
       setUserLogin({
@@ -198,7 +195,7 @@ const HeaderContent = () => {
         },
       });
     }
-  }, [avatar, status]);
+  }, [avatar, status,userInfo]);
 
   //
   // Begin content

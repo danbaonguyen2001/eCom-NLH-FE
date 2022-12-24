@@ -12307,6 +12307,11 @@ react-paginate@^8.1.3:
   dependencies:
     prop-types "^15.6.1"
 
+react-paypal-js@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/react-paypal-js/-/react-paypal-js-0.0.1-security.tgz#a8a741ec276955c6dcf4ffc2e58854da016ba00c"
+  integrity sha512-mryql7EN5LyHtM0WmOE7bwlybGJBVpzXIg+fDPc8TwXs/jPkxm+MFoK35oNYPiBLZ8CHsdO0pNqyKet8McHXxg==
+
 react-redux@^8.0.2:
   version "8.0.2"
   resolved "https://registry.npmjs.org/react-redux/-/react-redux-8.0.2.tgz"

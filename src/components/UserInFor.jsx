@@ -81,7 +81,6 @@ const UserInFor = () => {
     userController
       .getUser()
       .then((res) => {
-        console.clear();
         if (res.isLoading) {
           setIsLoading(true);
           setIsSuccess(false);

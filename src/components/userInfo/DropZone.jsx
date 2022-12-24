@@ -5,6 +5,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Button } from "@material-ui/core";
 import userController from "../../features/user/function";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUserInfos } from "../../features/auth/authSlice";
 const DropZone = ({ userDataAvatar }) => {
   //
   //
@@ -24,7 +26,7 @@ const DropZone = ({ userDataAvatar }) => {
       setFile(acceptFiles[0]);
       setFileName(acceptFiles[0].name);
     } else {
-      toast.error(`File không hợp lệ`)
+      toast.error(`File không hợp lệ`);
     }
   }, []);
   //#region drop zone style
@@ -94,6 +96,7 @@ const DropZone = ({ userDataAvatar }) => {
     userController
       .updateAvatar(formData)
       .then((res) => {
+
         setAvatar(res.data.avatar.url);
         toast.success("Cập nhật ảnh đại diện thành công", {
           position: "top-right",
