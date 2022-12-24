@@ -24,7 +24,7 @@ const DropZone = ({ userDataAvatar }) => {
       setFile(acceptFiles[0]);
       setFileName(acceptFiles[0].name);
     } else {
-      alert("File này không hợp lệ");
+      toast.error(`File không hợp lệ`)
     }
   }, []);
   //#region drop zone style
