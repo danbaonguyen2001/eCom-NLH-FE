@@ -31,14 +31,14 @@ const authSlice = createSlice({
                 avatar,
                 email,
                 access_token,
+                refresh_token,
                 userId
             } =
             action.payload;
             const provider = action.payload.provider || "TGDD";
-            console.log(avatar)
-                // console.log ({ role, name, avatar, email, access_token, userId })
-            addToLocalStorage(access_token);
-
+            // console.log ({ role, name, avatar, email, access_token, userId })
+            addToLocalStorage("accessToken", access_token);
+            addToLocalStorage("refreshToken", refresh_token);
             state.user.role = role || state.user.role;
             state.user.name = name || state.user.name;
             state.user.avatar = avatar.url || avatar || state.user.avatar;

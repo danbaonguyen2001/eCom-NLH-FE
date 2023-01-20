@@ -23,7 +23,7 @@ const authHandler = {
       let result = {
         ...response.data,
       };
-      const { access_token } = result.data;
+      const { access_token,refresh_token } = result.data;
       const { name, avatar, email, _id, isAdmin } = result.data.user;
       // Change auth state
       dispatch(logIn());
@@ -34,6 +34,7 @@ const authHandler = {
           avatar: avatar.url,
           email,
           access_token,
+          refresh_token,
           userId: _id,
         })
       );
