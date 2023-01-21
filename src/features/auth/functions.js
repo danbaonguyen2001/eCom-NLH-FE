@@ -1,48 +1,53 @@
 // import { useLoginMutation } from "../../features/auth/authApiSlice";
-import { logIn, logOut, setUserInfos } from "./authSlice";
-import { Redirect, useHistory } from "react-router-dom";
+import {
+  failureLogin,
+  logIn,
+  logOut,
+  requestLogin,
+  setUserInfos,
+} from "./authSlice";
 import { authApiSlice } from "./authApiSlice";
-import cartController from "../cart/function";
 import { store } from "../../redux/stores";
-import { setCurrentCart } from "../cart/cartSlice";
 import { resetCurrentCart } from "../cart/cartSlice";
 import { toast } from "react-toastify";
 import { toastObject } from "../../constants/toast";
+import { ErrorResponse } from "../../utils/ErrorResponse";
 const { dispatch } = store;
 // content
 const authHandler = {
   login: async ({ email: emailI, password }) => {
-    try {
-      //   let result = login({ email, password }).unwrap();
-      const response = await dispatch(
-        authApiSlice.endpoints.login.initiate({
-          email: emailI,
-          password,
-        })
-      );
-      let result = {
-        ...response.data,
-      };
-      const { access_token,refresh_token } = result.data;
-      const { name, avatar, email, _id, isAdmin } = result.data.user;
-      // Change auth state
-      dispatch(logIn());
-      dispatch(
-        setUserInfos({
-          role: !isAdmin ? "ROLE_USER" : "ROLE_ADMIN",
-          name,
-          avatar: avatar.url,
-          email,
-          access_token,
-          refresh_token,
-          userId: _id,
-        })
-      );
-      if (result) return true;
-      throw new Error(result.message);
-    } catch (e) {
-      console.log(`Cant login with message: ${e.message}`);
-    }
+    dispatch(requestLogin());
+    dispatch(
+      authApiSlice.endpoints.login.initiate({
+        email: emailI,
+        password,
+      })
+    )
+      .then((res) => {
+        if (res.error) {
+          dispatch(failureLogin({ message: res.error.data.message }));
+          return false;
+        }
+        const { access_token, refresh_token } = res.data.data;
+        const { name, avatar, email, _id, isAdmin } = res.data.data.user;
+        // Change auth state
+        dispatch(logIn({ message: res.data.message }));
+        dispatch(
+          setUserInfos({
+            role: !isAdmin ? "ROLE_USER" : "ROLE_ADMIN",
+            name,
+            avatar: avatar.url,
+            email,
+            access_token,
+            refresh_token,
+            userId: _id,
+          })
+        );
+        return true;
+      })
+      .catch((e) => {
+        return new ErrorResponse(e.message, 400);
+      });
     return false;
   },
   register: async (inputData) => {

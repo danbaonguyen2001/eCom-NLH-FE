@@ -1,7 +1,7 @@
-import { React, useState, useEffect } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { React, useState } from "react";
+import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLoginStatus } from "../features/auth/authSlice";
+import { selectLoginStatus, selectAuthState } from "../features/auth/authSlice";
 import login from "../assets/images/register/login.png";
 import FormInput from "../components/login/FormInput";
 import background from "../assets/images/register/login.png";
@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 
 // Function
 import authController from "../features/auth/functions";
-import cartHandler from "../features/cart/function";
 import {
   getTotals,
   setCurrentCart,
@@ -21,6 +20,12 @@ import {
 const Login = () => {
   // check login
   const isLogin = useSelector(selectLoginStatus);
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    messageAuth: message,
+  } = useSelector(selectAuthState);
   const dispatch = useDispatch();
   //
   const inputs = [
@@ -45,70 +50,39 @@ const Login = () => {
     },
   ];
 
-  const history = useHistory();
-
   // Login
   const LoginForm = () => {
     const [values, setValues] = useState({
       email: "",
       password: "",
     });
-
-    const submitHandle = async (e) => {
+    const submitHandle = (e) => {
       e.preventDefault();
-      let email = values.email;
-      let password = values.password;
-      // Xử lý result
-      let result = await authController.login({ email, password });
-
-      if (result) {
-        //redirect
-        history.push("/");
-        await dispatch(setRender());
-        // cartHandler
-        //   .getCurrentCart()
-        //   .then((res) => {
-        //     dispatch(setCurrentCart(res.data.cart));
-        //     dispatch(setRender());
-        //   })
-        //   .catch((e) =>
-        //     toast.error(`Không lấy được thông tin giỏ hàng cũ`, {
-        //       toastId: 99,
-        //       position: "top-right",
-        //       autoClose: 5000,
-        //       closeOnClick: true,
-        //     })
-        //   );
+      if (values.email.includes("@admin")) {
+        alert("Email không được chứa @admin!");
+        values.email = "";
       } else {
-        toast.error("Đăng nhập thất bại !", {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-        });
-        history.push("/login");
-        toast.error(`Sai tài khoản hoặc mật khẩu, thử lại!`, {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-          toastId: 99,
-        });
+        const { email, password } = values;
+        // Xử lý result
+        authController.login({ email, password });
+        isSuccess && dispatch(setRender());
+        isError &&
+          toast.error(`Sai tài khoản hoặc mật khẩu, thử lại!`, {
+            position: "top-right",
+            autoClose: 5000,
+            closeOnClick: true,
+            toastId: 99,
+          });
       }
-      //console.log(result);
     };
 
     const onChange = (e) => {
       setValues({ ...values, [e.target.name]: e.target.value });
     };
 
-    if (values.email.includes("@admin")) {
-      alert("Email không được chứa @admin!");
-      values.email = "";
-    }
-
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
-    return (
+    return isLoading ? (
+      <div>Loading</div>
+    ) : (
       <div className="row login ">
         {/* Old form */}
         <div className="login_container display_none">
@@ -232,7 +206,7 @@ const Login = () => {
           </div>
           <div className="login_form_btn_socials">
             <a
-                href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
+              href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
               className="btn btn_icon flex_center"
             >
               <i className="fa-brands fa-google "></i>
@@ -252,7 +226,7 @@ const Login = () => {
     );
   };
 
-  const body = isLogin ? <Redirect to="/" /> : <LoginForm />;
+  const body = isLogin && isSuccess ? <Redirect to="/" /> : <LoginForm />;
   //
   return body;
 };

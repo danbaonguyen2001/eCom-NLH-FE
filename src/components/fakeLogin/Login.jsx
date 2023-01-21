@@ -34,7 +34,7 @@ const Login = () => {
     e.preventDefault();
     let { email, password } = data;
     let result = await authController.login({ email, password });
-    console.log(result);
+
     if (result) {
       email = "";
       password = "";

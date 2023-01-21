@@ -3,7 +3,6 @@ import { React, useState } from "react";
 const FormInput = (props) => {
   const [focused, setFocused] = useState(false);
   const { onChange, errorMessage, id, ...inputProps } = props;
-  // console.log(props);
   const handleFocus = (e) => {
     setFocused(true);
   };

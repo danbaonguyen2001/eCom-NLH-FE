@@ -11,6 +11,10 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         isAuthenticated: false,
+        isLoading: false,
+        isSuccess: false,
+        isError: false,
+        message: "",
         user: {
             role: "",
             name: "",
@@ -21,8 +25,23 @@ const authSlice = createSlice({
         },
     },
     reducers: {
+        requestLogin: (state, action) => {
+            state.isLoading = true
+            state.isError = false
+            state.isSuccess = false
+            state.message = ""
+        },
+        failureLogin: (state, action) => {
+            state.message = action.payload.message || ""
+            state.isLoading = false
+            state.isError = true
+        },
         logIn: (state, action) => {
+            state.message = action.payload.message || ""
+            state.isError = false;
             state.isAuthenticated = true;
+            state.isLoading = false;
+            state.isSuccess = true;
         },
         setUserInfos: (state, action) => {
             const {
@@ -53,6 +72,9 @@ const authSlice = createSlice({
             state.user.email = "";
             state.user.userId = "";
             state.isAuthenticated = false;
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.isError = false;
             clearFromLocalStorage();
         },
     },
@@ -60,10 +82,18 @@ const authSlice = createSlice({
 export const {
     logOut,
     setUserInfos,
-    logIn
+    logIn,
+    requestLogin,
+    failureLogin
 } = authSlice.actions;
 export default authSlice.reducer;
 export const selectCurrentUserId = (state) => state.auth.user.userId;
 export const selectLoginStatus = (state) => state.auth.isAuthenticated;
 export const selectCurrentUser = (state) => state.auth.user;
-// export const selectCurrentToken = (state) => state.auth.token
+export const selectAuthState = (state) => ({
+        isLoading: state.auth.isLoading,
+        isSuccess: state.auth.isSuccess,
+        isError: state.auth.isError,
+        message: state.auth.message,
+    })
+    // export const selectCurrentToken = (state) => state.auth.token
