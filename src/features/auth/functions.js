@@ -1,10 +1,11 @@
 // import { useLoginMutation } from "../../features/auth/authApiSlice";
 import {
-  failureLogin,
+  failure,
   logIn,
   logOut,
-  requestLogin,
+  request,
   setUserInfos,
+  success,
 } from "./authSlice";
 import { authApiSlice } from "./authApiSlice";
 import { store } from "../../redux/stores";
@@ -12,12 +13,13 @@ import { resetCurrentCart } from "../cart/cartSlice";
 import { toast } from "react-toastify";
 import { toastObject } from "../../constants/toast";
 import { ErrorResponse } from "../../utils/ErrorResponse";
+import { FlashAuto } from "@material-ui/icons";
 const { dispatch } = store;
 // content
 const authHandler = {
   login: async ({ email: emailI, password }) => {
-    dispatch(requestLogin());
-    dispatch(
+    dispatch(request());
+    const flag = dispatch(
       authApiSlice.endpoints.login.initiate({
         email: emailI,
         password,
@@ -25,13 +27,15 @@ const authHandler = {
     )
       .then((res) => {
         if (res.error) {
-          dispatch(failureLogin({ message: res.error.data.message }));
+          dispatch(failure({ message: res.error.data.message }));
           return false;
         }
         const { access_token, refresh_token } = res.data.data;
         const { name, avatar, email, _id, isAdmin } = res.data.data.user;
         // Change auth state
-        dispatch(logIn({ message: res.data.message }));
+        dispatch(success({ message: res.data.message }));
+
+        dispatch(logIn());
         dispatch(
           setUserInfos({
             role: !isAdmin ? "ROLE_USER" : "ROLE_ADMIN",
@@ -46,23 +50,29 @@ const authHandler = {
         return true;
       })
       .catch((e) => {
-        return new ErrorResponse(e.message, 400);
+        return new ErrorResponse(e.message, 500);
       });
-    return false;
+    return flag || false;
   },
-  register: async (inputData) => {
-    try {
-      let response = await dispatch(
-        authApiSlice.endpoints.register.initiate({
-          ...inputData,
-        })
-      );
-      if (response?.data?.success) return true;
-      throw new Error(response?.data?.message);
-    } catch (e) {
-      console.log(`Cant register with message: ${e.message}`);
-    }
-    return false;
+  register: (inputData) => {
+    dispatch(request());
+    const flag = dispatch(
+      authApiSlice.endpoints.register.initiate({
+        ...inputData,
+      })
+    )
+      .then((res) => {
+        if (res.error) {
+          dispatch(failure({ message: res.error.data.message }));
+          return false;
+        }
+        dispatch(success({ message: res.data.message }));
+        return true;
+      })
+      .catch((e) => {
+        throw new ErrorResponse(e.message, 500);
+      });
+    return flag || false;
   },
 
   verify: async ({ email, token }) =>
@@ -73,17 +83,22 @@ const authHandler = {
       })
     ),
   logOut: async () => {
-    return dispatch(authApiSlice.endpoints.logOut.initiate())
+    dispatch(request());
+    const flag = dispatch(authApiSlice.endpoints.logOut.initiate())
       .then((res) => {
-        if (res?.data?.success) {
-          dispatch(resetCurrentCart());
-          store.dispatch(logOut());
-          toast.success(`Đăng xuất thành công`, toastObject);
+        if (res.error) {
+          dispatch(failure({ message: res.error.data.message }));
+          return false;
         }
+        dispatch(success({ message: "Logout successfully" }));
+        dispatch(resetCurrentCart());
+        dispatch(logOut());
+        return true;
       })
-      .catch((e) =>
-        toast.error(`Lỗi hệ thống thử lại: ${e.message}`, toastObject)
-      );
+      .catch((e) => {
+        throw new ErrorResponse(e.message, 500);
+      });
+    return flag;
   },
   forgotPassword: async ({ email }) => {
     return await dispatch(

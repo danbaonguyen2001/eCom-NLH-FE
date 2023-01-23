@@ -10,7 +10,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { Audio } from "react-loader-spinner";
 import "../sass/layout/_layout.scss";
-import LoadingPage from "./LoadingPage";
+import LoadingPage from "../pages/LoadingPage";
 //
 import { store } from "../redux/stores";
 import { Provider } from "react-redux";

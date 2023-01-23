@@ -3,12 +3,16 @@ import "../assets/css/layout/grid.css";
 import "../assets/css/home/index.css";
 import "react-toastify/dist/ReactToastify.css";
 import cartHandler from "../features/cart/function";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectLoginStatus,
   selectCurrentUser,
+  reset,
+  selectAuthState,
 } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
+import { useMemo } from "react";
+import Loader from "../components/loading/Loader";
 const BigBanner = React.lazy(() => import("../components/home/BigBanner"));
 const OptionPromote = React.lazy(() =>
   import("../components/home/OptionPromote")
@@ -36,12 +40,14 @@ const NewChain = React.lazy(() => import("../components/home/NewChain"));
 const BHX = React.lazy(() => import("../components/home/BHX"));
 
 const Home = () => {
+  const dispatch = useDispatch();
   // select
   const { name, avatar } = useSelector(selectCurrentUser);
+  const { isLoading } = useSelector(selectAuthState);
   //
   //
   const status = useSelector(selectLoginStatus) || false;
-  useEffect(() => {
+  useMemo(() => {
     // check auth
     if (status) {
       toast.success(
@@ -67,10 +73,7 @@ const Home = () => {
     }
   }, [status]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  return (
+  const home = (
     <div className="bigBanner">
       <BigBanner />
       <div className="mainContent">
@@ -89,5 +92,6 @@ const Home = () => {
       </div>
     </div>
   );
+  return isLoading ? <Loader /> : home;
 };
 export default Home;

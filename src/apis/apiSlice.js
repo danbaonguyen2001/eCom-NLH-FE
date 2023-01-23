@@ -24,6 +24,7 @@ const baseQuery = fetchBaseQuery({
 //wrapper
 const baseQueryWithCredentials = async (args, api, extraOption) => {
   let result = await baseQuery(args, api, extraOption);
+  console.log(result);
   // refresh if 403 return result ( Assets Forbidden )
   if (result?.error?.status === 403) {
     console.log("sending refresh token");
@@ -44,7 +45,8 @@ const baseQueryWithCredentials = async (args, api, extraOption) => {
     );
     if (refreshResult?.data) {
       const { access_token, refresh_token } = refreshResult?.data?.data;
-      const { name, avatar, email, _id, isAdmin } = refreshResult?.data?.data?.user;
+      const { name, avatar, email, _id, isAdmin } =
+        refreshResult?.data?.data?.user;
       // api.dispatch(setUserInfos({}));
       // apiSlice.dispatch(setCredentials({ email,role }));
       //step 2 : store in local storage
@@ -62,7 +64,7 @@ const baseQueryWithCredentials = async (args, api, extraOption) => {
         })
       );
       addToLocalStorage("accessToken", access_token);
-      addToLocalStorage("accessToken", refresh_token);
+      addToLocalStorage("refreshToken", refresh_token);
 
       // retry
       result = await baseQuery(args, api, extraOption);

@@ -25,23 +25,32 @@ const authSlice = createSlice({
         },
     },
     reducers: {
-        requestLogin: (state, action) => {
+        request: (state, action) => {
             state.isLoading = true
             state.isError = false
             state.isSuccess = false
             state.message = ""
         },
-        failureLogin: (state, action) => {
+        success: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.isError = false;
+            state.message = action.payload.message || ""
+        },
+        reset: (state, action) => {
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = false
+            state.message = ""
+        },
+        failure: (state, action) => {
             state.message = action.payload.message || ""
             state.isLoading = false
             state.isError = true
         },
         logIn: (state, action) => {
-            state.message = action.payload.message || ""
-            state.isError = false;
             state.isAuthenticated = true;
-            state.isLoading = false;
-            state.isSuccess = true;
+
         },
         setUserInfos: (state, action) => {
             const {
@@ -72,10 +81,8 @@ const authSlice = createSlice({
             state.user.email = "";
             state.user.userId = "";
             state.isAuthenticated = false;
-            state.isLoading = false;
-            state.isSuccess = false;
-            state.isError = false;
-            clearFromLocalStorage();
+            clearFromLocalStorage('accessToken');
+            clearFromLocalStorage('refreshToken');
         },
     },
 });
@@ -83,8 +90,10 @@ export const {
     logOut,
     setUserInfos,
     logIn,
-    requestLogin,
-    failureLogin
+    request,
+    failure,
+    success,
+    reset
 } = authSlice.actions;
 export default authSlice.reducer;
 export const selectCurrentUserId = (state) => state.auth.user.userId;

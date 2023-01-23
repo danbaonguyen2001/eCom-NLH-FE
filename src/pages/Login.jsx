@@ -1,7 +1,12 @@
 import { React, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLoginStatus, selectAuthState } from "../features/auth/authSlice";
+import { toastObject } from "../constants/toast";
+import {
+  selectLoginStatus,
+  selectAuthState,
+  reset,
+} from "../features/auth/authSlice";
 import login from "../assets/images/register/login.png";
 import FormInput from "../components/login/FormInput";
 import background from "../assets/images/register/login.png";
@@ -11,23 +16,28 @@ import { toast } from "react-toastify";
 
 // Function
 import authController from "../features/auth/functions";
-import {
-  getTotals,
-  setCurrentCart,
-  setRender,
-} from "../features/cart/cartSlice";
+import { setRender } from "../features/cart/cartSlice";
+import Loader from "../components/loading/Loader";
+import { useEffect } from "react";
 
 const Login = () => {
   // check login
   const isLogin = useSelector(selectLoginStatus);
-  const {
-    isSuccess,
-    isError,
-    isLoading,
-    messageAuth: message,
-  } = useSelector(selectAuthState);
+  const { isSuccess, isError, isLoading, message } =
+    useSelector(selectAuthState);
   const dispatch = useDispatch();
-  //
+  //Alert
+  useEffect(() => {
+    !isLogin &&
+      isError &&
+      toast.error(message, { ...toastObject, toastId: 99 });
+    isSuccess &&
+      toast.success(message, {
+        ...toastObject,
+        toastId: 200,
+      });
+    dispatch(reset());
+  }, [isSuccess, isLoading, isError, message, dispatch]);
   const inputs = [
     {
       id: 1,
@@ -58,22 +68,11 @@ const Login = () => {
     });
     const submitHandle = (e) => {
       e.preventDefault();
-      if (values.email.includes("@admin")) {
-        alert("Email không được chứa @admin!");
-        values.email = "";
-      } else {
-        const { email, password } = values;
-        // Xử lý result
-        authController.login({ email, password });
-        isSuccess && dispatch(setRender());
-        isError &&
-          toast.error(`Sai tài khoản hoặc mật khẩu, thử lại!`, {
-            position: "top-right",
-            autoClose: 5000,
-            closeOnClick: true,
-            toastId: 99,
-          });
-      }
+      if (values.email.includes("@admin"))
+        return alert("Email không được chứa @admin!");
+      const { email, password } = values;
+      // Xử lý result
+      authController.login({ email, password });
     };
 
     const onChange = (e) => {
@@ -81,7 +80,7 @@ const Login = () => {
     };
 
     return isLoading ? (
-      <div>Loading</div>
+      <Loader />
     ) : (
       <div className="row login ">
         {/* Old form */}
@@ -226,7 +225,7 @@ const Login = () => {
     );
   };
 
-  const body = isLogin && isSuccess ? <Redirect to="/" /> : <LoginForm />;
+  const body = isLogin ? <Redirect to="/" /> : <LoginForm />;
   //
   return body;
 };

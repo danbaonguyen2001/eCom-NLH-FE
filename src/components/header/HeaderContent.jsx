@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import "../../assets/css/layout/header.css";
@@ -148,32 +148,16 @@ const HeaderContent = () => {
   //   count: 0,
   // });
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      const res = await cartHandler.getCurrentCart();
-
-      try {
-        //setCurrentCart(res.data.cart);
-        //console.log(res.data.cart);
-        // set
-        dispatch(setCurrentCart(res.data.cart));
-        //dispatch(getTotals());
-        //console.log(cart);
-      } catch (e) {
-        toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-          toastId: 101,
-        });
-      }
-    };
-    fetchCart();
-  }, [cart.render]);
+  const isAuthenticated = useSelector(selectLoginStatus);
+  useMemo(() => {
+    if (isAuthenticated) {
+      cartHandler.getCurrentCart();
+    }
+  }, [isAuthenticated]);
 
   // check
   useEffect(() => {
-    console.log(userInfo)
+    console.log(userInfo);
     // check auth
     if (status) {
       setUserLogin({
@@ -195,7 +179,7 @@ const HeaderContent = () => {
         },
       });
     }
-  }, [avatar, status,userInfo]);
+  }, [avatar, status, userInfo]);
 
   //
   // Begin content
