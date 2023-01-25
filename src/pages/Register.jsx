@@ -165,7 +165,7 @@ const Register = () => {
       </div>
     </>
   );
-  return isLoading ? <Loader /> : body;
+  return <Loader isLoading={isLoading}>{body}</Loader>;
 };
 
 export default Register;

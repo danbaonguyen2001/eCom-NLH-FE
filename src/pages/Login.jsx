@@ -37,7 +37,7 @@ const Login = () => {
         toastId: 200,
       });
     dispatch(reset());
-  }, [isSuccess, isLoading, isError, message, dispatch]);
+  }, [isError, isLogin, isSuccess, dispatch]);
   const inputs = [
     {
       id: 1,
@@ -79,149 +79,150 @@ const Login = () => {
       setValues({ ...values, [e.target.name]: e.target.value });
     };
 
-    return isLoading ? (
-      <Loader />
-    ) : (
-      <div className="row login ">
-        {/* Old form */}
-        <div className="login_container display_none">
-          <div className="login_container_background">
-            <div className="login_form">
-              <div className="login_form_header">
-                <img src={login} alt="" className="img_login"></img>
-              </div>
+    console.log(isLoading);
+    return (
+      <Loader isLoading={isLoading}>
+        <div className="row login ">
+          {/* Old form */}
+          <div className="login_container display_none">
+            <div className="login_container_background">
+              <div className="login_form">
+                <div className="login_form_header">
+                  <img src={login} alt="" className="img_login"></img>
+                </div>
 
-              <div className="login_form_form">
-                <form
-                  id="login_form_id"
-                  className="login_form_group"
-                  onSubmit={submitHandle}
-                >
-                  {inputs.map((input) => (
-                    <FormInput
-                      key={input.id}
-                      {...input}
-                      value={values[input.name]}
-                      onChange={onChange}
-                    />
-                  ))}
+                <div className="login_form_form">
+                  <form
+                    id="login_form_id"
+                    className="login_form_group"
+                    onSubmit={submitHandle}
+                  >
+                    {inputs.map((input) => (
+                      <FormInput
+                        key={input.id}
+                        {...input}
+                        value={values[input.name]}
+                        onChange={onChange}
+                      />
+                    ))}
 
-                  <div className="login_form_btn_control">
-                    <button type="submit" className="btn_next">
-                      Đăng Nhập
-                    </button>
-                  </div>
-                </form>
-              </div>
+                    <div className="login_form_btn_control">
+                      <button type="submit" className="btn_next">
+                        Đăng Nhập
+                      </button>
+                    </div>
+                  </form>
+                </div>
 
-              <div className="forget_password">
-                <Link to="/password_reset" className="forget_password_link">
-                  Quên mật khẩu?
-                </Link>
-              </div>
+                <div className="forget_password">
+                  <Link to="/password_reset" className="forget_password_link">
+                    Quên mật khẩu?
+                  </Link>
+                </div>
 
-              <div className="text_or">
-                <div className="line"></div>
-                <span className="or">Hoặc</span>
-                <div className="line"></div>
-              </div>
+                <div className="text_or">
+                  <div className="line"></div>
+                  <span className="or">Hoặc</span>
+                  <div className="line"></div>
+                </div>
 
-              <div className="login_form_btn_socials">
-                <a
-                  href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
-                  className="btn btn_icon flex_center"
-                >
-                  <i className="fa-brands fa-google "></i>
-                  Google
-                </a>
+                <div className="login_form_btn_socials">
+                  <a
+                    href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
+                    className="btn btn_icon flex_center"
+                  >
+                    <i className="fa-brands fa-google "></i>
+                    Google
+                  </a>
 
-                <a
-                  href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
-                  className="btn btn_icon flex_center"
-                >
-                  <i className="fa-brands fa-facebook "></i>
-                  Facebook
-                </a>
-              </div>
+                  <a
+                    href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
+                    className="btn btn_icon flex_center"
+                  >
+                    <i className="fa-brands fa-facebook "></i>
+                    Facebook
+                  </a>
+                </div>
 
-              <div className="login_register">
-                <span className="text_register">Bạn chưa có tài khoản?</span>
-                <Link to="/register" className="login_register_link">
-                  Đăng ký
-                </Link>
+                <div className="login_register">
+                  <span className="text_register">Bạn chưa có tài khoản?</span>
+                  <Link to="/register" className="login_register_link">
+                    Đăng ký
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* New form */}
+          <div className="l-5 m-8 c-12 border">
+            <div class="login__header">
+              <h3 class="login__headidng"> Đăng nhập</h3>
+              <Link
+                to="/register"
+                id="click-register"
+                class="login__switch-btn js-btn-switch-to-register"
+              >
+                Đăng ký
+              </Link>
+            </div>
+            <center>
+              <img src={background} alt="" className="img_registercode"></img>
+            </center>
+            <div className="login__form">
+              <form
+                id="login_form_id"
+                className="login_form_group"
+                onSubmit={submitHandle}
+              >
+                {inputs.map((input) => (
+                  <FormInput
+                    key={input.id}
+                    {...input}
+                    value={values[input.name]}
+                    onChange={onChange}
+                  />
+                ))}
+
+                <div className="flex_80_width">
+                  <button className="btn login-btn" type="submit">
+                    Đăng Nhập
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div className="forget_password">
+              <Link to="/password_reset" className="forget_password_link">
+                Quên mật khẩu?
+              </Link>
+            </div>
+
+            <div className="text_or">
+              <div className="line"></div>
+              <span className="or">Hoặc</span>
+              <div className="line"></div>
+            </div>
+            <div className="login_form_btn_socials">
+              <a
+                href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
+                className="btn btn_icon flex_center"
+              >
+                <i className="fa-brands fa-google "></i>
+                Google
+              </a>
+
+              <a
+                href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
+                className="btn btn_icon flex_center"
+              >
+                <i className="fa-brands fa-facebook "></i>
+                Facebook
+              </a>
+            </div>
+          </div>
         </div>
-
-        {/* New form */}
-        <div className="l-5 m-8 c-12 border">
-          <div class="login__header">
-            <h3 class="login__headidng"> Đăng nhập</h3>
-            <Link
-              to="/register"
-              id="click-register"
-              class="login__switch-btn js-btn-switch-to-register"
-            >
-              Đăng ký
-            </Link>
-          </div>
-          <center>
-            <img src={background} alt="" className="img_registercode"></img>
-          </center>
-          <div className="login__form">
-            <form
-              id="login_form_id"
-              className="login_form_group"
-              onSubmit={submitHandle}
-            >
-              {inputs.map((input) => (
-                <FormInput
-                  key={input.id}
-                  {...input}
-                  value={values[input.name]}
-                  onChange={onChange}
-                />
-              ))}
-
-              <div className="flex_80_width">
-                <button className="btn login-btn" type="submit">
-                  Đăng Nhập
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <div className="forget_password">
-            <Link to="/password_reset" className="forget_password_link">
-              Quên mật khẩu?
-            </Link>
-          </div>
-
-          <div className="text_or">
-            <div className="line"></div>
-            <span className="or">Hoặc</span>
-            <div className="line"></div>
-          </div>
-          <div className="login_form_btn_socials">
-            <a
-              href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
-              className="btn btn_icon flex_center"
-            >
-              <i className="fa-brands fa-google "></i>
-              Google
-            </a>
-
-            <a
-              href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
-              className="btn btn_icon flex_center"
-            >
-              <i className="fa-brands fa-facebook "></i>
-              Facebook
-            </a>
-          </div>
-        </div>
-      </div>
+      </Loader>
     );
   };
 

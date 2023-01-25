@@ -29,15 +29,15 @@ const EventList = () => {
         !res.isLoading && setIsLoading(false);
         res.isSuccess && setResultData(res?.data?.events);
         if (res.isError) {
-          throw new ErrorResponse(res?.error?.data?.message);
+          throw new ErrorResponse(res?.error?.error, 500);
         }
       })
-      .catch((e) =>
-        toast.error(e.message, {
+      .catch((e) => {
+        toast.error(`Không thể tải sự kiện, thử lại. ${e.message}`, {
           ...toastObject,
           toastId: 99,
-        })
-      );
+        });
+      });
   }, []);
 
   // slider config

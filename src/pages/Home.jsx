@@ -43,7 +43,6 @@ const Home = () => {
   const dispatch = useDispatch();
   // select
   const { name, avatar } = useSelector(selectCurrentUser);
-  const { isLoading } = useSelector(selectAuthState);
   //
   //
   const status = useSelector(selectLoginStatus) || false;
@@ -92,6 +91,6 @@ const Home = () => {
       </div>
     </div>
   );
-  return isLoading ? <Loader /> : home;
+  return  home;
 };
 export default Home;

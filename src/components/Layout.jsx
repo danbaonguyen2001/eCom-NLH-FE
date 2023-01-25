@@ -22,7 +22,7 @@ const Layout = () => {
   return (
     <React.Suspense fallback={<LoadingPage />}>
       <Provider store={store}>
-        <PersistGate loading={<LoadingPage />} persistor={persistor}>
+        <PersistGate  persistor={persistor}>
           {/* <LoadingPage /> */}
           <BrowserRouter>
             <ToastContainer />

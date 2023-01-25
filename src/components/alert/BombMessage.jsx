@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Alert, AlertTitle, Grid } from "@mui/material";
 import { reset } from "../../features/auth/authSlice";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 const CountDownMessage = ({ severity, children, setIsOpen, isOpen }) => {
   const dispatch = useDispatch();
   const [remained, setRemained] = useState(10);
@@ -12,7 +13,7 @@ const CountDownMessage = ({ severity, children, setIsOpen, isOpen }) => {
       });
     }, 1000);
     setTimeout(() => {
-      isOpen &&setIsOpen(false) &&dispatch(reset())
+      isOpen && setIsOpen(false) && dispatch(reset());
       clearInterval(countdown);
     }, 10000);
   }, []);
@@ -55,6 +56,9 @@ const CountDownMessage = ({ severity, children, setIsOpen, isOpen }) => {
   );
 };
 const BombMessage = ({ severity, children }) => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const [isOpen, setIsOpen] = useState(true);
 
   return (
