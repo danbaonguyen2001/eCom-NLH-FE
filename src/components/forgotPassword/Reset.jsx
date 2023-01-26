@@ -2,45 +2,22 @@ import React, { useState, useEffect } from "react";
 
 import { toast } from "react-toastify";
 import { toastObject } from "../../constants/toast";
-import { FormControl, TextField, Button, LinearProgress } from "@mui/material";
+import {
+  FormControl,
+  TextField,
+  Button,
+  LinearProgress,
+  Stack,
+} from "@mui/material";
 import authController from "../../features/auth/functions";
+import PasswordBox from "./PasswordBox";
 //password check
 
-const Reset = ({history}) => {
+const Reset = ({ history }) => {
+  const [newToken, setNewToken] = useState(false);
   const [secure, setSecure] = useState(0);
   const [token, setToken] = useState(null);
-  const passwordCheck = (e) => {
-    //pattern
-    const lowerCaseLetters = /[a-z]/g;
-    const upperCaseLetters = /[A-Z]/g;
-    const numbers = /[0-9]/g;
 
-    const passwordCheck = e.target.value;
-
-    const keyL = passwordCheck.match(lowerCaseLetters) ? true : false;
-    const keyN = passwordCheck.match(upperCaseLetters) ? true : false;
-    const keyU = passwordCheck.match(numbers) ? true : false;
-
-    //check count
-    let count = 0;
-    if (keyL) {
-      count++;
-    } else {
-      count = count === 0 ? count : count--;
-    }
-    if (keyU) {
-      count++;
-    } else {
-      count = count === 0 ? count : count--;
-    }
-    if (keyN) {
-      count++;
-    } else {
-      count = count === 0 ? count : count--;
-    }
-    setSecure(count * 30);
-    if (passwordCheck.length > 8) setSecure(count * 30 + 10);
-  };
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
 
@@ -49,11 +26,17 @@ const Reset = ({history}) => {
       authController.resetPassword({ token, password }).then((res) => {
         if (res?.data?.success) {
           toast.success(res?.data?.message, toastObject);
-          history.push("/login")
+          history.push("/login");
         } else {
-          toast.error(res?.data?.message, toastObject);
+          setNewToken(true);
+          toast.error(
+            `Mã xác thực không chính xác hoặc hết hạn ${res?.data?.message}`,
+            toastObject
+          );
         }
       });
+    } else {
+      toast.error(`Chưa nhập đầy đủ thông tin`, toastObject);
     }
   };
 
@@ -75,7 +58,15 @@ const Reset = ({history}) => {
         onChange={(e) => setToken(e.target.value)}
         autoComplete={false}
       />
-      <TextField
+      <PasswordBox
+        setSecure={setSecure}
+        password={password}
+        setPassword={setPassword}
+        secure={secure}
+        rePassword={rePassword}
+        setRePassword={setRePassword}
+      />
+      {/* <TextField
         sx={{ margin: "20px 0 ", width: "100%" }}
         InputLabelProps={{ sx: { fontSize: 15 } }}
         required
@@ -93,8 +84,8 @@ const Reset = ({history}) => {
           passwordCheck(e);
           setPassword(e.target.value);
         }}
-      />
-      <TextField
+      /> */}
+      {/* <TextField
         sx={{ margin: "20px 0 ", width: "100%" }}
         InputLabelProps={{ sx: { fontSize: 15 } }}
         required
@@ -107,21 +98,35 @@ const Reset = ({history}) => {
           rePassword !== password ? `Mật khẩu không trùng khớp` : `Nhập lại`
         }
         error={rePassword !== password}
-      />
+      /> */}
       <LinearProgress
         sx={{ width: "80%", height: "14px", borderRadius: "4px" }}
         value={secure}
         variant="determinate"
       />
-      <Button
-        sx={{ width: "30%", fontSize: 12, margin: "10px 0" }}
-        variant="outlined"
-        onClick={handleChangePassword}
-        type="submit"
-        disabled={!token || !password || rePassword !== password}
+      <Stack
+        flexDirection="row"
+        sx={{ width: "100%" }}
+        justifyContent="center"
+        alignItems="center"
       >
-        Đổi mật khẩu
-      </Button>
+        <Button
+          sx={{ fontSize: 12, margin: "10px" }}
+          onClick={() => history.push(`/password_reset`)}
+          disabled={!newToken}
+        >
+          Gửi lại
+        </Button>
+        <Button
+          sx={{ width: "30%", fontSize: 12, margin: "10px 0" }}
+          variant="outlined"
+          onClick={handleChangePassword}
+          type="submit"
+          disabled={!token || !password || rePassword !== password }
+        >
+          Đổi mật khẩu
+        </Button>
+      </Stack>
     </FormControl>
   );
 };

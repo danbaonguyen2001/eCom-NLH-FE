@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Input, Box, Button, TextField } from "@material-ui/core";
 import { v4 } from "uuid";
 //token Handlers
-import { addToLocalStorage } from "../../utils/tokenHandle";
 //
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -35,7 +34,7 @@ const Login = () => {
     e.preventDefault();
     let { email, password } = data;
     let result = await authController.login({ email, password });
-    console.log(result);
+
     if (result) {
       email = "";
       password = "";

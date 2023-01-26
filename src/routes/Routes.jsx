@@ -102,19 +102,26 @@ import LineStrapProduct from "../components/Watches/ChildPage/LineStrapProduct";
 // sim card
 import LayoutSimCard from "../components/simCard/LayoutSimCard";
 import LayoutVinaphoneSimCard from "../components/simCard/SubSimCard/LayoutVinaphoneSimCard";
-import { list_number_sim } from "../components/simCard/dataSimCard";
 import RedirectRoutes from "./redirect/RedirectRoutes";
 import UnAuthOrderHistory from "../components/purchasehistory/UnAuthOrderHistory";
 import WatchForWomen from "../components/Watches/ChildPage/WatchForWomen";
 import WatchForCouple from "../components/Watches/ChildPage/WatchForCouple";
 import CompareProducts from "../components/CompareProducts";
-import Forgot from "../components/forgotPassword/Forgot";
-import Reset from "../components/forgotPassword/Reset";
+
 import ForgotPassword from "../pages/ForgotPassword";
+import LoadingWrapper from "../components/LoadingWrapper";
 const Routes = () => {
   return (
     <Switch>
-      <Route path="/" exact component={Home} />
+      <Route
+        path="/"
+        exact
+        render={() => (
+          <LoadingWrapper>
+            <Home />
+          </LoadingWrapper>
+        )}
+      />
       {/* Giỏ hàng */}
       <Route path="/cart" exact component={Cart} />
       <Route path="/ordersuccess*" exact component={OrderSuccess} />
@@ -175,6 +182,7 @@ const Routes = () => {
       <Route path="/password_reset*" exact component={ForgotPassword} />
 
       <Route path="/login" exact component={Login} />
+
       <Route path="/phone" exact component={Phone} />
 
       {/* Phu kien */}

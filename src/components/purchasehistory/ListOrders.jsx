@@ -6,11 +6,14 @@ import { selectCurrentUser } from "../../features/auth/authSlice";
 import orderController from "../../features/order/function";
 import { toast } from "react-toastify";
 import { Typography, Stack, Divider } from "@mui/material";
+import SkeletonListOrders from "./SkeletonListOrders";
+import NoOrder from "./NoOrder";
 
 const Order = React.lazy(() => import("./subcomponents/Order"));
 const ListOrders = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [order, setOrder] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     let page = 1;
     let size = 5;
@@ -18,6 +21,7 @@ const ListOrders = () => {
     orderController
       .getHistoryOrder({ page, size })
       .then((res) => {
+         setIsLoading(res.isLoading)
         setOrder([...res?.data]);
       })
       .catch((e) =>
@@ -90,14 +94,20 @@ const ListOrders = () => {
       </Stack>
       <div className="line"></div>
       <div className="list_orders_list">
-        {order.map((v, i) => {
-          return (
-            <div key={i}>
-              <Order data={v} />
-              <div className="line"></div>
-            </div>
-          );
-        })}
+        {isLoading ? (
+          <SkeletonListOrders />
+        ) : order.length > 0 ? (
+          order.reverse().map((v, i) => {
+            return (
+              <div key={i}>
+                <Order data={v} />
+                <div className="line"></div>
+              </div>
+            );
+          })
+        ) : (
+          <NoOrder />
+        )}
       </div>
     </div>
   );

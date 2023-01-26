@@ -1,8 +1,8 @@
-export const addToLocalStorage = (token) => {
-    const curToken = window.localStorage.getItem('accessToken');
+export const addToLocalStorage = (name, token) => {
+    const curToken = window.localStorage.getItem(name);
     if (curToken !== token && token) {
         // store access token in local storage
-        window.localStorage.setItem('accessToken', token);
+        window.localStorage.setItem(name, token);
     } else {
         return null;
     }
@@ -15,11 +15,11 @@ export const getFromLocalStorage = () => {
         return null
     }
 }
-export const clearFromLocalStorage = () => {
-    const curToken = window.localStorage.getItem('accessToken');
+export const clearFromLocalStorage = (name) => {
+    const curToken = window.localStorage.getItem(name);
     if (curToken) {
         // store access token in local storage
-        window.localStorage.removeItem('accessToken');
+        window.localStorage.removeItem(name);
     } else {
         return null
     }

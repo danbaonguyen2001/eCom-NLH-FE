@@ -4,7 +4,7 @@ import orderController from "../../../features/order/function";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { Box, Button, Divider, Stack } from "@mui/material";
+import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { AddShoppingCart as Cart } from "@material-ui/icons";
 const CartPrice = React.lazy(() => import("./CartInfo/CartPrice"));
 const CartPayment = React.lazy(() => import("./CartInfo/CartPayment"));
@@ -60,7 +60,7 @@ const OrderConfirm = ({ cartInfo, orderInfo,disableOrder }) => {
       // } = req.body
 
       orderController
-        .handlerMakeOrder(orderInput)
+        .handlerMakeOrder({...orderInput,voucher:"63787570e3a504513ef1a042"})
         .then((res) => {
           const { success, order } = res?.data;
           if (success) {
@@ -86,12 +86,10 @@ const OrderConfirm = ({ cartInfo, orderInfo,disableOrder }) => {
     }
   };
   return (
-    <div className="">
+    <div style={{ marginTop: "16px" }} className="">
+      <Divider/>
       {/* Payment method */}
-      <Divider sx={{ marginTop: "16px" }} textAlign="left">
-        Chọn hình thức thanh toán
-      </Divider>
-
+    <Typography sx={{ marginTop: "16px", fontWeight:"bold" }}  variant="h5">Chọn hình thức thanh toán</Typography>
       <CartPayment
         setPaymentMethod={setPaymentMethod}
         paymentMethod={paymentMethod}

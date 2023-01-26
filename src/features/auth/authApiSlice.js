@@ -6,7 +6,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (inputData) => ({
-                url: "https://tlcn-2022-be.onrender.com/api/auth/login",
+                url: "/auth/login",
                 method: "POST",
                 body: {
                     ...inputData
@@ -15,7 +15,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         register: builder.mutation({
             query: (inputData) => ({
-                url: `http://locahost:5000/api/auth/register`,
+                url: `/auth/register`,
                 method: "POST",
                 body: {
                     ...inputData
@@ -35,20 +35,32 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 token
             }) => {
                 return {
-                    url: `https://tlcn-2022-be.onrender.com/auth/verify-email/${token}`,
+                    url: `/auth/verify-email/${token}`,
                     method: "POST",
                 };
             },
         }),
-
+        passwordChange: builder.mutation({
+            query: ({
+                oldPassword,
+                newPassword
+            }) => ({
+                url: `/auth/password/change`,
+                body: {
+                    enteredPassword: oldPassword,
+                    newPassword
+                },
+                method: 'PUT',
+            })
+        }),
         logOut: builder.mutation({
-            query: () => `https://tlcn-2022-be.onrender.com/api/auth/logout`
+            query: () => `/auth/logout`
         }),
         forgotPassword: builder.mutation({
             query: ({
                 email
             }) => ({
-                url: `https://tlcn-2022-be.onrender.com/api/auth/password/forgot`,
+                url: `/auth/password/forgot`,
                 method: "POST",
                 body: {
                     email: email
@@ -61,7 +73,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 token,
                 password
             }) => ({
-                url: `https://tlcn-2022-be.onrender.com/api/auth/password/resetpassword/${token}`,
+                url: `/auth/password/resetpassword/${token}`,
                 method: "PUT",
                 body: {
                     password: password

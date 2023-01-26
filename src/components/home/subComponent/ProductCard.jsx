@@ -17,7 +17,6 @@ const ProductCard = ({ data, award }) => {
     setEyeS(false);
   };
   const [eyeS, setEyeS] = useState(false);
-  console.log(data);
 
   return (
     <Link
@@ -27,8 +26,8 @@ const ProductCard = ({ data, award }) => {
       }}
     >
       <div
-        onMouseEnter={mouseEnterHandler}
-        onMouseLeave={mouseLeaveHandler}
+        onMouseEnter={()=>setEyeS(true)}
+        onMouseLeave={()=>setEyeS(false)}
         className="pCardWrap"
       >
         {/* overlay */}

@@ -6,7 +6,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
         // Get current Cart
         getCurrentCart: builder.query({
             query: () => ({
-                url: `https://tlcn-2022-be.onrender.com/api/carts`,
+                url: `/carts`,
                 method: "GET",
             }),
             // transformResponse: (res) => ({
@@ -20,7 +20,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
             query: (inputData) => {
                 let { item, quantity } = inputData;
                 return {
-                    url: `https://tlcn-2022-be.onrender.com/api/carts`,
+                    url: `/carts`,
                     method: "POST",
                     body: { item, quantity },
                 };
@@ -32,7 +32,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
             query: (inputData) => {
                 let { itemId, quantity } = inputData;
                 return {
-                    url: `https://tlcn-2022-be.onrender.com/api/carts`,
+                    url: `/carts`,
                     body: { itemId, quantity },
 
                     method: "PUT",

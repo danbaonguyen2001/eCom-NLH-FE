@@ -78,7 +78,7 @@ const ProductDetail = () => {
           <i className="fa-solid fa-star-half-stroke"></i>
         </div> */}
         <span className="product_title_review flex_center">
-          {product?.reviews.length || 5} đánh giá
+          {`${product?.reviews.length || "Không có"} đánh giá `}
         </span>
       </div>
       <div className="line"></div>
