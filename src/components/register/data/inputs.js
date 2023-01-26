@@ -1,0 +1,52 @@
+export const inputs = [{
+        id: 1,
+        name: "email",
+        type: "email",
+        placeholder: "Nhập email",
+        errorMessage: "Email không chính xác",
+        required: true,
+    },
+    {
+        id: 2,
+        name: "name",
+        type: "text",
+        placeholder: "Tên người đăng ký",
+        errorMessage: "Tên người đăng ký không đúng!",
+        required: true,
+    },
+
+    {
+        id: 3,
+        name: "password",
+        type: "password",
+        placeholder: "Nhập mật khẩu",
+        errorMessage: "Mật khẩu phải từ 5-16 kí tự",
+        pattern: "^[A-Za-z0-9]{5,16}$",
+        required: true,
+    },
+    {
+        id: 4,
+        name: "phone",
+        type: "phone",
+        placeholder: "Số điện thoại",
+        errorMessage: "Số điện thoại không chính xác!",
+        // pattern: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
+    },
+    {
+        id: 5,
+        name: "confirmPassword",
+        type: "password",
+        placeholder: "Nhập lại mật khẩu",
+        errorMessage: "Mật khẩu đã nhập không chính xác",
+
+        required: true,
+    },
+    {
+        id: 6,
+        name: "address",
+        type: "text",
+        placeholder: "Nhập số nhà",
+        errorMessage: "Số nhà không hợp lệ",
+        required: true,
+    },
+];

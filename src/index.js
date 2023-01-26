@@ -6,12 +6,14 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import GlobalStyles from "./components/GlobalStyles/index.js";
 import Layout from "./components/Layout";
 
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
     <GlobalStyles>
       <Layout />
+
       {/* <Test /> */}
     </GlobalStyles>
   </React.StrictMode>

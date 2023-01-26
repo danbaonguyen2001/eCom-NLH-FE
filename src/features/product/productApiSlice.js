@@ -6,7 +6,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
         getProductById: builder.query({
             //New
             query: ({ productId }) => ({
-                url: `https://tlcn-2022-be.onrender.com/api/products/${productId}`,
+                url: `/products/${productId}`,
                 method: "GET",
             }),
         }),
@@ -15,7 +15,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
         getProductsList: builder.query({
             //New
             query: (inputData) => ({
-                url: `https://tlcn-2022-be.onrender.com/api/products`,
+                url: `/products`,
                 params: {...inputData },
             }),
         }),
@@ -24,7 +24,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
 
         getProductsByCategory: builder.query({
             query: ({ categoryName }) => ({
-                url: `https://tlcn-2022-be.onrender.com/api/products/category/${categoryName}`,
+                url: `/products/category/${categoryName}`,
                 method: "GET",
             }),
         }),
@@ -32,7 +32,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
         // Top Products
         getProductsTop: builder.query({
             query: () => ({
-                url: `https://tlcn-2022-be.onrender.com/api/products/topreviews`,
+                url: `/products/topreviews`,
             }),
         }),
 
@@ -42,7 +42,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
             // {manufacturerId,categoryId,subCategoryId,page,size}
             //
             query: () => ({
-                url: `https://tlcn-2022-be.onrender.com/api/products`,
+                url: `/products`,
             }),
         }),
     }),

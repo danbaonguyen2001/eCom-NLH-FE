@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-const BtWrapper = styled.div `
-  width: 338px;
-  height: 46px;
+const BtWrapper = styled.div`
+  width: 28rem;
+  height: 4.6rem;
   border-radius: 4px;
   background-color: #ffff;
   text-align: center;
@@ -15,17 +15,25 @@ const BtWrapper = styled.div `
     transition: all 0.1s linear;
   }
 `;
-const Text = styled.p `
-  line-height: 46px;
+const Text = styled.p`
+  line-height: 4.6rem;
 `;
 const ListAllButton = () => {
-    return ( 
-    <Link to = "/">
-        <BtWrapper>
-          <Text > Xem tất cả </Text> 
-        </BtWrapper> 
-      </Link>
-    );
+  return (
+    <Link
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      to="/"
+    >
+      <BtWrapper>
+        <Text> Xem tất cả </Text>{" "}
+      </BtWrapper>{" "}
+    </Link>
+  );
 };
 
 export default ListAllButton;

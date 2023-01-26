@@ -1,7 +1,12 @@
-import { React, useState, useEffect } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { React, useState } from "react";
+import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLoginStatus } from "../features/auth/authSlice";
+import { toastObject } from "../constants/toast";
+import {
+  selectLoginStatus,
+  selectAuthState,
+  reset,
+} from "../features/auth/authSlice";
 import login from "../assets/images/register/login.png";
 import FormInput from "../components/login/FormInput";
 import background from "../assets/images/register/login.png";
@@ -11,18 +16,28 @@ import { toast } from "react-toastify";
 
 // Function
 import authController from "../features/auth/functions";
-import cartHandler from "../features/cart/function";
-import {
-  getTotals,
-  setCurrentCart,
-  setRender,
-} from "../features/cart/cartSlice";
+import { setRender } from "../features/cart/cartSlice";
+import Loader from "../components/loading/Loader";
+import { useEffect } from "react";
 
 const Login = () => {
   // check login
   const isLogin = useSelector(selectLoginStatus);
+  const { isSuccess, isError, isLoading, message } =
+    useSelector(selectAuthState);
   const dispatch = useDispatch();
-  //
+  //Alert
+  useEffect(() => {
+    !isLogin &&
+      isError &&
+      toast.error(message, { ...toastObject, toastId: 99 });
+    isSuccess &&
+      toast.success(message, {
+        ...toastObject,
+        toastId: 200,
+      });
+    dispatch(reset());
+  }, [isError, isLogin, isSuccess, dispatch]);
   const inputs = [
     {
       id: 1,
@@ -45,210 +60,169 @@ const Login = () => {
     },
   ];
 
-  const history = useHistory();
-
   // Login
   const LoginForm = () => {
     const [values, setValues] = useState({
       email: "",
       password: "",
     });
-
-    const submitHandle = async (e) => {
+    const submitHandle = (e) => {
       e.preventDefault();
-      let email = values.email;
-      let password = values.password;
+      if (values.email.includes("@admin"))
+        return alert("Email không được chứa @admin!");
+      const { email, password } = values;
       // Xử lý result
-      let result = await authController.login({ email, password });
-
-      if (result) {
-        //redirect
-        history.push("/");
-        await dispatch(setRender());
-        // cartHandler
-        //   .getCurrentCart()
-        //   .then((res) => {
-        //     dispatch(setCurrentCart(res.data.cart));
-        //     dispatch(setRender());
-        //   })
-        //   .catch((e) =>
-        //     toast.error(`Không lấy được thông tin giỏ hàng cũ`, {
-        //       toastId: 99,
-        //       position: "top-right",
-        //       autoClose: 5000,
-        //       closeOnClick: true,
-        //     })
-        //   );
-      } else {
-        toast.error("Đăng nhập thất bại !", {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-        });
-        history.push("/login");
-        toast.error(`Sai tài khoản hoặc mật khẩu, thử lại!`, {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-          toastId: 99,
-        });
-      }
-      //console.log(result);
+      authController.login({ email, password });
     };
 
     const onChange = (e) => {
       setValues({ ...values, [e.target.name]: e.target.value });
     };
 
-    if (values.email.includes("@admin")) {
-      alert("Email không được chứa @admin!");
-      values.email = "";
-    }
-
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+    console.log(isLoading);
     return (
-      <div className="row login ">
-        {/* Old form */}
-        <div className="login_container display_none">
-          <div className="login_container_background">
-            <div className="login_form">
-              <div className="login_form_header">
-                <img src={login} alt="" className="img_login"></img>
-              </div>
+      <Loader isLoading={isLoading}>
+        <div className="row login ">
+          {/* Old form */}
+          <div className="login_container display_none">
+            <div className="login_container_background">
+              <div className="login_form">
+                <div className="login_form_header">
+                  <img src={login} alt="" className="img_login"></img>
+                </div>
 
-              <div className="login_form_form">
-                <form
-                  id="login_form_id"
-                  className="login_form_group"
-                  onSubmit={submitHandle}
-                >
-                  {inputs.map((input) => (
-                    <FormInput
-                      key={input.id}
-                      {...input}
-                      value={values[input.name]}
-                      onChange={onChange}
-                    />
-                  ))}
+                <div className="login_form_form">
+                  <form
+                    id="login_form_id"
+                    className="login_form_group"
+                    onSubmit={submitHandle}
+                  >
+                    {inputs.map((input) => (
+                      <FormInput
+                        key={input.id}
+                        {...input}
+                        value={values[input.name]}
+                        onChange={onChange}
+                      />
+                    ))}
 
-                  <div className="login_form_btn_control">
-                    <button type="submit" className="btn_next">
-                      Đăng Nhập
-                    </button>
-                  </div>
-                </form>
-              </div>
+                    <div className="login_form_btn_control">
+                      <button type="submit" className="btn_next">
+                        Đăng Nhập
+                      </button>
+                    </div>
+                  </form>
+                </div>
 
-              <div className="forget_password">
-                <Link to="/password_reset" className="forget_password_link">
-                  Quên mật khẩu?
-                </Link>
-              </div>
+                <div className="forget_password">
+                  <Link to="/password_reset" className="forget_password_link">
+                    Quên mật khẩu?
+                  </Link>
+                </div>
 
-              <div className="text_or">
-                <div className="line"></div>
-                <span className="or">Hoặc</span>
-                <div className="line"></div>
-              </div>
+                <div className="text_or">
+                  <div className="line"></div>
+                  <span className="or">Hoặc</span>
+                  <div className="line"></div>
+                </div>
 
-              <div className="login_form_btn_socials">
-                <a
-                  href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
-                  className="btn btn_icon flex_center"
-                >
-                  <i className="fa-brands fa-google "></i>
-                  Google
-                </a>
+                <div className="login_form_btn_socials">
+                  <a
+                    href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
+                    className="btn btn_icon flex_center"
+                  >
+                    <i className="fa-brands fa-google "></i>
+                    Google
+                  </a>
 
-                <a
-                  href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
-                  className="btn btn_icon flex_center"
-                >
-                  <i className="fa-brands fa-facebook "></i>
-                  Facebook
-                </a>
-              </div>
+                  <a
+                    href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
+                    className="btn btn_icon flex_center"
+                  >
+                    <i className="fa-brands fa-facebook "></i>
+                    Facebook
+                  </a>
+                </div>
 
-              <div className="login_register">
-                <span className="text_register">Bạn chưa có tài khoản?</span>
-                <Link to="/register" className="login_register_link">
-                  Đăng ký
-                </Link>
+                <div className="login_register">
+                  <span className="text_register">Bạn chưa có tài khoản?</span>
+                  <Link to="/register" className="login_register_link">
+                    Đăng ký
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* New form */}
-        <div className="l-5 m-8 c-12 border">
-          <div class="login__header">
-            <h3 class="login__headidng"> Đăng nhập</h3>
-            <Link
-              to="/register"
-              id="click-register"
-              class="login__switch-btn js-btn-switch-to-register"
-            >
-              Đăng ký
-            </Link>
-          </div>
-          <center>
-            <img src={background} alt="" className="img_registercode"></img>
-          </center>
-          <div className="login__form">
-            <form
-              id="login_form_id"
-              className="login_form_group"
-              onSubmit={submitHandle}
-            >
-              {inputs.map((input) => (
-                <FormInput
-                  key={input.id}
-                  {...input}
-                  value={values[input.name]}
-                  onChange={onChange}
-                />
-              ))}
+          {/* New form */}
+          <div className="l-5 m-8 c-12 border">
+            <div class="login__header">
+              <h3 class="login__headidng"> Đăng nhập</h3>
+              <Link
+                to="/register"
+                id="click-register"
+                class="login__switch-btn js-btn-switch-to-register"
+              >
+                Đăng ký
+              </Link>
+            </div>
+            <center>
+              <img src={background} alt="" className="img_registercode"></img>
+            </center>
+            <div className="login__form">
+              <form
+                id="login_form_id"
+                className="login_form_group"
+                onSubmit={submitHandle}
+              >
+                {inputs.map((input) => (
+                  <FormInput
+                    key={input.id}
+                    {...input}
+                    value={values[input.name]}
+                    onChange={onChange}
+                  />
+                ))}
 
-              <div className="flex_80_width">
-                <button className="btn login-btn" type="submit">
-                  Đăng Nhập
-                </button>
-              </div>
-            </form>
-          </div>
+                <div className="flex_80_width">
+                  <button className="btn login-btn" type="submit">
+                    Đăng Nhập
+                  </button>
+                </div>
+              </form>
+            </div>
 
-          <div className="forget_password">
-            <Link to="/password_reset" className="forget_password_link">
-              Quên mật khẩu?
-            </Link>
-          </div>
+            <div className="forget_password">
+              <Link to="/password_reset" className="forget_password_link">
+                Quên mật khẩu?
+              </Link>
+            </div>
 
-          <div className="text_or">
-            <div className="line"></div>
-            <span className="or">Hoặc</span>
-            <div className="line"></div>
-          </div>
-          <div className="login_form_btn_socials">
-            <a
+            <div className="text_or">
+              <div className="line"></div>
+              <span className="or">Hoặc</span>
+              <div className="line"></div>
+            </div>
+            <div className="login_form_btn_socials">
+              <a
                 href="https://tlcn-2022-be.onrender.com/api/oauth2/google"
-              className="btn btn_icon flex_center"
-            >
-              <i className="fa-brands fa-google "></i>
-              Google
-            </a>
+                className="btn btn_icon flex_center"
+              >
+                <i className="fa-brands fa-google "></i>
+                Google
+              </a>
 
-            <a
-              href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
-              className="btn btn_icon flex_center"
-            >
-              <i className="fa-brands fa-facebook "></i>
-              Facebook
-            </a>
+              <a
+                href="https://tlcn-2022-be.onrender.com/api/oauth2/facebook"
+                className="btn btn_icon flex_center"
+              >
+                <i className="fa-brands fa-facebook "></i>
+                Facebook
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </Loader>
     );
   };
 
