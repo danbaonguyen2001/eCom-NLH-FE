@@ -109,10 +109,19 @@ import WatchForCouple from "../components/Watches/ChildPage/WatchForCouple";
 import CompareProducts from "../components/CompareProducts";
 
 import ForgotPassword from "../pages/ForgotPassword";
+import LoadingWrapper from "../components/LoadingWrapper";
 const Routes = () => {
   return (
     <Switch>
-      <Route path="/" exact component={Home} />
+      <Route
+        path="/"
+        exact
+        render={() => (
+          <LoadingWrapper>
+            <Home />
+          </LoadingWrapper>
+        )}
+      />
       {/* Giỏ hàng */}
       <Route path="/cart" exact component={Cart} />
       <Route path="/ordersuccess*" exact component={OrderSuccess} />

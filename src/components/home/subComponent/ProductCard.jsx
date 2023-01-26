@@ -17,7 +17,6 @@ const ProductCard = ({ data, award }) => {
     setEyeS(false);
   };
   const [eyeS, setEyeS] = useState(false);
-  console.log(data);
 
   return (
     <Link

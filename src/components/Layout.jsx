@@ -10,7 +10,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { Audio } from "react-loader-spinner";
 import "../sass/layout/_layout.scss";
-import LoadingPage from "./LoadingPage";
+import LoadingPage from "../pages/LoadingPage";
 //
 import { store } from "../redux/stores";
 import { Provider } from "react-redux";
@@ -22,7 +22,7 @@ const Layout = () => {
   return (
     <React.Suspense fallback={<LoadingPage />}>
       <Provider store={store}>
-        <PersistGate loading={<LoadingPage />} persistor={persistor}>
+        <PersistGate  persistor={persistor}>
           {/* <LoadingPage /> */}
           <BrowserRouter>
             <ToastContainer />

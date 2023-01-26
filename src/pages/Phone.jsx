@@ -103,7 +103,6 @@ const Phone = () => {
           return curData?.price < priceMax;
       }
     });
-    console.log(result);
     setListProduct(result);
   };
 
@@ -113,10 +112,8 @@ const Phone = () => {
       setListProduct(filter);
     } else if (option === "tang") {
       setListProduct(listProduct?.slice().sort((a, b) => a.price - b.price));
-      console.log(listProduct);
     } else {
       setListProduct(listProduct?.slice().sort((a, b) => b.price - a.price));
-      console.log(listProduct);
     }
   };
 
@@ -582,149 +579,6 @@ const Phone = () => {
             </div>
           </div>
         </div>
-
-        {/* <div className="phone_box_quicklink">
-          <button
-            className="phone_quicklink"
-            onClick={() =>
-              setShowSub({
-                manufacturerId: 1,
-                categoryId: 1,
-                subCategoryId: 9,
-                page: 1,
-                size: 20,
-              })
-            }
-          >
-            iPhone
-          </button>
-          <button
-            className="phone_quicklink"
-            onClick={() =>
-              setShowSub({
-                manufacturerId: 2,
-                categoryId: 1,
-                subCategoryId: 8,
-                page: 1,
-                size: 20,
-              })
-            }
-          >
-            Samsung
-          </button>
-          <button
-            className="phone_quicklink"
-            onClick={() =>
-              setShowSub({
-                manufacturerId: 4,
-                categoryId: 1,
-                subCategoryId: 8,
-                page: 1,
-                size: 20,
-              })
-            }
-          >
-            OPPO
-          </button>
-          <button
-            className="phone_quicklink"
-            onClick={() =>
-              setShowSub({
-                manufacturerId: 20,
-                categoryId: 1,
-                subCategoryId: 8,
-                page: 1,
-                size: 20,
-              })
-            }
-          >
-            VIVO
-          </button>
-          <button
-            className="phone_quicklink"
-            onClick={() =>
-              setShowSub({
-                manufacturerId: 3,
-                categoryId: 1,
-                subCategoryId: 8,
-                page: 1,
-                size: 20,
-              })
-            }
-          >
-            Xiaomi
-          </button>
-          <button
-            className="phone_quicklink"
-            onClick={() =>
-              setShowSub({
-                manufacturerId: 0,
-                categoryId: 1,
-                subCategoryId: 0,
-                page: 1,
-                size: 20,
-              })
-            }
-          >
-            realme
-          </button>
-          <button
-            className="phone_quicklink"
-            onClick={() =>
-              setShowSub({
-                manufacturerId: 0,
-                categoryId: 1,
-                subCategoryId: 0,
-                page: 1,
-                size: 20,
-              })
-            }
-          >
-            NOKIA
-          </button>
-          <button
-            className="phone_quicklink"
-            onClick={() =>
-              setShowSub({
-                manufacturerId: 0,
-                categoryId: 1,
-                subCategoryId: 0,
-                page: 1,
-                size: 20,
-              })
-            }
-          >
-            mobell
-          </button>
-          <button
-            className="phone_quicklink"
-            onClick={() =>
-              setShowSub({
-                manufacturerId: 0,
-                categoryId: 1,
-                subCategoryId: 0,
-                page: 1,
-                size: 20,
-              })
-            }
-          >
-            itel
-          </button>
-          <button
-            className="phone_quicklink"
-            onClick={() =>
-              setShowSub({
-                manufacturerId: 0,
-                categoryId: 1,
-                subCategoryId: 0,
-                page: 1,
-                size: 20,
-              })
-            }
-          >
-            Masstel
-          </button>
-        </div> */}
 
         <div className="phone_box_quicklink">
           <div className="phone_cangiua">Tìm kiếm nhiều nhất&emsp;</div>

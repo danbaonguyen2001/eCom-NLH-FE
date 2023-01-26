@@ -11,6 +11,10 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         isAuthenticated: false,
+        isLoading: false,
+        isSuccess: false,
+        isError: false,
+        message: "",
         user: {
             role: "",
             name: "",
@@ -21,8 +25,32 @@ const authSlice = createSlice({
         },
     },
     reducers: {
+        request: (state, action) => {
+            state.isLoading = true
+            state.isError = false
+            state.isSuccess = false
+            state.message = ""
+        },
+        success: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.isError = false;
+            state.message = action.payload.message || ""
+        },
+        reset: (state, action) => {
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = false
+            state.message = ""
+        },
+        failure: (state, action) => {
+            state.message = action.payload.message || ""
+            state.isLoading = false
+            state.isError = true
+        },
         logIn: (state, action) => {
             state.isAuthenticated = true;
+
         },
         setUserInfos: (state, action) => {
             const {
@@ -31,14 +59,14 @@ const authSlice = createSlice({
                 avatar,
                 email,
                 access_token,
+                refresh_token,
                 userId
             } =
             action.payload;
             const provider = action.payload.provider || "TGDD";
-            console.log(avatar)
-                // console.log ({ role, name, avatar, email, access_token, userId })
-            addToLocalStorage(access_token);
-
+            // console.log ({ role, name, avatar, email, access_token, userId })
+            addToLocalStorage("accessToken", access_token);
+            addToLocalStorage("refreshToken", refresh_token);
             state.user.role = role || state.user.role;
             state.user.name = name || state.user.name;
             state.user.avatar = avatar.url || avatar || state.user.avatar;
@@ -53,17 +81,28 @@ const authSlice = createSlice({
             state.user.email = "";
             state.user.userId = "";
             state.isAuthenticated = false;
-            clearFromLocalStorage();
+            clearFromLocalStorage('accessToken');
+            clearFromLocalStorage('refreshToken');
         },
     },
 });
 export const {
     logOut,
     setUserInfos,
-    logIn
+    logIn,
+    request,
+    failure,
+    success,
+    reset
 } = authSlice.actions;
 export default authSlice.reducer;
 export const selectCurrentUserId = (state) => state.auth.user.userId;
 export const selectLoginStatus = (state) => state.auth.isAuthenticated;
 export const selectCurrentUser = (state) => state.auth.user;
-// export const selectCurrentToken = (state) => state.auth.token
+export const selectAuthState = (state) => ({
+        isLoading: state.auth.isLoading,
+        isSuccess: state.auth.isSuccess,
+        isError: state.auth.isError,
+        message: state.auth.message,
+    })
+    // export const selectCurrentToken = (state) => state.auth.token

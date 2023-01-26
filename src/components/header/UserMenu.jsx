@@ -2,16 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 //
-import {
-  getTotals,
-  resetCurrentCart,
-  selectCurrentCartInfo,
-} from "../../features/cart/cartSlice";
 import authController from "../../features/auth/functions";
 import UserInfoSubMenu from "./UserInfoSubMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { toastObject } from "../../constants/toast";
 import { toast } from "react-toastify";
+import { reset, selectAuthState } from "../../features/auth/authSlice";
 
 //
 const MenuWrap = styled.div`
@@ -63,21 +59,22 @@ const GuestMenuWrap = styled.div`
 `;
 
 const UserMenu = (props) => {
-  // const
+  const history = useHistory();
   const dispatch = useDispatch();
-
-  let history = useHistory();
-  const cart = useSelector((state) => state.cart);
+  const { message, isSuccess } = useSelector(selectAuthState);
   // Handler
   const handleLogoutClick = () => {
-    authController.logOut().then((res) => {
-      history.push("/");
-      if (res?.data?.success) {
-        toast.success(`Đăng xuất thành công`, toastObject);
-      } else {
-        toast.error(`Lỗi đăng xuất, thử lại`, toastObject);
-      }
-    });
+    authController
+      .logOut()
+      .then((res) => {
+        if (res) {
+          toast.success("Logout successfully", toastObject);
+          history.push("/");
+        } else {
+          toast.error("Logout failure", toastObject);
+        }
+      })
+      .finally(() => dispatch(reset()));
   };
   const handleOrderClick = () => {
     history.push({

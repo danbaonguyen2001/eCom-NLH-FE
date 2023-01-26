@@ -6,40 +6,45 @@ import cartHandler from "../features/cart/function";
 import { selectCurrentState } from "../features/order/orderSlice";
 import "../sass/cart/cart.scss";
 import { toast } from "react-toastify";
-import { setCurrentCart, setRender } from "../features/cart/cartSlice";
+import {
+  selectCartState,
+  setCurrentCart,
+  setRender,
+} from "../features/cart/cartSlice";
 import { Paper, Skeleton, Stack } from "@mui/material";
 import CartSkeleton from "../components/cart/CartSkeleton";
+import { selectLoginStatus } from "../features/auth/authSlice";
 
 const Cart = () => {
   const [isFetch, setIsFetch] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [cart, setCart] = useState([]);
   const { isLoading, isSuccess, isError } = useSelector(selectCurrentState);
+  const isAuthenticated = useSelector(selectLoginStatus);
   const dispatch = useDispatch();
-
-  // const cart = useSelector((state) => state.cart);
-  //const cart = cartHandler.getCurrentCart().then((data) => console.log(data));
-  const cartState = useSelector((state) => state.cart);
+  // get current cart state
   const cartItems = useSelector((state) => state.cart.cartItems);
+  // cart api state
+  const {
+    isLoading: isLoadingCart,
+    isSuccess: isSuccessCart,
+    isError: isErrorCart,
+    message: messageCart,
+  } = useSelector(selectCartState);
   useEffect(() => {
-    cartHandler
-      .getCurrentCart()
-      .then((res) => {
-        if (res.isSuccess) setIsFetch(true);
-        setCart(res.data.cart);
-        //console.log(res.data.cart);
-        // set
-        dispatch(setCurrentCart(res.data.cart));
-        dispatch(setRender());
-      })
-      .catch((e) =>
+    if (isAuthenticated) {
+      cartHandler.getCurrentCart();
+      isErrorCart &&
         toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
           position: "top-right",
           autoClose: 5000,
           closeOnClick: true,
-        })
-      );
-  }, [cart]);
+        });
+    }
+  }, [isAuthenticated]);
+  useEffect(() => {
+    setCart(cartItems);
+  }, [cartItems, dispatch]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -70,13 +75,13 @@ const Cart = () => {
   }, [isLoading, isSuccess, isError]);
 
   useEffect(() => {
-    // 👇️ scroll to top on page load
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
   return (
     <div>
-      {isFetch ? (
+      {/* Add bomb message */}
+      {!isLoadingCart ? (
         <div className="cart flex_center">
           {cart?.length === 0 ? (
             <NoProduct />
