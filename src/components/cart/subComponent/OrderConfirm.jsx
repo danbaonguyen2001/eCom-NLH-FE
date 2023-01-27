@@ -6,13 +6,14 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { AddShoppingCart as Cart } from "@material-ui/icons";
+import { ErrorResponse } from "../../../utils/ErrorResponse";
 const CartPrice = React.lazy(() => import("./CartInfo/CartPrice"));
 const CartPayment = React.lazy(() => import("./CartInfo/CartPayment"));
 
 // component
 
 //
-const OrderConfirm = ({ cartInfo, orderInfo,disableOrder }) => {
+const OrderConfirm = ({ cartInfo, orderInfo, disableOrder }) => {
   const history = useHistory();
   //
   const [paymentMethod, setPaymentMethod] = useState("cod");
@@ -25,6 +26,7 @@ const OrderConfirm = ({ cartInfo, orderInfo,disableOrder }) => {
     totalPrice: 0,
     voucher: "",
   });
+
   //
   useEffect(() => {
     setOrderInput({
@@ -58,38 +60,41 @@ const OrderConfirm = ({ cartInfo, orderInfo,disableOrder }) => {
       // totalPrice,
       // voucher,
       // } = req.body
-
       orderController
-        .handlerMakeOrder({...orderInput,voucher:"63787570e3a504513ef1a042"})
+        .handlerMakeOrder({
+          ...orderInput,
+          voucher: "63787570e3a504513ef1a042",
+        })
         .then((res) => {
-          const { success, order } = res?.data;
-          if (success) {
-            toast.success(`Đặt hàng thành công. Nhớ kiểm tra mail nhé`, {
-              position: "top-right",
-              autoClose: 5000,
-              closeOnClick: true,
-            });
+          console.log(res);
+          if (res.isSuccess) {
+            const {order } = res?.data;
+
             if (paymentMethod === "cod" || paymentMethod === "cod1") {
               history.push(`/redirect/order?orderId=${order?._id}`);
             } else {
-              history.push(`/order/pay/${order?._id}`)
+              history.push(`/order/pay/${order?._id}`);
             }
+          } else {
+            throw new ErrorResponse("Không thể tạo đơn hàng, thử lại", 500);
           }
         })
-        .catch((e) =>
-          toast.error(`Có gì trục trặc rồi thử lại sau`, {
+        .catch((e) => {
+          toast.error(e.message, {
             position: "top-right",
             autoClose: 5000,
             closeOnClick: true,
-          })
-        );
+          });
+        });
     }
   };
   return (
     <div style={{ marginTop: "16px" }} className="">
-      <Divider/>
+      <Divider />
       {/* Payment method */}
-    <Typography sx={{ marginTop: "16px", fontWeight:"bold" }}  variant="h5">Chọn hình thức thanh toán</Typography>
+      <Typography sx={{ marginTop: "16px", fontWeight: "bold" }} variant="h5">
+        Chọn hình thức thanh toán
+      </Typography>
       <CartPayment
         setPaymentMethod={setPaymentMethod}
         paymentMethod={paymentMethod}
@@ -98,7 +103,7 @@ const OrderConfirm = ({ cartInfo, orderInfo,disableOrder }) => {
       <CartPrice cartInfo={cartInfo} />
 
       {/* Button */}
-      <Stack  justifyContent="center" alignItems="center">
+      <Stack justifyContent="center" alignItems="center">
         <Button
           startIcon={<Cart />}
           variant="outlined"

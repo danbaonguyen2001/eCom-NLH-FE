@@ -45,7 +45,7 @@ const cartHandler = {
             dispatch(success({
                 message: res.data.message
             }))
-            dispatch(setCurrentCart(res.data.cart))
+            dispatch(setCurrentCart([...res.data.cart]))
             dispatch(setRender())
             return true
         }).catch(e => {

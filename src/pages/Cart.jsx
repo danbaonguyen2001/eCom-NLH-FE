@@ -14,13 +14,18 @@ import {
 import { Paper, Skeleton, Stack } from "@mui/material";
 import CartSkeleton from "../components/cart/CartSkeleton";
 import { selectLoginStatus } from "../features/auth/authSlice";
+import { ErrorResponse } from "../utils/ErrorResponse";
+import ErrorBoundary from "../utils/ErrorBoundary";
 
 const Cart = () => {
+  // test error boundary
+  const [count, setCount] = useState(0);
+  //
   const [isFetch, setIsFetch] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [cart, setCart] = useState([]);
-  const { isLoading, isSuccess, isError } = useSelector(selectCurrentState);
   const isAuthenticated = useSelector(selectLoginStatus);
+  const { isError, isLoading, isSuccess } = useSelector(selectCurrentState);
   const dispatch = useDispatch();
   // get current cart state
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -41,14 +46,20 @@ const Cart = () => {
           closeOnClick: true,
         });
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
+  // catch order state api
   useEffect(() => {
     setCart(cartItems);
-  }, [cartItems, dispatch]);
+    console.log("jump");
+  }, [cartItems, isLoadingCart, isSuccessCart]);
 
   useEffect(() => {
+    console.log(isSuccess);
+    console.log(isLoading);
+    console.log(isError);
+
     if (isSuccess) {
-      toast.success("Đặt hàng thành công", {
+      toast.success(`Đặt hàng thành công. Nhớ kiểm tra mail nhé`, {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
@@ -77,11 +88,14 @@ const Cart = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
-
+  // throw new ErrorResponse("Cart");
   return (
     <div>
       {/* Add bomb message */}
-      {!isLoadingCart ? (
+      {console.log(isLoadingCart)}
+      {console.log(isLoading)}
+
+      {!isLoadingCart && !isLoading ? (
         <div className="cart flex_center">
           {cart?.length === 0 ? (
             <NoProduct />
