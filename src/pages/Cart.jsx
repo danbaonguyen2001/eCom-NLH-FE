@@ -22,7 +22,7 @@ const Cart = () => {
   const [count, setCount] = useState(0);
   //
   const [isFetch, setIsFetch] = useState(false);
-  const [orderSuccess, setOrderSuccess] = useState(false);
+
   const [cart, setCart] = useState([]);
   const isAuthenticated = useSelector(selectLoginStatus);
   const { isError, isLoading, isSuccess } = useSelector(selectCurrentState);
@@ -50,22 +50,17 @@ const Cart = () => {
   // catch order state api
   useEffect(() => {
     setCart(cartItems);
-    console.log("jump");
-  }, [cartItems, isLoadingCart, isSuccessCart]);
+  }, [cartItems, isLoadingCart, isSuccessCart, dispatch]);
 
   useEffect(() => {
-    console.log(isSuccess);
-    console.log(isLoading);
-    console.log(isError);
-
     if (isSuccess) {
       toast.success(`Đặt hàng thành công. Nhớ kiểm tra mail nhé`, {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
       });
-      // setOrderSuccess(true);
-      // setCart([]);
+
+      setCart([]);
     }
     if (isLoading) {
       toast.info("Đang thực hiện yêu cầu", {
@@ -73,7 +68,7 @@ const Cart = () => {
         autoClose: 5000,
         closeOnClick: true,
       });
-      setOrderSuccess(false);
+
     }
     if (isError) {
       toast.error("Lỗi hệ thống thử lại sau", {
@@ -81,9 +76,8 @@ const Cart = () => {
         autoClose: 5000,
         closeOnClick: true,
       });
-      setOrderSuccess(false);
     }
-  }, [isLoading, isSuccess, isError]);
+  }, [isLoading, isSuccess, isError, dispatch]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });

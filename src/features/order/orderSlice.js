@@ -31,7 +31,10 @@ const orderSlice = createSlice({
         },
         reset: function() {
             return initialState
-        }
+        },
+        finish(state, action) {
+            state.isLoading = false
+        },
     }
 })
 export default orderSlice.reducer
@@ -39,6 +42,8 @@ export const {
     request,
     failure,
     success,
-    reset
+    reset,
+    finish
+
 } = orderSlice.actions
 export const selectCurrentState = state => state.order

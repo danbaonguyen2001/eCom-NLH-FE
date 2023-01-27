@@ -1,6 +1,6 @@
 import { orderApiSlice } from "./orderApiSlice";
 import { store } from "../../redux/stores";
-import { request, success, failure } from "./orderSlice";
+import { request, success, failure, reset, finish } from "./orderSlice";
 import { ErrorResponse } from "../../utils/ErrorResponse";
 const { dispatch } = store;
 const orderController = {
@@ -81,7 +81,8 @@ const orderController = {
       .catch((e) => {
         console.log([e]);
         throw new ErrorResponse(e.message || e[0].message, 500);
-      });
+      })
+      .finally(() => dispatch(finish()));
     return query;
   },
   handlerCancelCodOrder: async ({ orderId }) =>

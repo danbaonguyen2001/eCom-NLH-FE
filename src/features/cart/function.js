@@ -24,7 +24,8 @@ import {
     success,
     failure,
     setCurrentCart,
-    setRender
+    setRender,
+    finish
 } from "./cartSlice";
 
 const {
@@ -50,7 +51,7 @@ const cartHandler = {
             return true
         }).catch(e => {
             return new ErrorResponse(e.message, 500)
-        })
+        }).finally(() => dispatch(finish()))
         return false;
     },
 

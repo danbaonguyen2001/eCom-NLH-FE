@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { AddShoppingCart as Cart } from "@material-ui/icons";
 import { ErrorResponse } from "../../../utils/ErrorResponse";
+import { useDispatch } from "react-redux";
+import { reset } from "../../../features/order/orderSlice";
 const CartPrice = React.lazy(() => import("./CartInfo/CartPrice"));
 const CartPayment = React.lazy(() => import("./CartInfo/CartPayment"));
 
@@ -14,6 +16,7 @@ const CartPayment = React.lazy(() => import("./CartInfo/CartPayment"));
 
 //
 const OrderConfirm = ({ cartInfo, orderInfo, disableOrder }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
   //
   const [paymentMethod, setPaymentMethod] = useState("cod");
@@ -60,15 +63,15 @@ const OrderConfirm = ({ cartInfo, orderInfo, disableOrder }) => {
       // totalPrice,
       // voucher,
       // } = req.body
+
       orderController
         .handlerMakeOrder({
           ...orderInput,
           voucher: "63787570e3a504513ef1a042",
         })
         .then((res) => {
-          console.log(res);
           if (res.isSuccess) {
-            const {order } = res?.data;
+            const { order } = res?.data;
 
             if (paymentMethod === "cod" || paymentMethod === "cod1") {
               history.push(`/redirect/order?orderId=${order?._id}`);
@@ -85,6 +88,7 @@ const OrderConfirm = ({ cartInfo, orderInfo, disableOrder }) => {
             autoClose: 5000,
             closeOnClick: true,
           });
+          dispatch(reset());
         });
     }
   };

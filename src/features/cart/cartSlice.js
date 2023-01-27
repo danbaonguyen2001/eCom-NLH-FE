@@ -31,13 +31,15 @@ const cartSlice = createSlice({
         success(state, action) {
             state.isLoading = false;
             state.isSuccess = true;
-            state.isError = false;
             state.message = action.payload.message || ""
         },
         failure(state, action) {
             state.message = action.payload.message || ""
             state.isLoading = false
             state.isError = true
+        },
+        finish(state, action) {
+            state.isLoading = false
         },
         setCurrentCart(state, action) {
             const cart = [...action.payload];
@@ -188,6 +190,7 @@ export const {
     request,
     success,
     failure,
+    finish
 } = cartSlice.actions;
 export default cartSlice.reducer;
 
