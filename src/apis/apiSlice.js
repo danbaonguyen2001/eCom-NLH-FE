@@ -11,7 +11,8 @@ const baseQuery = fetchBaseQuery({
   // local
   // baseUrl: "https://tgddgroup04.herokuapp.com/api",
   //   baseUrl: "https://tlcn-2022-be.onrender.com/api",
-  baseUrl: "http://localhost:5000/api",
+  // baseUrl: "http://localhost:5000/api",
+  baseUrl: "http://192.168.1.9:5000/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getFromLocalStorage();

@@ -16,6 +16,7 @@ import CartSkeleton from "../components/cart/CartSkeleton";
 import { selectLoginStatus } from "../features/auth/authSlice";
 import { ErrorResponse } from "../utils/ErrorResponse";
 import ErrorBoundary from "../utils/ErrorBoundary";
+import { useGetAvailableVouchersQuery } from "../features/voucher/voucherApiSlice";
 
 const Cart = () => {
   // test error boundary
@@ -26,6 +27,7 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
   const isAuthenticated = useSelector(selectLoginStatus);
   const { isError, isLoading, isSuccess } = useSelector(selectCurrentState);
+
   const dispatch = useDispatch();
   // get current cart state
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -47,11 +49,21 @@ const Cart = () => {
         });
     }
   }, [isAuthenticated, dispatch]);
+
   // catch order state api
   useEffect(() => {
     setCart(cartItems);
   }, [cartItems, isLoadingCart, isSuccessCart, dispatch]);
+  // currentVoucher
+  const { data: dataVoucher, isLoading: isLoadingVoucher,isFetching } =
+    useGetAvailableVouchersQuery();
+  // voucher
+  useEffect(() => {
+    console.log(dataVoucher);
+    console.log(isFetching);
+    console.log(isLoadingVoucher);
 
+  }, [isLoadingVoucher, dispatch, dataVoucher,isFetching]);
   useEffect(() => {
     if (isSuccess) {
       toast.success(`Đặt hàng thành công. Nhớ kiểm tra mail nhé`, {
@@ -68,7 +80,6 @@ const Cart = () => {
         autoClose: 5000,
         closeOnClick: true,
       });
-
     }
     if (isError) {
       toast.error("Lỗi hệ thống thử lại sau", {
@@ -86,9 +97,9 @@ const Cart = () => {
   return (
     <div>
       {/* Add bomb message */}
-      {console.log(isLoadingCart)}
-      {console.log(isLoading)}
-
+      {/* {console.log(isLoadingCart)}
+      {console.log(isLoading)} */}
+      {!isLoadingVoucher ? "Loading" : "nonloading"}
       {!isLoadingCart && !isLoading ? (
         <div className="cart flex_center">
           {cart?.length === 0 ? (
