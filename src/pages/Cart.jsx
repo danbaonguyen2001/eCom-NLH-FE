@@ -18,7 +18,9 @@ import { ErrorResponse } from "../utils/ErrorResponse";
 import ErrorBoundary from "../utils/ErrorBoundary";
 import { useGetAvailableVouchersQuery } from "../features/voucher/voucherApiSlice";
 
+
 const Cart = () => {
+
   // test error boundary
   const [count, setCount] = useState(0);
   //
@@ -55,15 +57,17 @@ const Cart = () => {
     setCart(cartItems);
   }, [cartItems, isLoadingCart, isSuccessCart, dispatch]);
   // currentVoucher
-  const { data: dataVoucher, isLoading: isLoadingVoucher,isFetching } =
-    useGetAvailableVouchersQuery();
+  const {
+    data: dataVoucher,
+    isLoading: isLoadingVoucher,
+    isFetching,
+  } = useGetAvailableVouchersQuery();
   // voucher
   useEffect(() => {
     console.log(dataVoucher);
     console.log(isFetching);
     console.log(isLoadingVoucher);
-
-  }, [isLoadingVoucher, dispatch, dataVoucher,isFetching]);
+  }, [isLoadingVoucher, dispatch, dataVoucher, isFetching]);
   useEffect(() => {
     if (isSuccess) {
       toast.success(`Đặt hàng thành công. Nhớ kiểm tra mail nhé`, {

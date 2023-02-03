@@ -18,12 +18,13 @@ import {
   Checkbox,
   FormGroup,
   Skeleton,
-  LinearProgress
+  LinearProgress,
 } from "@mui/material";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 //
 import { toast } from "react-toastify";
+import { useAuthUser } from "../redux/hook/authUser";
 //
 
 const AddressSelect = React.lazy(() =>
@@ -31,6 +32,7 @@ const AddressSelect = React.lazy(() =>
 );
 
 const UserInFor = () => {
+  //
   const history = useHistory();
   // loading state
   const [isLoading, setIsLoading] = useState(false);
@@ -255,22 +257,25 @@ const UserInFor = () => {
       <div className="user-infor">
         {/* Info */}
         <div className="user-infor-header">
-          {!isSuccess?<LinearProgress/>:<></>}
+          {!isSuccess ? <LinearProgress /> : <></>}
           <h4 className="user-infor-header__heading">Thông tin cá nhân</h4>
           {/* Avatar */}
-          {
-            isSuccess ?          <DropZone
-            userDataAvatar={userData.avatar}
-            setUserData={setUserData}
-            userData={userData}
-          /> :<Stack direction="row" justifyContent="space-around" alignItems="center">
-            
-            <Skeleton variant="rectangular" width="350px" height="120px"/>
-            <Skeleton variant="circular" width="198px" height="198px"/>
-
-          </Stack>
-          }
-
+          {isSuccess ? (
+            <DropZone
+              userDataAvatar={userData.avatar}
+              setUserData={setUserData}
+              userData={userData}
+            />
+          ) : (
+            <Stack
+              direction="row"
+              justifyContent="space-around"
+              alignItems="center"
+            >
+              <Skeleton variant="rectangular" width="350px" height="120px" />
+              <Skeleton variant="circular" width="198px" height="198px" />
+            </Stack>
+          )}
 
           {/* EDIT USER INFO */}
           {/* GENDER */}
@@ -447,9 +452,8 @@ const UserInFor = () => {
               )
             ) : (
               <Stack spacing={2} direction="row">
-                <Skeleton variant="rectangular" width="77px" height="21px"/>
-                <Skeleton variant="rectangular" width="90px" height="21px"/>
-
+                <Skeleton variant="rectangular" width="77px" height="21px" />
+                <Skeleton variant="rectangular" width="90px" height="21px" />
               </Stack>
             )}
           </Stack>

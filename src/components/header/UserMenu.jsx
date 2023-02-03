@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 //
@@ -61,21 +61,22 @@ const GuestMenuWrap = styled.div`
 const UserMenu = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { message, isSuccess } = useSelector(selectAuthState);
+  const { message, isSuccess, isLoading, isError } =
+    useSelector(selectAuthState);
+  useEffect(() => {
+    isLogin &&
+      isError &&
+      toast.error("Logout failure", { ...toastObject, toastId: 99 });
+    isSuccess &&
+      toast.success("Logout successfully", {
+        ...toastObject,
+        toastId: 200,
+      }) &&
+      history.push("/");
+    dispatch(reset());
+  }, []);
   // Handler
-  const handleLogoutClick = () => {
-    authController
-      .logOut()
-      .then((res) => {
-        if (res) {
-          toast.success("Logout successfully", toastObject);
-          history.push("/");
-        } else {
-          toast.error("Logout failure", toastObject);
-        }
-      })
-      .finally(() => dispatch(reset()));
-  };
+  const handleLogoutClick = () => authController.logOut();
   const handleOrderClick = () => {
     history.push({
       pathname: "/purchasehistory/product",

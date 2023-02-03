@@ -20,7 +20,7 @@ import { setRender } from "../features/cart/cartSlice";
 import Loader from "../components/loading/Loader";
 import { useEffect } from "react";
 
-const Login = () => {
+const Login = ({ history }) => {
   // check login
   const isLogin = useSelector(selectLoginStatus);
   const { isSuccess, isError, isLoading, message } =
@@ -35,7 +35,8 @@ const Login = () => {
       toast.success(message, {
         ...toastObject,
         toastId: 200,
-      });
+      }) &&
+      history.push("/");
     dispatch(reset());
   }, [isError, isLogin, isSuccess, dispatch]);
   const inputs = [

@@ -111,6 +111,7 @@ import CompareProducts from "../components/CompareProducts";
 import ForgotPassword from "../pages/ForgotPassword";
 import LoadingWrapper from "../components/LoadingWrapper";
 import ErrorBoundary from "../utils/ErrorBoundary";
+import PrivateRoute from "./PrivateRoute";
 const Routes = () => {
   return (
     <ErrorBoundary>
@@ -124,9 +125,44 @@ const Routes = () => {
             </LoadingWrapper>
           )}
         />
+        {/* ROUTES */}
+        {/*ROUTES - PRIVATE*/}
         {/* Giỏ hàng */}
-        <Route path="/cart" exact component={Cart} />
-        <Route path="/ordersuccess*" exact component={OrderSuccess} />
+        <PrivateRoute path="/cart" exact>
+          <Cart />
+        </PrivateRoute>
+        <PrivateRoute path="/ordersuccess" exact>
+          <OrderSuccess />
+        </PrivateRoute>
+        {/* Lịch sử các đơn hàng */}
+        <Route path={["/purchasehistory", "/purchasehistory/"]} exact>
+          <Redirect to="/purchasehistory/product" />
+        </Route>
+        <PrivateRoute path="/purchasehistory*" exact>
+          <PurchaseHistory />
+        </PrivateRoute>
+
+        {/* ROUTES - ONLY  PUBLIC*/}
+        {/* Login, Register, RegisterCode, Phone*/}
+        <PrivateRoute path="/register" exact onlyPublic>
+          <Register />
+        </PrivateRoute>
+
+        <PrivateRoute
+          path={["/api/auth/verify-email/:token", "/registerCode/:token"]}
+          exact
+          onlyPublic
+        >
+          <RegisterCode />
+        </PrivateRoute>
+        <PrivateRoute path="/password_reset*" exact onlyPublic>
+          <ForgotPassword />
+        </PrivateRoute>
+        <PrivateRoute path="/login" exact onlyPublic>
+          <Login />
+        </PrivateRoute>
+
+        {/* ROUTES - NORMAL */}
         {/* Chi tiet san pham */}
         <Route
           path="/productdetail/:productname"
@@ -134,11 +170,8 @@ const Routes = () => {
           component={ProductDetail}
         />
         {/* <Route path="/productdetail" exact component={ProductDetail} /> */}
-        {/* Lịch sử các đơn hàng */}
-        <Route path="/purchasehistory" exact>
-          <Redirect to="/purchasehistory/product" />
-        </Route>
-        <Route path="/purchasehistory*" exact component={PurchaseHistory} />
+
+        {/* ROUTES -  NON PROCESS ROUTES */}
         {/* Lịch sử các đơn hàng  chưa xác thực*/}
         <Route path="/lich-su-don-hang" exact component={UnAuthOrderHistory} />
 
@@ -171,19 +204,6 @@ const Routes = () => {
         <Route path="/news24h" exact component={News24h} />
         <Route path="/GameApp" exact component={Gameapp} />
         <Route path="/hoidap" exact component={Hoidap} />
-
-        {/* Login, Register, RegisterCode, Phone*/}
-        <Route path="/register" exact component={Register} />
-        {/* <Route path="/register*" exact component={Register} /> */}
-        <Route path="/registerCode/:token" exact component={RegisterCode} />
-        <Route
-          path="/api/auth/verify-email/:token"
-          exact
-          component={RegisterCode}
-        />
-        <Route path="/password_reset*" exact component={ForgotPassword} />
-
-        <Route path="/login" exact component={Login} />
 
         <Route path="/phone" exact component={Phone} />
 
