@@ -4,48 +4,39 @@ import React from "react";
 import styled from "styled-components";
 
 const Layer = styled.div`
-  display: block;
-  position: relative;
+  display: ${(props) => (props.show ? "block" : "none")};
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100%;
-  z-index:1;
-  pointer-events:${(props) => (props.show ? "none" : "all")};
-  &::after {
-    content: "";
-    opacity: 0.6;
-    z-index:2;
-    display: ${(props) => (props.show ? "block" : "none")};
-    position: absolute;
-    background-color: black;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    padding-bottom: 3.2rem;
-  }
-=
+  z-index: 99;
+  pointer-events: ${(props) => (props.show ? "none" : "all")};
+  background-color: black;
+  opacity: 0.6;
+  overflow: hidden;
 `;
 const SpinnerElement = styled.div`
   z-index: 4;
   display: ${(props) => (props.show ? "flex" : "none")};
   justify-content: center;
   align-items: center;
-  position: relative;
-  top: 18rem;
+  position: absolute;
+
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  overflow: hidden;
 `;
-const Loader = ({ children, isLoading }) => {
+const Loader = ({ children, isLoading, ...rest }) => {
   return (
-    <Layer show={isLoading}>
-      <SpinnerElement show={isLoading}>
-        <CircularProgress sx={{ width: "70px", height: "70px" }} />
-      </SpinnerElement>
+    <>
+      <Layer {...rest} show={isLoading}>
+        <SpinnerElement show={isLoading}>
+          <CircularProgress sx={{ width: "70px", height: "70px" }} />
+        </SpinnerElement>
+      </Layer>
       {children}
-    </Layer>
+    </>
   );
 };
 Loader.defaultProps = {

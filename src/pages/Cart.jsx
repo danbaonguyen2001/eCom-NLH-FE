@@ -18,9 +18,7 @@ import { ErrorResponse } from "../utils/ErrorResponse";
 import ErrorBoundary from "../utils/ErrorBoundary";
 import { useGetAvailableVouchersQuery } from "../features/voucher/voucherApiSlice";
 
-
 const Cart = () => {
-
   // test error boundary
   const [count, setCount] = useState(0);
   //
@@ -43,31 +41,20 @@ const Cart = () => {
   useEffect(() => {
     if (isAuthenticated) {
       cartHandler.getCurrentCart();
-      isErrorCart &&
-        toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-        });
     }
   }, [isAuthenticated, dispatch]);
 
   // catch order state api
   useEffect(() => {
     setCart(cartItems);
-  }, [cartItems, isLoadingCart, isSuccessCart, dispatch]);
-  // currentVoucher
-  const {
-    data: dataVoucher,
-    isLoading: isLoadingVoucher,
-    isFetching,
-  } = useGetAvailableVouchersQuery();
-  // voucher
-  useEffect(() => {
-    console.log(dataVoucher);
-    console.log(isFetching);
-    console.log(isLoadingVoucher);
-  }, [isLoadingVoucher, dispatch, dataVoucher, isFetching]);
+    isErrorCart &&
+      toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
+        position: "top-right",
+        autoClose: 5000,
+        closeOnClick: true,
+      });
+  }, [cartItems, dispatch]);
+
   useEffect(() => {
     if (isSuccess) {
       toast.success(`Đặt hàng thành công. Nhớ kiểm tra mail nhé`, {
@@ -101,11 +88,10 @@ const Cart = () => {
   return (
     <div>
       {/* Add bomb message */}
-      {/* {console.log(isLoadingCart)}
-      {console.log(isLoading)} */}
-      {!isLoadingVoucher ? "Loading" : "nonloading"}
-      {!isLoadingCart && !isLoading ? (
+
+      {!(isLoadingCart || isLoading) ? (
         <div className="cart flex_center">
+          {console.log(cart)}
           {cart?.length === 0 ? (
             <NoProduct />
           ) : (

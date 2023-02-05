@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toastObject } from "../constants/toast";
 import {
@@ -20,7 +20,8 @@ import { setRender } from "../features/cart/cartSlice";
 import Loader from "../components/loading/Loader";
 import { useEffect } from "react";
 
-const Login = ({ history }) => {
+const Login = () => {
+  const history = useHistory();
   // check login
   const isLogin = useSelector(selectLoginStatus);
   const { isSuccess, isError, isLoading, message } =
@@ -30,15 +31,15 @@ const Login = ({ history }) => {
   useEffect(() => {
     !isLogin &&
       isError &&
-      toast.error(message, { ...toastObject, toastId: 99 });
+      toast.error(message || "Invalid info", { ...toastObject, toastId: 99 });
     isSuccess &&
       toast.success(message, {
         ...toastObject,
         toastId: 200,
       }) &&
-      history.push("/");
+      history.push({ pathname: "/" });
     dispatch(reset());
-  }, [isError, isLogin, isSuccess, dispatch]);
+  }, [isError, isLogin, isSuccess, message, dispatch]);
   const inputs = [
     {
       id: 1,

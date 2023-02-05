@@ -4,8 +4,8 @@ import {
 export const voucherApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAvailableVouchers: builder.query({
-            query: (keyword) => ({
-                url: `/vouchers?key=${keyword}`,
+            query: (keyword = "", privateV = false) => ({
+                url: `/vouchers?key=${keyword}&private=${privateV}`,
                 method: "GET"
             })
         }),
@@ -17,4 +17,6 @@ export const voucherApiSlice = apiSlice.injectEndpoints({
         })
     })
 })
-export const { useGetAvailableVouchersQuery } = voucherApiSlice
+export const {
+    useGetAvailableVouchersQuery
+} = voucherApiSlice

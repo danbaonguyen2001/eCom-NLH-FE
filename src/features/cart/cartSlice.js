@@ -43,7 +43,7 @@ const cartSlice = createSlice({
         },
         setCurrentCart(state, action) {
             const cart = [...action.payload];
-
+            console.log(action.payload)
             state.cartItems = cart;
             state.count = 0;
             let {
@@ -111,8 +111,9 @@ const cartSlice = createSlice({
         //Xoá sản phẩm khỏi giỏ hàng
         removeFromCart(state, action) {
             const nextCartItems = state.cartItems.filter(
-                (cartItem) => cartItem._id !== action.payload
+                (cartItem) => cartItem._id !== action.payload._id
             );
+            console.log(action.payload)
             state.cartItems = nextCartItems;
         },
 
@@ -202,9 +203,12 @@ export const selectCurrentCartInfo = (state) => ({
     length: state.cart.cartItems.length,
 });
 export const selectCurrentCartItems = (state) => state.cart.cartItems;
-export const selectCartState = (state) => ({
-    isLoading: state.cart.isLoading,
-    isSuccess: state.cart.isSuccess,
-    isError: state.cart.isError,
-    message: state.cart.message
-})
+export const selectCartState = (state) => {
+    const stateCartApi = {
+        isLoading: state.cart.isLoading,
+        isSuccess: state.cart.isSuccess,
+        isError: state.cart.isError,
+        message: state.cart.message
+    }
+    return stateCartApi
+}

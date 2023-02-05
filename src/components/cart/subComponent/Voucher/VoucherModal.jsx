@@ -13,8 +13,12 @@ import {
   ListItemText,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
-
+import FullScreenProgress from "../../../loading/FullScreenProgress";
 import { getAvailableVouchers } from "../../../../features/voucher/function";
+import {
+  useGetAvailableVouchersQuery,
+  voucherApiSlice,
+} from "../../../../features/voucher/voucherApiSlice";
 import { toVND } from "../../../../utils/format";
 import Loader from "../../../loading/Loader";
 
@@ -44,15 +48,25 @@ const VoucherModal = ({
   currentVoucher,
 }) => {
   const [listVoucher, setListVoucher] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, isError, isLoading, isSuccess } =
+    useGetAvailableVouchersQuery();
   useEffect(() => {
-    getAvailableVouchers(keyword)
-      .then((res) => {
-        setIsLoading(res.isLoading);
-        setListVoucher(res?.data?.vouchers);
-      })
-      .catch((e) => {});
-  }, []);
+    data && setListVoucher(data.vouchers);
+  }, [data, isError, isLoading, isSuccess]);
+
+  // const vouchers =
+  //   voucherApiSlice.endpoints.getAvailableVouchers.useQuery(keyword);
+
+  // Current main
+  // useEffect(() => {
+  //   getAvailableVouchers(keyword)
+  //     .then((res) => {
+  //       setIsLoading(res.isLoading);
+  //       setListVoucher(res?.data?.vouchers);
+  //     })
+  //     .catch((e) => {});
+  // }, []);
+
   const setClose = () => setOpen(false);
   return (
     <Modal open={open} onClose={setClose}>
@@ -75,58 +89,60 @@ const VoucherModal = ({
             </TableHead>
             {/* Content */}
             <TableBody>
-              {listVoucher && listVoucher.length > 0 ? (
-                listVoucher.map((v, i) => {
-                  return (
-                    <TableRow
-                      sx={
-                        v.limit < 1 && {
-                          opacity: 0.5,
+              <Loader isLoading={isLoading}>
+                {listVoucher && listVoucher.length > 0 ? (
+                  listVoucher.map((v, i) => {
+                    return (
+                      <TableRow
+                        sx={
+                          v.limit < 1 && {
+                            opacity: 0.5,
+                          }
                         }
-                      }
-                      key={v.key}
-                    >
-                      <TableCell style={styleBody}>{v.key}</TableCell>
-                      <TableCell style={styleBody}>{v.description}</TableCell>
-                      <TableCell colSpan={2} style={styleBody}>
-                        <Stack>
-                          <ListItemText
-                            primaryTypographyProps={{
-                              sx: { fontSize: "1.2rem" },
-                            }}
-                            secondaryTypographyProps={{
-                              sx: { fontSize: "1.1rem" },
-                            }}
-                            primary={`Giảm:${toVND(v.promotion)}`}
-                            secondary={`Lên đến:${toVND(
-                              v.conditions.maxDiscount
-                            )}`}
-                          />
-                        </Stack>
-                      </TableCell>
+                        key={v.key}
+                      >
+                        <TableCell style={styleBody}>{v.key}</TableCell>
+                        <TableCell style={styleBody}>{v.description}</TableCell>
+                        <TableCell colSpan={2} style={styleBody}>
+                          <Stack>
+                            <ListItemText
+                              primaryTypographyProps={{
+                                sx: { fontSize: "1.2rem" },
+                              }}
+                              secondaryTypographyProps={{
+                                sx: { fontSize: "1.1rem" },
+                              }}
+                              primary={`Giảm:${toVND(v.promotion)}`}
+                              secondary={`Lên đến:${toVND(
+                                v.conditions.maxDiscount
+                              )}`}
+                            />
+                          </Stack>
+                        </TableCell>
 
-                      <TableCell style={styleBody}>
-                        {toVND(v.conditions.minTotalPrice)}
-                      </TableCell>
-                      <TableCell style={styleBody}>
-                        {v.limit > 0 ? v.limit : "Hết"}
-                      </TableCell>
-                      <TableCell>
-                        <Radio
-                          defaultChecked={false}
-                          checked={currentVoucher === v.key}
-                          disabled={v.limit < 1}
-                          onClick={() => setCurrentVoucher(v.key)}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5}>Hiện tại đã hết voucher</TableCell>
-                </TableRow>
-              )}
+                        <TableCell style={styleBody}>
+                          {toVND(v.conditions.minTotalPrice)}
+                        </TableCell>
+                        <TableCell style={styleBody}>
+                          {v.limit > 0 ? v.limit : "Hết"}
+                        </TableCell>
+                        <TableCell>
+                          <Radio
+                            defaultChecked={false}
+                            checked={currentVoucher === v.key}
+                            disabled={v.limit < 1}
+                            onClick={() => setCurrentVoucher(v.key)}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5}>Hiện tại đã hết voucher</TableCell>
+                  </TableRow>
+                )}
+              </Loader>
             </TableBody>
           </Table>
         </TableContainer>

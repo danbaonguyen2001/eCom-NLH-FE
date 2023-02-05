@@ -37,22 +37,13 @@ import {
   selectCurrentUser,
   selectLoginStatus,
 } from "../../features/auth/authSlice";
-
 import productHandler from "../../features/product/function";
 
 import { payOnlineData } from "../tienich/mockdata";
 import UserMenu from "./UserMenu";
 import CartQuantity from "./CartQuantity";
 import cartHandler from "../../features/cart/function";
-import {
-  addToCart,
-  selectCurrentCartInfo,
-  getTotals,
-  setCurrentCart,
-  selectCurrentCartLength,
-  selectCurrentCartItems,
-  setRender,
-} from "../../features/cart/cartSlice";
+
 import useConstant from "use-constant";
 
 //
@@ -150,7 +141,7 @@ const HeaderContent = () => {
 
   const isAuthenticated = useSelector(selectLoginStatus);
   useMemo(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated ) {
       cartHandler.getCurrentCart();
     }
   }, [isAuthenticated]);

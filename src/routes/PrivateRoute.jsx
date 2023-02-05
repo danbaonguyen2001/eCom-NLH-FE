@@ -1,11 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
+import { selectLoginStatus } from "../features/auth/authSlice";
 import { useAuthUser } from "../redux/hook/authUser";
 const PrivateRoute = ({ children, onlyPublic = false, ...rest }) => {
   const user = useAuthUser();
+  const isAuthenticated = useSelector(selectLoginStatus);
   console.log(user);
-  
-  console.log(rest.location);
   return (
     <Route
       {...rest}
@@ -16,7 +17,7 @@ const PrivateRoute = ({ children, onlyPublic = false, ...rest }) => {
           ) : (
             <Redirect to={{ pathname: "/", state: { from: location } }} />
           )
-        ) : user ? (
+        ) : user || isAuthenticated ? (
           children
         ) : (
           <Redirect to={{ pathname: "/login", state: { from: location } }} />
