@@ -15,6 +15,7 @@ const authSlice = createSlice({
         isSuccess: false,
         isError: false,
         message: "",
+        accessToken: "",
         user: {
             role: "",
             name: "",
@@ -73,6 +74,8 @@ const authSlice = createSlice({
             state.user.email = email || state.user.email;
             state.user.userId = userId || state.user.userId;
             state.user.provider = provider || state.user.provider;
+            state.accessToken = access_token
+
         },
         logOut: (state) => {
             state.user.role = "";
@@ -81,6 +84,7 @@ const authSlice = createSlice({
             state.user.email = "";
             state.user.userId = "";
             state.isAuthenticated = false;
+            state.accessToken = ""
             clearFromLocalStorage('accessToken');
             clearFromLocalStorage('refreshToken');
         },

@@ -4,7 +4,14 @@ import userController from "../../../features/user/function";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { Button, LinearProgress, Skeleton, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  LinearProgress,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import VoucherButtonBox from "./Voucher/VoucherButtonBox";
 
 const AddressSelect = React.lazy(() =>
   import("../../../components/register/AddressSelect")
@@ -37,7 +44,6 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress, detailAddress }) => {
     differentReceiverPhone: "",
     promotionList: [],
   });
-  const [promotionAvailable, setPromotionAvailable] = useState(false);
   const [differentInfo, setDifferentInfo] = useState(false);
   const [pickUp, setPickUp] = useState(true);
 
@@ -281,30 +287,7 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress, detailAddress }) => {
       </div>
       {/* Promotion */}
       <div className="line"></div>
-      <div className="has_cart_voucher flex_center">
-        <input
-          type="text"
-          className="has_cart_voucher_input"
-          placeholder="Nhập mã giảm giá"
-          disabled={promotionAvailable}
-        />
-
-        {promotionAvailable ? (
-          <button
-            onClick={() => setPromotionAvailable(!promotionAvailable)}
-            className="has_cart_voucher_apply btn"
-          >
-            Thay đổi
-          </button>
-        ) : (
-          <button
-            onClick={() => alert("Coming soon")}
-            className="has_cart_voucher_apply btn"
-          >
-            Áp dụng
-          </button>
-        )}
-      </div>
+      <VoucherButtonBox />
     </>
   );
 };
