@@ -13,6 +13,7 @@ const baseQuery = fetchBaseQuery({
     baseUrl: "https://tlcn-2022-be.onrender.com/api",
   // baseUrl: "http://localhost:5000/api",
   // baseUrl: "http://192.168.1.6:5000/api",
+
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getFromLocalStorage();
