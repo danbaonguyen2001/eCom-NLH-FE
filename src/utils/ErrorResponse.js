@@ -4,7 +4,5 @@ export class ErrorResponse extends Error {
         this.statusCode = statusCode
         Error.captureStackTrace(this, this.statusCode)
     }
-    getValue() {
-        return false
-    }
+
 }

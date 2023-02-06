@@ -1,6 +1,7 @@
 import { orderApiSlice } from "./orderApiSlice";
 import { store } from "../../redux/stores";
-import { setState } from "./orderSlice";
+import { request, success, failure, reset, finish } from "./orderSlice";
+import { ErrorResponse } from "../../utils/ErrorResponse";
 const { dispatch } = store;
 const orderController = {
   // get History Order function
@@ -57,50 +58,31 @@ const orderController = {
   updateOrderInfo: (inputData) =>
     dispatch(orderApiSlice.endpoints.updateOrder.initiate(inputData)),
   handlerMakeOrder: async (inputData) => {
+    dispatch(request());
     const query = dispatch(
       orderApiSlice.endpoints.placeOrder.initiate(inputData)
     );
-    dispatch(
-      setState({
-        isLoading: true,
-      })
-    );
+
     query
       .then((res) => {
-        const { success } = res.data;
         console.log(res);
-        if (success)
-          dispatch(
-            setState({
-              isSuccess: true,
-              isLoading: false,
-            })
-          );
-        else
-          dispatch(
-            setState({
-              isLoading: false,
-              isError: true,
-            })
-          );
+        res.data && res.data.success
+          ? dispatch(
+              success({
+                message: res.data.message,
+              })
+            )
+          : dispatch(
+              failure({
+                message: res.data.message,
+              })
+            );
       })
       .catch((e) => {
-        console.log(e);
-        dispatch(
-          setState({
-            isLoading: false,
-            isError: true,
-          })
-        );
+        console.log([e]);
+        throw new ErrorResponse(e.message || e[0].message, 500);
       })
-      .finally(() =>
-        dispatch(
-          setState({
-            isLoading: false,
-          })
-        )
-      );
-
+      .finally(() => dispatch(finish()));
     return query;
   },
   handlerCancelCodOrder: async ({ orderId }) =>

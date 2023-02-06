@@ -13,6 +13,7 @@ import {
 } from "@material-ui/icons";
 import { Stack, Typography, Divider, Button } from "@mui/material";
 import OrderState from "./subComponent/OrderInfo/OrderState";
+import { reset } from "../../features/order/orderSlice";
 const OrderInfo = React.lazy(() =>
   import("./subComponent/OrderInfo/OrderInfo")
 );
@@ -33,6 +34,10 @@ const OrderSuccess = () => {
   const orderId =
     getParamsValue(history.location.search, "orderId") ||
     getParamsValue(history.location.search, "error");
+  // reset state
+  useEffect(() => {
+    dispatch(reset());
+  }, []);
   useEffect(() => {
     // function
     if (orderState === "orderId") {
@@ -103,12 +108,11 @@ const OrderSuccess = () => {
             // PAYMENT - DONE
             <>
               <div className="detail_box_payment">
-               
                 <Typography
                   variant="h5"
                   style={{ fontWeight: "bold", fontSize: "14px" }}
                 >
-                   Đơn hàng đã được thanh toán bằng: {orderData?.paymentMethod}
+                  Đơn hàng đã được thanh toán bằng: {orderData?.paymentMethod}
                 </Typography>
               </div>
               <div
@@ -129,7 +133,8 @@ const OrderSuccess = () => {
                   display="flex"
                   className="fw_header"
                 >
-                  Tài khoản thanh toán: {orderData?.paymentResult?.email_address}
+                  Tài khoản thanh toán:{" "}
+                  {orderData?.paymentResult?.email_address}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -137,7 +142,8 @@ const OrderSuccess = () => {
                   display="flex"
                   className="fw_header"
                 >
-                  Thanh toán lúc: {toDate(orderData?.paymentResult?.update_time)}
+                  Thanh toán lúc:{" "}
+                  {toDate(orderData?.paymentResult?.update_time)}
                 </Typography>
               </div>
             </>

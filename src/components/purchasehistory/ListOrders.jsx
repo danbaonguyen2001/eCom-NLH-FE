@@ -21,7 +21,7 @@ const ListOrders = () => {
     orderController
       .getHistoryOrder({ page, size })
       .then((res) => {
-         setIsLoading(res.isLoading)
+        setIsLoading(res.isLoading);
         setOrder([...res?.data]);
       })
       .catch((e) =>

@@ -14,13 +14,20 @@ import {
 import { Paper, Skeleton, Stack } from "@mui/material";
 import CartSkeleton from "../components/cart/CartSkeleton";
 import { selectLoginStatus } from "../features/auth/authSlice";
+import { ErrorResponse } from "../utils/ErrorResponse";
+import ErrorBoundary from "../utils/ErrorBoundary";
+import { useGetAvailableVouchersQuery } from "../features/voucher/voucherApiSlice";
 
 const Cart = () => {
+  // test error boundary
+  const [count, setCount] = useState(0);
+  //
   const [isFetch, setIsFetch] = useState(false);
-  const [orderSuccess, setOrderSuccess] = useState(false);
+
   const [cart, setCart] = useState([]);
-  const { isLoading, isSuccess, isError } = useSelector(selectCurrentState);
   const isAuthenticated = useSelector(selectLoginStatus);
+  const { isError, isLoading, isSuccess } = useSelector(selectCurrentState);
+
   const dispatch = useDispatch();
   // get current cart state
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -34,27 +41,29 @@ const Cart = () => {
   useEffect(() => {
     if (isAuthenticated) {
       cartHandler.getCurrentCart();
-      isErrorCart &&
-        toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: true,
-        });
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
+
+  // catch order state api
   useEffect(() => {
     setCart(cartItems);
-  }, [cartItems, dispatch]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success("Đặt hàng thành công", {
+    isErrorCart &&
+      toast.error("Không thể tải dữ liệu giỏ hàng. Thử lại sau", {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
       });
-      // setOrderSuccess(true);
-      // setCart([]);
+  }, [cartItems, dispatch]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(`Đặt hàng thành công. Nhớ kiểm tra mail nhé`, {
+        position: "top-right",
+        autoClose: 5000,
+        closeOnClick: true,
+      });
+
+      setCart([]);
     }
     if (isLoading) {
       toast.info("Đang thực hiện yêu cầu", {
@@ -62,7 +71,6 @@ const Cart = () => {
         autoClose: 5000,
         closeOnClick: true,
       });
-      setOrderSuccess(false);
     }
     if (isError) {
       toast.error("Lỗi hệ thống thử lại sau", {
@@ -70,19 +78,20 @@ const Cart = () => {
         autoClose: 5000,
         closeOnClick: true,
       });
-      setOrderSuccess(false);
     }
-  }, [isLoading, isSuccess, isError]);
+  }, [isLoading, isSuccess, isError, dispatch]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
-
+  // throw new ErrorResponse("Cart");
   return (
     <div>
       {/* Add bomb message */}
-      {!isLoadingCart ? (
+
+      {!(isLoadingCart || isLoading) ? (
         <div className="cart flex_center">
+          {console.log(cart)}
           {cart?.length === 0 ? (
             <NoProduct />
           ) : (

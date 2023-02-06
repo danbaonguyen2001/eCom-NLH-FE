@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 //
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toastObject } from "../../constants/toast";
 import { toast } from "react-toastify";
 import { reset, selectAuthState } from "../../features/auth/authSlice";
+import { ErrorResponse } from "../../utils/ErrorResponse";
 
 //
 const MenuWrap = styled.div`
@@ -61,21 +62,23 @@ const GuestMenuWrap = styled.div`
 const UserMenu = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { message, isSuccess } = useSelector(selectAuthState);
+
+
   // Handler
-  const handleLogoutClick = () => {
+  const handleLogoutClick = () =>
     authController
       .logOut()
       .then((res) => {
         if (res) {
-          toast.success("Logout successfully", toastObject);
+          toast.success("Logout successfully", {
+            ...toastObject,
+            toastId: 200,
+          });
           history.push("/");
-        } else {
-          toast.error("Logout failure", toastObject);
-        }
+        } else throw new ErrorResponse("Logout failure", 500);
       })
+      .catch((e) => toast.error(e.message, { ...toastObject, toastId: 99 }))
       .finally(() => dispatch(reset()));
-  };
   const handleOrderClick = () => {
     history.push({
       pathname: "/purchasehistory/product",

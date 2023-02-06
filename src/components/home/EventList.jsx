@@ -17,7 +17,8 @@ const ListAllButton = React.lazy(() =>
 const EventTimer = React.lazy(() => import("./subComponent/EventTimer"));
 const EventList = () => {
   // Api state
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   //
   const [resultData, setResultData] = useState([]);
   // Fetch event
@@ -25,10 +26,10 @@ const EventList = () => {
     eventController
       .getEvents()
       .then((res) => {
-        setIsLoading(true);
-        !res.isLoading && setIsLoading(false);
+        setIsLoading(res.isLoading);
         res.isSuccess && setResultData(res?.data?.events);
         if (res.isError) {
+          setIsError(true);
           throw new ErrorResponse(res?.error?.error, 500);
         }
       })
@@ -48,37 +49,42 @@ const EventList = () => {
     focusOnSelect: true,
   };
 
-  const body = resultData?.map((event, index) => (
-    <div
-      key={index}
-      style={{ backgroundColor: event?.color }}
-      className="lcWrap grid wide"
-    >
-      {/* Banner */}
-      <div className="lcBanner">
-        <LazyLoadImage
-          style={{ maxHeight: "95px" }}
-          src={event?.banner?.url}
-          alt={event?.name}
-        />
-      </div>
-      {/* Timer */}
-      <EventTimer data={event} />
+  const body =
+    resultData.length > 0 ? (
+      resultData?.map((event, index) => (
+        <div
+          key={index}
+          style={{ backgroundColor: event?.color }}
+          className="lcWrap grid wide"
+        >
+          {/* Banner */}
+          <div className="lcBanner">
+            <LazyLoadImage
+              style={{ maxHeight: "95px" }}
+              src={event?.banner?.url}
+              alt={event?.name}
+            />
+          </div>
+          {/* Timer */}
+          <EventTimer data={event} />
 
-      {/* Slider */}
-      <div className="lcSlider">
-        <PSlider
-          award={event?.award}
-          settings={settings}
-          event={event?.products}
-        />
-      </div>
-      {/* Bt */}
-      <div className="lcBt row">
-        <ListAllButton />
-      </div>
-    </div>
-  ));
+          {/* Slider */}
+          <div className="lcSlider">
+            <PSlider
+              award={event?.award}
+              settings={settings}
+              event={event?.products}
+            />
+          </div>
+          {/* Bt */}
+          <div className="lcBt row">
+            <ListAllButton />
+          </div>
+        </div>
+      ))
+    ) : (
+      <Stack>No events</Stack>
+    );
   const ItemSkeleton = () => {
     return (
       <Skeleton
@@ -92,7 +98,7 @@ const EventList = () => {
   const SkeletonEvents = () => {
     return (
       <Paper sx={{ maxWidth: "1200px", margin: "1.6rem auto 0" }}>
-        <LinearProgress />
+        {!isError && <LinearProgress />}
         <Stack>
           {/* Banner */}
           <Skeleton
@@ -106,7 +112,11 @@ const EventList = () => {
               backgroundColor: "#c7c2c2",
             }}
           >
-            Đang tải danh sách sự kiện hiện tại
+            {`${
+              isError
+                ? "Không thể tải sự kiện, kiểm tra kết nối mạng"
+                : "Đang tải danh sách sự kiện hiện tại"
+            }`}
           </Skeleton>
           {/* Item */}
           <Stack
@@ -145,7 +155,7 @@ const EventList = () => {
       </Paper>
     );
   };
-  return isLoading ? <SkeletonEvents /> : body;
+  return isLoading || isError ? <SkeletonEvents /> : body;
 };
 
 export default EventList;

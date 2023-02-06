@@ -4,7 +4,7 @@ import {
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        login: builder.mutation({
+        login: builder.query({
             query: (inputData) => ({
                 url: "/auth/login",
                 method: "POST",

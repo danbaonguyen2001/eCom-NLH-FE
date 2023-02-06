@@ -13,6 +13,7 @@ import {
 
 // Ship fee
 import { getShipFee } from "../../apis/apiShipment";
+import { ErrorResponse } from "../../utils/ErrorResponse";
 const OrderConfirm = React.lazy(() => import("./subComponent/OrderConfirm"));
 
 const HasProduct = ({ cart, setCart }) => {
@@ -110,7 +111,6 @@ const HasProduct = ({ cart, setCart }) => {
         });
       })
       .catch(() => {
-
         setDisableOrder(true);
         setOrderInfo({
           ...orderInfo,
@@ -123,15 +123,12 @@ const HasProduct = ({ cart, setCart }) => {
           };
         });
 
-        toast.error(
-          `Địa chỉ này chưa hỗ trợ giao hàng`,
-          {
-            position: "top-right",
-            autoClose: 5000,
-            toastId: 99,
-            closeOnClick: true,
-          }
-        );
+        toast.error(`Địa chỉ này chưa hỗ trợ giao hàng`, {
+          position: "top-right",
+          autoClose: 5000,
+          toastId: 99,
+          closeOnClick: true,
+        });
       });
   }, [detailAddress?.district?.districtID]);
   return (

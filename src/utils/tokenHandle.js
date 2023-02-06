@@ -7,8 +7,8 @@ export const addToLocalStorage = (name, token) => {
         return null;
     }
 }
-export const getFromLocalStorage = () => {
-    const curToken = window.localStorage.getItem('accessToken');
+export const getFromLocalStorage = (name = "accessToken") => {
+    const curToken = window.localStorage.getItem(name);
     if (curToken) {
         return curToken;
     } else {

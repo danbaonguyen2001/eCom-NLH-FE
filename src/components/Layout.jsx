@@ -16,6 +16,7 @@ import { store } from "../redux/stores";
 import { Provider } from "react-redux";
 import ChatBot from "./ChatBot";
 import AddCompareProduct from "./AddCompareProduct";
+import AuthMiddleware from "../routes/middleware/Auth";
 //
 let persistor = persistStore(store);
 const Layout = () => {
@@ -32,7 +33,9 @@ const Layout = () => {
                   <Header {...props} />
                   <div className="container grid">
                     <div className="main">
+                      <AuthMiddleware>
                       <Routes />
+                      </AuthMiddleware>
                     </div>
                   </div>
                   <ChatBot />
