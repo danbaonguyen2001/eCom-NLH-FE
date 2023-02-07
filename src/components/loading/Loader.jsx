@@ -11,7 +11,7 @@ const Layer = styled.div`
   width: 100%;
   height: 100%;
   z-index: 99;
-  pointer-events: ${(props) => (props.show ? "none" : "all")};
+  pointer-events: ${(props) => (props.show ? "all" : "none")};
   background-color: black;
   opacity: 0.6;
   overflow: hidden;

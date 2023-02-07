@@ -26,7 +26,6 @@ const baseQuery = fetchBaseQuery({
 //wrapper
 const baseQueryWithCredentials = async (args, api, extraOption) => {
   let result = await baseQuery(args, api, extraOption);
-  console.log(result);
   // refresh if 403 return result ( Assets Forbidden )
   if (result?.error?.status === 403) {
     console.log("sending refresh token");
@@ -65,9 +64,6 @@ const baseQueryWithCredentials = async (args, api, extraOption) => {
           userId: _id,
         })
       );
-      addToLocalStorage("accessToken", access_token);
-      addToLocalStorage("refreshToken", refresh_token);
-
       // retry
       result = await baseQuery(args, api, extraOption);
     } else {

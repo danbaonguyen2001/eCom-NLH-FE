@@ -13,25 +13,33 @@ import {
 } from "../features/cart/cartSlice";
 import CartSkeleton from "../components/cart/CartSkeleton";
 import { selectLoginStatus } from "../features/auth/authSlice";
+import { cartApiSlice } from "../features/cart/cartApiSlice";
+import { useMemo } from "react";
 
 const Cart = () => {
   // test error boundary
 
   const [cart, setCart] = useState([]);
   const isAuthenticated = useSelector(selectLoginStatus);
-  const { isError, isLoading, isSuccess } = useSelector(selectCurrentState);
+  const { isLoading, isError, isSuccess } = useSelector(selectCurrentState);
   const dispatch = useDispatch();
   // get current cart state
   const cartItems = useSelector((state) => state.cart.cartItems);
 
   // cart api state
+  const selectCart = useMemo(
+    () =>
+      cartApiSlice.endpoints.getCurrentCart.select({
+        cartGetId: "cartGet1552001",
+      }),
+    []
+  );
   const {
     isLoading: isLoadingCart,
     isSuccess: isSuccessCart,
     isError: isErrorCart,
-    message: messageCart,
-  } = useSelector(selectCartState);
-  useEffect(() => {
+  } = useSelector(selectCart);
+  useMemo(() => {
     if (isAuthenticated) {
       cartHandler.getCurrentCart();
     }
