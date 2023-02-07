@@ -10,7 +10,7 @@ const NoProduct = () => {
 
   return (
     <div className="no_cart flex ">
-      <i class="fa-solid fa-cart-plus no_cart_icon"></i>
+      <i className="fa-solid fa-cart-plus no_cart_icon"></i>
       <p className="no_cart_text"> Không có sản phẩm nào trong giỏ hàng</p>
       <button className="btn no_cart_btn" onClick={routeHome}>
         Về trang chủ

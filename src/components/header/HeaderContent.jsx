@@ -232,7 +232,7 @@ const HeaderContent = () => {
                 {locationI || "Hồ Chí Minh"}
               </span>
               <div>
-                <i class="fa-solid fa-location-pin"></i>
+                <i className="fa-solid fa-location-pin"></i>
               </div>
             </div>
 
@@ -434,7 +434,7 @@ const HeaderContent = () => {
               <div className="main__phone main__button main__icon">
                 {/* <LazyLoadImage src={phone} /> */}
                 <div style={{ fontSize: "24px" }}>
-                  <i class="fa-solid fa-mobile-screen-button"></i>
+                  <i className="fa-solid fa-mobile-screen-button"></i>
                 </div>
                 &nbsp; Điện thoại
               </div>
@@ -444,7 +444,7 @@ const HeaderContent = () => {
               <div className="main__tablet main__button main__icon">
                 {/* <LazyLoadImage src={tablet} /> */}
                 <div style={{ fontSize: "24px" }}>
-                  <i class="fa-solid fa-tablet-screen-button"></i>
+                  <i className="fa-solid fa-tablet-screen-button"></i>
                 </div>
                 &nbsp; Tablet
               </div>
@@ -454,7 +454,7 @@ const HeaderContent = () => {
               <div className="main__laptop main__button main__icon">
                 {/* <LazyLoadImage src={laptop} /> */}
                 <div style={{ fontSize: "24px" }}>
-                  <i class="fa-solid fa-laptop"></i>
+                  <i className="fa-solid fa-laptop"></i>
                 </div>
                 &nbsp; Laptop
               </div>
@@ -464,7 +464,7 @@ const HeaderContent = () => {
               <Link to="/accessories" className="flex_center">
                 {/* <LazyLoadImage src={access} /> */}
                 <div style={{ fontSize: "24px" }}>
-                  <i class="fa-regular fa-keyboard"></i>
+                  <i className="fa-regular fa-keyboard"></i>
                 </div>
                 &nbsp;
                 <div>Phụ kiện</div>
@@ -644,7 +644,7 @@ const HeaderContent = () => {
               <div className="main__old main__button main__box ">
                 {/* <LazyLoadImage src={old} /> */}
                 <div style={{ fontSize: "24px" }}>
-                  <i class="fa-solid fa-laptop-code"></i>
+                  <i className="fa-solid fa-laptop-code"></i>
                 </div>
                 &nbsp; Máy cũ
               </div>
@@ -654,7 +654,7 @@ const HeaderContent = () => {
               <div className="main__sim main__button main__box">
                 {/* <LazyLoadImage src={sim} /> */}
                 <div style={{ fontSize: "24px" }}>
-                  <i class="fa-solid fa-ticket-simple"></i>
+                  <i className="fa-solid fa-ticket-simple"></i>
                 </div>
                 &nbsp; Sim,thẻ cào
               </div>
@@ -664,7 +664,7 @@ const HeaderContent = () => {
               <Link to="/" className="flex_center">
                 {/* <LazyLoadImage src={another} /> */}
                 <div style={{ fontSize: "24px" }}>
-                  <i class="fa-brands fa-usps"></i>
+                  <i className="fa-brands fa-usps"></i>
                 </div>
                 &nbsp; Tiện ích
               </Link>

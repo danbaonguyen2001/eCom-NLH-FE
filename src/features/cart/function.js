@@ -74,16 +74,17 @@ const cartHandler = {
 
     // Update quantity
     updateQuantity: async({
-        itemId,
-        quantity
-    }) => {
+            itemId,
+            quantity
+        }) =>
         await dispatch(
             cartApiSlice.endpoints.updateCart.initiate({
                 itemId,
                 quantity,
+            }, {
+                fixedCacheKey: "update-cart-quantity-key"
             })
-        );
-    },
+        ),
     // OLD VERSION - DON'T REMOVE IT WITHOUT PERMISSION
     // // Remove item from cart
     // removeCart: async ({ productColorId }) => {

@@ -6,7 +6,6 @@ import { useAuthUser } from "../redux/hook/authUser";
 const PrivateRoute = ({ children, onlyPublic = false, ...rest }) => {
   const user = useAuthUser();
   const isAuthenticated = useSelector(selectLoginStatus);
-  console.log(user);
   return (
     <Route
       {...rest}
