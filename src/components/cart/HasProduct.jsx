@@ -14,13 +14,16 @@ import {
 // Ship fee
 import { getShipFee } from "../../apis/apiShipment";
 import { ErrorResponse } from "../../utils/ErrorResponse";
+import Loader from "../loading/Loader";
+import { useUpdateCartMutation } from "../../features/cart/cartApiSlice";
 const OrderConfirm = React.lazy(() => import("./subComponent/OrderConfirm"));
 
 const HasProduct = ({ cart, setCart }) => {
   //
   const [detailAddress, setDetailAddress] = useState({});
-  const dispatch = useDispatch();
-  const stateCart = useSelector((state) => state.cart);
+
+  const [isFetch, setIsFetch] = useState(false);
+
   const [promotionList, setPromotionList] = useState([]);
   const [productListInfo, setProductListInfo] = useState([]);
   const [disableOrder, setDisableOrder] = useState(false);
@@ -29,6 +32,10 @@ const HasProduct = ({ cart, setCart }) => {
     total: 0,
     serviceFee: 0,
   });
+  // subscribe quantity update
+  const {isLoading} = useUpdateCartMutation({
+    fixedCacheKey: "update-cart-quantity-key",
+  })[1]
   // order info
   const [orderInfo, setOrderInfo] = useState({
     paymentMethod: "",
@@ -82,7 +89,7 @@ const HasProduct = ({ cart, setCart }) => {
       items: [...arrCart],
     });
   }, [cart]);
-  useMemo(() => {
+  useEffect(() => {
     // get Ship fee
     // sample input ship fee
     let insuranceValue;
@@ -95,78 +102,83 @@ const HasProduct = ({ cart, setCart }) => {
       district: detailAddress?.district?.districtID,
       insurance_value: insuranceValue || 100000,
     };
-    getShipFee(input)
-      .then((res) => {
-        const { total } = res?.data?.data;
-        setDisableOrder(false);
-        setOrderInfo({
-          ...orderInfo,
-          shippingPrice: total,
-        });
-        setCartInfo((prev) => {
-          return {
-            ...prev,
-            serviceFee: total,
-          };
-        });
-      })
-      .catch(() => {
-        setDisableOrder(true);
-        setOrderInfo({
-          ...orderInfo,
-          shippingPrice: 0,
-        });
-        setCartInfo((prev) => {
-          return {
-            ...prev,
-            serviceFee: 0,
-          };
-        });
+    if (detailAddress?.district?.districtID) {
+      getShipFee(input)
+        .then((res) => {
+          console.log(res);
+          const { total } = res?.data?.data;
+          setDisableOrder(false);
+          setOrderInfo({
+            ...orderInfo,
+            shippingPrice: total,
+          });
+          setCartInfo((prev) => {
+            return {
+              ...prev,
+              serviceFee: total,
+            };
+          });
+        })
+        .catch(() => {
+          setDisableOrder(true);
+          setOrderInfo({
+            ...orderInfo,
+            shippingPrice: 0,
+          });
+          setCartInfo((prev) => {
+            return {
+              ...prev,
+              serviceFee: 0,
+            };
+          });
 
-        toast.error(`Địa chỉ này chưa hỗ trợ giao hàng`, {
-          position: "top-right",
-          autoClose: 5000,
-          toastId: 99,
-          closeOnClick: true,
+          toast.error(`Địa chỉ này chưa hỗ trợ giao hàng`, {
+            position: "top-right",
+            autoClose: 5000,
+            toastId: 99,
+            closeOnClick: true,
+          });
         });
-      });
+    }
   }, [detailAddress?.district?.districtID]);
   return (
-    <div className="has_cart  ">
-      <div className="has_cart_header flex ">
-        <Link to="/" className="has_cart_return">
-          <i className="fa-solid fa-angle-left mg_r_5"></i>
-          Mua thêm sản phẩm
-        </Link>
-        <header className="has_cart_heading">Giỏ hàng của bạn</header>
-      </div>
-      <div className="has_cart_container border">
-        <div className="has_cart_list_product">
-          {cart.map((product, index) => {
-            return (
-              <Product key={index} dataProduct={product} setCart={setCart} />
-            );
-          })}
+    <Loader isLoading={isLoading}>
+      <div className="has_cart  ">
+        <div className="has_cart_header flex ">
+          <Link to="/" className="has_cart_return">
+            <i className="fa-solid fa-angle-left mg_r_5"></i>
+            Mua thêm sản phẩm
+          </Link>
+          <header className="has_cart_heading">Giỏ hàng của bạn</header>
         </div>
+        <div className="has_cart_container border">
+          <div className="has_cart_list_product">
+            {cart.map((product, index) => {
+              return (
+                <Product key={index} dataProduct={product} setCart={setCart} />
+              );
+            })}
+          </div>
 
-        {/* UserInfo */}
-        <div className="line"></div>
-        <Info
-          promotionList={promotionList}
-          orderInfo={orderInfo}
-          setOrderInfo={setOrderInfo}
-          detailAddress={detailAddress}
-          setDetailAddress={setDetailAddress}
-        />
+          {/* UserInfo */}
+          <div className="line"></div>
+          <Info
+            promotionList={promotionList}
+            orderInfo={orderInfo}
+            setOrderInfo={setOrderInfo}
+            detailAddress={detailAddress}
+            setDetailAddress={setDetailAddress}
+          />
 
-        <OrderConfirm
-          cartInfo={cartInfo}
-          orderInfo={orderInfo}
-          setOrderInfo={setOrderInfo}
-          disableOrder={disableOrder}
-        />
+          <OrderConfirm
+            cartInfo={cartInfo}
+            orderInfo={orderInfo}
+            setOrderInfo={setOrderInfo}
+            disableOrder={disableOrder}
+          />
+        </div>
       </div>
-    </div>
+    </Loader>
   );
 };
 

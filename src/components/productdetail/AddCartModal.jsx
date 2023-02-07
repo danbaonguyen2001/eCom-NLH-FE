@@ -58,20 +58,16 @@ const AddCartModal = ({ closeModal, chooseOption, product }) => {
     }
 
     // Authenticated
-    console.log(body);
     cartController
       .addCart({ ...body })
       .then((res) => {
-        console.log(res);
         toast.success("Thêm sản phẩm vào giỏ hàng thành công", {
           position: "top-right",
           autoClose: 5000,
           closeOnClick: true,
         });
         history.push("/cart");
-        //dispatch(addToCart({ quantity: body.quantity }));
 
-        //window.location.reload(false);
       })
       .catch((err) => console.log(err));
   };
