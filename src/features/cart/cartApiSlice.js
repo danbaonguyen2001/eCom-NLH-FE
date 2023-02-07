@@ -5,6 +5,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
         // Cart Api
         // Get current Cart
         getCurrentCart: builder.query({
+
             query: () => ({
                 url: `/carts`,
                 method: "GET",

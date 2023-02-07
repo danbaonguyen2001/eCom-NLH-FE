@@ -36,7 +36,7 @@ const cartHandler = {
     // get Current Cart
     getCurrentCart: () => {
         dispatch(request())
-        dispatch(cartApiSlice.endpoints.getCurrentCart.initiate()).then(res => {
+        dispatch(cartApiSlice.endpoints.getCurrentCart.initiate({ cartGetId: "cartGet1552001" })).then(res => {
             if (res.error) {
                 dispatch(failure({
                     message: res.error.data.message
