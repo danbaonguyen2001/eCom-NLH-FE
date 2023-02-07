@@ -5,9 +5,12 @@ import TopSlider from "../components/PCPrint/TopSlider";
 import ListProductOld from "../components/ProductOld/ListProductOld";
 import productHandler from "../features/product/function";
 import Product from "../components/phone/Product";
+import SkeletonProducts from "../components/phone/SkeletonProducts";
 
 // lọc theo hãng, giá + sắp xếp tăng giảm
 const Tablet = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  //
   const [showSub, setShowSub] = useState({
     manufacturerId: 0,
     categoryId: 3,
@@ -27,15 +30,14 @@ const Tablet = () => {
     productHandler
       .getProductsByCategory({ categoryName: "Tablet" })
       .then((res) => {
-        //const listProducts = res.data.products;
-        //console.log(res.data);
+        setIsLoading(res.isLoading)
+
         setListProduct(res.data);
-        //setFilter(res.data);
+
         setTotalQt(res.data);
       });
   }, [showSub]);
 
-  console.log(listProduct);
   // lọc theo giá
   const filterPrice = (priceMin, priceMax) => {
     const result = listTemp.filter((curData) => {
@@ -329,7 +331,7 @@ const Tablet = () => {
             </select>
           </div>
         </div>
-        {listProduct.length > 0 && <Product list={listProduct} qt={totalQt} />}
+        {isLoading ?<SkeletonProducts/> :listProduct.length > 0 && <Product list={listProduct} qt={totalQt} />}
       </div>
     </div>
   );

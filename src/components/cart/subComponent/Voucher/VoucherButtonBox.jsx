@@ -8,7 +8,7 @@ import { toastObject } from "../../../../constants/toast";
 import { ErrorResponse } from "../../../../utils/ErrorResponse";
 import { toVND } from "../../../../utils/format";
 const VoucherButtonBox = ({ setIsLoading }) => {
-  const [currentVoucher, setCurrentVoucher] = useState(null);
+  const [currentVoucher, setCurrentVoucher] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [applyState, setApplyState] = useState(false);
   const checkAvailableVoucher = () => {
@@ -28,7 +28,6 @@ const VoucherButtonBox = ({ setIsLoading }) => {
         setApplyState(true);
       })
       .catch((e) => {
-        console.log(e.statusCode);
         toast.error(
           e.statusCode === 404 ? `Voucher không hợp lệ` : `Lỗi: ${e.message}`,
           {

@@ -11,7 +11,7 @@ function Loader(props) {
         <LinearProgress variant="determinate" {...props} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
+        <Typography variant="body2" color="secondary">{`${Math.round(
           props.value
         )}%`}</Typography>
       </Box>

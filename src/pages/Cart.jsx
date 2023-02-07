@@ -11,26 +11,19 @@ import {
   setCurrentCart,
   setRender,
 } from "../features/cart/cartSlice";
-import { Paper, Skeleton, Stack } from "@mui/material";
 import CartSkeleton from "../components/cart/CartSkeleton";
 import { selectLoginStatus } from "../features/auth/authSlice";
-import { ErrorResponse } from "../utils/ErrorResponse";
-import ErrorBoundary from "../utils/ErrorBoundary";
-import { useGetAvailableVouchersQuery } from "../features/voucher/voucherApiSlice";
 
 const Cart = () => {
   // test error boundary
-  const [count, setCount] = useState(0);
-  //
-  const [isFetch, setIsFetch] = useState(false);
 
   const [cart, setCart] = useState([]);
   const isAuthenticated = useSelector(selectLoginStatus);
   const { isError, isLoading, isSuccess } = useSelector(selectCurrentState);
-
   const dispatch = useDispatch();
   // get current cart state
   const cartItems = useSelector((state) => state.cart.cartItems);
+
   // cart api state
   const {
     isLoading: isLoadingCart,
@@ -91,7 +84,6 @@ const Cart = () => {
 
       {!(isLoadingCart || isLoading) ? (
         <div className="cart flex_center">
-          {console.log(cart)}
           {cart?.length === 0 ? (
             <NoProduct />
           ) : (

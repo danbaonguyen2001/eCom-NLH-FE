@@ -29,8 +29,6 @@ const Product = ({ list, qt }) => {
 
   //Add Compare Product
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.product);
-  //console.log(productList);
   const handleAddProductCompare = (item) => {
     const action = addProduct(item._id);
     dispatch(action);
