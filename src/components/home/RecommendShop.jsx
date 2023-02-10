@@ -16,21 +16,6 @@ const ListProduct = React.lazy(() => import("./subComponent/ListProduct"));
 const ListAllButton = React.lazy(() => import("./subComponent/ListAllButton"));
 
 const RecommendShop = () => {
-  const [data, setData] = useState([]);
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    setData(listProduct);
-  }, [data]);
-
-  useEffect(() => {
-    productHandler.getProductsTop().then((res) => {
-      console.log(res);
-      const products = res?.data;
-      console.log("Get Top products:");
-      console.log(products);
-      setProducts(products);
-    });
-  }, []);
   return (
     <div className="rsWrap grid wide">
       <div className="rs__title row">
@@ -59,7 +44,7 @@ const RecommendShop = () => {
         </div>
       </div>
       {/* Product List */}
-      <ListProduct data={products} />
+      <ListProduct  />
 
       {/* Button */}
       <div className="rs__bt row">
