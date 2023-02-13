@@ -2,11 +2,11 @@ import { List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import { fontWeight } from "@mui/system";
 import React from "react";
 import { toVND } from "../../../../utils/format";
-const CartPrice = ({ cartInfo }) => {
+const CartPrice = ({ cartInfo, promotion }) => {
   return (
     <Stack sx={{ width: "100%" }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-      <ListItem sx={{ flex: 1, mixWidth: "230px" }}>
+        <ListItem sx={{ flex: 1, mixWidth: "230px" }}>
           <ListItemText
             primaryTypographyProps={{
               sx: {
@@ -19,7 +19,7 @@ const CartPrice = ({ cartInfo }) => {
             secondary={toVND(cartInfo?.serviceFee)}
           ></ListItemText>
         </ListItem>
-        <ListItem sx={{ flex: 1, mixWidth: "230px" , textAlign: "right"}}>
+        <ListItem sx={{ flex: 1, mixWidth: "230px", textAlign: "right" }}>
           <ListItemText
             primaryTypographyProps={{
               sx: {
@@ -32,7 +32,6 @@ const CartPrice = ({ cartInfo }) => {
             secondary={toVND(cartInfo?.total)}
           ></ListItemText>
         </ListItem>
-       
       </Stack>
       <Stack
         direction="row"
@@ -72,8 +71,10 @@ const CartPrice = ({ cartInfo }) => {
             secondaryTypographyProps={{
               sx: { fontSize: 19, fontWeight: 700, color: "blue" },
             }}
-            primary="Tổng tiền phải trả"
-            secondary={toVND(cartInfo?.total + cartInfo?.serviceFee)}
+            primary={`Tổng tiền phải trả (-${toVND(promotion)})`}
+            secondary={toVND(
+              cartInfo?.total + cartInfo?.serviceFee - promotion
+            )}
           ></ListItemText>
         </ListItem>
       </Stack>

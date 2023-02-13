@@ -42,9 +42,13 @@ const OrderConfirm = ({ cartInfo, orderInfo, disableOrder }) => {
       itemsPrice: cartInfo?.total,
       taxPrice: 0,
       shippingPrice: cartInfo?.serviceFee || 0,
-      totalPrice: cartInfo?.total + (cartInfo?.serviceFee || 0),
-      voucher: 0,
+      totalPrice:
+        cartInfo?.total +
+        (cartInfo?.serviceFee || 0) -
+        (orderInfo.discountValue ?? 0),
+      voucher: orderInfo.discountCode ?? 0,
     });
+
   }, [cartInfo, orderInfo]);
   const handleOrderButtonClick = () => {
     if (orderInfo.deliveryAddress.trim().length === 0) {
@@ -63,11 +67,10 @@ const OrderConfirm = ({ cartInfo, orderInfo, disableOrder }) => {
       // totalPrice,
       // voucher,
       // } = req.body
-
+      console.log(orderInput);
       orderController
         .handlerMakeOrder({
           ...orderInput,
-          voucher: "63787570e3a504513ef1a042",
         })
         .then((res) => {
           if (res.isSuccess) {
@@ -104,7 +107,7 @@ const OrderConfirm = ({ cartInfo, orderInfo, disableOrder }) => {
         paymentMethod={paymentMethod}
       />
       {/* Total */}
-      <CartPrice cartInfo={cartInfo} />
+      <CartPrice cartInfo={cartInfo} promotion={orderInfo.discountValue} />
 
       {/* Button */}
       <Stack justifyContent="center" alignItems="center">

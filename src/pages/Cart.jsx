@@ -25,7 +25,6 @@ const Cart = () => {
   const dispatch = useDispatch();
   // get current cart state
   const cartItems = useSelector((state) => state.cart.cartItems);
-
   // cart api state
   const selectCart = useMemo(
     () =>
