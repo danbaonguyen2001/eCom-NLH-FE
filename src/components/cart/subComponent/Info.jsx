@@ -29,6 +29,7 @@ const DifferentWrap = styled.div`
   }
 `;
 const Info = ({ orderInfo, setOrderInfo, setDetailAddress, detailAddress }) => {
+
   const [isSuccess, setIsSuccess] = useState(true);
   // ADDRESS ID
   const [addressEdit, setAddressEdit] = useState("");
@@ -286,7 +287,7 @@ const Info = ({ orderInfo, setOrderInfo, setDetailAddress, detailAddress }) => {
       </div>
       {/* Promotion */}
       <div className="line"></div>
-      <VoucherButtonBox />
+      <VoucherButtonBox setOrderInfo={setOrderInfo} />
     </>
   );
 };

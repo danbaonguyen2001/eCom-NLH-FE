@@ -131,7 +131,7 @@ const authHandler = {
     logOut: async() => {
         dispatch(request());
 
-        const flag = dispatch(authApiSlice.endpoints.logOut.initiate())
+        const flag = dispatch(authApiSlice.endpoints.logOut.initiate({}, { fixedCacheKey: "logOutNLH" }))
             .then((res) => {
                 if (res.error) {
                     dispatch(failure({

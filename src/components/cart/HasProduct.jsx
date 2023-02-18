@@ -16,6 +16,8 @@ import { getShipFee } from "../../apis/apiShipment";
 import { ErrorResponse } from "../../utils/ErrorResponse";
 import Loader from "../loading/Loader";
 import { useUpdateCartMutation } from "../../features/cart/cartApiSlice";
+import { voucherApiSlice } from "../../features/voucher/voucherApiSlice";
+import { skipToken } from "@reduxjs/toolkit/dist/query";
 const OrderConfirm = React.lazy(() => import("./subComponent/OrderConfirm"));
 
 const HasProduct = ({ cart, setCart }) => {
@@ -33,13 +35,14 @@ const HasProduct = ({ cart, setCart }) => {
     serviceFee: 0,
   });
   // subscribe quantity update
-  const {isLoading} = useUpdateCartMutation({
+  const { isLoading } = useUpdateCartMutation({
     fixedCacheKey: "update-cart-quantity-key",
-  })[1]
+  })[1];
   // order info
   const [orderInfo, setOrderInfo] = useState({
     paymentMethod: "",
     discountCode: "",
+    discountValue: 0,
     deliveryAddress: "",
     description: "",
     differentReceiverName: "",
@@ -53,7 +56,10 @@ const HasProduct = ({ cart, setCart }) => {
     shippingPrice: 0,
     totalPrice: 0,
   });
-
+  console.log(orderInfo?.discountKey);
+  const vouchers = voucherApiSlice.endpoints.getAvailableVouchers.useQueryState(
+    orderInfo?.discountKey ?? skipToken
+  );
   useEffect(() => {
     const arrCart = cart.map((v) => {
       return {
@@ -105,7 +111,6 @@ const HasProduct = ({ cart, setCart }) => {
     if (detailAddress?.district?.districtID) {
       getShipFee(input)
         .then((res) => {
-          console.log(res);
           const { total } = res?.data?.data;
           setDisableOrder(false);
           setOrderInfo({
@@ -142,7 +147,7 @@ const HasProduct = ({ cart, setCart }) => {
     }
   }, [detailAddress?.district?.districtID]);
   return (
-    <Loader isLoading={isLoading}>
+    <Loader isLoading={isLoading || vouchers.isLoading || vouchers.isFetching}>
       <div className="has_cart  ">
         <div className="has_cart_header flex ">
           <Link to="/" className="has_cart_return">
