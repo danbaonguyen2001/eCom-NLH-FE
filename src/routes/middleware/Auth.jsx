@@ -8,16 +8,18 @@ import { useAuthUser } from "../../redux/hook/authUser";
 import { getFromLocalStorage } from "../../utils/tokenHandle";
 
 const Auth = ({ children }) => {
-  const accessToken = useSelector((state) => state.auth.accessToken);
+  const accessToken =
+    useSelector((state) => state.auth.accessToken) ||
+    getFromLocalStorage("accessToken");
+  console.log(!accessToken);
+  const isAuthenticated = useSelector(selectLoginStatus);
+
   userApiSlice.endpoints.getUser.useQuery(null, {
-    skip: !accessToken,
+    skip: !accessToken || isAuthenticated,
   });
   const user = useAuthUser();
-  const isAuthenticated = useSelector(selectLoginStatus)
-  console.log(accessToken)
-  console.log(user)
 
-  if ((!user && accessToken) && !isAuthenticated) {
+  if (!user && accessToken && !isAuthenticated) {
     return <>Loading</>;
   }
   return children;

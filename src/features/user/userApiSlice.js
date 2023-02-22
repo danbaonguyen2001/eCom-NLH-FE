@@ -2,7 +2,9 @@ import { apiSlice } from "../../apis/apiSlice";
 
 
 export const userApiSlice = apiSlice.injectEndpoints({
+
         endpoints: (builder) => ({
+
             getUser: builder.query({
                 query: () => ({
                     url: "/users/profile",

@@ -9,6 +9,12 @@ import { toastObject } from "../../constants/toast";
 import { toast } from "react-toastify";
 import { reset, selectAuthState } from "../../features/auth/authSlice";
 import { ErrorResponse } from "../../utils/ErrorResponse";
+import Loader from "../loading/Loader";
+import { useMemo } from "react";
+import {
+  authApiSlice,
+  useLogOutMutation,
+} from "../../features/auth/authApiSlice";
 
 //
 const MenuWrap = styled.div`
@@ -63,7 +69,9 @@ const UserMenu = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-
+  const { isLoading } = useLogOutMutation({
+    fixedCacheKey: "logOutNLH",
+  })[1];
   // Handler
   const handleLogoutClick = () =>
     authController
@@ -97,29 +105,31 @@ const UserMenu = (props) => {
   };
   let { isLogin, style, user } = props;
   return (
-    <MenuWrap style={style}>
-      {/* Content */}
-      {isLogin ? (
-        // Member
-        <MemberMenuWrap>
-          <ul>
-            <li onClick={handleInfoClick}>
-              <UserInfoSubMenu user={user}></UserInfoSubMenu>
-            </li>
-            <li onClick={handleOrderClick}>Đơn hàng của tôi</li>
-            <li onClick={handleLogoutClick}>Đăng xuất</li>
-          </ul>
-        </MemberMenuWrap>
-      ) : (
-        // Guest
-        <GuestMenuWrap>
-          <ul>
-            <li onClick={handleLoginClick}>Đăng nhập</li>
-            <li onClick={handlerRegisterCLick}>Đăng ký</li>
-          </ul>
-        </GuestMenuWrap>
-      )}
-    </MenuWrap>
+    <Loader isLoading={isLoading}>
+      <MenuWrap style={style}>
+        {/* Content */}
+        {isLogin ? (
+          // Member
+          <MemberMenuWrap>
+            <ul>
+              <li onClick={handleInfoClick}>
+                <UserInfoSubMenu user={user}></UserInfoSubMenu>
+              </li>
+              <li onClick={handleOrderClick}>Đơn hàng của tôi</li>
+              <li onClick={handleLogoutClick}>Đăng xuất</li>
+            </ul>
+          </MemberMenuWrap>
+        ) : (
+          // Guest
+          <GuestMenuWrap>
+            <ul>
+              <li onClick={handleLoginClick}>Đăng nhập</li>
+              <li onClick={handlerRegisterCLick}>Đăng ký</li>
+            </ul>
+          </GuestMenuWrap>
+        )}
+      </MenuWrap>
+    </Loader>
   );
 };
 

@@ -11,6 +11,7 @@ import {
   Table,
   Radio,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import FullScreenProgress from "../../../loading/FullScreenProgress";
@@ -21,6 +22,11 @@ import {
 } from "../../../../features/voucher/voucherApiSlice";
 import { toVND } from "../../../../utils/format";
 import Loader from "../../../loading/Loader";
+import { toast } from "react-toastify";
+import { toastObject } from "../../../../constants/toast";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import fs19 from "../../../../assets/images/vouchers/FREESHIP19.png";
+import fs20 from "../../../../assets/images/vouchers/FREESHIP20.png";
 
 const style = {
   position: "absolute",
@@ -50,6 +56,7 @@ const VoucherModal = ({
   const [listVoucher, setListVoucher] = useState([]);
   const { data, isError, isLoading, isSuccess } =
     useGetAvailableVouchersQuery();
+
   useEffect(() => {
     data && setListVoucher(data.vouchers);
   }, [data, isError, isLoading, isSuccess]);
@@ -67,7 +74,12 @@ const VoucherModal = ({
   //     .catch((e) => {});
   // }, []);
 
-  const setClose = () => setOpen(false);
+  const setClose = () => {
+    if (currentVoucher) {
+      toast.info(`Mã hợp lệ, nhớ bấm Áp dụng để được giảm giá `, toastObject);
+    }
+    setOpen(false);
+  };
   return (
     <Modal open={open} onClose={setClose}>
       <Stack sx={style}>
@@ -101,7 +113,16 @@ const VoucherModal = ({
                         }
                         key={v.key}
                       >
-                        <TableCell style={styleBody}>{v.key}</TableCell>
+                        <TableCell style={styleBody}>
+                          <LazyLoadImage
+                            style={{
+                              opacity: "0.3",
+                              maxWidth: "100px",
+                              height: "auto",
+                            }}
+                            src={fs20}
+                          />
+                        </TableCell>
                         <TableCell style={styleBody}>{v.description}</TableCell>
                         <TableCell colSpan={2} style={styleBody}>
                           <Stack>

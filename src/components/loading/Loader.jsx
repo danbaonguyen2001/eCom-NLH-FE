@@ -28,6 +28,7 @@ const SpinnerElement = styled.div`
   overflow: hidden;
 `;
 const Loader = ({ children, isLoading, ...rest }) => {
+  console.log(isLoading);
   return (
     <>
       <Layer {...rest} show={isLoading}>

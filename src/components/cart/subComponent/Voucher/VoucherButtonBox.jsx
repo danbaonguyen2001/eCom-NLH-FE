@@ -7,7 +7,7 @@ import VoucherModal from "./VoucherModal";
 import { toastObject } from "../../../../constants/toast";
 import { ErrorResponse } from "../../../../utils/ErrorResponse";
 import { toVND } from "../../../../utils/format";
-const VoucherButtonBox = ({ setIsLoading }) => {
+const VoucherButtonBox = ({ setOrderInfo }) => {
   const [currentVoucher, setCurrentVoucher] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [applyState, setApplyState] = useState(false);
@@ -25,6 +25,12 @@ const VoucherButtonBox = ({ setIsLoading }) => {
           `Bạn được giảm ${toVND(vouchers[0].promotion)}`,
           toastObject
         );
+        setOrderInfo((prev) => ({
+          ...prev,
+          discountKey: vouchers[0].key,
+          discountCode: vouchers[0]._id,
+          discountValue: vouchers[0].promotion,
+        }));
         setApplyState(true);
       })
       .catch((e) => {
@@ -73,6 +79,7 @@ const VoucherButtonBox = ({ setIsLoading }) => {
             <Button
               variant="contained"
               sx={{ height: "100%", fontSize: "1rem" }}
+              disabled={!currentVoucher}
               onClick={checkAvailableVoucher}
             >
               Sử dụng
@@ -82,6 +89,12 @@ const VoucherButtonBox = ({ setIsLoading }) => {
               variant="secondary"
               sx={{ height: "100%", fontSize: "1rem" }}
               onClick={() => {
+                setOrderInfo((prev) => ({
+                  ...prev,
+                  discountKey: "",
+                  discountCode: "",
+                  discountValue: 0,
+                }));
                 setCurrentVoucher("");
                 setApplyState(false);
               }}

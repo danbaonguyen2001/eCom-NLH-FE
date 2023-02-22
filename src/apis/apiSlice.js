@@ -10,7 +10,7 @@ import {
 const baseQuery = fetchBaseQuery({
   // local
   // baseUrl: "https://tgddgroup04.herokuapp.com/api",
-    baseUrl: "https://tlcn-2022-be.onrender.com/api",
+  baseUrl: "https://tlcn-2022-be.onrender.com/api",
   // baseUrl: "http://localhost:5000/api",
   // baseUrl: "http://192.168.1.6:5000/api",
 
@@ -77,5 +77,6 @@ const baseQueryWithCredentials = async (args, api, extraOption) => {
 export const apiSlice = createApi({
   baseQuery: baseQueryWithCredentials,
   endpoints: (builder) => ({}),
+  tagTypes: ["User", "Product", "Voucher", "Event"],
   refetchOnMountOrArgChange: true,
 });

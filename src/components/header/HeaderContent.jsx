@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import "../../assets/css/layout/header.css";
@@ -66,7 +66,6 @@ const HeaderContent = () => {
     size: 20,
   });
   // Search handle
-
   const fetchListProductApi = (text) =>
     productHandler.getProductList({
       page: 1,
@@ -141,14 +140,13 @@ const HeaderContent = () => {
 
   const isAuthenticated = useSelector(selectLoginStatus);
   useMemo(() => {
-    if (isAuthenticated ) {
+    if (isAuthenticated) {
       cartHandler.getCurrentCart();
     }
   }, [isAuthenticated]);
 
   // check
   useEffect(() => {
-    console.log(userInfo);
     // check auth
     if (status) {
       setUserLogin({
@@ -199,18 +197,19 @@ const HeaderContent = () => {
 
   useEffect(() => {
     // Get city list
-    province()
-      .then((data) => {
-        // console.log(data.data.data);
-        let raw = data.data.data.map((v) => {
-          return v.ProvinceName;
-        });
+    if (data.length < 1) {
+      province()
+        .then((data) => {
+          let raw = data.data.data.map((v) => {
+            return v.ProvinceName;
+          });
 
-        setData(raw);
-      })
-      .catch((e) => {
-        console.log(`Can't get country data with ${e.message}`);
-      });
+          setData(raw);
+        })
+        .catch((e) => {
+          console.log(`Can't get country data with ${e.message}`);
+        });
+    }
   }, []);
   return (
     <div className="headerContainer grid wide">
