@@ -77,7 +77,7 @@ const UserMenu = (props) => {
     authController
       .logOut()
       .then((res) => {
-        if (res) {
+        if (res) { 
           toast.success("Logout successfully", {
             ...toastObject,
             toastId: 200,
